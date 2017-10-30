@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class SpaceLayer {
 	/**
+	 * Create SpaceLayer feature instance
 	 * @param ID ID of SpaceLayer
 	 * @param parentID ID of parent which will hold this feature
 	 * @param usage Comment on usage
@@ -22,6 +23,7 @@ public class SpaceLayer {
 	}
 
 	/**
+	 * Search SpaceLayer feature in document
 	 * @param ID ID of target
 	 * @return searched SpaceLayer feature instance
 	 */
@@ -30,6 +32,7 @@ public class SpaceLayer {
 	}
 
 	/**
+	 * Search SpaceLayer feature and edit it as the Parameters
 	 * @param ID ID of target
 	 * @param usage Comment on usage
 	 * @param function explanation about functionality of this SpaceLayer
@@ -46,6 +49,7 @@ public class SpaceLayer {
 	}
 
 	/**
+	 * Search SpaceLayer feature and delete it
 	 * @param ID ID of target
 	 */
 	public void deleteSpaceLayer(String ID) {

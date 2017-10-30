@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MultiLayeredGraph {
 	/**
+	 * Create MultiLayeredGraph feature instance
 	 * @param ID
 	 * @param parentID ID of parent which will hold this feature
 	 * @param sl
@@ -16,6 +17,7 @@ public class MultiLayeredGraph {
 	}
 
 	/**
+	 * Search MultiLayeredGraph feature in document
 	 * @param ID
 	 * @return
 	 */
@@ -24,6 +26,7 @@ public class MultiLayeredGraph {
 	}
 
 	/**
+	 * Search MultiLayeredGraph feature and edit it as the parameters
 	 * @param ID
 	 * @param sl
 	 * @param ie
@@ -34,6 +37,7 @@ public class MultiLayeredGraph {
 	}
 
 	/**
+	 * Search MultiLayeredGraph feature and delete it
 	 * @param ID
 	 */
 	public void deleteMultilayeredGraph(String ID) {

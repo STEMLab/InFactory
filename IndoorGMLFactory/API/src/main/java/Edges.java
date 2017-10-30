@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Edges {
 	/**
+	 * Create Edges feature instance 
 	 * @param ID of Edges
 	 * @param parentID ID of parent which will hold this feature
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
@@ -14,6 +15,7 @@ public class Edges {
 	};
 
 	/**
+	 * Search the Edges feature in document
 	 * @param ID ID of target
 	 * @return searched target feature
 	 */
@@ -22,6 +24,7 @@ public class Edges {
 	};
 
 	/**
+	 * Search the Edges feature and edit it as the parameters
 	 * @param ID ID of target
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return edited feature
@@ -31,6 +34,7 @@ public class Edges {
 	};
 
 	/**
+	 * Search the Edges feature and delete it
 	 * @param ID ID of target
 	 */
 	public void deleteEdges(String ID) {

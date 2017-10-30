@@ -6,6 +6,7 @@
  */
 public class CellSpace {
 	/**
+	 * create CellSpace feature instance
 	 * @param ID ID of CellSpace
 	 * @param parentID ID of parent which will hold this feature
 	 * @param csGeometry Geometry of CellSpace
@@ -20,6 +21,7 @@ public class CellSpace {
 	};
 
 	/**
+	 * search and get CellSpace feature in document
 	 * @param ID ID of target
 	 * @return edited feature
 	 */
@@ -28,6 +30,7 @@ public class CellSpace {
 	};
 
 	/**
+	 * search CellSpace feature and edit the feature as parameter 
 	 * @param ID ID of feature
 	 * @param csGeometry Geometry of CellSpace
 	 * @param csGeometry Geometry of CellSpace
@@ -41,9 +44,11 @@ public class CellSpace {
 	};
 
 	/**
+	 * search CellSpace feature and delete the data 
 	 * @param ID ID of target
 	 */
-	void deleteCellSpace(String ID) {
+	
+	public void deleteCellSpace(String ID) {
 	};
 
 }

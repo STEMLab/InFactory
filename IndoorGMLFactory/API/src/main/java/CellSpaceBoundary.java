@@ -7,6 +7,7 @@
  */
 public class CellSpaceBoundary {
 	/**
+	 * Create CellSpaceBoundary feature instance 
 	 * @param ID ID of CellSpaceBoundary
 	 * @param parentID 
 	 * @param duality transition which has duality relationship with this CellSpaceBonudary
@@ -14,12 +15,13 @@ public class CellSpaceBoundary {
 	 * @param er ExternalReference of this feature
 	 * @return created CellSpaceBoundary
 	 */
-	CellSpaceBoundary createCellSpaceBoundary(String ID, String parentID, Transition duality,
+	public CellSpaceBoundary createCellSpaceBoundary(String ID, String parentID, Transition duality,
 			CellSpaceBoundaryGeometry csbGeometry, ExternalReference er) {
 		return null;
 	};
 
 	/**
+	 * search CellSpaceBoundary feature instance in document
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
@@ -28,6 +30,7 @@ public class CellSpaceBoundary {
 	};
 
 	/**
+	 * search the CellSpaceBoundaryfeature and edit it as parameters
 	 * @param ID ID of target
 	 * @param duality 
 	 * @param csbGeometry Geometry of CellSpaceBoundary
@@ -40,9 +43,10 @@ public class CellSpaceBoundary {
 	};
 
 	/**
+	 * search the CellSpaceBoundary feature and delete it
 	 * @param ID ID of target
 	 */
-	void deleteCellSpaceBoundary(String ID) {
+	public void deleteCellSpaceBoundary(String ID) {
 	};
 
 

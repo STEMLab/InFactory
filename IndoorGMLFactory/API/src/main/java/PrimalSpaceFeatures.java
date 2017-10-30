@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class PrimalSpaceFeatures {
 	/**
+	 * Create PrimalSpaceFeatures feature instance
 	 * @param ID ID of PrimalSpaceFeatures
 	 * @param parentID parentID ID of parent which will hold this feature
 	 * @param csl List of CellSpace 
@@ -21,6 +22,7 @@ public class PrimalSpaceFeatures {
 	}
 
 	/**
+	 * Search PrimalSpaceFeatures feature in document
 	 * @param ID ID of target
 	 * @return searched PrimalSpaceFeatures
 	 */
@@ -29,6 +31,7 @@ public class PrimalSpaceFeatures {
 	}
 
 	/**
+	 * Search PrimalSpaceFeatures feature and edit it as the parameters
 	 * @param ID ID of target
 	 * @param csl List of CellSpace
 	 * @param csbl List of CellSpaceBoundary
@@ -39,6 +42,7 @@ public class PrimalSpaceFeatures {
 	}
 
 	/**
+	 * Search PrimalSpaceFeatures feature and delete it
 	 * @param ID ID of target
 	 * 
 	 */

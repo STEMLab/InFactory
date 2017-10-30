@@ -1,6 +1,7 @@
 
 public class InterLayerConnection {
 	/**
+	 * Create InterLayerConnection feature instance
 	 * @param ID ID of InterLayerConnection feature
 	 * @param parentID ID of parent which will hold this feature
 	 * @param teCode instance of typeOfTopoExpressionCode
@@ -14,6 +15,7 @@ public class InterLayerConnection {
 	};
 
 	/**
+	 * Search InterLayerConnection feature in document
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
@@ -22,18 +24,20 @@ public class InterLayerConnection {
 	}
 
 	/**
+	 * Search InterLayerConnection feature and edit it as the parameters
 	 * @param ID ID of target
 	 * @param teCode instance of typeOfTopoExpressionCode
 	 * @param comment comment explanation of this feature
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return edited feature
 	 */
-	InterLayerConnection updateInterLayerConnection(String ID, typeOfTopoExpressionCode teCode, String comment,
+	public InterLayerConnection updateInterLayerConnection(String ID, typeOfTopoExpressionCode teCode, String comment,
 			State[] sl) {
 		return null;
 	};
 
 	/**
+	 * Search InterLayerConnection feature and delete it
 	 * @param ID ID of target
 	 */
 	public void deleteInterLayerConnection(String ID) {
