@@ -1,3 +1,5 @@
+import net.opengis.indoorgml.core.v_1_0.MultiLayeredGraphType;
+import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesType;
 
 /**
  * @author jungh
@@ -7,18 +9,18 @@ public class IndoorFeatures {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * save PriamlSpaceFeatures value
 	 */
-	PrimalSpaceFeatures primalSpaceFeatures;
+	public PrimalSpaceFeaturesType primalSpaceFeatures;
 	/**
 	 * save MultiLayeredGraph value
 	 */
-	MultiLayeredGraph multiLayeredGraph;
+	public MultiLayeredGraphType multiLayeredGraph;
 
 }

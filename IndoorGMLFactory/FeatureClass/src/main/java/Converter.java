@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
@@ -20,12 +21,18 @@ import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerPropertyType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerType;
+import net.opengis.indoorgml.core.v_1_0.StateMemberType;
 import net.opengis.indoorgml.core.v_1_0.StatePropertyType;
 import net.opengis.indoorgml.core.v_1_0.StateType;
 import net.opengis.indoorgml.core.v_1_0.TransitionPropertyType;
 import net.opengis.indoorgml.core.v_1_0.TransitionType;
 import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
 
+/**
+ * @author jungh
+ *	This class is made for exchanging between JAXB classes of OGC-Schemas to feature classes 
+ *	that is defined in this module. 
+ */
 public class Converter {
 	AbstractFeatures change2FeatureClass(AbstractFeatureType feature) {
 		AbstractFeatures newFeature = new AbstractFeatures();
@@ -42,7 +49,7 @@ public class Converter {
 		newFeature.duality = tempState.getState();
 		newFeature.ID = feature.getId();
 		if(feature.getGeometry3D() instanceof SolidPropertyType ){
-			newFeature.cellSpaceGeometry.geometry = feature.getGeometry3D().getAbstractSolid();
+			//newFeature.cellSpaceGeometry.geometry = feature.getGeometry3D().getAbstractSolid();
 		}
 		else if(feature.getGeometry2D() instanceof SurfacePropertyType){
 			
@@ -134,10 +141,32 @@ public class Converter {
 	}
 
 	MultiLayeredGraph change2FeatureClass(MultiLayeredGraphType feature) {
-		return null;
+		MultiLayeredGraph newFeature = new MultiLayeredGraph();
+		
+		newFeature.ID = feature.getId();
+		newFeature.interEdges = feature.getInterEdges();
+		newFeature.spaceLayers = feature.getSpaceLayers();
+		
+		
+		return newFeature;
 	}
 
 	Nodes change2FeatureClass(NodesType feature) {
+		Nodes newFeature = new Nodes();
+		
+		newFeature.ID = feature.getId();
+		//newFeature.stateMember = feature.getStateMember();
+		List<StateMemberType>tempML = feature.getStateMember();
+		List<StateType>tempStateList = new ArrayList<StateType>();	
+		
+		for(int i = 0 ; i < tempML.size() ; i++){
+			StateMemberType tempSM = tempML.get(i);
+			StateType tempState = tempSM.getState();
+			tempStateList.add(tempState);
+			
+			
+		}
+		
 		return null;
 	}
 
@@ -162,7 +191,7 @@ public class Converter {
 		newFeature.ID = feature.getId();
 		newFeature.geometry = feature.getGeometry();
 		
-		newFeature.duality = tempCS.getCellSpace();
+		//newFeature.duality = tempCS.getCellSpace();
 		
 		newFeature.connects = feature.getConnects();
 		

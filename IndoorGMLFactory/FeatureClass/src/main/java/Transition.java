@@ -8,22 +8,22 @@ public class Transition {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * geometry of transition
 	 */
-	CurveType geometry;
+	public CurveType geometry;
 	/**
 	 * value of CellSpaceBoundary feature which has duality relationship with this feature
 	 */
-	CellSpaceBoundary duality;
+	public CellSpaceBoundary duality;
 	/**
 	 * value of weight which usally is used for transfering cost in road network, etc.
 	 */
-	double weight;
+	public double weight;
 
 }

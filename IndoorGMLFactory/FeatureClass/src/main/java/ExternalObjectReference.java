@@ -8,14 +8,14 @@ public class ExternalObjectReference {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * Save uri of External Object Reference
 	 */
-	String uri;
+	public String uri;
 
 }

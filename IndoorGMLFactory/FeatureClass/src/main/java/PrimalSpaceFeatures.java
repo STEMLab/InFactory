@@ -8,14 +8,14 @@ public class PrimalSpaceFeatures {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * List of CellSpaces which this feature contains
 	 */
-	List<CellSpace>cellSpaceMember;
+	public List<CellSpace>cellSpaceMember;
 
 }

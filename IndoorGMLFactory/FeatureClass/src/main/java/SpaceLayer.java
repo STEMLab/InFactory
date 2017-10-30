@@ -4,37 +4,37 @@ public class SpaceLayer {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * description of usage of the feature
 	 */
-	String usage;
+	public String usage;
 	/**
 	 * functionality of the feature
 	 */
-	String function;
+	public String function;
 	/**
 	 * time stamp when the SpaceLayer is created
 	 */
-	Date createDate;
+	public Date createDate;
 	/**
 	 * time stamp when the SpaceLayer is expired
 	 */
-	Date terminationDate;
+	public Date terminationDate;
 	/**
 	 * Nodes which the SpaceLayer contains
 	 */
-	Nodes nodes;
+	public Nodes nodes;
 	/**
 	 * Edges which the SpaceLayer contains
 	 */
-	Edges edges;
+	public Edges edges;
 	/**
 	 * represent Class type of the SpaceLayer
 	 */
-	SpaceLayerClassType classType;
+	public SpaceLayerClassType classType;
 }

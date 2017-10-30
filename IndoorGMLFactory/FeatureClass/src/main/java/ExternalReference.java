@@ -1,4 +1,4 @@
-
+import net.opengis.indoorgml.core.v_1_0.ExternalObjectReferenceType;
 
 /**
  * @author jungh
@@ -8,18 +8,18 @@ public class ExternalReference {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * describe information of this ExternalRefence
 	 */
-	String informationSystem;
+	public String informationSystem;
 	/**
 	 * instance of External Reference
 	 */
-	ExternalObjectReference externalObject;
+	public ExternalObjectReferenceType externalObject;
 
 }

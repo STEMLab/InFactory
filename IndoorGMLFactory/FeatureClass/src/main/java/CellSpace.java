@@ -1,3 +1,7 @@
+import java.util.List;
+
+import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
+import net.opengis.indoorgml.core.v_1_0.StateType;
 
 /**
  * @author jungh
@@ -7,26 +11,26 @@ public class CellSpace {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * value of geometry of feature
 	 */
-	CellSpaceGeometry cellSpaceGeometry;
+	public CellSpaceGeometry cellSpaceGeometry;
 	/**
 	 * boundary of the CellSpace
 	 */
-	CellSpaceBoundary partialboundedBy;
+	public List<CellSpaceBoundaryPropertyType> partialboundedBy;
 	/**
 	 * value of State which has duality relationship with the CellSpace
 	 */
-	State duality;
+	public StateType duality;
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	ExternalReference externalReference;
-
+	public ExternalReference externalReference;
+	
 }

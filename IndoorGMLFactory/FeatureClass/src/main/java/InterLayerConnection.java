@@ -8,26 +8,26 @@ public class InterLayerConnection {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * save the topology type value
 	 */
-	typeOfTopoExpressionCode typeOfTopoExpression;
+	public typeOfTopoExpressionCode typeOfTopoExpression;
 	/**
 	 * describe characteristic of this instance
 	 */
-	String comment;
+	public String comment;
 	/**
 	 * save list of States which are related with each others as this InterLayerConnection
 	 */
-	State[] interConnects;
+	public State[] interConnects;
 	/**
 	 * save list of SpaceLayers which are related with each others as this InterLayerConnection
 	 */
-	SpaceLayer[] connectedLayers;
+	public SpaceLayer[] connectedLayers;
 
 }

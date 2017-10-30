@@ -1,27 +1,28 @@
 
-import net.opengis.gml.v_3_2_1.EnvelopeType;
+import net.opengis.gml.v_3_2_1.BoundingShapeType;
 
 /**
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
  */
 public class AbstractFeatures {
+	
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * value of envelope which wrap this feature
 	 */
-	EnvelopeType boundedBy;
+	public BoundingShapeType boundedBy;
 	// Location location;
 	/**
 	 * describe this feature
 	 */
-	String description;
+	public String description;
 
 }

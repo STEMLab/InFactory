@@ -7,11 +7,11 @@ public class SpaceLayerClassType {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * @author jungh
 	 *	type of SpaceLayerClassTypeType

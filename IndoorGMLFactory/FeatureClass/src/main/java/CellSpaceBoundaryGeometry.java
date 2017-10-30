@@ -8,18 +8,18 @@ public class CellSpaceBoundaryGeometry {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * save geometry of feature 
 	 */
-	AbstractGeometryType geometry;
+	public AbstractGeometryType geometry;
 	/**
 	 * save geometry type of feature. 
 	 * value can be set as "2D" or "3D"
 	 */
-	String geometryType;
+	public String geometryType;
 }

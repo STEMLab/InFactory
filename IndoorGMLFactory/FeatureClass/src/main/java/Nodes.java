@@ -1,12 +1,18 @@
-
+import java.util.List;
 
 public class Nodes {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
+	
+	/**
+	 * State list which this feature contains 
+	 */
+	public List<State>stateMember;
+
 }

@@ -1,4 +1,4 @@
-
+import net.opengis.indoorgml.core.v_1_0.TransitionType;
 
 /**
  * @author jungh
@@ -8,22 +8,22 @@ public class CellSpaceBoundary {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
 	 * value of Transition which has duality relationship with this CellSpaceBoundary
 	 */
-	Transition duality;
+	public TransitionType duality;
 	/**
 	 * value of CellSpaceBoundaryGeometry of the feature
 	 */
-	CellSpaceBoundaryGeometry cellSpaceBoundaryGeometry;
+	public CellSpaceBoundaryGeometry cellSpaceBoundaryGeometry;
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	ExternalReference externalReference;
+	public ExternalReference externalReference;
 
 }
