@@ -1,6 +1,6 @@
 import java.util.List;
 
-import net.opengis.indoorgml.core.v_1_0.TransitionMemberType;
+import net.opengis.indoorgml.core.v_1_0.TransitionType;
 
 /**
  * @author jungh
@@ -18,6 +18,6 @@ public class Edges {
 	/**
 	 * contains list of Transitions as list
 	 */
-	public List<TransitionMemberType> transitionMember;
+	public List<TransitionType> transitionMember;
 
 }	

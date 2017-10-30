@@ -1,6 +1,6 @@
 import java.util.List;
 
-import net.opengis.indoorgml.core.v_1_0.InterLayerConnectionMemberType;
+import net.opengis.indoorgml.core.v_1_0.InterLayerConnectionType;
 
 /**
  * @author jungh
@@ -18,6 +18,6 @@ public class InterEdges {
 	/**
 	 * hold list of InterLayerConnections 
 	 */
-	public List<InterLayerConnectionMemberType> interLayerConnectionMember; 
+	public List<InterLayerConnectionType> interLayerConnectionMember; 
 
 }

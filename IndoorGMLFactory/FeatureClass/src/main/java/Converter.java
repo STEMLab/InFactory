@@ -14,8 +14,8 @@ import net.opengis.indoorgml.core.v_1_0.ExternalObjectReferenceType;
 import net.opengis.indoorgml.core.v_1_0.ExternalReferenceType;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 import net.opengis.indoorgml.core.v_1_0.InterEdgesType;
+import net.opengis.indoorgml.core.v_1_0.InterLayerConnectionMemberType;
 import net.opengis.indoorgml.core.v_1_0.InterLayerConnectionType;
-import net.opengis.indoorgml.core.v_1_0.MultiLayeredGraphPropertyType;
 import net.opengis.indoorgml.core.v_1_0.MultiLayeredGraphType;
 import net.opengis.indoorgml.core.v_1_0.NodesType;
 import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesPropertyType;
@@ -26,6 +26,7 @@ import net.opengis.indoorgml.core.v_1_0.SpaceLayerType;
 import net.opengis.indoorgml.core.v_1_0.StateMemberType;
 import net.opengis.indoorgml.core.v_1_0.StatePropertyType;
 import net.opengis.indoorgml.core.v_1_0.StateType;
+import net.opengis.indoorgml.core.v_1_0.TransitionMemberType;
 import net.opengis.indoorgml.core.v_1_0.TransitionPropertyType;
 import net.opengis.indoorgml.core.v_1_0.TransitionType;
 import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
@@ -110,7 +111,13 @@ public class Converter {
 		Edges newFeature = new Edges();
 		
 		newFeature.ID = feature.getId();
-		newFeature.transitionMember = feature.getTransitionMember();
+		List<TransitionMemberType> tm = feature.getTransitionMember();
+		List<TransitionType> tl = new ArrayList<TransitionType>();
+		for(int i = 0 ; i < tm.size(); i++){
+			TransitionMemberType tempTM = tm.get(i);
+			tl.add(tempTM.getTransition());
+		}
+		newFeature.transitionMember = tl;
 		
 		return newFeature;
 	}
@@ -134,7 +141,7 @@ public class Converter {
 		IndoorFeatures newFeature = new IndoorFeatures();
 		
 		newFeature.ID = feature.getId();
-		MultiLayeredGraphPropertyType tempML = new MultiLayeredGraphPropertyType();
+		MultiLayeredGraphType tempML = new MultiLayeredGraphType();
 		
 		newFeature.multiLayeredGraph = feature.getMultiLayeredGraph();
 		
@@ -148,8 +155,15 @@ public class Converter {
 		InterEdges newFeature = new InterEdges();
 		
 		newFeature.ID = feature.getId();
-		newFeature.interLayerConnectionMember = feature.getInterLayerConnectionMember();
+		List<InterLayerConnectionMemberType> interLayerConnectionMember = feature.getInterLayerConnectionMember();
+		List<InterLayerConnectionType> interLayerConnection = new ArrayList<InterLayerConnectionType>();
+		for(int i = 0 ; i < interLayerConnectionMember.size() ; i++){
+			InterLayerConnectionMemberType tempILC = new InterLayerConnectionMemberType();
+			tempILC = interLayerConnectionMember.get(i);
+			interLayerConnection.add(tempILC.getInterLayerConnection());
+		}
 		
+		newFeature.interLayerConnectionMember = interLayerConnection;
 		
 		return newFeature;
 	}
