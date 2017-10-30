@@ -20,6 +20,16 @@ public class CellSpace {
 	 * value of geometry of feature
 	 */
 	public CellSpaceGeometry cellSpaceGeometry;
+	
+	/**
+	 * temporal attribute for IndoorGML 1.0.1.
+	 * for compatibility, Write the geometry type as String. Later this will be discarded or changed
+	 */
+	public String geometryType;
+	/**
+	 * temporal attribute for IndoorGML 1.0.1. 
+	 */
+	public Object cellSpaceGeometryObject;
 	/**
 	 * boundary of the CellSpace
 	 */

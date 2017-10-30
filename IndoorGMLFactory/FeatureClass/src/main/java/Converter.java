@@ -2,8 +2,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
-import net.opengis.gml.v_3_2_1.SolidPropertyType;
-import net.opengis.gml.v_3_2_1.SurfacePropertyType;
+import net.opengis.gml.v_3_2_1.CompositeSolidType;
+import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
+import net.opengis.gml.v_3_2_1.SolidType;
+import net.opengis.gml.v_3_2_1.SurfaceType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpacePropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceType;
@@ -48,12 +50,38 @@ public class Converter {
 		StatePropertyType tempState = feature.getDuality();
 		newFeature.duality = tempState.getState();
 		newFeature.ID = feature.getId();
-		if(feature.getGeometry3D() instanceof SolidPropertyType ){
-			//newFeature.cellSpaceGeometry.geometry = feature.getGeometry3D().getAbstractSolid();
-		}
-		else if(feature.getGeometry2D() instanceof SurfacePropertyType){
+		
+		
+		if(feature.getGeometry2D() != null){
+			Object o = feature.getGeometry2D().getAbstractSurface().getValue();
+			if(o instanceof SurfaceType){
+				newFeature.cellSpaceGeometryObject = (SurfaceType) o;
+				newFeature.geometryType = "SurfaceType"; 
+			}
+			else if(o instanceof CompositeSurfaceType){
+				newFeature.cellSpaceGeometryObject = (CompositeSurfaceType) o;
+				newFeature.geometryType = "CompositeSurfaceType";
+			}
 			
 		}
+		else if(feature.getGeometry3D() != null){
+			Object o = feature.getGeometry3D().getAbstractSolid().getValue();
+			if(o instanceof SolidType){
+				newFeature.cellSpaceGeometryObject = (SolidType) o;
+				newFeature.geometryType = "SolidType"; 
+			}
+			else if(o instanceof CompositeSolidType){
+				newFeature.cellSpaceGeometryObject = (CompositeSolidType) o;
+				newFeature.geometryType = "CompositeSolidType";
+			}
+			
+		}
+		else{
+			System.out.println("Converter : There is no Geometry Information");
+			
+		}
+			
+			
 		newFeature.partialboundedBy = feature.getPartialboundedBy();
 		
 		return newFeature;
