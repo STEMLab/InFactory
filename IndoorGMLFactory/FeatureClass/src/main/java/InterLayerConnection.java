@@ -1,5 +1,3 @@
-
-
 /**
  * @author jungh
  *	Implements InteraLayerConnectionType of IndoorGML 1.0.3
@@ -22,12 +20,21 @@ public class InterLayerConnection {
 	 */
 	public String comment;
 	/**
-	 * save list of States which are related with each others as this InterLayerConnection
+	 * save list of ID of States which are related with each others as this InterLayerConnection
 	 */
-	public State[] interConnects;
+	public String[] interConnects;
 	/**
-	 * save list of SpaceLayers which are related with each others as this InterLayerConnection
+	 * save list of ID of SpaceLayers which are related with each others as this InterLayerConnection
 	 */
-	public SpaceLayer[] connectedLayers;
+	public String[] connectedLayers;
+	
+	public Boolean checkInterConnectsNumber(){
+		//Boolean flag = false;
+		if(this.interConnects.length != 2 && this.connectedLayers.length != 2){
+			return false;			
+		}
+		return true; 
+					
+	}
 
 }

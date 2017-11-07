@@ -178,18 +178,29 @@ public class Converter {
 		
 		newFeature.ID = feature.getId();
 		List<SpaceLayerPropertyType> tempSLList = feature.getConnectedLayers();
-		List<SpaceLayerType> spacelayerList = new ArrayList<SpaceLayerType>();
+		List<StatePropertyType> tempILCList = feature.getInterConnects();
+		List<String> spacelayerList = new ArrayList<String>();
+		List<String> interConnectionList = new ArrayList<String>();
+		
 		for(int i = 0 ; i < tempSLList.size(); i++){
 			SpaceLayerPropertyType tempSingleSL = tempSLList.get(i);
-			spacelayerList.add(tempSingleSL.getSpaceLayer());
+			spacelayerList.add(tempSingleSL.getSpaceLayer().getId());
 		}
 		
-		if(spacelayerList.size() != 2){
-			System.out.println("Converter : number of SpaceLayer is not 2 at InterLayerConnection");			
+		for(int i = 0 ; i < tempILCList.size(); i++){
+			StatePropertyType tempSingleS = tempILCList.get(i);
+			interConnectionList.add(tempSingleS.getState().getId());
+		}
+		
+		if(spacelayerList.size() != 2 && interConnectionList.size()!= 2){
+			System.out.println("Converter : number of SpaceLayer or InterConnection is not 2 at InterLayerConnection");			
 		}
 		else{
 			newFeature.connectedLayers[0] = spacelayerList.get(0);
 			newFeature.connectedLayers[1] = spacelayerList.get(1);
+			
+			newFeature.interConnects[0] = interConnectionList.get(0);
+			newFeature.interConnects[1] = interConnectionList.get(1);
 		}
 		
 		
