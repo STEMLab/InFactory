@@ -13,6 +13,6 @@ public class Nodes {
 	/**
 	 * State list which this feature contains 
 	 */
-	public List<State>stateMember;
+	public List<String> stateMember;
 
 }

@@ -252,19 +252,20 @@ public class Converter {
 		Nodes newFeature = new Nodes();
 		
 		newFeature.ID = feature.getId();
+		
 		//newFeature.stateMember = feature.getStateMember();
 		List<StateMemberType>tempML = feature.getStateMember();
-		List<StateType>tempStateList = new ArrayList<StateType>();	
+		//List<StateType>tempStateList = new ArrayList<StateType>();	
+		List<String>stateList = new ArrayList<String>();
 		
 		for(int i = 0 ; i < tempML.size() ; i++){
 			StateMemberType tempSM = tempML.get(i);
 			StateType tempState = tempSM.getState();
-			tempStateList.add(tempState);
-			
-			
+			//tempStateList.add(tempState);
+			stateList.add(tempState.getId());
 		}
-		
-		return null;
+		newFeature.stateMember = stateList;
+		return newFeature;
 	}
 
 	PrimalSpaceFeatures change2FeatureClass(PrimalSpaceFeaturesType feature) {
