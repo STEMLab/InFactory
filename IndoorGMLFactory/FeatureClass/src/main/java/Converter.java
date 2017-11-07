@@ -50,7 +50,7 @@ public class Converter {
 		CellSpace newFeature = new CellSpace();
 		
 		StatePropertyType tempState = feature.getDuality();
-		newFeature.duality = tempState.getState();
+		newFeature.duality = tempState.getState().getId();
 		newFeature.ID = feature.getId();
 		
 		

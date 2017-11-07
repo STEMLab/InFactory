@@ -1,7 +1,6 @@
 import java.util.List;
 
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
-import net.opengis.indoorgml.core.v_1_0.StateType;
 
 /**
  * @author jungh
@@ -37,7 +36,7 @@ public class CellSpace {
 	/**
 	 * value of State which has duality relationship with the CellSpace
 	 */
-	public StateType duality;
+	public String duality;
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
