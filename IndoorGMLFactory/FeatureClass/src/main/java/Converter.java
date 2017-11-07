@@ -110,14 +110,17 @@ public class Converter {
 	Edges change2FeatureClass(EdgesType feature) {
 		Edges newFeature = new Edges();
 		
+		
 		newFeature.ID = feature.getId();
 		List<TransitionMemberType> tm = feature.getTransitionMember();
 		List<TransitionType> tl = new ArrayList<TransitionType>();
+		List<String> transitionMemberReference = new ArrayList<String>();
+		
 		for(int i = 0 ; i < tm.size(); i++){
 			TransitionMemberType tempTM = tm.get(i);
-			tl.add(tempTM.getTransition());
+			transitionMemberReference.add(tempTM.getTransition().getId());
 		}
-		newFeature.transitionMember = tl;
+		newFeature.transitionMember = transitionMemberReference;
 		
 		return newFeature;
 	}
@@ -156,11 +159,13 @@ public class Converter {
 		
 		newFeature.ID = feature.getId();
 		List<InterLayerConnectionMemberType> interLayerConnectionMember = feature.getInterLayerConnectionMember();
-		List<InterLayerConnectionType> interLayerConnection = new ArrayList<InterLayerConnectionType>();
+		List<String> interLayerConnection = new ArrayList<String>();
+		
+		
 		for(int i = 0 ; i < interLayerConnectionMember.size() ; i++){
 			InterLayerConnectionMemberType tempILC = new InterLayerConnectionMemberType();
 			tempILC = interLayerConnectionMember.get(i);
-			interLayerConnection.add(tempILC.getInterLayerConnection());
+			interLayerConnection.add(tempILC.getInterLayerConnection().getId());
 		}
 		
 		newFeature.interLayerConnectionMember = interLayerConnection;
