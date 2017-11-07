@@ -269,7 +269,10 @@ public class Converter {
 	}
 
 	PrimalSpaceFeatures change2FeatureClass(PrimalSpaceFeaturesType feature) {
-		return null;
+		PrimalSpaceFeatures newFeature = new PrimalSpaceFeatures();
+		//List<CellSpaceMemberType>tempSMList= feature.get
+		
+		return newFeature;
 	}
 
 	SpaceLayer change2FeatureClass(SpaceLayerType feature) {
@@ -324,7 +327,9 @@ public class Converter {
 			
 		}
 		
-		newFeature.duality = change2FeatureClass((CellSpaceBoundaryType)feature.getDuality().getCellSpaceBoundary().getValue());
+		//newFeature.duality = change2FeatureClass((CellSpaceBoundaryType)feature.getDuality().getCellSpaceBoundary().getValue());
+		CellSpaceBoundaryType tempBoundary = (CellSpaceBoundaryType)feature.getDuality().getCellSpaceBoundary().getValue();
+		newFeature.duality = tempBoundary.getId();
 		newFeature.weight = feature.getWeight();
 		newFeature.name = feature.getRole();
 		return newFeature;

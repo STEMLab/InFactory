@@ -20,7 +20,7 @@ public class Transition {
 	/**
 	 * value of CellSpaceBoundary feature which has duality relationship with this feature
 	 */
-	public CellSpaceBoundary duality;
+	public String duality;
 	/**
 	 * value of weight which usally is used for transfering cost in road network, etc.
 	 */
