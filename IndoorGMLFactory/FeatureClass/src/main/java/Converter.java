@@ -95,8 +95,7 @@ public class Converter {
 		newFeature.ID = feature.getId();
 		TransitionPropertyType tempTransition = feature.getDuality();		
 		newFeature.duality = tempTransition.getTransition();
-		
-		
+				
 		return newFeature;
 	}
 
