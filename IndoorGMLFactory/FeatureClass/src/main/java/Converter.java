@@ -4,6 +4,7 @@ import java.util.List;
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
 import net.opengis.gml.v_3_2_1.CompositeSolidType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
+import net.opengis.gml.v_3_2_1.CurveType;
 import net.opengis.gml.v_3_2_1.SolidType;
 import net.opengis.gml.v_3_2_1.SurfaceType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
@@ -173,13 +174,22 @@ public class Converter {
 		
 		newFeature.ID = feature.getId();
 		List<SpaceLayerPropertyType> tempSLList = feature.getConnectedLayers();
+		List<SpaceLayerType> spacelayerList = new ArrayList<SpaceLayerType>();
 		for(int i = 0 ; i < tempSLList.size(); i++){
 			SpaceLayerPropertyType tempSingleSL = tempSLList.get(i);
-			//.add(tempSingleSL.getSpaceLayer())
-			//change List of PropertyType to just Type.
-			
+			spacelayerList.add(tempSingleSL.getSpaceLayer());
 		}
-		return null;
+		
+		if(spacelayerList.size() != 2){
+			System.out.println("Converter : number of SpaceLayer is not 2 at InterLayerConnection");			
+		}
+		else{
+			newFeature.connectedLayers[0] = spacelayerList.get(0);
+			newFeature.connectedLayers[1] = spacelayerList.get(1);
+		}
+		
+		
+		return newFeature;
 	}
 
 	MultiLayeredGraph change2FeatureClass(MultiLayeredGraphType feature) {
@@ -217,7 +227,21 @@ public class Converter {
 	}
 
 	SpaceLayer change2FeatureClass(SpaceLayerType feature) {
-		return null;
+		SpaceLayer newFeature = new SpaceLayer();
+		
+		newFeature.ID = feature.getId();
+		newFeature.function = feature.getFunction();
+		//newFeature.createDate = feature.getCreationDate();
+		//newFeature.terminateDate = feature.getTerminateDate();
+		newFeature.classType = feature.getClazz();
+		
+		List<Edges>tempEdgeList = new ArrayList<Edges>();
+		
+		List<EdgesType>tempEL = feature.getEdges();
+		for(int i = 0 ; i < tempEL.size() ; i++){
+			tempEdgeList.add(change2FeatureClass(tempEL.get(i)));
+		}
+		newFeature.edges = tempEdgeList;
 	}
 
 	SpaceLayerClassType change2FeatureClass(SpaceLayerClassTypeType feature) {
@@ -232,8 +256,9 @@ public class Converter {
 		
 		newFeature.ID = feature.getId();
 		newFeature.geometry = feature.getGeometry();
-		
-		//newFeature.duality = tempCS.getCellSpace();
+		CellSpaceType tempDuality = (CellSpaceType)tempCS.getCellSpace().getValue();
+		//In document, duality is written in ref. So use ID for reference.
+		newFeature.duality = tempDuality.getId();
 		
 		newFeature.connects = feature.getConnects();
 		
@@ -241,10 +266,29 @@ public class Converter {
 	}
 
 	Transition change2FeatureClass(TransitionType feature) {
-		return null;
+		Transition newFeature = new Transition();
+		
+		newFeature.ID = feature.getId();
+		Object geometry = feature.getGeometry().getAbstractCurve().getValue();
+		if(geometry instanceof CurveType){
+			newFeature.geometry = (CurveType) geometry;
+		}
+		else{
+			System.out.println("Converter to Transition : This is not CurveType geometry");
+			
+		}
+		
+		newFeature.duality = change2FeatureClass((CellSpaceBoundaryType)feature.getDuality().getCellSpaceBoundary().getValue());
+		newFeature.weight = feature.getWeight();
+		newFeature.name = feature.getRole();
+		return newFeature;
 	}
 
 	typeOfTopoExpressionCode change2FeatureClass(TypeOfTopoExpressionCodeEnumerationType feature) {
+		typeOfTopoExpressionCode newFeature = new typeOfTopoExpressionCode();
+		
+	
+		
 		return null;
 	}
 }
