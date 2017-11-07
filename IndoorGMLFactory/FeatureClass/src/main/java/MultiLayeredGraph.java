@@ -16,7 +16,7 @@ public class MultiLayeredGraph {
 	/**
 	 * list of the SpaceLayers which are related with in this MultiLayeredGraph
 	 */
-	public List<SpaceLayer> spaceLayers;
+	public List<SpaceLayers> spaceLayers;
 	/**
 	 * InterEdges which is between SpaceLayeres
 	 */

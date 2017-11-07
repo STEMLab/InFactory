@@ -232,7 +232,7 @@ public class Converter {
 		List<SpaceLayersType> tempSLList = feature.getSpaceLayers();
 		
 		List<InterEdges> interEdges = new ArrayList<InterEdges>();
-		List<SpaceLayers> spaceLayers = new ArrayList<SpaceLayer>();
+		List<SpaceLayers> spaceLayers = new ArrayList<SpaceLayers>();
 		
 		for(int i = 0 ; i < tempIEList.size() ; i++){
 			interEdges.add(change2FeatureClass(tempIEList.get(i)));
