@@ -32,11 +32,11 @@ public class SpaceLayer {
 	/**
 	 * Nodes which the SpaceLayer contains
 	 */
-	public Nodes nodes;
+	public List<Nodes> nodes;
 	/**
 	 * Edges which the SpaceLayer contains
 	 */
-	public Edges edges;
+	public List<Edges> edges;
 	/**
 	 * represent Class type of the SpaceLayer
 	 */

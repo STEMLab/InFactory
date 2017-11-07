@@ -284,13 +284,21 @@ public class Converter {
 		//newFeature.terminateDate = feature.getTerminateDate();
 		newFeature.classType = feature.getClazz();
 		
-		List<Edges>tempEdgeList = new ArrayList<Edges>();
-		
+		List<Edges>tempEdgeList = new ArrayList<Edges>();		
 		List<EdgesType>tempEL = feature.getEdges();
+		
+		List<Nodes>nodesList = new ArrayList<Nodes>();
+		List<NodesType>tempNList = feature.getNodes();
+		
 		for(int i = 0 ; i < tempEL.size() ; i++){
 			tempEdgeList.add(change2FeatureClass(tempEL.get(i)));
 		}
+		for(int i = 0; i < tempNList.size(); i++){
+			nodesList.add(change2FeatureClass(tempNList.get(i)));
+		}
 		newFeature.edges = tempEdgeList;
+		newFeature.nodes = nodesList;
+		return newFeature;
 	}
 
 	SpaceLayerClassType change2FeatureClass(SpaceLayerClassTypeType feature) {
