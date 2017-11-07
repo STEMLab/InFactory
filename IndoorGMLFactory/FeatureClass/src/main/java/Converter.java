@@ -22,8 +22,10 @@ import net.opengis.indoorgml.core.v_1_0.NodesType;
 import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesPropertyType;
 import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType;
+import net.opengis.indoorgml.core.v_1_0.SpaceLayerMemberType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerPropertyType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerType;
+import net.opengis.indoorgml.core.v_1_0.SpaceLayersType;
 import net.opengis.indoorgml.core.v_1_0.StateMemberType;
 import net.opengis.indoorgml.core.v_1_0.StatePropertyType;
 import net.opengis.indoorgml.core.v_1_0.StateType;
@@ -153,7 +155,21 @@ public class Converter {
 		newFeature.primalSpaceFeatures = tempPSFP.getPrimalSpaceFeatures();
 		return newFeature;
 	}
-
+	SpaceLayers change2FeatureClass(SpaceLayersType feature){
+		SpaceLayers newFeature = new SpaceLayers();
+		
+		newFeature.ID = feature.getId();
+		List<SpaceLayerMemberType>tempSLMList = feature.getSpaceLayerMember();
+		List<String>spaceLayerMember = new ArrayList<String>();
+		
+		for(int i = 0 ; i < tempSLMList.size(); i++){
+			spaceLayerMember.add(tempSLMList.get(i).getSpaceLayer().getId());
+		}
+		newFeature.spaceLayerMemeber = spaceLayerMember;
+		
+		return newFeature;
+		
+	}
 	InterEdges change2FeatureClass(InterEdgesType feature) {
 		InterEdges newFeature = new InterEdges();
 		
@@ -211,8 +227,22 @@ public class Converter {
 		MultiLayeredGraph newFeature = new MultiLayeredGraph();
 		
 		newFeature.ID = feature.getId();
-		newFeature.interEdges = feature.getInterEdges();
-		newFeature.spaceLayers = feature.getSpaceLayers();
+		
+		List<InterEdgesType> tempIEList = feature.getInterEdges();
+		List<SpaceLayersType> tempSLList = feature.getSpaceLayers();
+		
+		List<InterEdges> interEdges = new ArrayList<InterEdges>();
+		List<SpaceLayers> spaceLayers = new ArrayList<SpaceLayer>();
+		
+		for(int i = 0 ; i < tempIEList.size() ; i++){
+			interEdges.add(change2FeatureClass(tempIEList.get(i)));
+		}
+		for(int i = 0 ; i < tempSLList.size();i++){
+			spaceLayers.add(change2FeatureClass(tempSLList.get(i)));
+		}
+		
+		newFeature.interEdges = interEdges;
+		newFeature.spaceLayers = spaceLayers;
 		
 		
 		return newFeature;

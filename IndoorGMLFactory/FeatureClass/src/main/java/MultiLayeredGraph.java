@@ -1,8 +1,5 @@
 import java.util.List;
 
-import net.opengis.indoorgml.core.v_1_0.InterEdgesType;
-import net.opengis.indoorgml.core.v_1_0.SpaceLayersType;
-
 /**
  * @author jungh
  * Implements MultiLayeredGraphType of IndoorGML 1.0.3
@@ -19,10 +16,10 @@ public class MultiLayeredGraph {
 	/**
 	 * list of the SpaceLayers which are related with in this MultiLayeredGraph
 	 */
-	public List<SpaceLayersType> spaceLayers;
+	public List<SpaceLayer> spaceLayers;
 	/**
 	 * InterEdges which is between SpaceLayeres
 	 */
-	public List<InterEdgesType> interEdges;
+	public List<InterEdges> interEdges;
 
 }
