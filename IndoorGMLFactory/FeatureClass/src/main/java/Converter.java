@@ -42,7 +42,7 @@ import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
 public class Converter {
 	AbstractFeatures change2FeatureClass(AbstractFeatureType feature) {
 		AbstractFeatures newFeature = new AbstractFeatures();
-		
+		Object tempLocation = feature.getLocation().getValue();
 		newFeature.ID = feature.getId();
 		newFeature.boundedBy = feature.getBoundedBy();
 		return newFeature;
@@ -146,13 +146,12 @@ public class Converter {
 		IndoorFeatures newFeature = new IndoorFeatures();
 		
 		newFeature.ID = feature.getId();
-		MultiLayeredGraphType tempML = new MultiLayeredGraphType();
-		
-		newFeature.multiLayeredGraph = feature.getMultiLayeredGraph();
+		MultiLayeredGraphType tempML = new MultiLayeredGraphType();		
+		newFeature.multiLayeredGraph = change2FeatureClass(feature.getMultiLayeredGraph());
 		
 		PrimalSpaceFeaturesPropertyType tempPSFP = new PrimalSpaceFeaturesPropertyType();
 		tempPSFP = feature.getPrimalSpaceFeatures();
-		newFeature.primalSpaceFeatures = tempPSFP.getPrimalSpaceFeatures();
+		newFeature.primalSpaceFeatures = change2FeatureClass(tempPSFP.getPrimalSpaceFeatures());
 		return newFeature;
 	}
 	SpaceLayers change2FeatureClass(SpaceLayersType feature){
@@ -164,6 +163,9 @@ public class Converter {
 		
 		for(int i = 0 ; i < tempSLMList.size(); i++){
 			spaceLayerMember.add(tempSLMList.get(i).getSpaceLayer().getId());
+			//SpaceLayerMemberType tempSingleSLM = tempSLMList.get(i);
+			// TODO : In SpacelayerMemberType, there is only one SpaceLayer feature. The other member type also has same problem.
+			
 		}
 		newFeature.spaceLayerMemeber = spaceLayerMember;
 		

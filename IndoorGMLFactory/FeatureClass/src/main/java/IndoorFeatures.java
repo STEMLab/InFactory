@@ -1,6 +1,3 @@
-import net.opengis.indoorgml.core.v_1_0.MultiLayeredGraphType;
-import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesType;
-
 /**
  * @author jungh
  *	Implements IndoorFeaturesType of IndoorGML 1.0.3
@@ -17,10 +14,10 @@ public class IndoorFeatures {
 	/**
 	 * save PriamlSpaceFeatures value
 	 */
-	public PrimalSpaceFeaturesType primalSpaceFeatures;
+	public PrimalSpaceFeatures primalSpaceFeatures;
 	/**
 	 * save MultiLayeredGraph value
 	 */
-	public MultiLayeredGraphType multiLayeredGraph;
+	public MultiLayeredGraph multiLayeredGraph;
 
 }
