@@ -19,5 +19,12 @@
   		<artifactId>indoorgml-v_1_0</artifactId>
   		<version>2.5.2</version>
   	</dependency>
+  	<!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl -->
+<dependency>
+    <groupId>com.sun.xml.bind</groupId>
+    <artifactId>jaxb-impl</artifactId>
+    <version>2.3.0</version>
+</dependency>
+  	
   </dependencies>
 </project>
