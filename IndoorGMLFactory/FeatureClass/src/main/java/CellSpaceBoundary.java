@@ -1,5 +1,3 @@
-import net.opengis.indoorgml.core.v_1_0.TransitionType;
-
 /**
  * @author jungh
  *	Implements CellSpaceBoundaryType of IndoorGML 1.0.3
@@ -16,11 +14,11 @@ public class CellSpaceBoundary {
 	/**
 	 * value of Transition which has duality relationship with this CellSpaceBoundary
 	 */
-	public TransitionType duality;
+	public String duality;
 	/**
 	 * value of CellSpaceBoundaryGeometry of the feature
 	 */
-	public CellSpaceBoundaryGeometry cellSpaceBoundaryGeometry;
+	public Object cellSpaceBoundaryGeometry;
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */

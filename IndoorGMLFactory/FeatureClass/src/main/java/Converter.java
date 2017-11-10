@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
+import net.opengis.gml.v_3_2_1.CompositeCurveType;
 import net.opengis.gml.v_3_2_1.CompositeSolidType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
 import net.opengis.gml.v_3_2_1.CurveType;
@@ -117,13 +118,52 @@ public class Converter {
 		return newFeature;
 	}
 	
-	
-	CellSpaceBoundary change2FeatureClass(CellSpaceBoundaryType feature) {
+	public CellSpaceBoundaryType change2JaxbClass(CellSpaceBoundary feature){
+		CellSpaceBoundaryType newFeature = new CellSpaceBoundaryType();		
+		TransitionPropertyType duality = new TransitionPropertyType();
+		TransitionType referredTransition = new TransitionType();
+		
+		
+		referredTransition.setId(feature.duality);
+		duality.setTransition(referredTransition);
+		newFeature.setDuality(duality);
+		newFeature.setId(feature.ID);
+		//newFeature.setBoundedBy(feature.);
+		
+		//if(feature.)
+		
+		
+		return newFeature;
+	}
+	public CellSpaceBoundary change2FeatureClass(CellSpaceBoundaryType feature) {
 		CellSpaceBoundary newFeature = new CellSpaceBoundary();
 		
 		newFeature.ID = feature.getId();
 		TransitionPropertyType tempTransition = feature.getDuality();		
-		newFeature.duality = tempTransition.getTransition();
+		newFeature.duality = tempTransition.getTransition().getId();
+		
+		if(feature.getGeometry2D() != null){
+			Object o = feature.getGeometry2D().getAbstractCurve().getValue();
+			if(o instanceof CurveType){
+				newFeature.cellSpaceBoundaryGeometry = (CurveType)o;
+			}
+			else if(o instanceof CompositeCurveType){
+				newFeature.cellSpaceBoundaryGeometry = (CompositeCurveType)o;
+			}
+						
+		}
+		else if(feature.getGeometry3D() != null){
+			Object o = feature.getGeometry3D().getAbstractSurface().getValue();
+			if(o instanceof SurfaceType){
+				newFeature.cellSpaceBoundaryGeometry = (SurfaceType)o;
+			}
+			else if(o instanceof CompositeSurfaceType){
+				newFeature.cellSpaceBoundaryGeometry = (CompositeSurfaceType)o;
+			}
+		}	
+		else{
+			System.out.println("Warning : There is no geometry at CellSpaceBoundary : " + feature.getId());
+		}
 				
 		return newFeature;
 	}
