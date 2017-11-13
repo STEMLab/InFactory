@@ -247,18 +247,33 @@ public class Converter {
 		
 		return newFeature;
 	}
-
+	ExternalObjectReferenceType change2JaxbClass(ExternalObjectReference feature){
+		ExternalObjectReferenceType newFeature = new ExternalObjectReferenceType();
+		newFeature.setUri(feature.uri);
+		
+		return newFeature;
+		
+	}
+	
 	ExternalObjectReference change2FeatureClass(ExternalObjectReferenceType feature) {
 		ExternalObjectReference newFeature = new ExternalObjectReference();
 		
-		newFeature.uri = feature.getUri();
+		newFeature.uri = (String) feature.getUri();
 		return newFeature;
 	}
-
+	ExternalReferenceType change2JaxbClass(ExternalReference feature){
+		ExternalReferenceType newFeature = new ExternalReferenceType();
+		
+		newFeature.setExternalObject(change2JaxbClass(feature.externalObject));
+		// TODO:change externalObjectReference
+		return newFeature;
+	}
 	ExternalReference change2FeatureClass(ExternalReferenceType feature) {
 		ExternalReference newFeature = new ExternalReference();
+		ExternalObjectReference referredObject = new ExternalObjectReference();
+		referredObject.uri = feature.getExternalObject().getUri();
 		
-		newFeature.externalObject = feature.getExternalObject();
+		newFeature.externalObject = referredObject;
 		
 		return newFeature;
 	}
