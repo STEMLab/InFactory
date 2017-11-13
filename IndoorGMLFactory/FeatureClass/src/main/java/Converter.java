@@ -207,7 +207,29 @@ public class Converter {
 	 * } CellSpaceGeometry change2FeatureClass(CellSpaceGeometryType feature) {
 	 * return null; }
 	 */
+	
+	public EdgesType change2JaxbClass(Edges feature){
+		EdgesType newFeature = new EdgesType();
 
+		newFeature.setId(feature.ID);
+		List<String>tempTMIDList = feature.transitionMember;
+		List<TransitionMemberType>tempTMList = new ArrayList<TransitionMemberType>();
+		for(int i = 0; i< tempTMIDList.size(); i++){
+			String tempID = tempTMIDList.get(i);
+			TransitionType tempTransition = new TransitionType();
+			tempTransition.setId(tempID);
+			TransitionMemberType tempTM = new TransitionMemberType();
+			tempTM.setTransition(tempTransition);
+			tempTMList.add(tempTM);			
+		}
+		
+		//newFeature.setBoundedBy(feature.);
+		
+		return newFeature;
+	}
+	
+	
+	
 	Edges change2FeatureClass(EdgesType feature) {
 		Edges newFeature = new Edges();
 		
