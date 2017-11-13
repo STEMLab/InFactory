@@ -3,12 +3,14 @@ import java.util.List;
 
 import javax.xml.bind.JAXBElement;
 
+import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
 import net.opengis.gml.v_3_2_1.AbstractSolidType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeCurveType;
 import net.opengis.gml.v_3_2_1.CompositeSolidType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
+import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.CurveType;
 import net.opengis.gml.v_3_2_1.SolidPropertyType;
 import net.opengis.gml.v_3_2_1.SolidType;
@@ -146,10 +148,18 @@ public class Converter {
 		newFeature.setDuality(duality);
 		newFeature.setId(feature.ID);
 		if(feature.cellSpaceBoundaryGeometry instanceof CurveType){
-			CurveType temp = (CurveType)feature.cellSpaceBoundaryGeometry;
-			newFeature.setGeometry2D(temp);
+			JAXBElement<? extends AbstractCurveType> tempGeometry = (JAXBElement<? extends AbstractCurveType>)feature.cellSpaceBoundaryGeometry;
+			CurvePropertyType tempGeometryProperty = new CurvePropertyType();
+			tempGeometryProperty.setAbstractCurve(tempGeometry);
+			newFeature.setGeometry2D(tempGeometryProperty);
 		}
-		else if(feature.cellSpaceBoundaryGeometry instanceof SurfaceType){}
+		else if(feature.cellSpaceBoundaryGeometry instanceof SurfaceType){
+			JAXBElement<? extends AbstractSurfaceType> tempGeometry = (JAXBElement<? extends AbstractSurfaceType>)feature.cellSpaceBoundaryGeometry;
+			SurfacePropertyType tempGeometryProperty = new SurfacePropertyType();
+			tempGeometryProperty.setAbstractSurface(tempGeometry);
+			newFeature.setGeometry3D(tempGeometryProperty);
+		}
+		
 		//newFeature.setBoundedBy(feature.);
 		
 		//if(feature.)
