@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
+import net.opengis.gml.v_3_2_1.AbstractSolidType;
+import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeCurveType;
 import net.opengis.gml.v_3_2_1.CompositeSolidType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
@@ -107,13 +111,26 @@ public class Converter {
 		newFeature.setPartialboundedBy(feature.partialboundedBy);
 		
 		if(feature.geometryType == "SurfaceType"){
-			newFeature.setGeometry2D((SurfacePropertyType)feature.cellSpaceGeometryObject);
+			//newFeature.setGeometry2D((SurfacePropertyType)feature.cellSpaceGeometryObject);
+			JAXBElement<? extends AbstractSurfaceType> tempGeometry = (JAXBElement<? extends AbstractSurfaceType>)feature.cellSpaceGeometryObject;			
+			SurfacePropertyType tempGeometryProperty = new SurfacePropertyType();
+			tempGeometryProperty.setAbstractSurface(tempGeometry);
+			
 		}
-		else if(feature.geometryType == "CompositeSurfaceType"){}
+		else if(feature.geometryType == "CompositeSurfaceType"){
+			System.out.println("Converter : CompositeSurfaceType is not yet supported");
+		}
 		else if(feature.geometryType == "SolidType"){
-			newFeature.setGeometry3D((SolidPropertyType)feature.cellSpaceGeometryObject);
+			//newFeature.setGeometry3D((SolidPropertyType)feature.cellSpaceGeometryObject);
+			JAXBElement<? extends AbstractSolidType> tempGeometry = (JAXBElement<? extends AbstractSolidType>)feature.cellSpaceGeometryObject;
+			// TODO: How to deal from object to JAXBElement 
+			SolidPropertyType tempGeometryProperty = new SolidPropertyType();
+			tempGeometryProperty.setAbstractSolid(tempGeometry);
+			
 		}
-		else if(feature.geometryType == "CompositeSolidType"){}
+		else if(feature.geometryType == "CompositeSolidType"){
+			System.out.println("Converter : CompositeSolidType is not yet supported");
+		}
 		
 		return newFeature;
 	}
@@ -128,6 +145,11 @@ public class Converter {
 		duality.setTransition(referredTransition);
 		newFeature.setDuality(duality);
 		newFeature.setId(feature.ID);
+		if(feature.cellSpaceBoundaryGeometry instanceof CurveType){
+			CurveType temp = (CurveType)feature.cellSpaceBoundaryGeometry;
+			newFeature.setGeometry2D(temp);
+		}
+		else if(feature.cellSpaceBoundaryGeometry instanceof SurfaceType){}
 		//newFeature.setBoundedBy(feature.);
 		
 		//if(feature.)
