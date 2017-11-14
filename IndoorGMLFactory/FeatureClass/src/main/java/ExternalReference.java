@@ -1,5 +1,3 @@
-import net.opengis.indoorgml.core.v_1_0.ExternalObjectReferenceType;
-
 /**
  * @author jungh
  *	Implements ExternalReferenceType of IndoorGML 1.0.3
@@ -20,6 +18,6 @@ public class ExternalReference {
 	/**
 	 * instance of External Reference
 	 */
-	public ExternalObjectReferenceType externalObject;
+	public ExternalObjectReference externalObject;
 
 }

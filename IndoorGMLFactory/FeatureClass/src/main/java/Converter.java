@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+
+import com.sun.xml.bind.v2.runtime.JAXBContextImpl;
 
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
@@ -12,6 +15,7 @@ import net.opengis.gml.v_3_2_1.CompositeSolidType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
 import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.CurveType;
+import net.opengis.gml.v_3_2_1.FeaturePropertyType;
 import net.opengis.gml.v_3_2_1.SolidPropertyType;
 import net.opengis.gml.v_3_2_1.SolidType;
 import net.opengis.gml.v_3_2_1.SurfacePropertyType;
@@ -28,6 +32,7 @@ import net.opengis.indoorgml.core.v_1_0.InterLayerConnectionMemberType;
 import net.opengis.indoorgml.core.v_1_0.InterLayerConnectionType;
 import net.opengis.indoorgml.core.v_1_0.MultiLayeredGraphType;
 import net.opengis.indoorgml.core.v_1_0.NodesType;
+import net.opengis.indoorgml.core.v_1_0.ObjectFactory;
 import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesPropertyType;
 import net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType;
@@ -48,6 +53,7 @@ import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
  *	This class is made for exchanging between JAXB classes of OGC-Schemas to feature classes 
  *	that is defined in this module. 
  */
+@SuppressWarnings("restriction")
 public class Converter {
 	AbstractFeatures change2FeatureClass(AbstractFeatureType feature) {
 		AbstractFeatures newFeature = new AbstractFeatures();
@@ -277,7 +283,16 @@ public class Converter {
 		
 		return newFeature;
 	}
-
+	IndoorFeaturesType change2JaxbClass(IndoorFeatures feature){
+		IndoorFeaturesType newFeature = new IndoorFeaturesType();
+		newFeature.setId(feature.ID);
+		if(feature.primalSpaceFeatures != null){
+			newFeature.setPrimalSpaceFeatures();
+		}
+		if()
+		
+		return newFeature;
+	}
 	IndoorFeatures change2FeatureClass(IndoorFeaturesType feature) {
 		IndoorFeatures newFeature = new IndoorFeatures();
 		
@@ -408,7 +423,13 @@ public class Converter {
 
 	PrimalSpaceFeatures change2FeatureClass(PrimalSpaceFeaturesType feature) {
 		PrimalSpaceFeatures newFeature = new PrimalSpaceFeatures();
-		//List<CellSpaceMemberType>tempSMList= feature.get
+				
+		List<FeaturePropertyType>cellSpaceMember = feature.getCellSpaceMember();
+		List<FeaturePropertyType>cellSpaceBoundaryMember = feature.getCellSpaceBoundaryMember();
+				
+		//List<CellSpaceMemberPropertyType>tempSMList= feature.getCellSpaceMember();
+		
+		newFeature.ID = feature.getId();
 		
 		return newFeature;
 	}
@@ -442,7 +463,31 @@ public class Converter {
 	SpaceLayerClassType change2FeatureClass(SpaceLayerClassTypeType feature) {
 		return null;
 	}
-
+	public JAXBContextImpl createIndoorGMLContext() throws JAXBException{
+		JAXBContextImpl context = (JAXBContextImpl) JAXBContextImpl.newInstance(
+				"net.opengis.indoorgml.core.v_1_0"
+				+":org.w3.XMLSchema"
+				+":net.opengis.gml.v_3_2"
+				+":org.w3.xlink"
+			);		
+		return context;
+	}
+	StateType change2JaxbClass(State feature) throws JAXBException{
+		StateType newFeature = new StateType();
+		CellSpaceType tempCellSpace = new CellSpaceType();
+		
+		tempCellSpace.setId(feature.ID);
+		CellSpacePropertyType tempCellSpacePropertyType = new CellSpacePropertyType();
+		
+		JAXBContextImpl context = createIndoorGMLContext();
+		ObjectFactory objectFactory = new ObjectFactory();
+		JAXBElement<CellSpaceType>  tempJaxbCellSpaceType = objectFactory.createCellSpace(tempCellSpace);
+		tempCellSpacePropertyType.setCellSpace(tempJaxbCellSpaceType);
+		
+		newFeature.setId(feature.ID);
+		
+		return newFeature;
+	}
 	State change2FeatureClass(StateType feature) {
 		State newFeature = new State();
 		CellSpacePropertyType tempCS = feature.getDuality();
