@@ -1,3 +1,4 @@
+package FeatureClass;
 import java.util.List;
 
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;

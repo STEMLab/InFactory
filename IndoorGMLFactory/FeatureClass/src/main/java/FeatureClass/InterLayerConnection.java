@@ -1,3 +1,4 @@
+package FeatureClass;
 /**
  * @author jungh
  *	Implements InteraLayerConnectionType of IndoorGML 1.0.3

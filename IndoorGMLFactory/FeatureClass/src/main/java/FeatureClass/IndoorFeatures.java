@@ -1,3 +1,4 @@
+package FeatureClass;
 /**
  * @author jungh
  *	Implements IndoorFeaturesType of IndoorGML 1.0.3

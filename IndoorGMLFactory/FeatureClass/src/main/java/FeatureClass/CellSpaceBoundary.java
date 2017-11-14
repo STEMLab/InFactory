@@ -1,3 +1,4 @@
+package FeatureClass;
 /**
  * @author jungh
  *	Implements CellSpaceBoundaryType of IndoorGML 1.0.3

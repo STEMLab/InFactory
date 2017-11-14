@@ -1,3 +1,4 @@
+package FeatureClass;
 import net.opengis.gml.v_3_2_1.CurveType;
 
 /**
@@ -25,5 +26,11 @@ public class Transition {
 	 * value of weight which usally is used for transfering cost in road network, etc.
 	 */
 	public double weight;
+	
+	/**
+	 * Array of connected States. minimum and maximum of the number of element needs to be 2
+	 */
+	public String[] connects = new String[2];
+	
 
 }

@@ -1,3 +1,4 @@
+package FeatureClass;
 import java.util.List;
 
 /**
@@ -18,5 +19,5 @@ public class SpaceLayers {
 	/**
 	 * List of ID in String Type of SpaceLayers in spaceLayerMember for reference
 	 */
-	List<String>spaceLayerMemeber;
+	public List<String>spaceLayerMemeber;
 }

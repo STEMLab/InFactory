@@ -1,3 +1,4 @@
+package Util;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,7 +6,29 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 import com.sun.xml.bind.v2.runtime.JAXBContextImpl;
+import com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext.State;
 
+import FeatureClass.AbstractFeatures;
+import FeatureClass.CellSpace;
+import FeatureClass.CellSpaceBoundary;
+import FeatureClass.Edges;
+import FeatureClass.ExternalObjectReference;
+import FeatureClass.ExternalReference;
+import FeatureClass.IndoorFeatures;
+import FeatureClass.InterEdges;
+import FeatureClass.InterLayerConnection;
+import FeatureClass.MultiLayeredGraph;
+import FeatureClass.Nodes;
+import FeatureClass.PrimalSpaceFeatures;
+import FeatureClass.SpaceLayer;
+import FeatureClass.SpaceLayerClassType;
+import FeatureClass.SpaceLayers;
+import FeatureClass.Transition;
+import FeatureClass.State;
+
+
+
+import FeatureClass.typeOfTopoExpressionCode;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
 import net.opengis.gml.v_3_2_1.AbstractSolidType;
@@ -20,6 +43,7 @@ import net.opengis.gml.v_3_2_1.SolidPropertyType;
 import net.opengis.gml.v_3_2_1.SolidType;
 import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 import net.opengis.gml.v_3_2_1.SurfaceType;
+import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpacePropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceType;
@@ -463,36 +487,41 @@ public class Converter {
 	SpaceLayerClassType change2FeatureClass(SpaceLayerClassTypeType feature) {
 		return null;
 	}
-	public JAXBContextImpl createIndoorGMLContext() throws JAXBException{
-		JAXBContextImpl context = (JAXBContextImpl) JAXBContextImpl.newInstance(
-				"net.opengis.indoorgml.core.v_1_0"
-				+":org.w3.XMLSchema"
-				+":net.opengis.gml.v_3_2"
-				+":org.w3.xlink"
-			);		
-		return context;
-	}
-	StateType change2JaxbClass(State feature) throws JAXBException{
+
+	StateType change2JaxbClass(FeatureClass.State feature) throws JAXBException{
 		StateType newFeature = new StateType();
 		CellSpaceType tempCellSpace = new CellSpaceType();
 		
 		tempCellSpace.setId(feature.ID);
 		CellSpacePropertyType tempCellSpacePropertyType = new CellSpacePropertyType();
 		
-		JAXBContextImpl context = createIndoorGMLContext();
-		ObjectFactory objectFactory = new ObjectFactory();
+		JAXBContextImpl context = Util.JaxbUtil.createIndoorGMLContext();
+		net.opengis.indoorgml.core.v_1_0.ObjectFactory objectFactory = new ObjectFactory();
 		JAXBElement<CellSpaceType>  tempJaxbCellSpaceType = objectFactory.createCellSpace(tempCellSpace);
 		tempCellSpacePropertyType.setCellSpace(tempJaxbCellSpaceType);
+		List<TransitionPropertyType>connects = new ArrayList<TransitionPropertyType>();
 		
+		for(int i = 0 ; i < feature.connects.size(); i++){
+			TransitionType tempTransition = new TransitionType();
+			tempTransition.setId(feature.connects.get(i));
+			TransitionPropertyType tempTransitionPropertyType = new TransitionPropertyType();
+			tempTransitionPropertyType.setTransition(tempTransition);
+			connects.add(tempTransitionPropertyType);		
+		}
+		
+		newFeature.setConnects(connects);
 		newFeature.setId(feature.ID);
 		
 		return newFeature;
 	}
-	State change2FeatureClass(StateType feature) {
-		State newFeature = new State();
+	FeatureClass.State change2FeatureClass(StateType feature) {
+		FeatureClass.State newFeature = new FeatureClass.State();
 		CellSpacePropertyType tempCS = feature.getDuality();
 		List<TransitionPropertyType> tempTransition = feature.getConnects();
 		
+		for(int i = 0 ; i < tempTransition.size() ; i++){
+			newFeature.connects.add(tempTransition.get(i).getTransition().getId());
+		}
 		
 		newFeature.ID = feature.getId();
 		newFeature.geometry = feature.getGeometry();
@@ -500,15 +529,42 @@ public class Converter {
 		//In document, duality is written in ref. So use ID for reference.
 		newFeature.duality = tempDuality.getId();
 		
-		newFeature.connects = feature.getConnects();
-		
 		return newFeature;
 	}
+	TransitionType change2JaxbClass(Transition feature) throws JAXBException{
+		TransitionType newFeature = new TransitionType();
+		CurveType tempCurve = feature.geometry;
+		newFeature.setId(feature.ID);
+		JAXBContextImpl context = JaxbUtil.createGMLContext();
+		
+		net.opengis.gml.v_3_2_1.ObjectFactory objectFactoryGML = new net.opengis.gml.v_3_2_1.ObjectFactory();
+		net.opengis.indoorgml.core.v_1_0.ObjectFactory objectFactoryIndoorGML = new net.opengis.indoorgml.core.v_1_0.ObjectFactory();
+		JAXBElement<CurveType> tempCurveType = objectFactoryGML.createCurve(tempCurve);
+		CurvePropertyType tempCurvePropertyType = new CurvePropertyType();
+		tempCurvePropertyType.setAbstractCurve(tempCurveType);
+		newFeature.setGeometry(tempCurvePropertyType);
+		
+		CellSpaceBoundaryType tempDuality = new CellSpaceBoundaryType();
+		tempDuality.setId(feature.ID);
 
+		JAXBElement<CellSpaceBoundaryType> tempjaxbDuality = objectFactoryIndoorGML.createCellSpaceBoundary(tempDuality);
+		CellSpaceBoundaryPropertyType tempDualityProperty = new CellSpaceBoundaryPropertyType();
+		tempDualityProperty.setCellSpaceBoundary(tempjaxbDuality);		
+	
+		newFeature.setDuality(tempDualityProperty);
+		newFeature.setWeight(feature.weight);
+		
+	
+		
+		return newFeature;
+		
+	}
 	Transition change2FeatureClass(TransitionType feature) {
 		Transition newFeature = new Transition();
 		
 		newFeature.ID = feature.getId();
+		
+		
 		Object geometry = feature.getGeometry().getAbstractCurve().getValue();
 		if(geometry instanceof CurveType){
 			newFeature.geometry = (CurveType) geometry;
@@ -517,9 +573,14 @@ public class Converter {
 			System.out.println("Converter to Transition : This is not CurveType geometry");
 			
 		}
-		
+		List<StatePropertyType>tempConnect = feature.getConnects();
+		for(int i = 0 ; i < tempConnect.size(); i++){
+			StateType tempState = tempConnect.get(i).getState();
+			newFeature.connects[i] = tempState.getId();
+		}
 		//newFeature.duality = change2FeatureClass((CellSpaceBoundaryType)feature.getDuality().getCellSpaceBoundary().getValue());
 		CellSpaceBoundaryType tempBoundary = (CellSpaceBoundaryType)feature.getDuality().getCellSpaceBoundary().getValue();
+
 		newFeature.duality = tempBoundary.getId();
 		newFeature.weight = feature.getWeight();
 		newFeature.name = feature.getRole();

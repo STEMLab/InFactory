@@ -1,3 +1,4 @@
+package FeatureClass;
 /**
  * @author jungh
  *	Implements ExternalReferenceType of IndoorGML 1.0.3

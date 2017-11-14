@@ -1,3 +1,4 @@
+package FeatureClass;
 
 import net.opengis.gml.v_3_2_1.BoundingShapeType;
 

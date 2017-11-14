@@ -1,7 +1,8 @@
+package FeatureClass;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.opengis.gml.v_3_2_1.PointPropertyType;
-import net.opengis.indoorgml.core.v_1_0.TransitionPropertyType;
 
 /**
  * @author jungh
@@ -23,7 +24,8 @@ public class State {
 	/**
 	 * value of Transition feature which has this feature as boundary
 	 */
-	public List<TransitionPropertyType> connects;
+	public List<String>connects = new ArrayList<String>();
+	
 	/**
 	 * geometry of this feature
 	 */
