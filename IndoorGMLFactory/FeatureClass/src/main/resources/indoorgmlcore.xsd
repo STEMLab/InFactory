@@ -1,20 +1,20 @@
-
-This XML file does not appear to have any style information associated
-with it. The document tree is shown below.
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="http://www.opengis.net/indoorgml/1.0/core"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2"
 	xmlns:xlink="http://www.w3.org/1999/xlink" targetNamespace="http://www.opengis.net/indoorgml/1.0/core"
-	version="1.0.2" elementFormDefault="qualified">
+	elementFormDefault="qualified" version="1.0.3">
 	<xs:annotation>
 		<xs:documentation>
-			IndoorGML is an OGC Standard. Copyright (c) 2014,2015,2016 Open Geospatial
-			Consortium. To obtain additional rights of use, visit
+			IndoorGML is an OGC Standard.
+			Copyright (c) 2014,2015,2016 Open Geospatial Consortium.
+			To obtain
+			addidfftional rights of use, visit
 			http://www.opengeospatial.org/legal/.
 		</xs:documentation>
 	</xs:annotation>
 	<!-- ====================================================================== -->
 	<xs:import namespace="http://www.opengis.net/gml/3.2"
-		schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd" />
+		schemaLocation="gml/3.2.1.2/gml.xsd" />
 	<!-- ====================================================================== -->
 	<xs:element name="IndoorFeatures" type="IndoorFeaturesType"
 		substitutionGroup="gml:AbstractFeature" />
@@ -83,10 +83,11 @@ with it. The document tree is shown below.
 		<xs:annotation>
 			<xs:documentation>
 				The overall structure of the Multilayered Space Model constitutes a
-				multilayered graph, where all the nodes from all n layers are
-				included but are separated into n partitions which are connected by
-				the inter-space connections. Furthermore the graph also contains the
-				state transition edges (intra-space connections)
+				multilayered graph, where all the nodes
+				from all n layers are included but are separated into n partitions which
+				are connected by the inter-space connections.
+				Furthermore the graph also contains the state transition edges (intra-space
+				connections)
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
@@ -160,8 +161,8 @@ with it. The document tree is shown below.
 	<xs:element name="InterLayerConnection" type="InterLayerConnectionType"
 		substitutionGroup="gml:AbstractFeature">
 		<xs:annotation>
-			<xs:documentation>
-				Denotin the interspace connections between the SpaceLayer
+			<xs:documentation>Denotin the interspace connections between the
+				SpaceLayer
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
@@ -175,6 +176,8 @@ with it. The document tree is shown below.
 					<xs:element name="comment" type="xs:string" minOccurs="0"
 						maxOccurs="1" />
 					<xs:element name="interConnects" type="StatePropertyType"
+						minOccurs="2" maxOccurs="2" />
+					<xs:element name="ConnectedLayers" type="SpaceLayerPropertyType"
 						minOccurs="2" maxOccurs="2" />
 				</xs:sequence>
 			</xs:extension>
@@ -192,14 +195,10 @@ with it. The document tree is shown below.
 		substitutionGroup="gml:AbstractFeature">
 		<xs:annotation>
 			<xs:documentation>
-				<SpaceLayer />
-				s represent various space concepts such as topography, sensor,
-				security, etc. A SpaceLayer aggregates
-				<State />
-				and
-				<Transition />
-				which are directly associated with the corresponding geometry
-				classes.
+				&lt;SpaceLayer&gt;s represent various space
+				concepts such as topography, sensor, security, etc. A SpaceLayer
+				aggregates &lt;State&gt; and &lt;Transition&gt; which are directly
+				associated with the corresponding geometry classes.
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
@@ -225,6 +224,13 @@ with it. The document tree is shown below.
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="SpaceLayerPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="SpaceLayer" />
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
 	</xs:complexType>
 	<!-- ====================================================================== -->
 	<xs:complexType name="NodesType">
@@ -418,7 +424,7 @@ with it. The document tree is shown below.
 	</xs:complexType>
 	<!-- ====================================================================== -->
 	<xs:complexType name="CellSpaceBoundaryPropertyType">
-		<xs:sequence>
+		<xs:sequence minOccurs="0">
 			<xs:element ref="CellSpaceBoundary" />
 		</xs:sequence>
 		<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
