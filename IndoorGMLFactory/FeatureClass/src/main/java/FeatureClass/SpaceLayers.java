@@ -19,5 +19,5 @@ public class SpaceLayers {
 	/**
 	 * List of ID in String Type of SpaceLayers in spaceLayerMember for reference
 	 */
-	public List<String>spaceLayerMemeber;
+	public List<SpaceLayer>spaceLayerMemeber;
 }
