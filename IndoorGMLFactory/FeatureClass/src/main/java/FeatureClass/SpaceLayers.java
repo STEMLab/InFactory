@@ -9,7 +9,7 @@ public class SpaceLayers {
 	/**
 	 * ID of feature
 	 */
-	String ID;
+	public String ID;
 	
 	/**
 	 * name of feature
