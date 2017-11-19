@@ -6,7 +6,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 import com.sun.xml.bind.v2.runtime.JAXBContextImpl;
-import com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallingContext.State;
 
 import FeatureClass.AbstractFeatures;
 import FeatureClass.CellSpace;
@@ -24,10 +23,6 @@ import FeatureClass.SpaceLayer;
 import FeatureClass.SpaceLayerClassType;
 import FeatureClass.SpaceLayers;
 import FeatureClass.Transition;
-import FeatureClass.State;
-
-
-
 import FeatureClass.typeOfTopoExpressionCode;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
@@ -242,6 +237,10 @@ public class Converter {
 		EdgesType newFeature = new EdgesType();
 
 		newFeature.setId(feature.ID);
+		
+		
+		/*
+		 * 
 		List<String>tempTMIDList = feature.transitionMember;
 		List<TransitionMemberType>tempTMList = new ArrayList<TransitionMemberType>();
 		for(int i = 0; i< tempTMIDList.size(); i++){
@@ -252,6 +251,8 @@ public class Converter {
 			tempTM.setTransition(tempTransition);
 			tempTMList.add(tempTM);			
 		}
+		 * 
+		 * */
 		
 		//newFeature.setBoundedBy(feature.);
 		
@@ -273,7 +274,7 @@ public class Converter {
 			TransitionMemberType tempTM = tm.get(i);
 			transitionMemberReference.add(tempTM.getTransition().getId());
 		}
-		newFeature.transitionMember = transitionMemberReference;
+		//newFeature.transitionMember = transitionMemberReference;
 		
 		return newFeature;
 	}
@@ -311,9 +312,10 @@ public class Converter {
 		IndoorFeaturesType newFeature = new IndoorFeaturesType();
 		newFeature.setId(feature.ID);
 		if(feature.primalSpaceFeatures != null){
-			newFeature.setPrimalSpaceFeatures();
+			
+			//newFeature.setPrimalSpaceFeatures();
 		}
-		if()
+		//if()
 		
 		return newFeature;
 	}
@@ -342,7 +344,7 @@ public class Converter {
 			// TODO : In SpacelayerMemberType, there is only one SpaceLayer feature. The other member type also has same problem.
 			
 		}
-		newFeature.spaceLayerMemeber = spaceLayerMember;
+		//newFeature.spaceLayerMemeber = spaceLayerMember;
 		
 		return newFeature;
 		
@@ -362,6 +364,8 @@ public class Converter {
 		}
 		
 		newFeature.interLayerConnectionMember = interLayerConnection;
+		
+		
 		
 		return newFeature;
 	}
@@ -441,7 +445,7 @@ public class Converter {
 			//tempStateList.add(tempState);
 			stateList.add(tempState.getId());
 		}
-		newFeature.stateMember = stateList;
+		//newFeature.stateMember = stateList;
 		return newFeature;
 	}
 
