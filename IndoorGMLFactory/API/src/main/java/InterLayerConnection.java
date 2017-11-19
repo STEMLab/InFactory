@@ -1,3 +1,5 @@
+import FeatureClass.State;
+import FeatureClass.typeOfTopoExpressionCode;
 
 public class InterLayerConnection {
 	/**
@@ -9,7 +11,7 @@ public class InterLayerConnection {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return created InterLayerConnection
 	 */
-	public InterLayerConnection createInterLayerConnection(String ID, String parentID, typeOfTopoExpressionCode teCode,
+	public FeatureClass.InterLayerConnection createInterLayerConnection(String ID, String parentID, typeOfTopoExpressionCode teCode,
 			String comment, State[] sl) {
 		return null;
 	};
@@ -19,7 +21,7 @@ public class InterLayerConnection {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public InterLayerConnection readInterLayerConnection(String ID) {
+	public FeatureClass.InterLayerConnection readInterLayerConnection(String ID) {
 		return null;
 	}
 
@@ -31,7 +33,7 @@ public class InterLayerConnection {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return edited feature
 	 */
-	public InterLayerConnection updateInterLayerConnection(String ID, typeOfTopoExpressionCode teCode, String comment,
+	public FeatureClass.InterLayerConnection updateInterLayerConnection(String ID, typeOfTopoExpressionCode teCode, String comment,
 			State[] sl) {
 		return null;
 	};

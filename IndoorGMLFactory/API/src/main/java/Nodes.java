@@ -2,6 +2,8 @@
 
 import java.util.List;
 
+import FeatureClass.State;
+
 public class Nodes {
 	/**
 	 * Create Nodes feature instance 
@@ -10,7 +12,7 @@ public class Nodes {
 	 * @param sl list of states which are related by this Nodes relationship
 	 * @return created Nodes feature
 	 */
-	public Nodes createNodes(String ID, String parentID, List<State> sl) {
+	public FeatureClass.Nodes createNodes(String ID, String parentID, List<State> sl) {
 		return null;
 	}
 
@@ -19,7 +21,7 @@ public class Nodes {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public Nodes readNodes(String ID) {
+	public FeatureClass.Nodes readNodes(String ID) {
 		return null;
 	}
 
@@ -29,7 +31,7 @@ public class Nodes {
 	 * @param sl list of states which are related by this Nodes relationship 
 	 * @return edited Nodes feature
 	 */
-	public Nodes updateNodes(String ID, List<State> sl) {
+	public FeatureClass.Nodes updateNodes(String ID, List<State> sl) {
 		return null;
 	}
 

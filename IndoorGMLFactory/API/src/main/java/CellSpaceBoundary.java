@@ -1,5 +1,6 @@
-
-
+import FeatureClass.CellSpaceBoundaryGeometry;
+import FeatureClass.ExternalReference;
+import FeatureClass.Transition;
 
 /**
  * @author jungh
@@ -15,7 +16,7 @@ public class CellSpaceBoundary {
 	 * @param er ExternalReference of this feature
 	 * @return created CellSpaceBoundary
 	 */
-	public CellSpaceBoundary createCellSpaceBoundary(String ID, String parentID, Transition duality,
+	public FeatureClass.CellSpaceBoundary createCellSpaceBoundary(String ID, String parentID, Transition duality,
 			CellSpaceBoundaryGeometry csbGeometry, ExternalReference er) {
 		return null;
 	};
@@ -25,7 +26,7 @@ public class CellSpaceBoundary {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public CellSpaceBoundary readCellSpaceBoundary(String ID) {
+	public FeatureClass.CellSpaceBoundary readCellSpaceBoundary(String ID) {
 		return null;
 	};
 
@@ -37,7 +38,7 @@ public class CellSpaceBoundary {
 	 * @param er ExternalReference of this feature
 	 * @return edited feature
 	 */
-	public CellSpaceBoundary updateCellSpaceBoundary(String ID, Transition duality, CellSpaceBoundaryGeometry csbGeometry,
+	public FeatureClass.CellSpaceBoundary updateCellSpaceBoundary(String ID, Transition duality, CellSpaceBoundaryGeometry csbGeometry,
 			ExternalReference er) {
 		return null;
 	};

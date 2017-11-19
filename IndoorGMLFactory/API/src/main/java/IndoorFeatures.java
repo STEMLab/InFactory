@@ -1,4 +1,5 @@
-
+import FeatureClass.MultiLayeredGraph;
+import FeatureClass.PrimalSpaceFeatures;
 
 public class IndoorFeatures {
 	/**
@@ -8,7 +9,7 @@ public class IndoorFeatures {
 	 * @param mlg feature instance of MultiLayeredFeatures
 	 * @return created IndoorFeatures feature
 	 */
-	public IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
+	public FeatureClass.IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
 		return null;
 	};
 
@@ -17,7 +18,7 @@ public class IndoorFeatures {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public IndoorFeatures readIndoorFeatures(String ID) {
+	public FeatureClass.IndoorFeatures readIndoorFeatures(String ID) {
 		return null;
 	};
 
@@ -28,7 +29,7 @@ public class IndoorFeatures {
 	 * @param mlg feature instance of MultiLayeredFeatures
 	 * @return edited feature
 	 */
-	public IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
+	public FeatureClass.IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
 		return null;
 	};
 

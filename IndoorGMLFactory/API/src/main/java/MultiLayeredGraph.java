@@ -2,6 +2,9 @@
 
 import java.util.List;
 
+import FeatureClass.InterEdges;
+import FeatureClass.SpaceLayer;
+
 
 public class MultiLayeredGraph {
 	/**
@@ -12,7 +15,7 @@ public class MultiLayeredGraph {
 	 * @param ie
 	 * @return
 	 */
-	public MultiLayeredGraph createMultilayeredGraph(String ID, String parentID, List<SpaceLayer> sl, InterEdges ie) {
+	public FeatureClass.MultiLayeredGraph createMultilayeredGraph(String ID, String parentID, List<SpaceLayer> sl, InterEdges ie) {
 		return null;
 	}
 
@@ -21,7 +24,7 @@ public class MultiLayeredGraph {
 	 * @param ID
 	 * @return
 	 */
-	public MultiLayeredGraph readMultilayeredGraph(String ID) {
+	public FeatureClass.MultiLayeredGraph readMultilayeredGraph(String ID) {
 		return null;
 	}
 
@@ -32,7 +35,7 @@ public class MultiLayeredGraph {
 	 * @param ie
 	 * @return
 	 */
-	public MultiLayeredGraph updateMultilayeredGraph(String ID, List<SpaceLayer> sl, InterEdges ie) {
+	public FeatureClass.MultiLayeredGraph updateMultilayeredGraph(String ID, List<SpaceLayer> sl, InterEdges ie) {
 		return null;
 	}
 

@@ -2,6 +2,10 @@
 
 import java.util.Date;
 
+import FeatureClass.Edges;
+import FeatureClass.Nodes;
+import FeatureClass.SpaceLayerClassType;
+
 
 public class SpaceLayer {
 	/**
@@ -17,7 +21,7 @@ public class SpaceLayer {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return created SpaceLayer feature instance
 	 */
-	public SpaceLayer createSpaceLayer(String ID, String parentID, String usage, String function, Date createDate,
+	public FeatureClass.SpaceLayer createSpaceLayer(String ID, String parentID, String usage, String function, Date createDate,
 			Date terminationDate, Nodes n, Edges e, SpaceLayerClassType ct) {
 		return null;
 	}
@@ -27,7 +31,7 @@ public class SpaceLayer {
 	 * @param ID ID of target
 	 * @return searched SpaceLayer feature instance
 	 */
-	public SpaceLayer readSpaceLayer(String ID) {
+	public FeatureClass.SpaceLayer readSpaceLayer(String ID) {
 		return null;
 	}
 
@@ -43,7 +47,7 @@ public class SpaceLayer {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return edited SpaceLayer feature instance
 	 */
-	public SpaceLayer updateSpaceLayer(String ID, String usage, String function, Date createDate, Date terminationDate,
+	public FeatureClass.SpaceLayer updateSpaceLayer(String ID, String usage, String function, Date createDate, Date terminationDate,
 			Nodes n, Edges e, SpaceLayerClassType ct) {
 		return null;
 	}

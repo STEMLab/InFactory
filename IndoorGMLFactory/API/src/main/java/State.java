@@ -1,5 +1,7 @@
 
 
+import FeatureClass.CellSpace;
+import FeatureClass.Transition;
 import net.opengis.gml.v_3_2_1.PointType;
 
 public class State {
@@ -13,7 +15,7 @@ public class State {
 	 * @param geo Geometry instance of Point which represent this state
 	 * @return created State feature instance
 	 */
-	public State createState(String ID, String parentID, CellSpace d, Transition t, PointType geo) {
+	public FeatureClass.State createState(String ID, String parentID, CellSpace d, Transition t, PointType geo) {
 		return null;
 	}
 
@@ -22,7 +24,7 @@ public class State {
 	 * @param ID ID of target 
 	 * @return searched State feature instance
 	 */
-	public State readState(String ID) {
+	public FeatureClass.State readState(String ID) {
 		return null;
 	};
 
@@ -34,7 +36,7 @@ public class State {
 	 * @param geo Geometry instance of Point which represent this state
 	 * @return edited State feature instance
 	 */
-	public State updateState(String ID, CellSpace d, Transition t, PointType geo) {
+	public FeatureClass.State updateState(String ID, CellSpace d, Transition t, PointType geo) {
 		return null;
 	}
 

@@ -1,4 +1,7 @@
-
+import FeatureClass.CellSpaceBoundary;
+import FeatureClass.CellSpaceGeometry;
+import FeatureClass.ExternalReference;
+import FeatureClass.State;
 
 /**
  * @author jungh
@@ -15,8 +18,10 @@ public class CellSpace {
 	 * @param er ExternalReference of this feature
 	 * @return created CellSpace
 	 */
-	public CellSpace createCellSpace(String ID, String parentID, CellSpaceGeometry csGeometry,
+	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, CellSpaceGeometry csGeometry,
 			CellSpaceBoundary csBoundary, State s, ExternalReference er) {
+		//InfoorGMLFactory.FeatureClass.CellSpace newFeature = new CellSpace();
+	
 		return null;
 	};
 
@@ -25,7 +30,7 @@ public class CellSpace {
 	 * @param ID ID of target
 	 * @return edited feature
 	 */
-	public CellSpace readCellSpace(String ID) {
+	public FeatureClass.CellSpace readCellSpace(String ID) {
 		return null;
 	};
 
@@ -38,7 +43,7 @@ public class CellSpace {
 	 * @param er ExternalReference of this feature
 	 * @return edited feature
 	 */
-	public CellSpace updateCellSpace(String ID, CellSpaceGeometry csGeometry, CellSpaceBoundary csBoundary, State s,
+	public FeatureClass.CellSpace updateCellSpace(String ID, CellSpaceGeometry csGeometry, CellSpaceBoundary csBoundary, State s,
 			ExternalReference er) {
 		return null;
 	};

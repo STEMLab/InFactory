@@ -2,6 +2,9 @@
 
 import java.util.List;
 
+import FeatureClass.CellSpace;
+import FeatureClass.CellSpaceBoundary;
+
 /**
  * 
  * @author jungh
@@ -16,7 +19,7 @@ public class PrimalSpaceFeatures {
 	 * @param csb List of CellSpaceBoundary
 	 * @return created PrimalSpaceFeatures
 	 */
-	public PrimalSpaceFeatures createPrimalSpaceFeatures(String ID, String parentID, List<CellSpace> csl,
+	public FeatureClass.PrimalSpaceFeatures createPrimalSpaceFeatures(String ID, String parentID, List<CellSpace> csl,
 			List<CellSpaceBoundary> csb) {
 		return null;
 	}
@@ -26,7 +29,7 @@ public class PrimalSpaceFeatures {
 	 * @param ID ID of target
 	 * @return searched PrimalSpaceFeatures
 	 */
-	public PrimalSpaceFeatures readPrimalSpaceFeatures(String ID) {
+	public FeatureClass.PrimalSpaceFeatures readPrimalSpaceFeatures(String ID) {
 		return null;
 	}
 
@@ -37,7 +40,7 @@ public class PrimalSpaceFeatures {
 	 * @param csbl List of CellSpaceBoundary
 	 * @return edited feature instance
 	 */
-	public PrimalSpaceFeatures updatePrimalSpaceFeatures(String ID, List<CellSpace> csl, List<CellSpaceBoundary> csbl) {
+	public FeatureClass.PrimalSpaceFeatures updatePrimalSpaceFeatures(String ID, List<CellSpace> csl, List<CellSpaceBoundary> csbl) {
 		return null;
 	}
 

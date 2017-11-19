@@ -2,6 +2,8 @@
 
 import java.util.List;
 
+import FeatureClass.Transition;
+
 public class Edges {
 	/**
 	 * Create Edges feature instance 
@@ -10,7 +12,7 @@ public class Edges {
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return created Edges feature
 	 */
-	public Edges createEdges(String ID, String parentID, List<Transition> tl) {
+	public FeatureClass.Edges createEdges(String ID, String parentID, List<Transition> tl) {
 		return null;
 	};
 
@@ -19,7 +21,7 @@ public class Edges {
 	 * @param ID ID of target
 	 * @return searched target feature
 	 */
-	public Edges readEdges(String ID) {
+	public FeatureClass.Edges readEdges(String ID) {
 		return null;
 	};
 
@@ -29,7 +31,7 @@ public class Edges {
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return edited feature
 	 */
-	public Edges updateEdges(String ID, List<Transition> tl) {
+	public FeatureClass.Edges updateEdges(String ID, List<Transition> tl) {
 		return null;
 	};
 

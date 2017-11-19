@@ -1,5 +1,7 @@
 
 
+import FeatureClass.CellSpaceBoundary;
+import FeatureClass.State;
 import net.opengis.gml.v_3_2_1.CurveType;
 
 public class Transition {
@@ -14,7 +16,7 @@ public class Transition {
 	 * @param weight weight can be used for applications in order to deal with the impedance representing absolute barriers in transportation problems 
 	 * @return
 	 */
-	public Transition createTransition(String ID, String parentID, State[] sl, CurveType gc, CellSpaceBoundary csBoundary,
+	public FeatureClass.Transition createTransition(String ID, String parentID, State[] sl, CurveType gc, CellSpaceBoundary csBoundary,
 			double weight) {
 		return null;
 	}
@@ -24,7 +26,7 @@ public class Transition {
 	 * @param ID ID of target
 	 * @return searched Transition feature instance
 	 */
-	public Transition readTransition(String ID) {
+	public FeatureClass.Transition readTransition(String ID) {
 		return null;
 	}
 
@@ -37,7 +39,7 @@ public class Transition {
 	 * @param weight weight can be used for applications in order to deal with the impedance representing absolute barriers in transportation problems 
 	 * @return edited Transition feature instance 
 	 */
-	public Transition updateTransition(String ID, CurveType gc, State[] sl, CellSpaceBoundary csBoundary, double weight) {
+	public FeatureClass.Transition updateTransition(String ID, CurveType gc, State[] sl, CellSpaceBoundary csBoundary, double weight) {
 		return null;
 	}
 
