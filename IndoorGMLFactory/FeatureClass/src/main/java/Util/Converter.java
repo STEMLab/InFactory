@@ -2,10 +2,9 @@ package Util;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-
-import com.sun.xml.bind.v2.runtime.JAXBContextImpl;
 
 import FeatureClass.AbstractFeatures;
 import FeatureClass.CellSpace;
@@ -142,7 +141,7 @@ public class Converter {
 
 		newFeature.setDuality(duality);
 		newFeature.setId(feature.ID);
-		JAXBContextImpl context = Util.JaxbUtil.createIndoorGMLContext();
+		JAXBContext context = Util.JaxbUtil.createIndoorGMLContext();
 		net.opengis.indoorgml.core.v_1_0.ObjectFactory objectFactory = new ObjectFactory();
 		List<CellSpaceBoundaryPropertyType> partialboundedBy = new ArrayList<CellSpaceBoundaryPropertyType>();
 		
@@ -405,8 +404,7 @@ public class Converter {
 
 	IndoorFeatures change2FeatureClass(IndoorFeaturesType feature) {
 		IndoorFeatures newFeature = new IndoorFeatures();
-		
-		newFeature.ID = feature.getId();
+				newFeature.ID = feature.getId();
 		MultiLayeredGraphType tempML = new MultiLayeredGraphType();		
 		newFeature.multiLayeredGraph = change2FeatureClass(feature.getMultiLayeredGraph());
 		
@@ -575,7 +573,7 @@ public class Converter {
 		tempCellSpace.setId(feature.ID);
 		CellSpacePropertyType tempCellSpacePropertyType = new CellSpacePropertyType();
 		
-		JAXBContextImpl context = Util.JaxbUtil.createIndoorGMLContext();
+		JAXBContext context = Util.JaxbUtil.createIndoorGMLContext();
 		net.opengis.indoorgml.core.v_1_0.ObjectFactory objectFactory = new ObjectFactory();
 		JAXBElement<CellSpaceType>  tempJaxbCellSpaceType = objectFactory.createCellSpace(tempCellSpace);
 		tempCellSpacePropertyType.setCellSpace(tempJaxbCellSpaceType);
@@ -615,7 +613,7 @@ public class Converter {
 		TransitionType newFeature = new TransitionType();
 		CurveType tempCurve = feature.geometry;
 		newFeature.setId(feature.ID);
-		JAXBContextImpl context = JaxbUtil.createGMLContext();
+		JAXBContext context = JaxbUtil.createGMLContext();
 		
 		net.opengis.gml.v_3_2_1.ObjectFactory objectFactoryGML = new net.opengis.gml.v_3_2_1.ObjectFactory();
 		net.opengis.indoorgml.core.v_1_0.ObjectFactory objectFactoryIndoorGML = new net.opengis.indoorgml.core.v_1_0.ObjectFactory();
