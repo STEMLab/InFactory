@@ -41,4 +41,23 @@ public class CellSpace {
 	 */
 	public ExternalReference externalReference;
 	
+	public String getID(){ return this.ID; }
+	public void setID(String id){ this.ID = id;} 
+	
+	public CellSpaceGeometry getCellSpaceGeometry(){return this.cellSpaceGeometry;}
+	public void setCellSpaceGeometry(CellSpaceGeometry csg){ this.cellSpaceGeometry = csg; }
+	
+	public List<String> getPartialboundedBy(){ return this.partialboundedBy;}
+	public void setPartialboundedBy(List<String >pbB){ this.partialboundedBy = pbB; }
+	
+	public String getDuality(){return this.duality;}
+	public void setDuality(String d){this.duality = d;}
+
+	public String getName(){return this.name;}
+	public void setName(String name){this.name = name;}
+	
+	public ExternalReference getExternalReference(){return this.externalReference;}
+	public void setExternalReference(ExternalReference e){this.externalReference = e;}
+	
+	
 }
