@@ -1,3 +1,5 @@
+import java.util.List;
+
 import FeatureClass.CellSpaceBoundary;
 import FeatureClass.CellSpaceGeometry;
 import FeatureClass.ExternalReference;
@@ -18,11 +20,39 @@ public class CellSpace {
 	 * @param er ExternalReference of this feature
 	 * @return created CellSpace
 	 */
-	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, CellSpaceGeometry csGeometry,
-			CellSpaceBoundary csBoundary, State s, ExternalReference er) {
-		//InfoorGMLFactory.FeatureClass.CellSpace newFeature = new CellSpace();
+	public FeatureClass.CellSpace createCellSpace(String ID, String parentID){
+		FeatureClass.CellSpace newFeature = new FeatureClass.CellSpace();
+		newFeature.setID(ID);
+		//TODO : how to connect to its parent? 
+		return newFeature;
+	}
 	
-		return null;
+	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, List<String> cellSpaceBoundary) {
+		FeatureClass.CellSpace newFeature = createCellSpace(ID, parentID);
+		newFeature.setPartialboundedBy(cellSpaceBoundary);		
+		return newFeature;
+	};
+	
+	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, List<String> cellSpaceBoundary, String duality) {
+		FeatureClass.CellSpace newFeature = createCellSpace(ID, parentID, cellSpaceBoundary);
+		newFeature.setDuality(duality);
+		
+		return newFeature;
+	};
+	
+	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, List<String> cellSpaceBoundary, String duality, CellSpaceGeometry csGeometry
+			) {
+		FeatureClass.CellSpace newFeature = createCellSpace(ID, parentID, cellSpaceBoundary ,duality, csGeometry);
+		newFeature.setCellSpaceGeometry(csGeometry);		
+		return newFeature;
+	};
+
+	
+	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, CellSpaceGeometry csGeometry,
+			List<String> cellSpaceBoundary, String duality, ExternalReference er) {
+		FeatureClass.CellSpace newFeature = createCellSpace(ID, parentID, cellSpaceBoundary ,duality, csGeometry);
+		newFeature.setExternalReference(er);
+		return newFeature;
 	};
 
 	/**
