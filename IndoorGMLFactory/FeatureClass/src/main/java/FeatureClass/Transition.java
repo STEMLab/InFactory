@@ -35,13 +35,25 @@ public class Transition {
 	public String getID(){ return this.ID; }
 	public void setID(String id){ this.ID = id;} 
 	
-	public Object getCellSpaceBoundaryGeometry(){return this.cellSpaceBoundaryGeometry;}
-	public void setCellSpaceGeometry(CellSpaceGeometry csg){ this.cellSpaceBoundaryGeometry = csg; }
 	
 	public String getDuality(){return this.duality;}
 	public void setDuality(String d){this.duality = d;}
 
 	public String getName(){return this.name;}
 	public void setName(String name){this.name = name;}
+	
+	public CurveType getGeometry(){return this.geometry;}
+	public void setGeometry(CurveType g){ this.geometry = g; }
+	
+	public void setConnects(String[] connects){
+		if(connects.length != 2){
+			System.out.println("FeatureClass.Transition.setConnects : The size of input is not 2");
+		}
+		else{
+			this.connects[0] = connects[0];
+			this.connects[1] = connects[1];
+		}
+		
+	}
 
 }
