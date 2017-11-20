@@ -2,9 +2,7 @@
 <xs:schema xmlns="http://www.opengis.net/indoorgml/1.0/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" targetNamespace="http://www.opengis.net/indoorgml/1.0/core" elementFormDefault="qualified" version="1.0.2">
 	<xs:annotation>
 		<xs:documentation>
-			IndoorGML is an OGC Standard. 
-			Copyright (c) 2014,2015,2016  Open Geospatial Consortium.
-			To obtain additional rights of use, visit http://www.opengeospatial.org/legal/.
+			IndoorGML is an OGC Standard. Copyright (c) 2014,2015,2016 Open Geospatial Consortium. To obtain additional rights of use, visit http://www.opengeospatial.org/legal/.
 		</xs:documentation>
 	</xs:annotation>
 	<!-- ====================================================================== -->
@@ -68,10 +66,9 @@
 	<!-- ====================================================================== -->
 	<xs:element name="MultiLayeredGraph" type="MultiLayeredGraphType" substitutionGroup="gml:AbstractFeature">
 		<xs:annotation>
-			<xs:documentation> 
-The overall structure of the Multilayered Space Model constitutes a multilayered graph, where all the nodes 
-from all n layers are included but are separated into n partitions which are connected by the inter-space connections. 
-Furthermore the graph also contains the state transition edges (intra-space connections)
+			<xs:documentation>
+				The overall structure of the Multilayered Space Model constitutes a multilayered graph, where all the nodes from all n layers are included but are separated into n partitions which are connected by the inter-space connections. Furthermore the graph
+				also contains the state transition edges (intra-space connections)
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
@@ -168,7 +165,6 @@ Furthermore the graph also contains the state transition edges (intra-space conn
 	<xs:element name="SpaceLayer" type="SpaceLayerType" substitutionGroup="gml:AbstractFeature">
 		<xs:annotation>
 			<xs:documentation>
-				&lt;SpaceLayer&gt;s represent various space concepts such as topography, sensor, security, etc. A SpaceLayer aggregates  &lt;State&gt; and &lt;Transition&gt; which are directly associated with the corresponding geometry classes.
 </xs:documentation>
 		</xs:annotation>
 	</xs:element>
@@ -245,7 +241,7 @@ Furthermore the graph also contains the state transition edges (intra-space conn
 	<xs:element name="State" type="StateType" substitutionGroup="gml:AbstractFeature">
 		<xs:annotation>
 			<xs:documentation>
-Within the dual graph structure of one layer a node in dual space represents a space (e.g. a room within a building) in primal space
+ 				Within the dual graph structure of one layer a node in dual space represents a space (e.g. a room within a building) in primal space
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
@@ -273,8 +269,7 @@ Within the dual graph structure of one layer a node in dual space represents a s
 	<xs:element name="Transition" type="TransitionType" substitutionGroup="gml:AbstractFeature">
 		<xs:annotation>
 			<xs:documentation>
-Within the dual graph structure of one layer, an edge in dual space represents the adjacencies or connections (e.g. doors or passages as intra-space connections) 
-</xs:documentation>
+ 				Within the dual graph structure of one layer, an edge in dual space represents the adjacencies or connections (e.g. doors or passages as intra-space connections)
 		</xs:annotation>
 	</xs:element>
 	<!-- ====================================================================== -->
@@ -302,7 +297,7 @@ Within the dual graph structure of one layer, an edge in dual space represents t
 	<xs:element name="CellSpace" type="CellSpaceType" substitutionGroup="gml:AbstractFeature">
 		<xs:annotation>
 			<xs:documentation>
-Within the dual graph structure of one layer a node in dual space represents a space (e.g. a room within a building) in primal space
+ 				Within the dual graph structure of one layer a node in dual space represents a space (e.g. a room within a building) in primal space
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
