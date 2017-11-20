@@ -18,5 +18,10 @@ public class PrimalSpaceFeatures {
 	 * List of CellSpaces which this feature contains
 	 */
 	public List<CellSpace>cellSpaceMember;
+	
+	/**
+	 * List of CellSpaceBoundary which this feature contains
+	 */
+	public List<CellSpaceBoundary>cellSpaceBoundaryMember;
 
 }
