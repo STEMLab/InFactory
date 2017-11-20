@@ -120,12 +120,18 @@ public class Converter {
 			
 		}
 			
-			
-		newFeature.partialboundedBy = feature.getPartialboundedBy();
+		List<CellSpaceBoundaryPropertyType>boundList = feature.getPartialboundedBy();
+		List<String>csbList = new ArrayList<String>();
+		
+		for(int i = 0 ; i < boundList.size() ; i++){
+			csbList.add(boundList.get(i).getCellSpaceBoundary().getValue().getId());
+		}
+		newFeature.partialboundedBy = csbList;
+		//newFeature.partialboundedBy = feature.getPartialboundedBy();
 		
 		return newFeature;
 	}
-	public CellSpaceType change2JaxbClass(CellSpace feature) {
+	public CellSpaceType change2JaxbClass(CellSpace feature) throws JAXBException {
 		//JAXBContextImpl jc = (JAXBContextImpl) JAXBContextImpl.newInstance(CellSpaceType.class);
 		CellSpaceType newFeature = new CellSpaceType();
 		StatePropertyType duality = new StatePropertyType();
@@ -136,7 +142,21 @@ public class Converter {
 
 		newFeature.setDuality(duality);
 		newFeature.setId(feature.ID);
-		newFeature.setPartialboundedBy(feature.partialboundedBy);
+		JAXBContextImpl context = Util.JaxbUtil.createIndoorGMLContext();
+		net.opengis.indoorgml.core.v_1_0.ObjectFactory objectFactory = new ObjectFactory();
+		List<CellSpaceBoundaryPropertyType> partialboundedBy = new ArrayList<CellSpaceBoundaryPropertyType>();
+		
+		for(int i = 0 ; i < feature.partialboundedBy.size() ; i++){
+			CellSpaceBoundaryType tempCsb = new CellSpaceBoundaryType();
+			tempCsb.setId(feature.partialboundedBy.get(i));
+			JAXBElement<CellSpaceBoundaryType>  tempCsbJaxb = objectFactory.createCellSpaceBoundary(tempCsb);
+			CellSpaceBoundaryPropertyType tempCsbProperty = new CellSpaceBoundaryPropertyType();			
+			tempCsbProperty.setCellSpaceBoundary(tempCsbJaxb);
+			partialboundedBy.add(tempCsbProperty);
+		}
+		
+		newFeature.setPartialboundedBy(partialboundedBy);
+		//newFeature.setPartialboundedBy(feature.partialboundedBy);
 		
 		if(feature.geometryType == "SurfaceType"){
 			//newFeature.setGeometry2D((SurfacePropertyType)feature.cellSpaceGeometryObject);

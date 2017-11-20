@@ -1,8 +1,6 @@
 package FeatureClass;
 import java.util.List;
 
-import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
-
 /**
  * @author jungh
  * Implements CellSpaceType of IndoorGML 1.0.3
@@ -33,7 +31,7 @@ public class CellSpace {
 	/**
 	 * boundary of the CellSpace
 	 */
-	public List<CellSpaceBoundaryPropertyType> partialboundedBy;
+	public List<String> partialboundedBy;
 	/**
 	 * value of State which has duality relationship with the CellSpace
 	 */
