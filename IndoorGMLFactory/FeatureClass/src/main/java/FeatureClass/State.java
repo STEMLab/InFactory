@@ -30,5 +30,24 @@ public class State {
 	 * geometry of this feature
 	 */
 	public PointPropertyType geometry;
+	
+	public String getID(){ return this.ID; }
+	public void setID(String id){ this.ID = id;} 
+	
+	public PointPropertyType getGeometry(){return this.geometry;}
+	public void setGeometry(PointPropertyType g){ this.geometry = g; }
+		
+	public String getDuality(){return this.duality;}
+	public void setDuality(String d){this.duality = d;}
+
+	public String getName(){return this.name;}
+	public void setName(String name){this.name = name;}
+	
+	public void setConnects(List<String> connects){
+		for(int i = 0 ; i < connects.size(); i++){
+			this.connects.add(connects.get(i));
+		}
+	}
+	public List<String> getConnects(){ return this.connects;}
 
 }
