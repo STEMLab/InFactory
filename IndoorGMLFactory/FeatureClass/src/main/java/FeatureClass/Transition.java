@@ -32,5 +32,16 @@ public class Transition {
 	 */
 	public String[] connects = new String[2];
 	
+	public String getID(){ return this.ID; }
+	public void setID(String id){ this.ID = id;} 
+	
+	public Object getCellSpaceBoundaryGeometry(){return this.cellSpaceBoundaryGeometry;}
+	public void setCellSpaceGeometry(CellSpaceGeometry csg){ this.cellSpaceBoundaryGeometry = csg; }
+	
+	public String getDuality(){return this.duality;}
+	public void setDuality(String d){this.duality = d;}
+
+	public String getName(){return this.name;}
+	public void setName(String name){this.name = name;}
 
 }
