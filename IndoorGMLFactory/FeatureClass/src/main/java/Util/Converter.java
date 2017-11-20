@@ -22,6 +22,7 @@ import FeatureClass.PrimalSpaceFeatures;
 import FeatureClass.SpaceLayer;
 import FeatureClass.SpaceLayerClassType;
 import FeatureClass.SpaceLayers;
+import FeatureClass.State;
 import FeatureClass.Transition;
 import FeatureClass.typeOfTopoExpressionCode;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
@@ -267,15 +268,14 @@ public class Converter {
 		
 		newFeature.ID = feature.getId();
 		List<TransitionMemberType> tm = feature.getTransitionMember();
-		List<TransitionType> tl = new ArrayList<TransitionType>();
-		List<String> transitionMemberReference = new ArrayList<String>();
+		List<Transition> transitionMemberReference = new ArrayList<Transition>();
 		
 		for(int i = 0 ; i < tm.size(); i++){
 			TransitionMemberType tempTM = tm.get(i);
-			transitionMemberReference.add(tempTM.getTransition().getId());
+			transitionMemberReference.add(change2FeatureClass(tempTM.getTransition()));
+			newFeature.transitionMember = transitionMemberReference;
 		}
-		//newFeature.transitionMember = transitionMemberReference;
-		
+		newFeature.transitionMember = transitionMemberReference;
 		return newFeature;
 	}
 	ExternalObjectReferenceType change2JaxbClass(ExternalObjectReference feature){
@@ -308,17 +308,81 @@ public class Converter {
 		
 		return newFeature;
 	}
-	IndoorFeaturesType change2JaxbClass(IndoorFeatures feature){
+	IndoorFeaturesType change2JaxbClass(IndoorFeatures feature) throws JAXBException{
 		IndoorFeaturesType newFeature = new IndoorFeaturesType();
 		newFeature.setId(feature.ID);
 		if(feature.primalSpaceFeatures != null){
 			
-			//newFeature.setPrimalSpaceFeatures();
+			newFeature.setPrimalSpaceFeatures(change2JaxbClass(feature.primalSpaceFeatures));
 		}
-		//if()
+		if(feature.multiLayeredGraph != null){
+			newFeature.setMultiLayeredGraph(change2JaxbClass(feature.multiLayeredGraph));
+		}
 		
 		return newFeature;
 	}
+	private MultiLayeredGraphType change2JaxbClass(MultiLayeredGraph multiLayeredGraph) throws JAXBException {
+		MultiLayeredGraphType newFeature = new MultiLayeredGraphType();
+		newFeature.setId(multiLayeredGraph.ID);
+		List<SpaceLayers> tempSpaceLayers = multiLayeredGraph.spaceLayers;
+		List<SpaceLayersType>tempSpaceLayersType = new ArrayList<SpaceLayersType>();
+		
+		
+		
+		return newFeature;
+	}
+
+	private SpaceLayerType change2JaxbClass(SpaceLayer feature) throws JAXBException {
+		SpaceLayerType newFeature = new SpaceLayerType();
+		newFeature.setId(feature.ID);
+		List<Edges>edgesList = feature.edges;
+		List<EdgesType>edgesTypeList = new ArrayList<EdgesType>();
+		
+		for(int i = 0 ; i < edgesList.size() ; i++){
+			Edges tempEdge = edgesList.get(i);
+			EdgesType tempEdgesType = change2JaxbClass(tempEdge);
+			edgesTypeList.add(tempEdgesType);
+		}
+		newFeature.setEdges(edgesTypeList);
+		
+		List<Nodes>nodesList = feature.nodes;
+		List<NodesType>nodesTypeList = new ArrayList<NodesType>();
+		
+		for(int i = 0 ; i < nodesList.size() ; i++){
+			nodesTypeList.add(change2JaxbClass(nodesList.get(i)));
+		}
+		
+		newFeature.setNodes(nodesTypeList);
+		
+		return newFeature;
+	}
+
+	private NodesType change2JaxbClass(Nodes feature) throws JAXBException {
+		NodesType newFeature = new NodesType();
+		
+		newFeature.setId(feature.ID);
+		
+		List<StateMemberType>smTypeList = new ArrayList<StateMemberType>();
+		List<State>smList = feature.stateMember;
+		
+		for(int i = 0 ; i < smList.size() ;i++){
+			StateMemberType tempSM = new StateMemberType();
+			tempSM.setState(change2JaxbClass(smList.get(i)));
+			smTypeList.add(tempSM);
+		}
+		
+		newFeature.setStateMember(smTypeList);
+		// TODO Auto-generated method stub
+		return newFeature;
+	}
+
+	private PrimalSpaceFeaturesPropertyType change2JaxbClass(PrimalSpaceFeatures feature) {
+		PrimalSpaceFeaturesType newFeature = new PrimalSpaceFeaturesType();
+		newFeature.setId(feature.ID);
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	IndoorFeatures change2FeatureClass(IndoorFeaturesType feature) {
 		IndoorFeatures newFeature = new IndoorFeatures();
 		
@@ -336,15 +400,13 @@ public class Converter {
 		
 		newFeature.ID = feature.getId();
 		List<SpaceLayerMemberType>tempSLMList = feature.getSpaceLayerMember();
-		List<String>spaceLayerMember = new ArrayList<String>();
+		//List<String>spaceLayerMember = new ArrayList<String>();
+		List<SpaceLayer>slm = new ArrayList<SpaceLayer>();
 		
 		for(int i = 0 ; i < tempSLMList.size(); i++){
-			spaceLayerMember.add(tempSLMList.get(i).getSpaceLayer().getId());
-			//SpaceLayerMemberType tempSingleSLM = tempSLMList.get(i);
-			// TODO : In SpacelayerMemberType, there is only one SpaceLayer feature. The other member type also has same problem.
-			
+			slm.add(change2FeatureClass(tempSLMList.get(i).getSpaceLayer()));	
 		}
-		//newFeature.spaceLayerMemeber = spaceLayerMember;
+		newFeature.spaceLayerMemeber = slm;
 		
 		return newFeature;
 		
@@ -376,20 +438,20 @@ public class Converter {
 		newFeature.ID = feature.getId();
 		List<SpaceLayerPropertyType> tempSLList = feature.getConnectedLayers();
 		List<StatePropertyType> tempILCList = feature.getInterConnects();
-		List<String> spacelayerList = new ArrayList<String>();
-		List<String> interConnectionList = new ArrayList<String>();
+		List<SpaceLayer> spacelayerList = new ArrayList<SpaceLayer>();
+		List<State> interConnectionList = new ArrayList<State>();
 		
 		for(int i = 0 ; i < tempSLList.size(); i++){
 			SpaceLayerPropertyType tempSingleSL = tempSLList.get(i);
-			spacelayerList.add(tempSingleSL.getSpaceLayer().getId());
+			spacelayerList.add(change2FeatureClass(tempSingleSL.getSpaceLayer()));
 		}
 		
 		for(int i = 0 ; i < tempILCList.size(); i++){
 			StatePropertyType tempSingleS = tempILCList.get(i);
-			interConnectionList.add(tempSingleS.getState().getId());
+			interConnectionList.add(change2FeatureClass(tempSingleS.getState()));
 		}
 		
-		if(spacelayerList.size() != 2 && interConnectionList.size()!= 2){
+		if(spacelayerList.size() != 2 || interConnectionList.size()!= 2){
 			System.out.println("Converter : number of SpaceLayer or InterConnection is not 2 at InterLayerConnection");			
 		}
 		else{
@@ -433,19 +495,13 @@ public class Converter {
 		Nodes newFeature = new Nodes();
 		
 		newFeature.ID = feature.getId();
-		
-		//newFeature.stateMember = feature.getStateMember();
 		List<StateMemberType>tempML = feature.getStateMember();
-		//List<StateType>tempStateList = new ArrayList<StateType>();	
-		List<String>stateList = new ArrayList<String>();
+		List<State>stateList = new ArrayList<State>();
 		
 		for(int i = 0 ; i < tempML.size() ; i++){
-			StateMemberType tempSM = tempML.get(i);
-			StateType tempState = tempSM.getState();
-			//tempStateList.add(tempState);
-			stateList.add(tempState.getId());
+			stateList.add(change2FeatureClass(tempML.get(i).getState()));
 		}
-		//newFeature.stateMember = stateList;
+		newFeature.stateMember = stateList;
 		return newFeature;
 	}
 

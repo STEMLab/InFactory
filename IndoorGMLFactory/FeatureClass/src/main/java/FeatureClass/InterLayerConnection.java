@@ -23,11 +23,11 @@ public class InterLayerConnection {
 	/**
 	 * save list of ID of States which are related with each others as this InterLayerConnection
 	 */
-	public String[] interConnects;
+	public State[] interConnects;
 	/**
 	 * save list of ID of SpaceLayers which are related with each others as this InterLayerConnection
 	 */
-	public String[] connectedLayers;
+	public SpaceLayer[] connectedLayers;
 	
 	public Boolean checkInterConnectsNumber(){
 		//Boolean flag = false;
