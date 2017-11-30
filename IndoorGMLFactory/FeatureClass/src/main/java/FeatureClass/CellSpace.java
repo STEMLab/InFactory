@@ -59,5 +59,11 @@ public class CellSpace {
 	public ExternalReference getExternalReference(){return this.externalReference;}
 	public void setExternalReference(ExternalReference e){this.externalReference = e;}
 	
-	
+	public boolean hasDuality(){
+		if(this.duality == null ){
+			return false;
+		}
+		else
+			return true;
+	}
 }

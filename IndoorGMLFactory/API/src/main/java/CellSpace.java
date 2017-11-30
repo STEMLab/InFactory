@@ -35,8 +35,7 @@ public class CellSpace {
 	
 	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, List<String> cellSpaceBoundary, String duality) {
 		FeatureClass.CellSpace newFeature = createCellSpace(ID, parentID, cellSpaceBoundary);
-		newFeature.setDuality(duality);
-		
+		newFeature.setDuality(duality);		
 		return newFeature;
 	};
 	
@@ -46,7 +45,6 @@ public class CellSpace {
 		newFeature.setCellSpaceGeometry(csGeometry);		
 		return newFeature;
 	};
-
 	
 	public FeatureClass.CellSpace createCellSpace(String ID, String parentID, CellSpaceGeometry csGeometry,
 			List<String> cellSpaceBoundary, String duality, ExternalReference er) {

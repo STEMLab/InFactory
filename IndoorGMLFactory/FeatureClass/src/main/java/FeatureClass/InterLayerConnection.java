@@ -31,7 +31,7 @@ public class InterLayerConnection {
 	
 	public Boolean checkInterConnectsNumber(){
 		//Boolean flag = false;
-		if(this.interConnects.length != 2 && this.connectedLayers.length != 2){
+		if(this.interConnects.length != 2 || this.connectedLayers.length != 2){
 			return false;			
 		}
 		return true; 
