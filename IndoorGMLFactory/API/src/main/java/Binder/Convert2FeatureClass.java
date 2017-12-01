@@ -115,7 +115,7 @@ public class Convert2FeatureClass {
 		List<String> csbList = new ArrayList<String>();
 
 		for (int i = 0; i < boundList.size(); i++) {
-			csbList.add(boundList.get(i).getCellSpaceBoundary().getValue().getId());
+			csbList.add(boundList.get(i).getHref());
 		}
 		newFeature.partialboundedBy = csbList;
 		// newFeature.partialboundedBy = feature.getPartialboundedBy();
@@ -123,13 +123,16 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	public CellSpaceBoundary change2FeatureClass(CellSpaceBoundaryType feature) {
+	public static CellSpaceBoundary change2FeatureClass(CellSpaceBoundaryType feature, String parentID) {
 		CellSpaceBoundary newFeature = new CellSpaceBoundary();
 		
 		newFeature.ID = feature.getId();
+		newFeature.setParentID(parentID);
 		TransitionPropertyType tempTransition = feature.getDuality();
-		newFeature.duality = tempTransition.getTransition().getId();
-
+		if(tempTransition!=null){
+			newFeature.duality = tempTransition.getHref();
+		}
+		
 		CellSpaceBoundaryGeometryType geo = feature.getCellSpaceBoundaryGeometry();
 		if (geo != null) {
 			if (geo.getGeometry2D() != null) {
@@ -276,12 +279,13 @@ public class Convert2FeatureClass {
 		newFeature.ID = feature.getId();
 		newFeature.setParentID(parentID);
 		List<TransitionMemberType> tm = feature.getTransitionMember();
-		List<Transition> transitionMemberReference = new ArrayList<Transition>();
+		List<String> transitionMemberReference = new ArrayList<String>();
 
 		for (int i = 0; i < tm.size(); i++) {
 			TransitionType tempTM = tm.get(i).getTransition();
 			docContainer.setFeature(tempTM.getId(), "Transition", change2FeatureClass(tempTM, newFeature.ID));
-			transitionMemberReference.add(change2FeatureClass(tempTM, newFeature.ID));
+			//transitionMemberReference.add(change2FeatureClass(tempTM, newFeature.ID));
+			transitionMemberReference.add(tempTM.getId());
 		}
 		newFeature.transitionMember = transitionMemberReference;
 		return newFeature;
