@@ -180,7 +180,7 @@ public class Convert2JaxbClass {
 		return newFeature;
 	}
 	
-	IndoorFeaturesType change2JaxbClass(IndoorFeatures feature) throws JAXBException{
+	static public IndoorFeaturesType change2JaxbClass(IndoorFeatures feature) throws JAXBException{
 		IndoorFeaturesType newFeature = new IndoorFeaturesType();
 		newFeature.setId(feature.ID);
 		if(feature.primalSpaceFeatures != null){
