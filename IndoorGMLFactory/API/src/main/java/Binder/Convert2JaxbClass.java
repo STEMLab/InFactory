@@ -199,7 +199,7 @@ public class Convert2JaxbClass {
 		
 		return newFeature;
 	}
-	private MultiLayeredGraphType change2JaxbClass(MultiLayeredGraph feature) throws JAXBException {
+	private static MultiLayeredGraphType change2JaxbClass(MultiLayeredGraph feature) throws JAXBException {
 		MultiLayeredGraphType newFeature = new MultiLayeredGraphType();
 		newFeature.setId(feature.ID);
 		
@@ -222,7 +222,7 @@ public class Convert2JaxbClass {
 		
 		return newFeature;
 	}
-	private InterEdgesType change2JaxbClass(InterEdges feature) {
+	private static InterEdgesType change2JaxbClass(InterEdges feature) {
 		InterEdgesType newFeature = indoorgmlcoreOF.createInterEdgesType();
 		newFeature.setId(feature.ID);
 		List<InterLayerConnectionMemberType>interlayerconnectionmember = new ArrayList<InterLayerConnectionMemberType>();
@@ -240,7 +240,7 @@ public class Convert2JaxbClass {
 	}
 	
 
-	private InterLayerConnectionType change2Jaxb(InterLayerConnection feature) {
+	private static InterLayerConnectionType change2Jaxb(InterLayerConnection feature) {
 		InterLayerConnectionType newFeature = indoorgmlcoreOF.createInterLayerConnectionType();
 		
 		newFeature.setId(feature.getID());

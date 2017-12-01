@@ -188,16 +188,22 @@ public class Convert2FeatureClass {
 		MultiLayeredGraphType tempML = new MultiLayeredGraphType();
 		// newFeature.multiLayeredGraph =
 		// change2FeatureClass(feature.getMultiLayeredGraph());
-		docContainer.inputID(feature.getId(), "IndoorFeatures");
-		MultiLayeredGraph childM = change2FeatureClass(feature.getMultiLayeredGraph(), feature.getId());
-		docContainer.setFeature(childM.ID, "MultiLayeredGraph", childM);
+		//docContainer.inputID(feature.getId(), "IndoorFeatures");
 		newFeature.multiLayeredGraph = feature.getMultiLayeredGraph().getMultiLayeredGraph().getId();
 		PrimalSpaceFeaturesPropertyType tempPSFP = new PrimalSpaceFeaturesPropertyType();
 		tempPSFP = feature.getPrimalSpaceFeatures();
-		PrimalSpaceFeatures childP = change2FeatureClass(tempPSFP.getPrimalSpaceFeatures(), feature.getId());
 		// newFeature.primalSpaceFeatures =
 		// change2FeatureClass(tempPSFP.getPrimalSpaceFeatures());
+
+		PrimalSpaceFeatures childP = change2FeatureClass(tempPSFP.getPrimalSpaceFeatures(), feature.getId());
 		docContainer.setFeature(childP.ID, "PrimalSpaceFeatures", childP);
+		
+		MultiLayeredGraph childM = change2FeatureClass(feature.getMultiLayeredGraph(), feature.getId());
+		docContainer.setFeature(childM.ID, "MultiLayeredGraph", childM);
+
+		newFeature.primalSpaceFeatures = childP.ID;
+		
+		docContainer.setFeature(feature.getId(), "IndoorFeatures", newFeature);
 
 		return newFeature;
 	}
@@ -335,21 +341,26 @@ public class Convert2FeatureClass {
 		// ObjectFactory();
 		newFeature.ID = feature.getId();
 		newFeature.setParentID(parentID);
+		List<String>cellspacemember = new ArrayList<String>();
+		List<String>cellspaceboundarymember = new ArrayList<String>();
+		
 		for (int i = 0; i < feature.getCellSpaceBoundaryMember().size(); i++) {
 			CellSpaceBoundaryMemberType temp = feature.getCellSpaceBoundaryMember().get(i);
 			CellSpaceBoundaryType cs = temp.getCellSpaceBoundary().getValue();
 			docContainer.setFeature(cs.getId(), "CellSpaceBoundary", change2FeatureClass(cs, newFeature.ID));
-
+			cellspaceboundarymember.add(cs.getId());
 		}
 		for (int i = 0; i < feature.getCellSpaceMember().size(); i++) {
 			CellSpaceMemberType temp = feature.getCellSpaceMember().get(i);
 			CellSpaceType cs = temp.getCellSpace().getValue();
 			docContainer.setFeature(cs.getId(), "CellSpace", change2FeatureClass(cs, newFeature.ID));
+			cellspacemember.add(cs.getId());
 			// CellSpaceType cellSpace =
 			// objectFactory.createCellSpace(temp.getCellSpace().getValue());
 
 		}
-
+		newFeature.cellSpaceBoundaryMember = cellspaceboundarymember;
+		newFeature.cellSpaceMember = cellspacemember;
 		return newFeature;
 	}
 

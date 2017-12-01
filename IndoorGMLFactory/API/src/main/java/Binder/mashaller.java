@@ -19,7 +19,9 @@ import net.opengis.indoorgml.core.v_1_0.ObjectFactory;
 import net.opengis.indoorgml.navigation.v_1_0.RouteType;
 
 public class mashaller {
-	public void exportIndoorGMLCore(Properties props, String id, String filePath) throws Exception {
+
+
+	public static void exportIndoorGMLCore(Properties props, String id, String filePath) throws Exception {
 	
 		IndoorFeaturesType indoorFeaturesType = Convert2JaxbClass.change2JaxbClass((IndoorFeatures)Convert2FeatureClass.docContainer.getFeature(id));
 		marshalIndoorFeatures(filePath, indoorFeaturesType);
@@ -66,7 +68,7 @@ public class mashaller {
 		marshaller.marshal(jRoute, output);
 	}
 
-	public void marshalIndoorFeatures(String path, IndoorFeaturesType indoorFeaturesType)
+	public static void marshalIndoorFeatures(String path, IndoorFeaturesType indoorFeaturesType)
 			throws JAXBException, IOException {
 
 		JAXBContext context;
@@ -106,7 +108,7 @@ public class mashaller {
 		marshaller.marshal(jIndoorFeatures, output);
 	}
 
-	public class IndoorGMLNameSpaceMapper extends NamespacePrefixMapper {
+	public static class IndoorGMLNameSpaceMapper extends NamespacePrefixMapper {
 		private static final String DEFAULT_PREFIX = "";
 		private static final String DEFAULT_URI = "http://www.opengis.net/indoorgml/1.0/core";
 

@@ -88,7 +88,7 @@ public class IndoorGMLMap {
 		String featureName = getFeatureNameFromID(ID);
 		ConcurrentHashMap<String,Object>featureContainer = getFeatureContainer(featureName);
 		Object newFeature = null;
-		if(featureContainer.contains(ID)){
+		if(featureContainer.containsKey(ID)){
 			newFeature = featureContainer.get(ID);
 		}
 		return newFeature;
