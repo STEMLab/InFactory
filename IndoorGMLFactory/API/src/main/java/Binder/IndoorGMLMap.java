@@ -65,6 +65,11 @@ public class IndoorGMLMap {
 			idContainer.put(id, featureName);
 			
 	}
+	public static String getFeatureNameFromID(String id){
+		ConcurrentHashMap<String,Object>idContainer =  getFeatureContainer("id");
+		String featureName = (String)idContainer.get(id);
+		return featureName;
+	}
 	public static String getFeatureNameFromClassType(Object value){
 		String featureName = null;
 		
@@ -79,7 +84,9 @@ public class IndoorGMLMap {
 		
 		return newFeatureContainer;		
 	}
-	public static Object getFeature(ConcurrentHashMap<String,Object> featureContainer, String ID){
+	public static Object getFeature(String ID){
+		String featureName = getFeatureNameFromID(ID);
+		ConcurrentHashMap<String,Object>featureContainer = getFeatureContainer(featureName);
 		Object newFeature = null;
 		if(featureContainer.contains(ID)){
 			newFeature = featureContainer.get(ID);
