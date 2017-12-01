@@ -17,7 +17,7 @@ public class Edges {
 	/**
 	 * contains list of Transitions as list
 	 */
-	public List<Transition> transitionMember;
+	public List<String> transitionMember;
 	
 	public String parentID;
 	

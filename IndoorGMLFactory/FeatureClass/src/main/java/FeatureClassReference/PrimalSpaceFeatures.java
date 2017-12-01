@@ -17,12 +17,12 @@ public class PrimalSpaceFeatures {
 	/**
 	 * List of CellSpaces which this feature contains
 	 */
-	public List<CellSpace>cellSpaceMember;
+	public List<String>cellSpaceMember;
 	
 	/**
 	 * List of CellSpaceBoundary which this feature contains
 	 */
-	public List<CellSpaceBoundary>cellSpaceBoundaryMember;
+	public List<String>cellSpaceBoundaryMember;
 
 	public String parentID;
 	
