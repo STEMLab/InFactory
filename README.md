@@ -7,5 +7,8 @@ This is based on ogc-schemas https://github.com/highsource/ogc-schemas, so later
 
 If you want to set this project, then you need to set: 
 1) Eclipse
-2) Maven
-3) ogc-schemas : https://github.com/highsource/ogc-schemas
+2) Maven 3.5 version
+3) ogc-schemas : https://github.com/highsource/ogc-schemas 
+  - clone this project and locally complie with "mvn install"
+
+Build command : "mvn clean install"
