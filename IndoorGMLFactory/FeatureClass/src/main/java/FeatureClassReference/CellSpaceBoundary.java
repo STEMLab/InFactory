@@ -51,5 +51,17 @@ public class CellSpaceBoundary {
 	
 	public String getExternalReference(){return this.externalReference;}
 	public void setExternalReference(String e){this.externalReference = e;}
+	/**
+	 * @return the cellSpaceBoundaryGeometry
+	 */
+	public String getCellSpaceBoundaryGeometry() {
+		return cellSpaceBoundaryGeometry;
+	}
+	/**
+	 * @param cellSpaceBoundaryGeometry the cellSpaceBoundaryGeometry to set
+	 */
+	public void setCellSpaceBoundaryGeometry(String cellSpaceBoundaryGeometry) {
+		this.cellSpaceBoundaryGeometry = cellSpaceBoundaryGeometry;
+	}
 
 }

@@ -43,4 +43,40 @@ public class SpaceLayers {
 		}
 		return feature;
 	}
+	/**
+	 * @return the iD
+	 */
+	public String getID() {
+		return ID;
+	}
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(String iD) {
+		ID = iD;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return the spaceLayerMemeber
+	 */
+	public List<String> getSpaceLayerMemeber() {
+		return spaceLayerMemeber;
+	}
+	/**
+	 * @param spaceLayerMemeber the spaceLayerMemeber to set
+	 */
+	public void setSpaceLayerMemeber(List<String> spaceLayerMemeber) {
+		this.spaceLayerMemeber = spaceLayerMemeber;
+	}
 }

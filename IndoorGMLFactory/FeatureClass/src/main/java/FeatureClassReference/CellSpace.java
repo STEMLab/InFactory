@@ -52,9 +52,7 @@ public class CellSpace {
 	public void setParentID(String parentID){
 		this.parentID = parentID;
 	}
-	public String getParentID(String parentID){
-		return this.parentID;
-	}
+
 	public String getID() {
 		return this.ID;
 	}
@@ -134,5 +132,47 @@ public class CellSpace {
 			return false;
 		} else
 			return true;
+	}
+	/**
+	 * @return the geometryType
+	 */
+	public String getGeometryType() {
+		return geometryType;
+	}
+	/**
+	 * @param geometryType the geometryType to set
+	 */
+	public void setGeometryType(String geometryType) {
+		this.geometryType = geometryType;
+	}
+	/**
+	 * @return the cellSpaceGeometryObject
+	 */
+	public String getCellSpaceGeometryObject() {
+		return cellSpaceGeometryObject;
+	}
+	/**
+	 * @param cellSpaceGeometryObject the cellSpaceGeometryObject to set
+	 */
+	public void setCellSpaceGeometryObject(String cellSpaceGeometryObject) {
+		this.cellSpaceGeometryObject = cellSpaceGeometryObject;
+	}
+	/**
+	 * @return the parentID
+	 */
+	public String getParentID() {
+		return parentID;
+	}
+	/**
+	 * @param geometry2d the geometry2D to set
+	 */
+	public void setGeometry2D(String geometry2d) {
+		geometry2D = geometry2d;
+	}
+	/**
+	 * @param geometry3d the geometry3D to set
+	 */
+	public void setGeometry3D(String geometry3d) {
+		geometry3D = geometry3d;
 	}
 }

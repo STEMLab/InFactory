@@ -48,5 +48,41 @@ public class InterLayerConnection {
 	
 	public void setInterConnects(String[] ic){this.interConnects = ic;}
 	public String[] getInterConnects(){return this.interConnects;}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return the typeOfTopoExpression
+	 */
+	public typeOfTopoExpressionCode getTypeOfTopoExpression() {
+		return typeOfTopoExpression;
+	}
+	/**
+	 * @param typeOfTopoExpression the typeOfTopoExpression to set
+	 */
+	public void setTypeOfTopoExpression(typeOfTopoExpressionCode typeOfTopoExpression) {
+		this.typeOfTopoExpression = typeOfTopoExpression;
+	}
+	/**
+	 * @return the comment
+	 */
+	public String getComment() {
+		return comment;
+	}
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 }

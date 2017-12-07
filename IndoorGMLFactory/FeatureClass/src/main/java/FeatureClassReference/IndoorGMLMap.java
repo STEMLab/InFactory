@@ -97,5 +97,19 @@ public class IndoorGMLMap {
 		
 		
 	}
+
+	/**
+	 * @return the container
+	 */
+	public static ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> getContainer() {
+		return container;
+	}
+
+	/**
+	 * @param container the container to set
+	 */
+	public static void setContainer(ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> container) {
+		IndoorGMLMap.container = container;
+	}
 	
 }
