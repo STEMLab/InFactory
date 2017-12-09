@@ -88,7 +88,9 @@ public class CellSpace {
 		return feature;
 	}
 
-	public Object getDuality() {
+/*
+ * 
+ * 	public Object getDuality() {
 		Object feature = null;
 		if (hasDuality()) {
 
@@ -97,7 +99,12 @@ public class CellSpace {
 		}
 		return feature;
 	}
-
+ * 
+ * */
+	
+	public String getDuality(){
+		return this.duality;
+	}
 	public List<String> getPartialboundedBy() {
 		return this.partialboundedBy;
 	}
