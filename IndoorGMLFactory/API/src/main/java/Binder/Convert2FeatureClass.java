@@ -64,7 +64,7 @@ import net.opengis.indoorgml.core.v_1_0.TransitionType;
 import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
 
 public class Convert2FeatureClass {
-	static IndoorGMLMap docContainer = new IndoorGMLMap();
+	static IndoorGMLMap docContainer = Container.docContainer;
 	static AbstractFeatures change2FeatureClass(AbstractFeatureType feature, String parentID) {
 		AbstractFeatures newFeature = new AbstractFeatures();
 		Object tempLocation = feature.getLocation().getValue();
