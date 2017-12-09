@@ -74,8 +74,9 @@ public class CellSpace {
 	 *            ID of target
 	 * @return edited feature
 	 */
-	public FeatureClassReference.CellSpace readCellSpace(String ID) {
-		return null;
+	public FeatureClassReference.CellSpace readCellSpace(String docId, String Id) {
+		FeatureClassReference.CellSpace target = (FeatureClassReference.CellSpace)docData.docs.getFeature(docId, Id);
+		return target;
 	};
 
 
