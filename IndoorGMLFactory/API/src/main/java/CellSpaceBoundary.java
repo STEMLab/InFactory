@@ -1,3 +1,4 @@
+import Binder.docData;
 import FeatureClass.CellSpaceBoundaryGeometry;
 import FeatureClass.ExternalReference;
 import FeatureClass.Transition;
@@ -7,6 +8,39 @@ import FeatureClass.Transition;
  *	
  */
 public class CellSpaceBoundary {
+	
+	public static FeatureClassReference.CellSpaceBoundary createCellSpaceBoundary(String docId, String ID, String parentID){
+		FeatureClassReference.CellSpaceBoundary newFeature = null;
+		if(docData.docs.hasDoc(docId)){
+			newFeature = new FeatureClassReference.CellSpaceBoundary();
+			newFeature.setID(ID);
+			newFeature.setParentID(ID);
+			docData.docs.setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+		}
+		return newFeature;
+	}
+	public static FeatureClassReference.CellSpaceBoundary createCellSpaceBoundary(String docId, String parentID, String ID, String name, String description, String duality, String cellSpaceBoundaryGeometry, String externalReference){
+		FeatureClassReference.CellSpaceBoundary newFeature = null;
+		if(docData.docs.hasDoc(docId)){
+			newFeature = new FeatureClassReference.CellSpaceBoundary();
+			newFeature.setDuality(duality);
+			newFeature.setParentID(parentID);
+			if(name != null){
+				newFeature.setName(name);
+			}
+			if(duality != null){
+				newFeature.setDuality(duality);
+			}
+			if(externalReference != null){
+				newFeature.setExternalReference(externalReference);
+			}
+			if(cellSpaceBoundaryGeometry != null){
+				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometry);
+			}
+			docData.docs.setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+			return newFeature;
+		}
+	}
 	/**
 	 * Create CellSpaceBoundary feature instance 
 	 * @param ID ID of CellSpaceBoundary
@@ -16,7 +50,7 @@ public class CellSpaceBoundary {
 	 * @param er ExternalReference of this feature
 	 * @return created CellSpaceBoundary
 	 */
-	public FeatureClass.CellSpaceBoundary createCellSpaceBoundary(String ID, String parentID, Transition duality,
+	public static FeatureClassReference.CellSpaceBoundary createCellSpaceBoundary(String ID, String parentID, Transition duality,
 			CellSpaceBoundaryGeometry csbGeometry, ExternalReference er) {
 		return null;
 	};
@@ -26,7 +60,7 @@ public class CellSpaceBoundary {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public FeatureClass.CellSpaceBoundary readCellSpaceBoundary(String ID) {
+	public static FeatureClassReference.CellSpaceBoundary readCellSpaceBoundary(String ID) {
 		return null;
 	};
 
@@ -38,7 +72,7 @@ public class CellSpaceBoundary {
 	 * @param er ExternalReference of this feature
 	 * @return edited feature
 	 */
-	public FeatureClass.CellSpaceBoundary updateCellSpaceBoundary(String ID, Transition duality, CellSpaceBoundaryGeometry csbGeometry,
+	public static FeatureClassReference.CellSpaceBoundary updateCellSpaceBoundary(String ID, Transition duality, CellSpaceBoundaryGeometry csbGeometry,
 			ExternalReference er) {
 		return null;
 	};
@@ -47,7 +81,7 @@ public class CellSpaceBoundary {
 	 * search the CellSpaceBoundary feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteCellSpaceBoundary(String ID) {
+	public static void deleteCellSpaceBoundary(String ID) {
 	};
 
 
