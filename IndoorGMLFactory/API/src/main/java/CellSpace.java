@@ -2,8 +2,6 @@ import java.util.List;
 
 import Binder.IndoorGMLMap;
 import Binder.docData;
-import FeatureClassReference.CellSpaceGeometry;
-import FeatureClassReference.ExternalReference;
 
 /**
  * @author jungh
@@ -27,30 +25,56 @@ public class CellSpace {
 	 *            ExternalReference of this feature
 	 * @return created CellSpace
 	 */
-	public FeatureClassReference.CellSpace createCellSpace(String docID, String ID, String parentID) {
+	public static FeatureClassReference.CellSpace createCellSpace(String docID, String parentID, String ID) {
 
 		FeatureClassReference.CellSpace newFeature = new FeatureClassReference.CellSpace();
-		newFeature.setID(ID);
-		newFeature.setParentID(parentID);
-		docData.setFeature(docID, ID, "CellSpace", newFeature);
-
+		if(docData.docs.hasDoc(docID)){
+			newFeature.setID(ID);
+			newFeature.setParentID(parentID);
+			docData.setFeature(docID, ID, "CellSpace", newFeature);
+		}
 		return newFeature;
 	}
 
-	public FeatureClassReference.CellSpace createCellSpace(String docID, String ID, String parentID,
+	public static FeatureClassReference.CellSpace createCellSpace(String docID, String parentID, String ID,
 			List<String> cellSpaceBoundary) {
-		FeatureClassReference.CellSpace newFeature = createCellSpace(docID, ID, parentID);
-		newFeature.setPartialboundedBy(cellSpaceBoundary);
+		FeatureClassReference.CellSpace newFeature = null;
+		if(docData.docs.hasDoc(docID)){			
+			newFeature = createCellSpace(docID,parentID,ID);
+			//need to set cellspaceboundary
+			//List<String>csbIdList = new ArrayList<String>();
+			/*
+			 * 	for(int i = 0 ; i < cellSpaceBoundary.size(); i++){
+				csbIdList.add(cellSpaceBoundary.get(i).getID());
+			}
+			 * */
+			newFeature.setPartialboundedBy(cellSpaceBoundary);
+			docData.setFeature(docID, ID, "CellSpace", newFeature);
+		}
+		else{
+			System.out.println("Error in createCellSpace : there is no such document");
+			return null;
+		}		
 		return newFeature;
 	};
 
-	public FeatureClassReference.CellSpace createCellSpace(String ID, String parentID, List<String> cellSpaceBoundary,
+	public static FeatureClassReference.CellSpace createCellSpace(String docId, String ID, String parentID, List<String> cellSpaceBoundary,
 			String duality) {
-		FeatureClassReference.CellSpace newFeature = createCellSpace(ID, parentID, cellSpaceBoundary);
+		FeatureClassReference.CellSpace newFeature = createCellSpace(docId, parentID, ID, cellSpaceBoundary);
 		newFeature.setDuality(duality);
+		docData.docs.setFeature(docId, ID, "CellSpace", newFeature);
 		return newFeature;
 	};
 
+	public FeatureClassReference.CellSpace createCellSpace(String docId, String ID, String parentID, 
+			List<String> cellSpaceBoundary, String duality, String externalReference) {
+		FeatureClassReference.CellSpace newFeature = createCellSpace(docId, ID, parentID, cellSpaceBoundary, duality);
+		newFeature.setExternalReference(externalReference);
+		docData.docs.setFeature(docId, ID, "CellSpace", newFeature);
+		return newFeature;
+	};
+	/*
+	 * 
 	public FeatureClassReference.CellSpace createCellSpace(String ID, String parentID, List<String> cellSpaceBoundary,
 			String duality, CellSpaceGeometry csGeometry) {
 		FeatureClassReference.CellSpace newFeature = createCellSpace(ID, parentID, cellSpaceBoundary, duality,
@@ -58,14 +82,8 @@ public class CellSpace {
 		newFeature.setCellSpaceGeometry(csGeometry);
 		return newFeature;
 	};
+	 * */
 
-	public FeatureClassReference.CellSpace createCellSpace(String ID, String parentID, CellSpaceGeometry csGeometry,
-			List<String> cellSpaceBoundary, String duality, ExternalReference er) {
-		FeatureClassReference.CellSpace newFeature = createCellSpace(ID, parentID, cellSpaceBoundary, duality,
-				csGeometry);
-		newFeature.setExternalReference(er);
-		return newFeature;
-	};
 
 	/**
 	 * search and get CellSpace feature in document
