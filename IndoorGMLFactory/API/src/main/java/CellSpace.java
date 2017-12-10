@@ -35,7 +35,27 @@ public class CellSpace {
 		}
 		return newFeature;
 	}
-
+	public static FeatureClassReference.CellSpace createCellSpace(String docID, String parentID, String ID, String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference){
+		FeatureClassReference.CellSpace newFeature = null;
+		if(docData.docs.hasDoc(docID)){
+			newFeature.setID(ID);
+			newFeature.setParentID(parentID);
+			if(duality != null){
+				newFeature.setDuality(duality);
+			}
+			if(cellSpaceGeometry != null){
+				//newFeature.set
+			}
+			if(partialboundedBy != null){
+				newFeature.setPartialboundedBy(partialboundedBy);
+			}
+			if(externalReference != null){
+				newFeature.setExternalReference(externalReference);
+			}
+			docData.docs.setFeature(docId, ID, "CellSpace", newFeature);
+		}
+		return newFeature;
+	}
 	public static FeatureClassReference.CellSpace createCellSpace(String docID, String parentID, String ID,
 			List<String> cellSpaceBoundary) {
 		FeatureClassReference.CellSpace newFeature = null;
