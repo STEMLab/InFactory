@@ -1,7 +1,6 @@
+import Binder.IndoorGMLMap;
 import Binder.docData;
-import FeatureClass.CellSpaceBoundaryGeometry;
-import FeatureClass.ExternalReference;
-import FeatureClass.Transition;
+
 
 /**
  * @author jungh
@@ -129,7 +128,24 @@ public class CellSpaceBoundary {
 	 * @param ID
 	 *            ID of target
 	 */
-	public static void deleteCellSpaceBoundary(String ID) {
+	public static void deleteCellSpaceBoundary(String docId, String Id) {
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.CellSpaceBoundary target = (FeatureClassReference.CellSpaceBoundary) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			String duality = target.getDuality();
+			
+			Transition.deleteTransition(docId, target.getDuality());
+
+			// ExdeleteExternalReference()
+
+			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
+			doc.getFeatureContainer("CellSpaceBoundary").remove(Id);
+			doc.getFeatureContainer("ID").remove(target.getExternalReference());
+			doc.getFeatureContainer("ID").remove(Id);
+		}
+		
 	};
 
 }
