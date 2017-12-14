@@ -52,7 +52,7 @@ public class CellSpace {
 			if(externalReference != null){
 				newFeature.setExternalReference(externalReference);
 			}
-			docData.docs.setFeature(docId, ID, "CellSpace", newFeature);
+			docData.docs.setFeature(docID, ID, "CellSpace", newFeature);
 		}
 		return newFeature;
 	}
@@ -132,18 +132,18 @@ public class CellSpace {
 		if (docData.docs.hasFeature(docId, Id)) {
 			target = (FeatureClassReference.CellSpace) docData.docs.getFeature(docId,
 					Id);
-			if (attributeType == "cellSpaceGeometry") {
+			if (attributeType.equals("cellSpaceGeometry")) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
-			} else if (attributeType == "partialboundedBy") {
+			} else if (attributeType.equals("partialboundedBy") ) {
 				// 한번에 하나의 cellSpaceBoundary가 들어온다고 가정
 				List<String> partialboundedBy = target.getPartialboundedBy();
 				partialboundedBy.add(attributeId);
 				target.setPartialboundedBy(partialboundedBy);
 				docData.docs.setFeature(docId, attributeId, "CelSpaceBoundary", o);
-			} else if (attributeType == "duality") {
+			} else if (attributeType.equals("duality")) {
 				target.setDuality(attributeId);
 				docData.docs.setFeature(docId, attributeId, "State", o);
-			} else if (attributeType == "externalReference") {
+			} else if (attributeType.equals("externalReference")) {
 				target.setExternalReference(attributeId);
 				docData.docs.setFeature(docId, attributeId, "ExternaReference", o);
 			} else {
@@ -175,10 +175,11 @@ public class CellSpace {
 			// ExdeleteExternalReference()
 
 			for (int i = 0; i < partialboundedBy.size(); i++) {
-				CellSpaceBoundary.deleteCellSpaceBoundary(partialboundedBy.get(i));
+				CellSpaceBoundary.deleteCellSpaceBoundary(docId, partialboundedBy.get(i));
 			}
-			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());
+			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
 			doc.getFeatureContainer("CellSpace").remove(Id);
+			doc.getFeatureContainer("ID").remove(target.getExternalReference());
 			doc.getFeatureContainer("ID").remove(Id);
 		}
 

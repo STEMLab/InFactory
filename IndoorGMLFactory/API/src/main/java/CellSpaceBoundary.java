@@ -61,10 +61,7 @@ public class CellSpaceBoundary {
 	 *            ExternalReference of this feature
 	 * @return created CellSpaceBoundary
 	 */
-	public static FeatureClassReference.CellSpaceBoundary createCellSpaceBoundary(String ID, String parentID,
-			Transition duality, CellSpaceBoundaryGeometry csbGeometry, ExternalReference er) {
-		return null;
-	};
+
 
 	/**
 	 * search CellSpaceBoundary feature instance in document
@@ -89,10 +86,6 @@ public class CellSpaceBoundary {
 	 *            ExternalReference of this feature
 	 * @return edited feature
 	 */
-	public static FeatureClassReference.CellSpaceBoundary updateCellSpaceBoundary(String ID, Transition duality,
-			CellSpaceBoundaryGeometry csbGeometry, ExternalReference er) {
-		return null;
-	};
 
 	public FeatureClassReference.CellSpaceBoundary updateCellSpaceBoundary(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
@@ -100,17 +93,17 @@ public class CellSpaceBoundary {
 		if (docData.docs.hasFeature(docId, Id)) {
 			target = (FeatureClassReference.CellSpaceBoundary) docData.docs.getFeature(docId,
 					Id);
-			if (attributeType == "cellSpaceBoundaryGeometry") {
+			if (attributeType.equals("cellSpaceBoundaryGeometry") ) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			}  else if (attributeType == "duality") {
 				target.setDuality(attributeId);
 				docData.docs.setFeature(docId, attributeId, "Transition", o);
-			} else if(attributeType == "name"){
+			} else if(attributeType.equals("name")){
 				target.setName((String)o);
-			} else if(attributeType == "description"){
+			} else if(attributeType.equals("description")){
 				//TODO : add description at FeatureClassReference.CellSpaceBoundary
 			}			
-			else if (attributeType == "externalReference") {
+			else if (attributeType.equals("externalReference") ) {
 				target.setExternalReference(attributeId);
 				docData.docs.setFeature(docId, attributeId, "ExternaReference", o);
 			} else {
