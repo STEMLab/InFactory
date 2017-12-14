@@ -121,16 +121,16 @@ public class CellSpaceBoundary {
 	 * @param ID
 	 *            ID of target
 	 */
-	public static void deleteCellSpaceBoundary(String docId, String Id) {
+	public static void deleteCellSpaceBoundary(String docId, String Id, Boolean deleteDuality) {
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			FeatureClassReference.CellSpaceBoundary target = (FeatureClassReference.CellSpaceBoundary) docData.docs.getFeature(docId,
 					Id);
 			// String duality = target.getd;
-			String duality = target.getDuality();
+			if(deleteDuality){
+				Transition.deleteTransition(docId, target.getDuality());
+			}
 			
-			Transition.deleteTransition(docId, target.getDuality());
-
 			// ExdeleteExternalReference()
 
 			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
