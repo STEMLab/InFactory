@@ -34,6 +34,11 @@ public class Transition {
 	
 	public String parentID;
 	
+	public String externalReference;
+	
+	public void setExternalReference(String er){this.externalReference = er;}
+	public String getExternalReference(){return this.externalReference;}
+	
 	public String getID(){ return this.ID; }
 	public void setID(String id){ this.ID = id;} 
 	
