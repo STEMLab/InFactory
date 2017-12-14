@@ -33,7 +33,8 @@ public class IndoorGMLMap {
 		ConcurrentHashMap<String, Object> surfaceGeometry = new ConcurrentHashMap<String, Object>();
 		ConcurrentHashMap<String, Object> solidGeometry = new ConcurrentHashMap<String, Object>();
 		ConcurrentHashMap<String, Object> ExternalReference = new ConcurrentHashMap<String, Object>();
-
+		ConcurrentHashMap<String, Object> Reference = new ConcurrentHashMap<String, Object>();
+		
 		container.put("id", idHashMap);
 		container.put("IndoorFeatures", IndoorFeatures);
 		container.put("MultiLayeredGraph", MultiLayeredGraph);
@@ -54,6 +55,7 @@ public class IndoorGMLMap {
 		container.put("Surface", surfaceGeometry);
 		container.put("Solid", solidGeometry);
 		container.put("State", State);
+		container.put("Reference", Reference);
 	}
 
 	public static boolean hasID(String id) {
@@ -116,6 +118,20 @@ public class IndoorGMLMap {
 
 		}
 
+	}
+	public static void setReference(String id){
+		if(hasID(id)){
+			ConcurrentHashMap<String, Object> referenceContainer = getFeatureContainer("Reference");
+			if(!referenceContainer.containsKey(id)){
+				referenceContainer.put(id, 1);
+			}
+			else{
+				Integer count =(Integer) referenceContainer.get(id);
+				count = count+1;
+				referenceContainer.remove(id);
+				referenceContainer.put(id, count);
+			}
+		}
 	}
 
 }
