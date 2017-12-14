@@ -1,5 +1,7 @@
 
 
+import Binder.IndoorGMLMap;
+import Binder.docData;
 import FeatureClass.CellSpaceBoundary;
 import FeatureClass.State;
 import net.opengis.gml.v_3_2_1.CurveType;
@@ -47,7 +49,16 @@ public class Transition {
 	 * Search Transition feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteTransition(String ID) {
+	public static void deleteTransition(String docId, String Id) {
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.Transition target = (FeatureClassReference.Transition) docData.docs.getFeature(docId,
+					Id);
+			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
+			doc.getFeatureContainer("Transition").remove(Id);
+			doc.getFeatureContainer("ID").remove(target.getExternalReference());
+			doc.getFeatureContainer("ID").remove(Id);
+		}
 	}
 
 }
