@@ -128,7 +128,15 @@ public class CellSpaceBoundary {
 					Id);
 			// String duality = target.getd;
 			if(deleteDuality){
-				Transition.deleteTransition(docId, target.getDuality());
+				int count = (Integer) doc.getFeatureContainer("Reference").get(target.getDuality());
+				if(count == 1){
+					Transition.deleteTransition(docId, target.getDuality());
+					doc.getFeatureContainer("Reference").remove(target.getDuality());
+				}
+				else{
+					doc.setFeature(target.getDuality(), "Reference", (count-1));
+				}
+				
 			}
 			
 			// ExdeleteExternalReference()
