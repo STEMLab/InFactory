@@ -170,10 +170,12 @@ public class CellSpace {
 			FeatureClassReference.CellSpace target = (FeatureClassReference.CellSpace) docData.docs.getFeature(docId,
 					Id);
 			// String duality = target.getd;
-			String duality = target.getDuality();
+			
 			List<String> partialboundedBy = target.getPartialboundedBy();
-			State.deleteState(target.getDuality());
-
+			if(deleteDuality){
+				State.deleteState(target.getDuality());
+			}
+			
 			// ExdeleteExternalReference()
 
 			for (int i = 0; i < partialboundedBy.size(); i++) {
