@@ -181,7 +181,7 @@ public class CellSpace {
 			for (int i = 0; i < partialboundedBy.size(); i++) {
 				int count = (Integer) doc.getFeatureContainer("Reference").get(partialboundedBy.get(i));
 				if ( count == 1) {
-					CellSpaceBoundary.deleteCellSpaceBoundary(docId, partialboundedBy.get(i));
+					CellSpaceBoundary.deleteCellSpaceBoundary(docId, partialboundedBy.get(i), deleteDuality);
 				}
 				else{
 					doc.setFeature(partialboundedBy.get(i), "Reference", (count-1));
