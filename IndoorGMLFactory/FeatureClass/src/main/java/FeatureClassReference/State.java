@@ -32,7 +32,7 @@ public class State {
 	 */
 	public PointPropertyType geometry;
 	
-	public void setExternalRefenrence(String e){
+	public void setExternalReference(String e){
 		this.externalReference = e;
 	}
 	public String getExternalReference(){
