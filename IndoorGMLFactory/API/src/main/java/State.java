@@ -2,9 +2,8 @@
 
 import java.util.List;
 
+import Binder.IndoorGMLMap;
 import Binder.docData;
-import FeatureClass.CellSpace;
-import FeatureClass.Transition;
 import net.opengis.gml.v_3_2_1.PointType;
 
 public class State {
@@ -68,7 +67,7 @@ public class State {
 	public FeatureClass.State updateState(String ID, CellSpace d, Transition t, PointType geo) {
 		return null;
 	}
-	public FeatureClassReference.State updateCellSpace(String docId, String Id, String attributeType,
+	public FeatureClassReference.State updateState(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
 		FeatureClassReference.State target = null;
 		if (docData.docs.hasFeature(docId, Id)) {
@@ -100,7 +99,53 @@ public class State {
 	 * Search State feature and delete it
 	 * @param ID ID of target 
 	 */
-	public static void deleteState(String ID) {
-	}
+	public static void deleteState(String docId, String Id, Boolean deleteDuality) {
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.State target = (FeatureClassReference.State) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			doc.getFeatureContainer("State").remove(Id);
+			doc.getFeatureContainer("ID").remove(Id);
+			
+			List<String> connects = target.getConnects();
+			if(deleteDuality){
+				//State.deleteState(target.getDuality());
+				if(docData.docs.hasFeature(docId, target.getDuality())){
+					CellSpace.deleteCellSpace(docId,target.getDuality(),false);
+				}
+				
+			}
+			
+			for(int i = 0 ; i < connects.size();i++){
+				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
+				if(count == 1){
+					Transition.deleteTransition(docId, connects.get(i));
+					doc.getFeatureContainer("Reference").remove(connects.get(i));
+				}
+				else{
+					doc.setFeature(connects.get(i), "Reference", (count-1));
+				}
+				
+			}
+			
+			// ExdeleteExternalReference()
+
+			for (int i = 0; i < connects.size(); i++) {
+				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
+				if ( count == 1) {
+					CellSpaceBoundary.deleteCellSpaceBoundary(docId, connects.get(i), deleteDuality);
+				}
+				else{
+					doc.setFeature(connects.get(i), "Reference", (count-1));
+				}
+			}
+
+			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());
+			doc.getFeatureContainer("ID").remove(target.getExternalReference());
+			
+		}
+
+	};
 
 }
