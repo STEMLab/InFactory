@@ -26,11 +26,18 @@ public class State {
 	 */
 	public List<String>connects = new ArrayList<String>();
 	
+	public String externalReference;
 	/**
 	 * geometry of this feature
 	 */
 	public PointPropertyType geometry;
 	
+	public void setExternalRefenrence(String e){
+		this.externalReference = e;
+	}
+	public String getExternalReference(){
+		return this.externalReference;
+	}
 	public String parentID;
 	
 	public String getID(){ return this.ID; }
