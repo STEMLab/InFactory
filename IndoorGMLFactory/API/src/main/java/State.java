@@ -42,6 +42,7 @@ public class State {
 			if (connects != null) {
 			
 				newFeature.setConnects(connects);
+				
 			}
 			if (externalReference != null) {
 				newFeature.setExternalReference(externalReference);

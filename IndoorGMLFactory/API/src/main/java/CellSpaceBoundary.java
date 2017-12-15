@@ -33,6 +33,12 @@ public class CellSpaceBoundary {
 			}
 			if (duality != null) {
 				newFeature.setDuality(duality);
+				if(docData.docs.getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
+					int count = (Integer)docData.docs.getDocument(docId).getFeatureContainer("Reference").get(duality);
+					count++;
+					docData.docs.setFeature(docId, ID, "Reference", count);
+				}
+				
 			}
 			if (externalReference != null) {
 				newFeature.setExternalReference(externalReference);
