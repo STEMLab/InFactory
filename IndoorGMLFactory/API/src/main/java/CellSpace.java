@@ -141,7 +141,7 @@ public class CellSpace {
 				List<String> partialboundedBy = target.getPartialboundedBy();
 				partialboundedBy.add(attributeId);
 				target.setPartialboundedBy(partialboundedBy);
-				docData.docs.setFeature(docId, attributeId, "CelSpaceBoundary", o);
+				docData.docs.setFeature(docId, attributeId, "CellSpaceBoundary", o);
 			} else if (attributeType.equals("duality")) {
 				target.setDuality(attributeId);
 				docData.docs.setFeature(docId, attributeId, "State", o);
