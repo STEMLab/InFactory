@@ -1,5 +1,7 @@
 
 
+import java.util.List;
+
 import Binder.IndoorGMLMap;
 import Binder.docData;
 import FeatureClass.CellSpaceBoundary;
@@ -28,8 +30,9 @@ public class Transition {
 	 * @param ID ID of target
 	 * @return searched Transition feature instance
 	 */
-	public FeatureClass.Transition readTransition(String ID) {
-		return null;
+	public FeatureClassReference.Transition readTransition(String docId, String Id) {
+		FeatureClassReference.Transition target = (FeatureClassReference.Transition) docData.docs.getFeature(docId, Id);
+		return target;
 	}
 
 	/**
@@ -41,8 +44,48 @@ public class Transition {
 	 * @param weight weight can be used for applications in order to deal with the impedance representing absolute barriers in transportation problems 
 	 * @return edited Transition feature instance 
 	 */
-	public FeatureClass.Transition updateTransition(String ID, CurveType gc, State[] sl, CellSpaceBoundary csBoundary, double weight) {
-		return null;
+	public FeatureClassReference.Transition updateTransition(String docId, String Id, String attributeType,
+			String attributeId, Object o) {
+		FeatureClassReference.Transition target = null;
+		if (docData.docs.hasFeature(docId, Id)) {
+			target = (FeatureClassReference.Transition) docData.docs.getFeature(docId,
+					Id);
+			if (attributeType.equals("geometry") ) {
+				// TODO: need to implement geometry class at IndoorGMLAPI
+			}  else if (attributeType == "duality") {
+				if(docData.docs.hasFeature(docId, attributeId)){
+					target.setDuality(attributeId);
+				}											
+			} else if(attributeType.equals("name")){
+				target.setName((String)o);
+			} else if(attributeType.equals("description")){
+				//TODO : add description at FeatureClassReference.transition
+			}			
+			else if (attributeType.equals("externalReference") ) {
+				target.setExternalReference(attributeId);
+				docData.docs.setFeature(docId, attributeId, "ExternaReference", o);
+			}else if(attributeType.equals("connects")){
+				List<String>connects = (List<String>) o;
+				Boolean isConnectsExist = true;
+				for(int i = 0 ; i < connects.size();i++){
+					if(!docData.docs.hasFeature(docId, connects.get(i))){
+						isConnectsExist = false;
+					}
+				}
+				if(isConnectsExist){
+					target.setConnects(connects);
+				}
+				
+			}else if(attributeType.equals("weight")){
+				target.setWeight((Double)o);
+			}
+			else {
+				System.out.println("update error in cellSpaceType : there is no such attribute name");
+			}
+		} else {
+			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
+		}
+		return target;
 	}
 
 	/**
