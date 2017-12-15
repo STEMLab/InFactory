@@ -44,6 +44,11 @@ public class CellSpace {
 			newFeature.setParentID(parentID);
 			if (duality != null) {
 				newFeature.setDuality(duality);
+				if(docData.docs.getDocument(docID).getFeatureContainer("Reference").containsKey(duality)){
+					int count = (Integer)docData.docs.getDocument(docID).getFeatureContainer("Reference").get(duality);
+					count++;
+					docData.docs.setFeature(docID, ID, "Reference", count);
+				}
 			}
 			if (cellSpaceGeometry != null) {
 				// newFeature.set
@@ -164,16 +169,19 @@ public class CellSpace {
 	 *            ID of target
 	 */
 
-	public void deleteCellSpace(String docId, String Id, Boolean deleteDuality) {
+	public static void deleteCellSpace(String docId, String Id, Boolean deleteDuality) {
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			FeatureClassReference.CellSpace target = (FeatureClassReference.CellSpace) docData.docs.getFeature(docId,
 					Id);
 			// String duality = target.getd;
-			
+			doc.getFeatureContainer("CellSpace").remove(Id);
+			doc.getFeatureContainer("ID").remove(Id);
 			List<String> partialboundedBy = target.getPartialboundedBy();
 			if(deleteDuality){
-				State.deleteState(target.getDuality());
+				if(docData.docs.hasFeature(docId,target.getDuality())){
+					State.deleteState(docId,target.getDuality(),false);
+				}				
 			}
 			
 			// ExdeleteExternalReference()
@@ -189,9 +197,9 @@ public class CellSpace {
 			}
 
 			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());
-			doc.getFeatureContainer("CellSpace").remove(Id);
+
 			doc.getFeatureContainer("ID").remove(target.getExternalReference());
-			doc.getFeatureContainer("ID").remove(Id);
+			
 		}
 
 	};
