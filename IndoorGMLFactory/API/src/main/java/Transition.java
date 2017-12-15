@@ -105,7 +105,8 @@ public class Transition {
 					}
 				}
 				if(isConnectsExist){
-					target.setConnects(connects);
+					//TODO : validation
+					//target.setConnects(connects);
 				}
 				
 			}else if(attributeType.equals("weight")){
