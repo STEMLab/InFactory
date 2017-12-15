@@ -24,6 +24,38 @@ public class Transition {
 			double weight) {
 		return null;
 	}
+	
+	public static FeatureClassReference.Transition createTransition(String docId, String parentID,
+			String ID, String name, String description, String duality, String geometry,
+			String externalReference, String[]connects) {
+		FeatureClassReference.Transition newFeature = null;
+		if (docData.docs.hasDoc(docId)) {
+			newFeature = new FeatureClassReference.Transition();
+			newFeature.setDuality(duality);
+			newFeature.setParentID(parentID);
+			if (name != null) {
+				newFeature.setName(name);
+			}
+			if (duality != null) {
+				newFeature.setDuality(duality);
+			}
+			if (externalReference != null) {
+				newFeature.setExternalReference(externalReference);
+			}
+			if (geometry != null) {
+				//newFeature.setGeometry(g);
+			}
+			if(connects.length == 2){
+				newFeature.setConnects(connects);
+			}
+			else{
+				System.out.println("createTransition : there is no enough number of connections for this transition");
+			}
+			docData.docs.setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+
+		}
+		return newFeature;
+	}
 
 	/**
 	 * Search Transition feature in document
