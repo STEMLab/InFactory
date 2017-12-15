@@ -2,6 +2,7 @@
 
 import java.util.List;
 
+import Binder.docData;
 import FeatureClass.CellSpace;
 import FeatureClass.CellSpaceBoundary;
 
@@ -23,7 +24,23 @@ public class PrimalSpaceFeatures {
 			List<CellSpaceBoundary> csb) {
 		return null;
 	}
-
+	
+	public static FeatureClassReference.PrimalSpaceFeatures createPrimalFeatures(String docID, String parentID, String ID,
+			List<String>cellSpaceMember, List<String>cellSpaceBoundaryMember) {
+		FeatureClassReference.PrimalSpaceFeatures newFeature = null;
+		if (docData.docs.hasDoc(docID)) {
+			newFeature.setID(ID);
+			newFeature.setParentID(parentID);
+			if (cellSpaceMember!= null) {
+				newFeature.setCellSpaceMember(cellSpaceMember);
+			}
+			if (cellSpaceBoundaryMember != null) {
+				newFeature.setCellSpaceBoundaryMember(cellSpaceBoundaryMember);
+			}
+			docData.docs.setFeature(docID, ID, "CellSpace", newFeature);
+		}
+		return newFeature;
+	}
 	/**
 	 * Search PrimalSpaceFeatures feature in document
 	 * @param ID ID of target
