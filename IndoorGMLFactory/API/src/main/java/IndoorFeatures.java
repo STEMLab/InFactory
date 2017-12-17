@@ -14,7 +14,23 @@ public class IndoorFeatures {
 	public FeatureClass.IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
 		return null;
 	};
-
+	public static FeatureClassReference.IndoorFeatures createIndoorFeatures(String docID, String parentID, String ID,
+			String primalSpaceFeatures, String multiLayeredGraph) {
+		FeatureClassReference.IndoorFeatures newFeature = null;
+		if (docData.docs.hasDoc(docID)) {
+			newFeature.setID(ID);
+			//newFeature.setParentID(parentID);
+			if (primalSpaceFeatures!= null) {
+				newFeature.setPrimalSpaceFeatures(primalSpaceFeatures);
+			}
+			if (multiLayeredGraph != null) {
+				newFeature.setMultiLayeredGraph(multiLayeredGraph);
+			}
+			docData.docs.setFeature(docID, ID, "IndoorFeatures", newFeature);
+		}
+		return newFeature;
+	}
+	
 	/**
 	 * Search IndoorFeatures feature instance in document
 	 * @param ID ID of target
