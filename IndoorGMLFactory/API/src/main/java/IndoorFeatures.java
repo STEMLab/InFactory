@@ -1,3 +1,5 @@
+import Binder.IndoorGMLMap;
+import Binder.docData;
 import FeatureClass.MultiLayeredGraph;
 import FeatureClass.PrimalSpaceFeatures;
 
@@ -37,7 +39,17 @@ public class IndoorFeatures {
 	 * Search IndoorFeatures feature instance and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteIndoorFeatures(String ID) {
+	public void deleteIndoorFeatures(String docId, String Id) {
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.IndoorFeatures target = (FeatureClassReference.IndoorFeatures) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			doc.getFeatureContainer("IndoorFeatures").remove(Id);
+			doc.getFeatureContainer("ID").remove(Id);
+			
+			
+		}
 	};
 
 }
