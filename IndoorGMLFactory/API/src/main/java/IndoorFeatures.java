@@ -1,7 +1,5 @@
 import Binder.IndoorGMLMap;
 import Binder.docData;
-import FeatureClass.MultiLayeredGraph;
-import FeatureClass.PrimalSpaceFeatures;
 
 public class IndoorFeatures {
 	/**
@@ -50,7 +48,27 @@ public class IndoorFeatures {
 	public FeatureClass.IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
 		return null;
 	};
-
+	public FeatureClassReference.IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
+			String object ) {
+		FeatureClassReference.IndoorFeatures target = null;
+		if (docData.docs.hasFeature(docId, Id)) {
+			target = (FeatureClassReference.IndoorFeatures) docData.docs.getFeature(docId, Id);
+			if (attributeType.equals("primalSpaceFeatures")) {
+				target.setPrimalSpaceFeatures(object);
+				//TODO : add cellSpace to cellSpace container and ID container
+				
+				
+			} else if (attributeType.equals("multiLayeredGraph")) {
+				target.setMultiLayeredGraph(object);
+			}  else {
+				System.out.println("update error in cellSpaceType : there is no such attribute name");
+			}
+		} else {
+			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
+		}
+		return target;
+	}
+	
 	/**
 	 * Search IndoorFeatures feature instance and delete it
 	 * @param ID ID of target
