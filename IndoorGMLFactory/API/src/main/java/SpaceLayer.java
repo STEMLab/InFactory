@@ -3,6 +3,7 @@
 import java.util.Date;
 import java.util.List;
 
+import Binder.IndoorGMLMap;
 import Binder.docData;
 
 
@@ -82,16 +83,120 @@ public class SpaceLayer {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return edited SpaceLayer feature instance
 	 */
-	public FeatureClass.SpaceLayer updateSpaceLayer(String ID, String usage, String function, Date createDate, Date terminationDate,
-			Nodes n, Edges e, SpaceLayerClassType ct) {
-		return null;
-	}
+	public FeatureClassReference.SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+			String updateType, List<String>objectMember, Object object , Boolean deleteDuality ) {
+		FeatureClassReference.SpaceLayer target = null;
+		if (docData.docs.hasFeature(docId, Id)) {
+			target = (FeatureClassReference.SpaceLayer) docData.docs.getFeature(docId, Id);
+			if (attributeType.equals("nodes")) {
+				List<String>nodes = target.getNodes();
+				if(updateType.equals("add")){
+					nodes.addAll(objectMember);
+				}
+				//TODO : add cellSpace to cellSpace container and ID container
+				else if(updateType.equals("delete")){
+					for(int i = 0 ; i < objectMember.size();i++){
+						if(nodes.contains(objectMember.get(i))){
+							nodes.remove(objectMember.get(i));
+							FeatureClassReference.Nodes singleNodes= (FeatureClassReference.Nodes)docData.docs.getFeature(docId, objectMember.get(i));
+							List<String>stateMember = singleNodes.getStateMember();
+							for(int j = 0 ; j < stateMember.size();j++){
+								State.deleteState(docId, stateMember.get(i), deleteDuality);
+							}
+						}
+					}
+				//TODO : remove cellSpace at cellSpace container and ID container?
+				}
+				if(nodes.size() == 0){
+					System.out.println("Error at updateSpaceLayer : there should be at least on NodesType instance at SpaceLayer");
+				}
+				else
+					target.setNodes(nodes);
+			} else if (attributeType.equals("edges")) {
+				List<String>edges = target.getEdges();
+				if(updateType.equals("add")){
+					edges.addAll(objectMember);
+				}
+				//TODO : add cellSpace to cellSpace container and ID container
+				else if(updateType.equals("delete")){
+					for(int i = 0 ; i < objectMember.size();i++){
+						if(edges.contains(objectMember.get(i))){
+							edges.remove(objectMember.get(i));
+							FeatureClassReference.Edges singleEdges= (FeatureClassReference.Edges)docData.docs.getFeature(docId, objectMember.get(i));
+							List<String>edgesMember = singleEdges.getTransitionMember();
+							for(int j = 0 ; j < edgesMember.size();j++){
+								Edges.deleteEdges(docId, edgesMember.get(i), false);
+							}
+						}
+					}
 	
+				//TODO : remove cellSpace at cellSpace container and ID container?
+					//answer : because relationship is aggregation, so do not have.
+				}
+				target.setEdges(edges);
+			}else if(attributeType.equals("creationDate")){
+				target.setCreateDate((Date)object);
+			}else if(attributeType.equals("terminationDate")){
+				target.setTerminationDate((Date)object);
+			}else if(attributeType.equals("function")){
+				//target.setFunction(function);
+			}else if(attributeType.equals("usage")){
+				target.setUsage((String)object);
+			}else if(attributeType.equals("classType")){
+				//TODO : 
+			}else if(attributeType.equals("codeType")){
+				//TODO : 
+			}
+			
+			else {
+				System.out.println("update error in cellSpaceType : there is no such attribute name");
+			}
+		} else {
+			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
+		}
+		docData.setFeature(docId, Id, "SpaceLayer", target);
+		return target;
+	}
 	/**
 	 * Search SpaceLayer feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteSpaceLayer(String ID) {
+	public void deleteSpaceLayer(String docId, String Id) {
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.SpaceLayer target = (FeatureClassReference.SpaceLayer) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			doc.getFeatureContainer("SpaceLayer").remove(Id);
+			doc.getFeatureContainer("ID").remove(Id);
+			List<String>nodes = target.getNodes();
+			List<String>Edges  = target.getEdges();
+			
+			for(int i = 0 ; i < nodes.size();i++){
+				FeatureClassReference.Nodes singleNodes = (FeatureClassReference.Nodes)doc.getFeature(nodes.get(i));
+				List<String>stateMembers = singleNodes.getStateMember();
+				for(int j = 0 ; j < stateMembers.size();j++){
+					State.deleteState(docId, stateMembers.get(i), false);
+					//doc.getFeatureContainer("State").remove(stateMembers.get(i));
+				}
+				//Nodes.deleteNodes(docId, nodes.get(i));
+				
+			}
+			
+			
+			for(int i = 0 ; i < nodes.size();i++){
+				FeatureClassReference.Edges singleEdges = (FeatureClassReference.Edges)doc.getFeature(nodes.get(i));
+				List<String>stateMembers = singleEdges.getTransitionMember();
+				for(int j = 0 ; j < stateMembers.size();j++){
+				
+					//doc.getFeatureContainer("Transition").remove(stateMembers.get(i));
+					Transition.deleteTransition(docId, Id);
+				}
+				//doc.getFeatureContainer("Edges").remove(nodes.get(i));
+				
+			}
+			
+		}
 	}
 
 }
