@@ -1,10 +1,9 @@
 
 
 import java.util.Date;
+import java.util.List;
 
-import FeatureClass.Edges;
-import FeatureClass.Nodes;
-import FeatureClass.SpaceLayerClassType;
+import Binder.docData;
 
 
 public class SpaceLayer {
@@ -21,11 +20,47 @@ public class SpaceLayer {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return created SpaceLayer feature instance
 	 */
-	public FeatureClass.SpaceLayer createSpaceLayer(String ID, String parentID, String usage, String function, Date createDate,
-			Date terminationDate, Nodes n, Edges e, SpaceLayerClassType ct) {
-		return null;
-	}
 
+	public static FeatureClassReference.SpaceLayer createSpaceLayer(String docID, String parentID, String ID,
+			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
+		FeatureClassReference.SpaceLayer newFeature = null;
+		if (docData.docs.hasDoc(docID)) {
+			newFeature.setID(ID);
+			newFeature.setParentID(parentID);
+			if (nodes!= null) {
+				newFeature.setNodes(nodes);
+			}
+			else if (nodes== null){
+				System.out.println("Error in createSpaceLayer : no nodes");
+			}
+			if (edges != null) {
+				newFeature.setEdges(edges);
+			}
+			
+			if(creationDate != null){
+				newFeature.setCreateDate(creationDate);
+			}
+			if(terminationDate != null){
+				newFeature.setTerminationDate(terminationDate);
+			}
+			if(function != null){
+				//newFeature.setFunction
+				//TODO : check codeType at SpaceLayer
+			}
+			if(classType != null){
+				//newFeature.setClassType(classType);
+				//TODO : check classType at SpaceLayer
+			}
+			if(usage != null){
+				newFeature.setUsage(usage);
+			}
+			if(codeType != null){
+				//TODO : check codeType at SpaceLayer
+			}
+			docData.docs.setFeature(docID, ID, "SpaceLayer", newFeature);
+		}
+		return newFeature;
+	}
 	/**
 	 * Search SpaceLayer feature in document
 	 * @param ID ID of target
@@ -51,7 +86,7 @@ public class SpaceLayer {
 			Nodes n, Edges e, SpaceLayerClassType ct) {
 		return null;
 	}
-
+	
 	/**
 	 * Search SpaceLayer feature and delete it
 	 * @param ID ID of target
