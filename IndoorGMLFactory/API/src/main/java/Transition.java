@@ -130,7 +130,7 @@ public class Transition {
 	 * Search Transition feature and delete it
 	 * @param ID ID of target
 	 */
-	public static void deleteTransition(String docId, String Id) {
+	public static void deleteTransition(String docId, String Id, Boolean deleteDuality) {
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			FeatureClassReference.Transition target = (FeatureClassReference.Transition) docData.docs.getFeature(docId,
@@ -139,6 +139,10 @@ public class Transition {
 			doc.getFeatureContainer("Transition").remove(Id);
 			doc.getFeatureContainer("ID").remove(target.getExternalReference());
 			doc.getFeatureContainer("ID").remove(Id);
+			if(deleteDuality == true){
+				CellSpaceBoundary.deleteCellSpaceBoundary(docId, target.getDuality(), false);
+			}
+			
 		}
 	}
 
