@@ -58,7 +58,55 @@ public class MultiLayeredGraph {
 	public FeatureClass.MultiLayeredGraph updateMultilayeredGraph(String ID, List<SpaceLayer> sl, InterEdges ie) {
 		return null;
 	}
-
+	public FeatureClassReference.MultiLayeredGraph updateMultiLayeredGraph(String docId, String Id, String attributeType,
+			String updateType, List<String>object ) {
+		FeatureClassReference.MultiLayeredGraph target = null;
+		if (docData.docs.hasFeature(docId, Id)) {
+			target = (FeatureClassReference.MultiLayeredGraph) docData.docs.getFeature(docId, Id);
+			if (attributeType.equals("spaceLayers")) {
+				List<String>spaceLayers = target.getSpaceLayers();
+				if(updateType.equals("add")){
+					spaceLayers.addAll(object);
+				}
+				//TODO : add cellSpace to cellSpace container and ID container
+				else if(updateType.equals("delete")){
+					for(int i = 0 ; i < object.size();i++){
+						if(spaceLayers.contains(object.get(i))){
+							spaceLayers.remove(object.get(i));
+						}
+					}
+				//TODO : remove cellSpace at cellSpace container and ID container?
+				}
+				if(spaceLayers.size()!= 0){
+					target.setSpaceLayers(spaceLayers);
+				}
+				else{
+					System.out.println("Error at updateMultiLayeredGraph : there is no enough Spacelayers instance");
+				}
+			} else if (attributeType.equals("InterEdges")) {
+				List<String>interEdges = target.getInterEdges();
+				if(updateType.equals("add")){
+					interEdges.addAll(object);
+				}
+				//TODO : add cellSpace to cellSpace container and ID container
+				else if(updateType.equals("delete")){
+					for(int i = 0 ; i < object.size();i++){
+						if(interEdges.contains(object.get(i))){
+							interEdges.remove(object.get(i));
+						}
+					}
+				//TODO : remove cellSpace at cellSpace container and ID container?
+					//answer : because relationship is aggregation, so do not have.
+				}
+				target.setInterEdges(interEdges);
+			}  else {
+				System.out.println("update error in cellSpaceType : there is no such attribute name");
+			}
+		} else {
+			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
+		}
+		return target;
+	}
 	/**
 	 * Search MultiLayeredGraph feature and delete it
 	 * @param ID
