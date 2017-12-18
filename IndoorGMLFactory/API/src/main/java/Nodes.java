@@ -71,7 +71,12 @@ public class Nodes {
 						}
 					}
 				}
-				target.setStateMember(stateMember);
+				if(stateMember.size() != 0){
+					target.setStateMember(stateMember);
+				}
+				else
+					System.out.println("Error at updateNodes : empty stateMember cannot be submited");
+				
 			}
 		}
 		return target;
