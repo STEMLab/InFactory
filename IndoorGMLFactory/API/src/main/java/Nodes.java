@@ -2,6 +2,7 @@
 
 import java.util.List;
 
+import Binder.docData;
 import FeatureClass.State;
 
 public class Nodes {
@@ -14,6 +15,22 @@ public class Nodes {
 	 */
 	public FeatureClass.Nodes createNodes(String ID, String parentID, List<State> sl) {
 		return null;
+	}
+	public FeatureClassReference.Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
+		FeatureClassReference.Nodes newFeature = null;
+		if (docData.docs.hasDoc(docId)) {
+			newFeature.setID(Id);
+			if(stateMember != null){
+				newFeature.setStateMember(stateMember);
+			}
+			else{
+				System.out.println("Error at createNodes : there is no StateMember");
+			}
+			
+			docData.docs.setFeature(docId, Id, "Nodes", newFeature);
+		}
+		
+		return newFeature;
 	}
 
 	/**
@@ -39,7 +56,7 @@ public class Nodes {
 	 * Search Nodes feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteNodes(String ID) {
+	public void deleteNodes(String docId, String ID, Boolean deleteDuality) {
 	}
 
 }
