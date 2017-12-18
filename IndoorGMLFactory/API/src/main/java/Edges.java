@@ -2,8 +2,9 @@
 
 import java.util.List;
 
+import Binder.IndoorGMLMap;
 import Binder.docData;
-import FeatureClass.Transition;
+
 
 public class Edges {
 	/**
@@ -42,6 +43,34 @@ public class Edges {
 	public FeatureClass.Edges readEdges(String ID) {
 		return null;
 	};
+	
+	public FeatureClassReference.Edges updateNodes(String docId, String Id, String attributeType,
+			String updateType, List<String>object, Boolean deleteDuality) {
+		FeatureClassReference.Edges target = null;
+		if (docData.docs.hasFeature(docId, Id)) {
+			target = (FeatureClassReference.Edges)docData.docs.getFeature(docId, Id);
+			if(attributeType.equals("transitionMember")){
+				List<String>transitionMember = target.getTransitionMember();
+				if(updateType != null){
+					
+					if(updateType.equals("add")){
+						transitionMember.addAll(object);
+					}
+					else if(updateType.equals("remove")){
+						for(int i = 0 ; i < object.size();i++){
+							if(transitionMember.contains(object.get(i))){
+								transitionMember.remove(object.get(i));
+								Transition.deleteTransition(docId, object.get(i),deleteDuality);
+							}
+							
+						}
+					}
+				}
+				target.setTransitionMember(transitionMember);
+			}
+		}
+		return target;
+	}
 
 	/**
 	 * Search the Edges feature and edit it as the parameters
@@ -57,7 +86,21 @@ public class Edges {
 	 * Search the Edges feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteEdges(String docId, String ID, Boolean deleteDuality) {
+	public void deleteEdges(String docId, String Id, Boolean deleteDuality) {
+		
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.Edges target = (FeatureClassReference.Edges) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			
+			doc.getFeatureContainer("Nodes").remove(Id);	
+			doc.getFeatureContainer("ID").remove(Id);
+			for(int i = 0 ; i < target.getTransitionMember().size();i++){
+				State.deleteState(docId, target.getTransitionMember().get(i), deleteDuality);
+			}
+			
+		}
 	};
 
 }	
