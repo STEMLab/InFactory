@@ -2,8 +2,9 @@
 
 import java.util.List;
 
+import Binder.IndoorGMLMap;
 import Binder.docData;
-import FeatureClass.State;
+
 
 public class Nodes {
 	/**
@@ -48,15 +49,51 @@ public class Nodes {
 	 * @param sl list of states which are related by this Nodes relationship 
 	 * @return edited Nodes feature
 	 */
-	public FeatureClass.Nodes updateNodes(String ID, List<State> sl) {
-		return null;
+	public FeatureClassReference.Nodes updateNodes(String docId, String Id, String attributeType,
+			String updateType, List<String>object, Boolean deleteDuality) {
+		FeatureClassReference.Nodes target = null;
+		if (docData.docs.hasFeature(docId, Id)) {
+			target = (FeatureClassReference.Nodes)docData.docs.getFeature(docId, Id);
+			if(attributeType.equals("stateMember")){
+				List<String>stateMember = target.getStateMember();
+				if(updateType != null){
+					
+					if(updateType.equals("add")){
+						stateMember.addAll(object);
+					}
+					else if(updateType.equals("remove")){
+						for(int i = 0 ; i < object.size();i++){
+							if(stateMember.contains(object.get(i))){
+								stateMember.remove(object.get(i));
+								State.deleteState(docId, object.get(i),deleteDuality);
+							}
+							
+						}
+					}
+				}
+				target.setStateMember(stateMember);
+			}
+		}
+		return target;
 	}
 
 	/**
 	 * Search Nodes feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteNodes(String docId, String ID, Boolean deleteDuality) {
+	public void deleteNodes(String docId, String Id, Boolean deleteDuality) {
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.Nodes target = (FeatureClassReference.Nodes) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			doc.getFeatureContainer("Nodes").remove(Id);
+			doc.getFeatureContainer("ID").remove(Id);
+			for(int i = 0 ; i < target.getStateMember().size();i++){
+				State.deleteState(docId, target.getStateMember().get(i), deleteDuality);
+			}
+			
+		}
 	}
 
 }
