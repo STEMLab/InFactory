@@ -2,6 +2,7 @@
 
 import java.util.List;
 
+import Binder.docData;
 import FeatureClass.Transition;
 
 public class Edges {
@@ -21,6 +22,23 @@ public class Edges {
 	 * @param ID ID of target
 	 * @return searched target feature
 	 */
+	
+	public FeatureClassReference.Edges createNodes(String docId, String parentId, String Id, List<String>transitionMember){
+		FeatureClassReference.Edges newFeature = null;
+		if (docData.docs.hasDoc(docId)) {
+			newFeature.setID(Id);
+			if(transitionMember != null){
+				newFeature.setTransitionMember(transitionMember);
+			}
+			else{
+				System.out.println("Error at createNodes : there is no StateMember");
+			}
+			
+			docData.docs.setFeature(docId, Id, "Edges", newFeature);
+		}
+		
+		return newFeature;
+	}
 	public FeatureClass.Edges readEdges(String ID) {
 		return null;
 	};
@@ -39,7 +57,7 @@ public class Edges {
 	 * Search the Edges feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteEdges(String ID) {
+	public void deleteEdges(String docId, String ID, Boolean deleteDuality) {
 	};
 
 }	
