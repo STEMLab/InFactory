@@ -136,7 +136,7 @@ public class CellSpaceBoundary {
 			if(deleteDuality){
 				int count = (Integer) doc.getFeatureContainer("Reference").get(target.getDuality());
 				if(count == 1){
-					Transition.deleteTransition(docId, target.getDuality());
+					Transition.deleteTransition(docId, target.getDuality(),false);
 					doc.getFeatureContainer("Reference").remove(target.getDuality());
 				}
 				else{
