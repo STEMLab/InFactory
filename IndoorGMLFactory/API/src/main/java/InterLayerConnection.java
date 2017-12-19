@@ -1,5 +1,4 @@
-import FeatureClass.State;
-import FeatureClass.typeOfTopoExpressionCode;
+import Binder.docData;
 
 public class InterLayerConnection {
 	/**
@@ -11,11 +10,44 @@ public class InterLayerConnection {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return created InterLayerConnection
 	 */
-	public FeatureClass.InterLayerConnection createInterLayerConnection(String ID, String parentID, typeOfTopoExpressionCode teCode,
+	public FeatureClass.InterLayerConnection createInterLayerConnection(String ID, String parentID, String typeOfTopoExpressionCode,
 			String comment, State[] sl) {
 		return null;
 	};
-
+	public FeatureClassReference.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
+		FeatureClassReference.InterLayerConnection newFeature = null;
+		if(docData.docs.hasDoc(docId)){
+			newFeature = new FeatureClassReference.InterLayerConnection();
+			newFeature.setParentID(parentId);
+			if(typeOfTopoExpression!= null){
+				//newFeature.setTypeOfTopoExpression(typeOfTopoExpression);
+			}
+			if(comment != null){
+				newFeature.setComment(comment);
+			}
+			if(interConnects.length == 2 && ConnectedLayers.length == 2){
+				if(docData.docs.hasFeature(docId, interConnects[0])&&docData.docs.hasFeature(docId, interConnects[1])){
+					if(docData.docs.hasFeature(docId, ConnectedLayers[0])&&docData.docs.hasFeature(docId, ConnectedLayers[0])){
+						newFeature.setInterConnects(interConnects);
+						newFeature.setConnectedLayers(ConnectedLayers);
+					}
+					else{
+						System.out.println("Error at createInterLayerConnection : This SpaceLayer is not exist");
+					}
+				}
+				else{
+					System.out.println("Error at createInterLayerConnection : This State is not exist");
+				}
+			}
+			else{
+				System.out.println("Error at createInterLayerConnection : There is no enough instance of interConnects or ConnectedLayers");
+			}
+			
+		}
+		
+		return newFeature;
+		
+	}
 	/**
 	 * Search InterLayerConnection feature in document
 	 * @param ID ID of target
