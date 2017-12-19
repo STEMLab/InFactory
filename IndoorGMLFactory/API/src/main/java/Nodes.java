@@ -86,7 +86,7 @@ public class Nodes {
 	 * Search Nodes feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteNodes(String docId, String Id, Boolean deleteDuality) {
+	public static void deleteNodes(String docId, String Id, Boolean deleteDuality) {
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			FeatureClassReference.Nodes target = (FeatureClassReference.Nodes) docData.docs.getFeature(docId,

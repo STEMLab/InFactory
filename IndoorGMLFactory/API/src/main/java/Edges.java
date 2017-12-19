@@ -86,7 +86,7 @@ public class Edges {
 	 * Search the Edges feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteEdges(String docId, String Id, Boolean deleteDuality) {
+	public static void deleteEdges(String docId, String Id, Boolean deleteDuality) {
 		
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
