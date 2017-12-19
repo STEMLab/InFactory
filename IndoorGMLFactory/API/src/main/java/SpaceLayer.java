@@ -161,7 +161,7 @@ public class SpaceLayer {
 	 * Search SpaceLayer feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteSpaceLayer(String docId, String Id) {
+	public void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			FeatureClassReference.SpaceLayer target = (FeatureClassReference.SpaceLayer) docData.docs.getFeature(docId,
@@ -190,7 +190,7 @@ public class SpaceLayer {
 				for(int j = 0 ; j < stateMembers.size();j++){
 				
 					//doc.getFeatureContainer("Transition").remove(stateMembers.get(i));
-					Transition.deleteTransition(docId, Id);
+					Transition.deleteTransition(docId, Id, deleteDuality);
 				}
 				//doc.getFeatureContainer("Edges").remove(nodes.get(i));
 				
