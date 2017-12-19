@@ -161,7 +161,7 @@ public class SpaceLayer {
 	 * Search SpaceLayer feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
+	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			FeatureClassReference.SpaceLayer target = (FeatureClassReference.SpaceLayer) docData.docs.getFeature(docId,
@@ -170,7 +170,7 @@ public class SpaceLayer {
 			doc.getFeatureContainer("SpaceLayer").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
 			List<String>nodes = target.getNodes();
-			List<String>Edges  = target.getEdges();
+			List<String>edges  = target.getEdges();
 			
 			for(int i = 0 ; i < nodes.size();i++){
 				FeatureClassReference.Nodes singleNodes = (FeatureClassReference.Nodes)doc.getFeature(nodes.get(i));
@@ -184,13 +184,13 @@ public class SpaceLayer {
 			}
 			
 			
-			for(int i = 0 ; i < nodes.size();i++){
+			for(int i = 0 ; i < edges.size();i++){
 				FeatureClassReference.Edges singleEdges = (FeatureClassReference.Edges)doc.getFeature(nodes.get(i));
-				List<String>stateMembers = singleEdges.getTransitionMember();
-				for(int j = 0 ; j < stateMembers.size();j++){
+				List<String>transitionMember = singleEdges.getTransitionMember();
+				for(int j = 0 ; j < transitionMember.size();j++){
 				
 					//doc.getFeatureContainer("Transition").remove(stateMembers.get(i));
-					Transition.deleteTransition(docId, Id, deleteDuality);
+					Transition.deleteTransition(docId, transitionMember.get(i),deleteDuality);
 				}
 				//doc.getFeatureContainer("Edges").remove(nodes.get(i));
 				
