@@ -111,7 +111,7 @@ public class MultiLayeredGraph {
 	 * Search MultiLayeredGraph feature and delete it
 	 * @param ID
 	 */
-	public void deleteMultilayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
+	public void deleteMultiLayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
 		if (docData.docs.hasFeature(docId, Id)) {
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			FeatureClassReference.MultiLayeredGraph target = (FeatureClassReference.MultiLayeredGraph) docData.docs.getFeature(docId,
