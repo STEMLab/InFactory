@@ -2,9 +2,9 @@
 
 import java.util.List;
 
+import Binder.IndoorGMLMap;
 import Binder.docData;
-import FeatureClass.InterEdges;
-import FeatureClass.SpaceLayer;
+
 
 
 public class MultiLayeredGraph {
@@ -111,7 +111,27 @@ public class MultiLayeredGraph {
 	 * Search MultiLayeredGraph feature and delete it
 	 * @param ID
 	 */
-	public void deleteMultilayeredGraph(String ID) {
+	public void deleteMultilayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.MultiLayeredGraph target = (FeatureClassReference.MultiLayeredGraph) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			if(deleteALL){
+				doc.getFeatureContainer("MultiLayeredGraph").remove(Id);
+				doc.getFeatureContainer("ID").remove(Id);
+				Nodes.deleteNodes(docId, Id, deleteDuality);
+				Edges.deleteEdges(docId, Id, deleteDuality);
+			}	
+			else if(target.getInterEdges().size()==0&&target.getSpaceLayers().size()==0){
+				doc.getFeatureContainer("MultiLayeredGraph").remove(Id);
+				doc.getFeatureContainer("ID").remove(Id);
+			}
+			else{
+				System.out.println("Warning at deleteMultilayeredGraph : If you want to delete this MultiLayeredGraph, then please put deleteALL parameter as True");
+			}
+						
+		}
 	};
 
 }
