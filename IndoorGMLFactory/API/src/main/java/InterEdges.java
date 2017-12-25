@@ -20,7 +20,10 @@ public class InterEdges {
 		
 		return newFeature;
 	}
-	public static FeatureClass.InterEdges readInterEdges(String docId, String Id){}
+	public static FeatureClass.InterEdges readInterEdges(String docId, String Id){
+		FeatureClass.InterEdges target = null;
+		return target;
+	}
 	public static FeatureClassReference.InterEdges updateInterEdges(String docId, String Id, String attributeType, String updateType, Object o){}
 	public static void deleteInterEdges(String docId, String Id){}
 }
