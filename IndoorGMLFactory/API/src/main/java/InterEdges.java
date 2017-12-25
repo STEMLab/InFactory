@@ -1,5 +1,6 @@
 import java.util.List;
 
+import Binder.IndoorGMLMap;
 import Binder.docData;
 
 public class InterEdges {
@@ -7,6 +8,7 @@ public class InterEdges {
 		FeatureClassReference.InterEdges newFeature = null;
 		if (docData.docs.hasDoc(docId)) {
 			newFeature.setID(Id);
+			
 			newFeature.setParentID(parentId);
 			if(interLayerConnectionMember != null){
 				newFeature.setInterLayerConnectionMember(interLayerConnectionMember);
@@ -14,7 +16,7 @@ public class InterEdges {
 			else{
 				System.out.println("Error at createInterEdges : there is no InterLayerConnectionMember");
 			}
-			
+			docData.docs.setFeature(docId, Id, "ID", "InterEdges");
 			docData.docs.setFeature(docId, Id, "InterEdges", newFeature);
 		}
 		
@@ -56,5 +58,18 @@ public class InterEdges {
 		}
 		return target;
 	}
-	public static void deleteInterEdges(String docId, String Id){}
+	public static void deleteInterEdges(String docId, String Id){
+		if (docData.docs.hasFeature(docId, Id)) {
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			FeatureClassReference.InterEdges target = (FeatureClassReference.InterEdges) docData.docs.getFeature(docId,
+					Id);
+			// String duality = target.getd;
+			doc.getFeatureContainer("InterEdges").remove(Id);
+			doc.getFeatureContainer("ID").remove(Id);
+			for(int i = 0 ; i < target.getInterLayerConnectionMember().size();i++){
+				InterLayerConnection.deleteInterLayerConnection(docId, target.getInterLayerConnectionMember().get(i));
+			}
+			
+		}
+	}
 }
