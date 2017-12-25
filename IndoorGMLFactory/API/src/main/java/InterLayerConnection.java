@@ -15,7 +15,7 @@ public class InterLayerConnection {
 			String comment, State[] sl) {
 		return null;
 	};
-	public FeatureClassReference.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
+	public static FeatureClassReference.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
 		FeatureClassReference.InterLayerConnection newFeature = null;
 		if(docData.docs.hasDoc(docId)){
 			newFeature = new FeatureClassReference.InterLayerConnection();
@@ -54,7 +54,7 @@ public class InterLayerConnection {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public FeatureClass.InterLayerConnection readInterLayerConnection(String ID) {
+	public static FeatureClass.InterLayerConnection readInterLayerConnection(String ID) {
 		return null;
 	}
 
@@ -106,7 +106,7 @@ public class InterLayerConnection {
 	 * Search InterLayerConnection feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteInterLayerConnection(String docId, String Id) {
+	public static void deleteInterLayerConnection(String docId, String Id) {
 		if(docData.docs.hasDoc(docId)){
 			IndoorGMLMap doc = docData.docs.getDocument(docId);
 			doc.getFeatureContainer("InterLayerConnection").remove(Id);
