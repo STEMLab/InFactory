@@ -65,10 +65,39 @@ public class InterLayerConnection {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return edited feature
 	 */
-	public FeatureClass.InterLayerConnection updateInterLayerConnection(String ID, typeOfTopoExpressionCode teCode, String comment,
-			State[] sl) {
-		return null;
-	};
+	public static FeatureClassReference.InterLayerConnection updateInterLayerConnection(String docId, String Id, String attributeType, String attributeId, Object o){
+		FeatureClassReference.InterLayerConnection target = null;
+		if (docData.docs.hasFeature(docId, Id)) {
+			target = (FeatureClassReference.InterLayerConnection) docData.docs.getFeature(docId, Id);
+			if(attributeType.equals("typeOfTopoExpression")){}
+			else if(attributeType.equals("comment")){
+				target.setComment((String)o);
+			}
+			else if(attributeType.equals("interConnects")){
+				String[]interConnects = (String[])o;
+				if(interConnects.length == 2){
+					target.setInterConnects(interConnects);
+				}
+				else{
+					System.out.println("Error at updateInterConnection : there is no enough interConnects");
+				}
+			}
+			else if(attributeType.equals("ConnectedLayers")){
+				String[]ConnectedLayers = (String[])o;
+				if(ConnectedLayers.length == 2){
+					target.setInterConnects(ConnectedLayers);
+				}
+				else{
+					System.out.println("Error at updateInterConnection : there is no enough ConnectedLayers");
+				}
+			}
+			else{
+				System.out.println("Error at updateInterConnection : there is no such kind of attribute");
+			}
+			docData.docs.setFeature(docId, Id, "InterLayerConnection", target);
+		}
+		return target;
+	}
 
 	/**
 	 * Search InterLayerConnection feature and delete it
