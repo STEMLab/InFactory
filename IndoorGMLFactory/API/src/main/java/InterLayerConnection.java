@@ -1,3 +1,4 @@
+import Binder.IndoorGMLMap;
 import Binder.docData;
 
 public class InterLayerConnection {
@@ -69,7 +70,9 @@ public class InterLayerConnection {
 		FeatureClassReference.InterLayerConnection target = null;
 		if (docData.docs.hasFeature(docId, Id)) {
 			target = (FeatureClassReference.InterLayerConnection) docData.docs.getFeature(docId, Id);
-			if(attributeType.equals("typeOfTopoExpression")){}
+			if(attributeType.equals("typeOfTopoExpression")){
+				//TODO: need to set typeOfTopoExpression Code
+			}
 			else if(attributeType.equals("comment")){
 				target.setComment((String)o);
 			}
@@ -103,7 +106,12 @@ public class InterLayerConnection {
 	 * Search InterLayerConnection feature and delete it
 	 * @param ID ID of target
 	 */
-	public void deleteInterLayerConnection(String ID) {
+	public void deleteInterLayerConnection(String docId, String Id) {
+		if(docData.docs.hasDoc(docId)){
+			IndoorGMLMap doc = docData.docs.getDocument(docId);
+			doc.getFeatureContainer("InterLayerConnection").remove(Id);
+		}
+		
 	};
 
 }	
