@@ -131,7 +131,7 @@ public class MultiLayeredGraph {
 			else{
 				System.out.println("Warning at deleteMultilayeredGraph : If you want to delete this MultiLayeredGraph, then please put deleteALL parameter as True");
 			}
-						
+			doc.getFeatureContainer("ID").remove(Id);
 		}
 	};
 
