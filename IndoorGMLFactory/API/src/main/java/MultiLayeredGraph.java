@@ -35,6 +35,7 @@ public class MultiLayeredGraph {
 				newFeature.setInterEdges(interEdges);
 			}
 			docData.docs.setFeature(docID, ID, "MultiLayeredGraph", newFeature);
+			docData.docs.setFeature(docID, ID, "ID", "MultiLayeredGraph");
 		}
 		return newFeature;
 	}
