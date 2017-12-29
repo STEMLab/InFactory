@@ -2,8 +2,8 @@
 
 import java.util.List;
 
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
 
 
 
@@ -21,7 +21,7 @@ public class MultiLayeredGraph {
 	}
 	public FeatureClassReference.MultiLayeredGraph createMultiLayeredGraph(String docID, String parentID, String ID, List<String>spaceLayers, List<String>interEdges){
 		FeatureClassReference.MultiLayeredGraph newFeature = null;
-		if (docData.docs.hasDoc(docID)) {
+		if (Container.getInstance().hasDoc(docID)) {
 			newFeature = new FeatureClassReference.MultiLayeredGraph();
 			newFeature.setID(ID);
 			newFeature.setParentID(parentID);
@@ -34,8 +34,8 @@ public class MultiLayeredGraph {
 			if (interEdges != null) {
 				newFeature.setInterEdges(interEdges);
 			}
-			docData.docs.setFeature(docID, ID, "MultiLayeredGraph", newFeature);
-			docData.docs.setFeature(docID, ID, "ID", "MultiLayeredGraph");
+			Container.getInstance().setFeature(docID, ID, "MultiLayeredGraph", newFeature);
+			Container.getInstance().setFeature(docID, ID, "ID", "MultiLayeredGraph");
 		}
 		return newFeature;
 	}
@@ -62,8 +62,8 @@ public class MultiLayeredGraph {
 	public FeatureClassReference.MultiLayeredGraph updateMultiLayeredGraph(String docId, String Id, String attributeType,
 			String updateType, List<String>object ) {
 		FeatureClassReference.MultiLayeredGraph target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.MultiLayeredGraph) docData.docs.getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.MultiLayeredGraph) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("spaceLayers")) {
 				List<String>spaceLayers = target.getSpaceLayers();
 				if(updateType.equals("add")){
@@ -113,9 +113,9 @@ public class MultiLayeredGraph {
 	 * @param ID
 	 */
 	public void deleteMultiLayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.MultiLayeredGraph target = (FeatureClassReference.MultiLayeredGraph) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.MultiLayeredGraph target = (FeatureClassReference.MultiLayeredGraph) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			if(deleteALL){

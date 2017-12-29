@@ -1,6 +1,5 @@
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
-
 public class InterLayerConnection {
 	/**
 	 * Create InterLayerConnection feature instance
@@ -17,7 +16,7 @@ public class InterLayerConnection {
 	};
 	public static FeatureClassReference.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
 		FeatureClassReference.InterLayerConnection newFeature = null;
-		if(docData.docs.hasDoc(docId)){
+		if(Container.getInstance().hasDoc(docId)){
 			newFeature = new FeatureClassReference.InterLayerConnection();
 			newFeature.setParentID(parentId);
 			if(typeOfTopoExpression!= null){
@@ -27,8 +26,8 @@ public class InterLayerConnection {
 				newFeature.setComment(comment);
 			}
 			if(interConnects.length == 2 && ConnectedLayers.length == 2){
-				if(docData.docs.hasFeature(docId, interConnects[0])&&docData.docs.hasFeature(docId, interConnects[1])){
-					if(docData.docs.hasFeature(docId, ConnectedLayers[0])&&docData.docs.hasFeature(docId, ConnectedLayers[0])){
+				if(Container.getInstance().hasFeature(docId, interConnects[0])&&Container.getInstance().hasFeature(docId, interConnects[1])){
+					if(Container.getInstance().hasFeature(docId, ConnectedLayers[0])&&Container.getInstance().hasFeature(docId, ConnectedLayers[0])){
 						newFeature.setInterConnects(interConnects);
 						newFeature.setConnectedLayers(ConnectedLayers);
 					}
@@ -68,8 +67,8 @@ public class InterLayerConnection {
 	 */
 	public static FeatureClassReference.InterLayerConnection updateInterLayerConnection(String docId, String Id, String attributeType, String attributeId, Object o){
 		FeatureClassReference.InterLayerConnection target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.InterLayerConnection) docData.docs.getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.InterLayerConnection) Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("typeOfTopoExpression")){
 				//TODO: need to set typeOfTopoExpression Code
 			}
@@ -97,7 +96,7 @@ public class InterLayerConnection {
 			else{
 				System.out.println("Error at updateInterConnection : there is no such kind of attribute");
 			}
-			docData.docs.setFeature(docId, Id, "InterLayerConnection", target);
+			Container.getInstance().setFeature(docId, Id, "InterLayerConnection", target);
 		}
 		return target;
 	}
@@ -107,8 +106,8 @@ public class InterLayerConnection {
 	 * @param ID ID of target
 	 */
 	public static void deleteInterLayerConnection(String docId, String Id) {
-		if(docData.docs.hasDoc(docId)){
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
+		if(Container.getInstance().hasDoc(docId)){
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
 			doc.getFeatureContainer("InterLayerConnection").remove(Id);
 		}
 		

@@ -2,8 +2,8 @@
 
 import java.util.List;
 
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
 
 
 public class Nodes {
@@ -19,7 +19,7 @@ public class Nodes {
 	}
 	public FeatureClassReference.Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
 		FeatureClassReference.Nodes newFeature = null;
-		if (docData.docs.hasDoc(docId)) {
+		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			if(stateMember != null){
 				newFeature.setStateMember(stateMember);
@@ -28,7 +28,7 @@ public class Nodes {
 				System.out.println("Error at createNodes : there is no StateMember");
 			}
 			
-			docData.docs.setFeature(docId, Id, "Nodes", newFeature);
+			Container.getInstance().setFeature(docId, Id, "Nodes", newFeature);
 		}
 		
 		return newFeature;
@@ -52,8 +52,8 @@ public class Nodes {
 	public FeatureClassReference.Nodes updateNodes(String docId, String Id, String attributeType,
 			String updateType, List<String>object, Boolean deleteDuality) {
 		FeatureClassReference.Nodes target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.Nodes)docData.docs.getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.Nodes)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("stateMember")){
 				List<String>stateMember = target.getStateMember();
 				if(updateType != null){
@@ -87,9 +87,9 @@ public class Nodes {
 	 * @param ID ID of target
 	 */
 	public static void deleteNodes(String docId, String Id, Boolean deleteDuality) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.Nodes target = (FeatureClassReference.Nodes) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.Nodes target = (FeatureClassReference.Nodes) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("Nodes").remove(Id);

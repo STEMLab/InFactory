@@ -2,8 +2,8 @@
 
 import java.util.List;
 
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
 import FeatureClass.CellSpace;
 import FeatureClass.CellSpaceBoundary;
 
@@ -29,7 +29,7 @@ public class PrimalSpaceFeatures {
 	public static FeatureClassReference.PrimalSpaceFeatures createPrimalFeatures(String docID, String parentID, String ID,
 			List<String>cellSpaceMember, List<String>cellSpaceBoundaryMember) {
 		FeatureClassReference.PrimalSpaceFeatures newFeature = null;
-		if (docData.docs.hasDoc(docID)) {
+		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setID(ID);
 			newFeature.setParentID(parentID);
 			if (cellSpaceMember!= null) {
@@ -38,7 +38,7 @@ public class PrimalSpaceFeatures {
 			if (cellSpaceBoundaryMember != null) {
 				newFeature.setCellSpaceBoundaryMember(cellSpaceBoundaryMember);
 			}
-			docData.docs.setFeature(docID, ID, "CellSpace", newFeature);
+			Container.getInstance().setFeature(docID, ID, "CellSpace", newFeature);
 		}
 		return newFeature;
 	}
@@ -65,8 +65,8 @@ public class PrimalSpaceFeatures {
 	public FeatureClassReference.PrimalSpaceFeatures updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>object ) {
 		FeatureClassReference.PrimalSpaceFeatures target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.PrimalSpaceFeatures) docData.docs.getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.PrimalSpaceFeatures) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("cellSpaceMember")) {
 				List<String>cellSpaceMember = target.getCellSpaceMember();
 				if(updateType.equals("add")){
@@ -112,9 +112,9 @@ public class PrimalSpaceFeatures {
 	 * 
 	 */
 	public void deletePrimalSpaceFeatures(String docId, String Id) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.PrimalSpaceFeatures target = (FeatureClassReference.PrimalSpaceFeatures) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.PrimalSpaceFeatures target = (FeatureClassReference.PrimalSpaceFeatures) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("PrimalSpaceFeatures").remove(Id);

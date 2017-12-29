@@ -2,8 +2,8 @@
 
 import java.util.List;
 
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
 import net.opengis.gml.v_3_2_1.PointType;
 
 public class State {
@@ -23,18 +23,27 @@ public class State {
 
 	/**
 	 * Search State feature in document
-	 * @param ID ID of target 
+	 * @param Id ID of target 
 	 * @return searched State feature instance
 	 */
 	
-	public static FeatureClassReference.State createState(String docID, String parentID, String ID,
+	public static FeatureClassReference.State createState(String docId, String parentId, String Id,
 			String duality, List<String> connects, String geometry, String externalReference) {
 		FeatureClassReference.State newFeature = null;
-		if (docData.docs.hasDoc(docID)) {
-			newFeature.setID(ID);
-			newFeature.setParentID(parentID);
+		if (Container.getInstance().hasDoc(docId)) {
+			newFeature.setID(Id);
+			newFeature.setParentID(parentId);
 			if (duality != null) {
 				newFeature.setDuality(duality);
+				if(Container.getInstance().getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
+					int count = (Integer)Container.getInstance().getDocument(docId).getFeatureContainer("Reference").get(duality);
+					count++;
+					Container.getInstance().setFeature(docId, duality, "Reference", count);
+				}
+				else{
+					Container.getInstance().setFeature(docId, duality, "Reference", 1);
+				}
+				Container.getInstance().setFeature(docId, Id, "Reference", 1);
 			}
 			if (geometry != null) {
 				// newFeature.set
@@ -47,7 +56,7 @@ public class State {
 			if (externalReference != null) {
 				newFeature.setExternalReference(externalReference);
 			}
-			docData.docs.setFeature(docID, ID, "CellSpace", newFeature);
+			Container.getInstance().setFeature(docId, Id, "CellSpace", newFeature);
 		}
 		return newFeature;
 	}
@@ -71,8 +80,8 @@ public class State {
 	public FeatureClassReference.State updateState(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
 		FeatureClassReference.State target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.State) docData.docs.getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.State) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("geometry")) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			} else if (attributeType.equals("connects")) {
@@ -80,13 +89,13 @@ public class State {
 				List<String> connects = target.getConnects();
 				connects.add(attributeId);
 				target.setConnects(connects);
-				docData.docs.setFeature(docId, attributeId, "Transition", o);
+				Container.getInstance().setFeature(docId, attributeId, "Transition", o);
 			} else if (attributeType.equals("duality")) {
 				target.setDuality(attributeId);
-				docData.docs.setFeature(docId, attributeId, "CellSpace", o);
+				Container.getInstance().setFeature(docId, attributeId, "CellSpace", o);
 			} else if (attributeType.equals("externalReference")) {
 				target.setExternalReference(attributeId);
-				docData.docs.setFeature(docId, attributeId, "ExternaReference", o);
+				Container.getInstance().setFeature(docId, attributeId, "ExternaReference", o);
 			} else {
 				System.out.println("update error in cellSpaceType : there is no such attribute name");
 			}
@@ -101,9 +110,9 @@ public class State {
 	 * @param ID ID of target 
 	 */
 	public static void deleteState(String docId, String Id, Boolean deleteDuality) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.State target = (FeatureClassReference.State) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.State target = (FeatureClassReference.State) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("State").remove(Id);
@@ -112,7 +121,7 @@ public class State {
 			List<String> connects = target.getConnects();
 			if(deleteDuality){
 				//State.deleteState(target.getDuality());
-				if(docData.docs.hasFeature(docId, target.getDuality())){
+				if(Container.getInstance().hasFeature(docId, target.getDuality())){
 					CellSpace.deleteCellSpace(docId,target.getDuality(),false);
 				}
 				
@@ -121,7 +130,7 @@ public class State {
 			for(int i = 0 ; i < connects.size();i++){
 				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
 				if(count == 1){
-					Transition.deleteTransition(docId, connects.get(i));
+					Transition.deleteTransition(docId, connects.get(i),deleteDuality);
 					doc.getFeatureContainer("Reference").remove(connects.get(i));
 				}
 				else{
