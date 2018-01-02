@@ -18,7 +18,7 @@ import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 import net.opengis.indoorgml.core.v_1_0.ObjectFactory;
 import net.opengis.indoorgml.navigation.v_1_0.RouteType;
 
-public class mashaller {
+public class Mashaller {
 
 
 	public static void exportIndoorGMLCore(Properties props, String id, String filePath) throws Exception {

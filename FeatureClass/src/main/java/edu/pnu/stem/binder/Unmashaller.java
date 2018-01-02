@@ -14,7 +14,7 @@ import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 import net.opengis.indoorgml.navigation.v_1_0.RouteType;
 
 
-public class unmashaller {
+public class Unmashaller {
 
 	private static XLinkSymbolMap mXLinkSymbolMap;
 
