@@ -3,8 +3,8 @@
 import java.util.Date;
 import java.util.List;
 
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
 
 
 public class SpaceLayer {
@@ -25,7 +25,7 @@ public class SpaceLayer {
 	public static FeatureClassReference.SpaceLayer createSpaceLayer(String docID, String parentID, String ID,
 			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
 		FeatureClassReference.SpaceLayer newFeature = null;
-		if (docData.docs.hasDoc(docID)) {
+		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setID(ID);
 			newFeature.setParentID(parentID);
 			if (nodes!= null) {
@@ -58,7 +58,7 @@ public class SpaceLayer {
 			if(codeType != null){
 				//TODO : check codeType at SpaceLayer
 			}
-			docData.docs.setFeature(docID, ID, "SpaceLayer", newFeature);
+			Container.getInstance().setFeature(docID, ID, "SpaceLayer", newFeature);
 		}
 		return newFeature;
 	}
@@ -86,8 +86,8 @@ public class SpaceLayer {
 	public FeatureClassReference.SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>objectMember, Object object , Boolean deleteDuality ) {
 		FeatureClassReference.SpaceLayer target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.SpaceLayer) docData.docs.getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.SpaceLayer) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("nodes")) {
 				List<String>nodes = target.getNodes();
 				if(updateType.equals("add")){
@@ -98,7 +98,7 @@ public class SpaceLayer {
 					for(int i = 0 ; i < objectMember.size();i++){
 						if(nodes.contains(objectMember.get(i))){
 							nodes.remove(objectMember.get(i));
-							FeatureClassReference.Nodes singleNodes= (FeatureClassReference.Nodes)docData.docs.getFeature(docId, objectMember.get(i));
+							FeatureClassReference.Nodes singleNodes= (FeatureClassReference.Nodes)Container.getInstance().getFeature(docId, objectMember.get(i));
 							List<String>stateMember = singleNodes.getStateMember();
 							for(int j = 0 ; j < stateMember.size();j++){
 								State.deleteState(docId, stateMember.get(i), deleteDuality);
@@ -122,7 +122,7 @@ public class SpaceLayer {
 					for(int i = 0 ; i < objectMember.size();i++){
 						if(edges.contains(objectMember.get(i))){
 							edges.remove(objectMember.get(i));
-							FeatureClassReference.Edges singleEdges= (FeatureClassReference.Edges)docData.docs.getFeature(docId, objectMember.get(i));
+							FeatureClassReference.Edges singleEdges= (FeatureClassReference.Edges)Container.getInstance().getFeature(docId, objectMember.get(i));
 							List<String>edgesMember = singleEdges.getTransitionMember();
 							for(int j = 0 ; j < edgesMember.size();j++){
 								Edges.deleteEdges(docId, edgesMember.get(i), false);
@@ -154,7 +154,7 @@ public class SpaceLayer {
 		} else {
 			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
 		}
-		docData.setFeature(docId, Id, "SpaceLayer", target);
+		Container.getInstance().setFeature(docId, Id, "SpaceLayer", target);
 		return target;
 	}
 	/**
@@ -162,9 +162,9 @@ public class SpaceLayer {
 	 * @param ID ID of target
 	 */
 	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.SpaceLayer target = (FeatureClassReference.SpaceLayer) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.SpaceLayer target = (FeatureClassReference.SpaceLayer) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("SpaceLayer").remove(Id);

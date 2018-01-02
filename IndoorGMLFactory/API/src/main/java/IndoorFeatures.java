@@ -1,5 +1,5 @@
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
 
 public class IndoorFeatures {
 	/**
@@ -15,7 +15,7 @@ public class IndoorFeatures {
 	public static FeatureClassReference.IndoorFeatures createIndoorFeatures(String docID, String parentID, String ID,
 			String primalSpaceFeatures, String multiLayeredGraph) {
 		FeatureClassReference.IndoorFeatures newFeature = null;
-		if (docData.docs.hasDoc(docID)) {
+		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setID(ID);
 			//newFeature.setParentID(parentID);
 			if (primalSpaceFeatures!= null) {
@@ -24,7 +24,7 @@ public class IndoorFeatures {
 			if (multiLayeredGraph != null) {
 				newFeature.setMultiLayeredGraph(multiLayeredGraph);
 			}
-			docData.docs.setFeature(docID, ID, "IndoorFeatures", newFeature);
+			Container.getInstance().setFeature(docID, ID, "IndoorFeatures", newFeature);
 		}
 		return newFeature;
 	}
@@ -51,8 +51,8 @@ public class IndoorFeatures {
 	public FeatureClassReference.IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
 			String object ) {
 		FeatureClassReference.IndoorFeatures target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.IndoorFeatures) docData.docs.getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.IndoorFeatures) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("primalSpaceFeatures")) {
 				target.setPrimalSpaceFeatures(object);
 				//TODO : add cellSpace to cellSpace container and ID container
@@ -74,9 +74,9 @@ public class IndoorFeatures {
 	 * @param ID ID of target
 	 */
 	public void deleteIndoorFeatures(String docId, String Id) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.IndoorFeatures target = (FeatureClassReference.IndoorFeatures) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.IndoorFeatures target = (FeatureClassReference.IndoorFeatures) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("IndoorFeatures").remove(Id);

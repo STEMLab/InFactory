@@ -1,5 +1,5 @@
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
 
 
 /**
@@ -8,23 +8,27 @@ import Binder.docData;
  */
 public class CellSpaceBoundary {
 
+	/*
 	public static FeatureClassReference.CellSpaceBoundary createCellSpaceBoundary(String docId, String ID,
 			String parentID) {
 		FeatureClassReference.CellSpaceBoundary newFeature = null;
-		if (docData.docs.hasDoc(docId)) {
+		if (Container.getInstance().hasDoc(docId)) {
 			newFeature = new FeatureClassReference.CellSpaceBoundary();
 			newFeature.setID(ID);
 			newFeature.setParentID(ID);
-			docData.docs.setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+			Container.getInstance().setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+			
 		}
 		return newFeature;
 	}
+	 * 
+	 * */
 
 	public static FeatureClassReference.CellSpaceBoundary createCellSpaceBoundary(String docId, String parentID,
 			String ID, String name, String description, String duality, String cellSpaceBoundaryGeometry,
 			String externalReference) {
 		FeatureClassReference.CellSpaceBoundary newFeature = null;
-		if (docData.docs.hasDoc(docId)) {
+		if (Container.getInstance().hasDoc(docId)) {
 			newFeature = new FeatureClassReference.CellSpaceBoundary();
 			newFeature.setDuality(duality);
 			newFeature.setParentID(parentID);
@@ -33,10 +37,10 @@ public class CellSpaceBoundary {
 			}
 			if (duality != null) {
 				newFeature.setDuality(duality);
-				if(docData.docs.getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
-					int count = (Integer)docData.docs.getDocument(docId).getFeatureContainer("Reference").get(duality);
+				if(Container.getInstance().getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
+					int count = (Integer)Container.getInstance().getDocument(docId).getFeatureContainer("Reference").get(duality);
 					count++;
-					docData.docs.setFeature(docId, ID, "Reference", count);
+					Container.getInstance().setFeature(docId, ID, "Reference", count);
 				}
 				
 			}
@@ -46,7 +50,8 @@ public class CellSpaceBoundary {
 			if (cellSpaceBoundaryGeometry != null) {
 				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometry);
 			}
-			docData.docs.setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+			Container.getInstance().setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+			Container.getInstance().setFeature(docId, ID, "ID", "CellSpaceBoundary");
 
 		}
 		return newFeature;
@@ -77,7 +82,7 @@ public class CellSpaceBoundary {
 	 * @return searched feature
 	 */
 	public static FeatureClassReference.CellSpaceBoundary readCellSpaceBoundary(String docID, String ID) {
-		return (FeatureClassReference.CellSpaceBoundary) docData.docs.getFeature(docID, ID);
+		return (FeatureClassReference.CellSpaceBoundary) Container.getInstance().getFeature(docID, ID);
 	};
 
 	/**
@@ -96,14 +101,28 @@ public class CellSpaceBoundary {
 	public FeatureClassReference.CellSpaceBoundary updateCellSpaceBoundary(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
 		FeatureClassReference.CellSpaceBoundary target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.CellSpaceBoundary) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.CellSpaceBoundary) Container.getInstance().getFeature(docId,
 					Id);
 			if (attributeType.equals("cellSpaceBoundaryGeometry") ) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			}  else if (attributeType == "duality") {
+				String tempDuality = target.getDuality();
+				target.setDuality(attributeId);				
+				if (Container.getInstance().getDocument(docId).getFeatureContainer("Reference").containsKey(attributeId)) {
+					int count = (Integer) Container.getInstance().getDocument(docId).getFeatureContainer("Reference").get(attributeId);
+					count++;
+					Container.getInstance().setFeature(docId, attributeId, "Reference", count);
+				}				
+				if (Container.getInstance().getDocument(docId).getFeatureContainer("Reference").containsKey(tempDuality)) {
+					int count = (Integer) Container.getInstance().getDocument(docId).getFeatureContainer("Reference").get(tempDuality);
+					if(count > 0)
+						count--;
+					Container.getInstance().setFeature(docId, tempDuality, "Reference", count);
+				}
+				
 				target.setDuality(attributeId);
-				docData.docs.setFeature(docId, attributeId, "Transition", o);
+				Container.getInstance().setFeature(docId, attributeId, "Transition", o);
 			} else if(attributeType.equals("name")){
 				target.setName((String)o);
 			} else if(attributeType.equals("description")){
@@ -111,7 +130,7 @@ public class CellSpaceBoundary {
 			}			
 			else if (attributeType.equals("externalReference") ) {
 				target.setExternalReference(attributeId);
-				docData.docs.setFeature(docId, attributeId, "ExternaReference", o);
+				Container.getInstance().setFeature(docId, attributeId, "ExternaReference", o);
 			} else {
 				System.out.println("update error in cellSpaceType : there is no such attribute name");
 			}
@@ -128,9 +147,9 @@ public class CellSpaceBoundary {
 	 *            ID of target
 	 */
 	public static void deleteCellSpaceBoundary(String docId, String Id, Boolean deleteDuality) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.CellSpaceBoundary target = (FeatureClassReference.CellSpaceBoundary) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.CellSpaceBoundary target = (FeatureClassReference.CellSpaceBoundary) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			if(deleteDuality){

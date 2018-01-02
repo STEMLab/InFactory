@@ -2,47 +2,46 @@
 
 import java.util.List;
 
+import Binder.Container;
 import Binder.IndoorGMLMap;
-import Binder.docData;
-import FeatureClass.CellSpaceBoundary;
-import FeatureClass.State;
-import net.opengis.gml.v_3_2_1.CurveType;
 
 public class Transition {
 
+	
 	/**
-	 * Create Transition feature instance
-	 * @param ID ID of Transition
-	 * @param parentID ID of parent which will hold this feature
-	 * @param sl list of States which are connected with this Transition. Always size need to be 2.
-	 * @param gc Geometry of this Transition. Represented as CurveType of GML-3.2.1
-	 * @param csBoundary Feature instance of CellSpaceBoundary which has duality relationship with this Transition
-	 * @param weight weight can be used for applications in order to deal with the impedance representing absolute barriers in transportation problems 
+	 * @param docId
+	 * @param parentId
+	 * @param Id
+	 * @param name
+	 * @param description
+	 * @param duality
+	 * @param geometry
+	 * @param externalReference
+	 * @param connects
 	 * @return
 	 */
-	public FeatureClass.Transition createTransition(String ID, String parentID, State[] sl, CurveType gc, CellSpaceBoundary csBoundary,
-			double weight) {
-		return null;
-	}
-	
-	public static FeatureClassReference.Transition createTransition(String docId, String parentID,
-			String ID, String name, String description, String duality, String geometry,
+	public static FeatureClassReference.Transition createTransition(String docId, String parentId,
+			String Id, String name, String description, String duality, String geometry,
 			String externalReference, String[]connects) {
 		FeatureClassReference.Transition newFeature = null;
-		if (docData.docs.hasDoc(docId)) {
+		if (Container.getInstance().hasDoc(docId)) {
 			newFeature = new FeatureClassReference.Transition();
 			newFeature.setDuality(duality);
-			newFeature.setParentID(parentID);
+			newFeature.setParentID(parentId);
 			if (name != null) {
 				newFeature.setName(name);
 			}
 			if (duality != null) {
 				newFeature.setDuality(duality);
-				if(docData.docs.getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
-					int count = (Integer)docData.docs.getDocument(docId).getFeatureContainer("Reference").get(duality);
+				if(Container.getInstance().getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
+					int count = (Integer)Container.getInstance().getDocument(docId).getFeatureContainer("Reference").get(duality);
 					count++;
-					docData.docs.setFeature(docId, ID, "Reference", count);
+					Container.getInstance().setFeature(docId, duality, "Reference", count);
 				}
+				else{
+					Container.getInstance().setFeature(docId, duality, "Reference", 1);
+				}
+				Container.getInstance().setFeature(docId, Id, "Reference", 1);
 			}
 			if (externalReference != null) {
 				newFeature.setExternalReference(externalReference);
@@ -56,7 +55,7 @@ public class Transition {
 			else{
 				System.out.println("createTransition : there is no enough number of connections for this transition");
 			}
-			docData.docs.setFeature(docId, ID, "CellSpaceBoundary", newFeature);
+			Container.getInstance().setFeature(docId, Id, "CellSpaceBoundary", newFeature);
 
 		}
 		return newFeature;
@@ -68,7 +67,7 @@ public class Transition {
 	 * @return searched Transition feature instance
 	 */
 	public FeatureClassReference.Transition readTransition(String docId, String Id) {
-		FeatureClassReference.Transition target = (FeatureClassReference.Transition) docData.docs.getFeature(docId, Id);
+		FeatureClassReference.Transition target = (FeatureClassReference.Transition) Container.getInstance().getFeature(docId, Id);
 		return target;
 	}
 
@@ -84,15 +83,18 @@ public class Transition {
 	public FeatureClassReference.Transition updateTransition(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
 		FeatureClassReference.Transition target = null;
-		if (docData.docs.hasFeature(docId, Id)) {
-			target = (FeatureClassReference.Transition) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			target = (FeatureClassReference.Transition) Container.getInstance().getFeature(docId,
 					Id);
 			if (attributeType.equals("geometry") ) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			}  else if (attributeType == "duality") {
-				if(docData.docs.hasFeature(docId, attributeId)){
+				if(Container.getInstance().hasFeature(docId, attributeId)){
 					target.setDuality(attributeId);
-				}											
+					int count = (Integer)Container.getInstance().getDocument(docId).getFeatureContainer("Reference").get(attributeId);
+					Container.getInstance().setFeature(docId, attributeId, "Reference", (count++));
+					
+				}
 			} else if(attributeType.equals("name")){
 				target.setName((String)o);
 			} else if(attributeType.equals("description")){
@@ -100,12 +102,12 @@ public class Transition {
 			}			
 			else if (attributeType.equals("externalReference") ) {
 				target.setExternalReference(attributeId);
-				docData.docs.setFeature(docId, attributeId, "ExternaReference", o);
+				Container.getInstance().setFeature(docId, attributeId, "ExternaReference", o);
 			}else if(attributeType.equals("connects")){
 				List<String>connects = (List<String>) o;
 				Boolean isConnectsExist = true;
 				for(int i = 0 ; i < connects.size();i++){
-					if(!docData.docs.hasFeature(docId, connects.get(i))){
+					if(!Container.getInstance().hasFeature(docId, connects.get(i))){
 						isConnectsExist = false;
 					}
 				}
@@ -131,9 +133,9 @@ public class Transition {
 	 * @param ID ID of target
 	 */
 	public static void deleteTransition(String docId, String Id, Boolean deleteDuality) {
-		if (docData.docs.hasFeature(docId, Id)) {
-			IndoorGMLMap doc = docData.docs.getDocument(docId);
-			FeatureClassReference.Transition target = (FeatureClassReference.Transition) docData.docs.getFeature(docId,
+		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
+			FeatureClassReference.Transition target = (FeatureClassReference.Transition) Container.getInstance().getFeature(docId,
 					Id);
 			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
 			doc.getFeatureContainer("Transition").remove(Id);

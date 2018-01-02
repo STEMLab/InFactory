@@ -143,7 +143,7 @@ public class Convert2JaxbClass {
 		return newFeature;
 	}
 	
-	public static EdgesType change2JaxbClass(Edges feature) throws JAXBException{
+	public static EdgesType change2JaxbClass(String docId,Edges feature) throws JAXBException{
 		EdgesType newFeature = indoorgmlcoreOF.createEdgesType();
 
 		newFeature.setId(feature.ID);
@@ -151,7 +151,7 @@ public class Convert2JaxbClass {
 		
 		List<TransitionMemberType>transitionmember = new ArrayList<TransitionMemberType>();
 		for(int j = 0 ; j < feature.transitionMember.size();j++){
-			TransitionType temptransition = change2JaxbClass((Transition)Convert2FeatureClass.docContainer.getFeature(feature.transitionMember.get(j)));
+			TransitionType temptransition = change2JaxbClass((Transition)Container.getInstance().getFeature(docId,feature.transitionMember.get(j)));
 			TransitionMemberType temptm = indoorgmlcoreOF.createTransitionMemberType();
 			temptm.setTransition(temptransition);
 			transitionmember.add(temptm);
@@ -180,26 +180,26 @@ public class Convert2JaxbClass {
 		return newFeature;
 	}
 	
-	static public IndoorFeaturesType change2JaxbClass(IndoorFeatures feature) throws JAXBException{
+	static public IndoorFeaturesType change2JaxbClass(String docId, IndoorFeatures feature) throws JAXBException{
 		IndoorFeaturesType newFeature = new IndoorFeaturesType();
 		newFeature.setId(feature.ID);
 		if(feature.primalSpaceFeatures != null){
 			//Convert2FeatureClass.docContainer.
-			PrimalSpaceFeatures p = (PrimalSpaceFeatures) Convert2FeatureClass.docContainer.getFeature(feature.primalSpaceFeatures);
+			PrimalSpaceFeatures p = (PrimalSpaceFeatures) Container.getInstance().getFeature(docId, feature.primalSpaceFeatures);
 			PrimalSpaceFeaturesPropertyType pp = indoorgmlcoreOF.createPrimalSpaceFeaturesPropertyType();
-			pp.setPrimalSpaceFeatures(change2JaxbClass(p));
+			pp.setPrimalSpaceFeatures(change2JaxbClass(docId, p));
 			newFeature.setPrimalSpaceFeatures(pp);
 		}
 		if(feature.multiLayeredGraph != null){
-			MultiLayeredGraph m = (MultiLayeredGraph) Convert2FeatureClass.docContainer.getFeature(feature.multiLayeredGraph);
+			MultiLayeredGraph m = (MultiLayeredGraph) Container.getInstance().getFeature(docId, feature.multiLayeredGraph);
 			MultiLayeredGraphPropertyType mp = indoorgmlcoreOF.createMultiLayeredGraphPropertyType();
-			mp.setMultiLayeredGraph(change2JaxbClass(m));
+			mp.setMultiLayeredGraph(change2JaxbClass(docId, m));
 			newFeature.setMultiLayeredGraph(mp);
 		}
 		
 		return newFeature;
 	}
-	private static MultiLayeredGraphType change2JaxbClass(MultiLayeredGraph feature) throws JAXBException {
+	private static MultiLayeredGraphType change2JaxbClass(String docId, MultiLayeredGraph feature) throws JAXBException {
 		MultiLayeredGraphType newFeature = new MultiLayeredGraphType();
 		newFeature.setId(feature.ID);
 		
@@ -207,14 +207,14 @@ public class Convert2JaxbClass {
 		List<InterEdgesType>interEdges = new ArrayList<InterEdgesType>();
 		for(int i = 0 ; i < feature.spaceLayers.size();i++){
 			String tempId = feature.spaceLayers.get(i);
-			SpaceLayers tempsl = (SpaceLayers)Convert2FeatureClass.docContainer.getFeature(tempId);
-			SpaceLayersType temp = change2JaxbClass(tempsl);
+			SpaceLayers tempsl = (SpaceLayers)Container.getInstance().getFeature(docId, tempId);
+			SpaceLayersType temp = change2JaxbClass(docId, tempsl);
 			spaceLayers.add(temp);
 		}
 		
 		for(int i = 0 ; i < feature.interEdges.size();i++){
-			InterEdges tempie = (InterEdges)Convert2FeatureClass.docContainer.getFeature(feature.interEdges.get(i));
-			InterEdgesType temp = change2JaxbClass(tempie);
+			InterEdges tempie = (InterEdges)Container.getInstance().getFeature(docId, feature.interEdges.get(i));
+			InterEdgesType temp = change2JaxbClass(docId, tempie);
 			interEdges.add(temp);
 		}
 		newFeature.setInterEdges(interEdges);
@@ -222,13 +222,13 @@ public class Convert2JaxbClass {
 		
 		return newFeature;
 	}
-	private static InterEdgesType change2JaxbClass(InterEdges feature) {
+	private static InterEdgesType change2JaxbClass(String docId, InterEdges feature) {
 		InterEdgesType newFeature = indoorgmlcoreOF.createInterEdgesType();
 		newFeature.setId(feature.ID);
 		List<InterLayerConnectionMemberType>interlayerconnectionmember = new ArrayList<InterLayerConnectionMemberType>();
 		
 		for(int i = 0 ; i < feature.interLayerConnectionMember.size();i++){
-			InterLayerConnection tempilc = (InterLayerConnection) Convert2FeatureClass.docContainer.getFeature(feature.interLayerConnectionMember.get(i));
+			InterLayerConnection tempilc = (InterLayerConnection) Container.getInstance().getFeature(docId, feature.interLayerConnectionMember.get(i));
 			InterLayerConnectionType temp = change2Jaxb(tempilc);
 			InterLayerConnectionMemberType tempmember = indoorgmlcoreOF.createInterLayerConnectionMemberType();
 			tempmember.setInterLayerConnection(temp);
@@ -263,15 +263,15 @@ public class Convert2JaxbClass {
 		return newFeature;
 	}
 
-	static SpaceLayersType change2JaxbClass(SpaceLayers feature) throws JAXBException{
+	static SpaceLayersType change2JaxbClass(String docId, SpaceLayers feature) throws JAXBException{
 		SpaceLayersType newFeature = new SpaceLayersType();
 		
 		newFeature.setId(feature.ID);
 		List<SpaceLayerMemberType> spaceLayerMember = new ArrayList<SpaceLayerMemberType>(); 
 		for(int i = 0 ; i < feature.spaceLayerMemeber.size(); i++){
 			String tempId = feature.spaceLayerMemeber.get(i);
-			SpaceLayer tempsl = (SpaceLayer) Convert2FeatureClass.docContainer.getFeature(tempId);
-			SpaceLayerType temp = change2JaxbClass(tempsl);
+			SpaceLayer tempsl = (SpaceLayer) Container.getInstance().getFeature(docId, tempId);
+			SpaceLayerType temp = change2JaxbClass(docId, tempsl);
 			SpaceLayerMemberType tempsm = new SpaceLayerMemberType();
 			tempsm.setSpaceLayer(temp);
 			spaceLayerMember.add(tempsm);
@@ -281,7 +281,7 @@ public class Convert2JaxbClass {
 		
 		return newFeature;
 	}
-	private static SpaceLayerType change2JaxbClass(SpaceLayer feature) throws JAXBException {
+	private static SpaceLayerType change2JaxbClass(String docId, SpaceLayer feature) throws JAXBException {
 		SpaceLayerType newFeature = new SpaceLayerType();
 		newFeature.setId(feature.ID);
 
@@ -294,16 +294,16 @@ public class Convert2JaxbClass {
 		List<NodesType>nodesTypeList = new ArrayList<NodesType>();
 		
 		for(int i = 0 ; i < feature.nodes.size() ; i++){
-			Nodes tempnodes = (Nodes) Convert2FeatureClass.docContainer.getFeature(feature.nodes.get(i));
-			NodesType tempnodestype = change2JaxbClass(tempnodes);
+			Nodes tempnodes = (Nodes) Container.getInstance().getFeature(docId, feature.nodes.get(i));
+			NodesType tempnodestype = change2JaxbClass(docId, tempnodes);
 			nodesTypeList.add(tempnodestype);
 		}
 		newFeature.setNodes(nodesTypeList);
 		
 		
 		for(int i = 0 ; i < feature.edges.size() ; i++){
-			Edges tempEdge = (Edges) Convert2FeatureClass.docContainer.getFeature(feature.edges.get(i));
-			EdgesType tempEdgesType = change2JaxbClass(tempEdge);						
+			Edges tempEdge = (Edges) Container.getInstance().getFeature(docId, feature.edges.get(i));
+			EdgesType tempEdgesType = change2JaxbClass(docId, tempEdge);						
 			edgesTypeList.add(tempEdgesType);
 		}
 		newFeature.setEdges(edgesTypeList);
@@ -311,14 +311,14 @@ public class Convert2JaxbClass {
 		return newFeature;
 	}
 
-	private static NodesType change2JaxbClass(Nodes feature) throws JAXBException {
+	private static NodesType change2JaxbClass(String docId, Nodes feature) throws JAXBException {
 		NodesType newFeature = new NodesType();
 		
 		newFeature.setId(feature.ID);
 		
 		List<StateMemberType>smTypeList = new ArrayList<StateMemberType>();
 		for(int i = 0 ; i < feature.stateMember.size();i++){
-			State tempstate = (State)Convert2FeatureClass.docContainer.getFeature(feature.stateMember.get(i));
+			State tempstate = (State)Container.getInstance().getFeature(docId, feature.stateMember.get(i));
 			StateType tempstatetype = change2JaxbClass(tempstate);
 			StateMemberType tempstatemember = indoorgmlcoreOF.createStateMemberType();
 			tempstatemember.setState(tempstatetype);
@@ -332,21 +332,21 @@ public class Convert2JaxbClass {
 		return newFeature;
 	}
 
-	static PrimalSpaceFeaturesType change2JaxbClass(PrimalSpaceFeatures feature) throws JAXBException {
+	static PrimalSpaceFeaturesType change2JaxbClass(String docId, PrimalSpaceFeatures feature) throws JAXBException {
 		PrimalSpaceFeaturesType newFeature = new PrimalSpaceFeaturesType();
 		newFeature.setId(feature.ID);
 		
 		List<CellSpaceMemberType>cellspacemember = new ArrayList<CellSpaceMemberType>();
 		List<CellSpaceBoundaryMemberType>cellspaceboundarymember = new ArrayList<CellSpaceBoundaryMemberType>();
 		for(int i = 0 ; i < feature.cellSpaceMember.size();i++){
-			CellSpace tempcellspace = (CellSpace)Convert2FeatureClass.docContainer.getFeature(feature.cellSpaceMember.get(i));
+			CellSpace tempcellspace = (CellSpace)Container.getInstance().getFeature(docId, feature.cellSpaceMember.get(i));
 			CellSpaceMemberType tempcellspacemember = indoorgmlcoreOF.createCellSpaceMemberType();			
 			tempcellspacemember.setCellSpace(indoorgmlcoreOF.createCellSpace(change2JaxbClass(tempcellspace)));
 			cellspacemember.add(tempcellspacemember);
 		}
 
 		for(int i = 0 ; i < feature.cellSpaceBoundaryMember.size();i++){
-			CellSpaceBoundary tempcellspace = (CellSpaceBoundary)Convert2FeatureClass.docContainer.getFeature(feature.cellSpaceMember.get(i));
+			CellSpaceBoundary tempcellspace = (CellSpaceBoundary)Container.getInstance().getFeature(docId, feature.cellSpaceMember.get(i));
 			CellSpaceBoundaryMemberType tempcellspacemember = indoorgmlcoreOF.createCellSpaceBoundaryMemberType();
 			tempcellspacemember.setCellSpaceBoundary(indoorgmlcoreOF.createCellSpaceBoundary(change2JaxbClass(tempcellspace)));
 			cellspaceboundarymember.add(tempcellspacemember);
