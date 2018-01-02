@@ -1,4 +1,5 @@
 package edu.pnu.stem.reference;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,4 +24,16 @@ public class Edges {
 	
 	public void setParentID(String id){this.parentID = id;}
 	public String getParentID(){return this.parentID;}
+	
+	public List<String> getTransitionMembers() {
+		return new ArrayList<String>(transitionMember);
+	}
+	
+	public void setID(String id) {
+		this.ID = id;
+	}
+	
+	public void setTransitionMembers(List<String> members) {
+		this.transitionMember = members;
+	}
 }	

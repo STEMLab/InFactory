@@ -30,7 +30,7 @@ public class Edges {
 		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			if(transitionMember != null){
-				newFeature.setTransitionMember(transitionMember);
+				newFeature.setTransitionMembers(transitionMember);
 			}
 			else{
 				System.out.println("Error at createNodes : there is no StateMember");
@@ -51,7 +51,7 @@ public class Edges {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			target = (edu.pnu.stem.reference.Edges)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("transitionMember")){
-				List<String>transitionMember = target.getTransitionMember();
+				List<String>transitionMember = target.getTransitionMembers();
 				if(updateType != null){
 					
 					if(updateType.equals("add")){
@@ -67,7 +67,7 @@ public class Edges {
 						}
 					}
 				}
-				target.setTransitionMember(transitionMember);
+				target.setTransitionMembers(transitionMember);
 			}
 		}
 		return target;
@@ -97,8 +97,8 @@ public class Edges {
 			
 			doc.getFeatureContainer("Nodes").remove(Id);	
 			doc.getFeatureContainer("ID").remove(Id);
-			for(int i = 0 ; i < target.getTransitionMember().size();i++){
-				State.deleteState(docId, target.getTransitionMember().get(i), deleteDuality);
+			for(int i = 0 ; i < target.getTransitionMembers().size();i++){
+				State.deleteState(docId, target.getTransitionMembers().get(i), deleteDuality);
 			}
 			
 		}
