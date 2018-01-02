@@ -13,7 +13,7 @@ import javax.xml.bind.PropertyException;
 
 import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
-import edu.pnu.stem.reference.IndoorFeatures;
+import edu.pnu.stem.feature.IndoorFeatures;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 import net.opengis.indoorgml.core.v_1_0.ObjectFactory;
 import net.opengis.indoorgml.navigation.v_1_0.RouteType;

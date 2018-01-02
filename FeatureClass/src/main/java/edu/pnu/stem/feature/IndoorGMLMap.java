@@ -1,4 +1,4 @@
-package edu.pnu.stem.reference;
+package edu.pnu.stem.feature;
 
 import java.util.concurrent.ConcurrentHashMap;
 public class IndoorGMLMap {

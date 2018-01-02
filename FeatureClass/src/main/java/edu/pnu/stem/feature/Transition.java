@@ -32,9 +32,18 @@ public class Transition {
 	 */
 	public String[] connects = new String[2];
 	
+	public String parentID;
+	
+	public String externalReference;
+	
+	public void setExternalReference(String er){this.externalReference = er;}
+	public String getExternalReference(){return this.externalReference;}
+	
 	public String getID(){ return this.ID; }
 	public void setID(String id){ this.ID = id;} 
 	
+	public void setParentID(String id){this.parentID = id;}
+	public String getParentID(){return this.parentID;}
 	
 	public String getDuality(){return this.duality;}
 	public void setDuality(String d){this.duality = d;}
@@ -54,6 +63,28 @@ public class Transition {
 			this.connects[1] = connects[1];
 		}
 		
+	}
+	public String[] getConnects(){ return this.connects; }
+	public Object[] getConnectsInstance(){
+		Object[] feature = new Object[2];
+		
+		feature[0] = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.connects[0]);
+		feature[1] = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.connects[1]);
+		
+		return feature;
+		
+	}
+	/**
+	 * @return the weight
+	 */
+	public double getWeight() {
+		return weight;
+	}
+	/**
+	 * @param weight the weight to set
+	 */
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 }

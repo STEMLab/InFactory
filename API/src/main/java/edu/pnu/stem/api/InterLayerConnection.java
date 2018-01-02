@@ -15,10 +15,10 @@ public class InterLayerConnection {
 			String comment, State[] sl) {
 		return null;
 	};
-	public static edu.pnu.stem.reference.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
-		edu.pnu.stem.reference.InterLayerConnection newFeature = null;
+	public static edu.pnu.stem.feature.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
+		edu.pnu.stem.feature.InterLayerConnection newFeature = null;
 		if(Container.getInstance().hasDoc(docId)){
-			newFeature = new edu.pnu.stem.reference.InterLayerConnection();
+			newFeature = new edu.pnu.stem.feature.InterLayerConnection();
 			newFeature.setParentID(parentId);
 			if(typeOfTopoExpression!= null){
 				//newFeature.setTypeOfTopoExpression(typeOfTopoExpression);
@@ -66,10 +66,10 @@ public class InterLayerConnection {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return edited feature
 	 */
-	public static edu.pnu.stem.reference.InterLayerConnection updateInterLayerConnection(String docId, String Id, String attributeType, String attributeId, Object o){
-		edu.pnu.stem.reference.InterLayerConnection target = null;
+	public static edu.pnu.stem.feature.InterLayerConnection updateInterLayerConnection(String docId, String Id, String attributeType, String attributeId, Object o){
+		edu.pnu.stem.feature.InterLayerConnection target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.InterLayerConnection) Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.InterLayerConnection) Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("typeOfTopoExpression")){
 				//TODO: need to set typeOfTopoExpression Code
 			}

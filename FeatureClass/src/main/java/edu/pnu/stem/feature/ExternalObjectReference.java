@@ -18,5 +18,41 @@ public class ExternalObjectReference {
 	 * Save uri of External Object Reference
 	 */
 	public String uri;
+	/**
+	 * @return the iD
+	 */
+	public String getID() {
+		return ID;
+	}
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(String iD) {
+		ID = iD;
+	}
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * @return the uri
+	 */
+	public String getUri() {
+		return uri;
+	}
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
 
 }

@@ -13,9 +13,9 @@ public class IndoorFeatures {
 	public edu.pnu.stem.feature.IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
 		return null;
 	};
-	public static edu.pnu.stem.reference.IndoorFeatures createIndoorFeatures(String docID, String parentID, String ID,
+	public static edu.pnu.stem.feature.IndoorFeatures createIndoorFeatures(String docID, String parentID, String ID,
 			String primalSpaceFeatures, String multiLayeredGraph) {
-		edu.pnu.stem.reference.IndoorFeatures newFeature = null;
+		edu.pnu.stem.feature.IndoorFeatures newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setID(ID);
 			//newFeature.setParentID(parentID);
@@ -49,11 +49,11 @@ public class IndoorFeatures {
 	public edu.pnu.stem.feature.IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
 		return null;
 	};
-	public edu.pnu.stem.reference.IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
 			String object ) {
-		edu.pnu.stem.reference.IndoorFeatures target = null;
+		edu.pnu.stem.feature.IndoorFeatures target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.IndoorFeatures) Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.IndoorFeatures) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("primalSpaceFeatures")) {
 				target.setPrimalSpaceFeatures(object);
 				//TODO : add cellSpace to cellSpace container and ID container
@@ -77,7 +77,7 @@ public class IndoorFeatures {
 	public void deleteIndoorFeatures(String docId, String Id) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.IndoorFeatures target = (edu.pnu.stem.reference.IndoorFeatures) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.IndoorFeatures target = (edu.pnu.stem.feature.IndoorFeatures) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("IndoorFeatures").remove(Id);

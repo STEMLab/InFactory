@@ -18,8 +18,8 @@ public class Nodes {
 	public edu.pnu.stem.feature.Nodes createNodes(String ID, String parentID, List<State> sl) {
 		return null;
 	}
-	public edu.pnu.stem.reference.Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
-		edu.pnu.stem.reference.Nodes newFeature = null;
+	public edu.pnu.stem.feature.Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
+		edu.pnu.stem.feature.Nodes newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			if(stateMember != null){
@@ -50,11 +50,11 @@ public class Nodes {
 	 * @param sl list of states which are related by this Nodes relationship 
 	 * @return edited Nodes feature
 	 */
-	public edu.pnu.stem.reference.Nodes updateNodes(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.Nodes updateNodes(String docId, String Id, String attributeType,
 			String updateType, List<String>object, Boolean deleteDuality) {
-		edu.pnu.stem.reference.Nodes target = null;
+		edu.pnu.stem.feature.Nodes target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.Nodes)Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.Nodes)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("stateMember")){
 				List<String>stateMember = target.getStateMember();
 				if(updateType != null){
@@ -90,7 +90,7 @@ public class Nodes {
 	public static void deleteNodes(String docId, String Id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.Nodes target = (edu.pnu.stem.reference.Nodes) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.Nodes target = (edu.pnu.stem.feature.Nodes) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("Nodes").remove(Id);

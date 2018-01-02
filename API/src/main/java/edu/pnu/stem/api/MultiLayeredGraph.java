@@ -20,10 +20,10 @@ public class MultiLayeredGraph {
 	public edu.pnu.stem.feature.MultiLayeredGraph createMultilayeredGraph(String ID, String parentID, List<SpaceLayer> sl, InterEdges ie) {
 		return null;
 	}
-	public edu.pnu.stem.reference.MultiLayeredGraph createMultiLayeredGraph(String docID, String parentID, String ID, List<String>spaceLayers, List<String>interEdges){
-		edu.pnu.stem.reference.MultiLayeredGraph newFeature = null;
+	public edu.pnu.stem.feature.MultiLayeredGraph createMultiLayeredGraph(String docID, String parentID, String ID, List<String>spaceLayers, List<String>interEdges){
+		edu.pnu.stem.feature.MultiLayeredGraph newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
-			newFeature = new edu.pnu.stem.reference.MultiLayeredGraph();
+			newFeature = new edu.pnu.stem.feature.MultiLayeredGraph();
 			newFeature.setID(ID);
 			newFeature.setParentID(parentID);
 			if (spaceLayers!= null) {
@@ -60,11 +60,11 @@ public class MultiLayeredGraph {
 	public edu.pnu.stem.feature.MultiLayeredGraph updateMultilayeredGraph(String ID, List<SpaceLayer> sl, InterEdges ie) {
 		return null;
 	}
-	public edu.pnu.stem.reference.MultiLayeredGraph updateMultiLayeredGraph(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.MultiLayeredGraph updateMultiLayeredGraph(String docId, String Id, String attributeType,
 			String updateType, List<String>object ) {
-		edu.pnu.stem.reference.MultiLayeredGraph target = null;
+		edu.pnu.stem.feature.MultiLayeredGraph target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.MultiLayeredGraph) Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.MultiLayeredGraph) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("spaceLayers")) {
 				List<String>spaceLayers = target.getSpaceLayers();
 				if(updateType.equals("add")){
@@ -116,7 +116,7 @@ public class MultiLayeredGraph {
 	public void deleteMultiLayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.MultiLayeredGraph target = (edu.pnu.stem.reference.MultiLayeredGraph) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.MultiLayeredGraph target = (edu.pnu.stem.feature.MultiLayeredGraph) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			if(deleteALL){

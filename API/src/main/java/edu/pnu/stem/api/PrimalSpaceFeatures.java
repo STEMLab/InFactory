@@ -27,9 +27,9 @@ public class PrimalSpaceFeatures {
 		return null;
 	}
 	
-	public static edu.pnu.stem.reference.PrimalSpaceFeatures createPrimalFeatures(String docID, String parentID, String ID,
+	public static edu.pnu.stem.feature.PrimalSpaceFeatures createPrimalFeatures(String docID, String parentID, String ID,
 			List<String>cellSpaceMember, List<String>cellSpaceBoundaryMember) {
-		edu.pnu.stem.reference.PrimalSpaceFeatures newFeature = null;
+		edu.pnu.stem.feature.PrimalSpaceFeatures newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setID(ID);
 			newFeature.setParentID(parentID);
@@ -63,11 +63,11 @@ public class PrimalSpaceFeatures {
 		return null;
 	}
 	
-	public edu.pnu.stem.reference.PrimalSpaceFeatures updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.PrimalSpaceFeatures updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>object ) {
-		edu.pnu.stem.reference.PrimalSpaceFeatures target = null;
+		edu.pnu.stem.feature.PrimalSpaceFeatures target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.PrimalSpaceFeatures) Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.PrimalSpaceFeatures) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("cellSpaceMember")) {
 				List<String>cellSpaceMember = target.getCellSpaceMember();
 				if(updateType.equals("add")){
@@ -115,7 +115,7 @@ public class PrimalSpaceFeatures {
 	public void deletePrimalSpaceFeatures(String docId, String Id) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.PrimalSpaceFeatures target = (edu.pnu.stem.reference.PrimalSpaceFeatures) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.PrimalSpaceFeatures target = (edu.pnu.stem.feature.PrimalSpaceFeatures) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("PrimalSpaceFeatures").remove(Id);

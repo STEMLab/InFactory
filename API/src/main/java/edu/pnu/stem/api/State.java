@@ -28,9 +28,9 @@ public class State {
 	 * @return searched State feature instance
 	 */
 	
-	public static edu.pnu.stem.reference.State createState(String docId, String parentId, String Id,
+	public static edu.pnu.stem.feature.State createState(String docId, String parentId, String Id,
 			String duality, List<String> connects, String geometry, String externalReference) {
-		edu.pnu.stem.reference.State newFeature = null;
+		edu.pnu.stem.feature.State newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			newFeature.setParentID(parentId);
@@ -78,11 +78,11 @@ public class State {
 	public edu.pnu.stem.feature.State updateState(String ID, CellSpace d, Transition t, PointType geo) {
 		return null;
 	}
-	public edu.pnu.stem.reference.State updateState(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.State updateState(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
-		edu.pnu.stem.reference.State target = null;
+		edu.pnu.stem.feature.State target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.State) Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.State) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("geometry")) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			} else if (attributeType.equals("connects")) {
@@ -113,7 +113,7 @@ public class State {
 	public static void deleteState(String docId, String Id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.State target = (edu.pnu.stem.reference.State) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.State target = (edu.pnu.stem.feature.State) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("State").remove(Id);

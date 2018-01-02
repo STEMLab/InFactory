@@ -5,8 +5,8 @@ import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
 public class InterEdges {
-	public static edu.pnu.stem.reference.InterEdges createInterEdges(String docId, String parentId, String Id, List<String>interLayerConnectionMember){
-		edu.pnu.stem.reference.InterEdges newFeature = null;
+	public static edu.pnu.stem.feature.InterEdges createInterEdges(String docId, String parentId, String Id, List<String>interLayerConnectionMember){
+		edu.pnu.stem.feature.InterEdges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			
@@ -27,10 +27,10 @@ public class InterEdges {
 		edu.pnu.stem.feature.InterEdges target = null;
 		return target;
 	}
-	public static edu.pnu.stem.reference.InterEdges updateInterEdges(String docId, String Id, String attributeType, String updateType, Object o){
-		edu.pnu.stem.reference.InterEdges target = null;
+	public static edu.pnu.stem.feature.InterEdges updateInterEdges(String docId, String Id, String attributeType, String updateType, Object o){
+		edu.pnu.stem.feature.InterEdges target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.InterEdges)Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.InterEdges)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("interLayerConnectionMember")){
 				List<String>interLayerConnectionMember = target.getInterLayerConnectionMember();
 				if(updateType != null){
@@ -62,7 +62,7 @@ public class InterEdges {
 	public static void deleteInterEdges(String docId, String Id){
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.InterEdges target = (edu.pnu.stem.reference.InterEdges) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.InterEdges target = (edu.pnu.stem.feature.InterEdges) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("InterEdges").remove(Id);

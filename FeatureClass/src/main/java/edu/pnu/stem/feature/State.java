@@ -26,13 +26,25 @@ public class State {
 	 */
 	public List<String>connects = new ArrayList<String>();
 	
+	public String externalReference;
 	/**
 	 * geometry of this feature
 	 */
 	public PointPropertyType geometry;
 	
+	public void setExternalReference(String e){
+		this.externalReference = e;
+	}
+	public String getExternalReference(){
+		return this.externalReference;
+	}
+	public String parentID;
+	
 	public String getID(){ return this.ID; }
 	public void setID(String id){ this.ID = id;} 
+	
+	public void setParentID(String id){this.parentID = id;}
+	public String getParentID(){return this.parentID;}
 	
 	public PointPropertyType getGeometry(){return this.geometry;}
 	public void setGeometry(PointPropertyType g){ this.geometry = g; }
@@ -49,5 +61,12 @@ public class State {
 		}
 	}
 	public List<String> getConnects(){ return this.connects;}
-
+	public List<Object> getConnectsInstance(){
+		List<Object>feature = new ArrayList<Object>();
+		for(int i = 0 ; i < connects.size(); i++){
+			feature.add(IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.connects.get(i)));
+		}
+		return feature;
+		
+	}
 }

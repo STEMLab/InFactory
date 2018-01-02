@@ -25,8 +25,8 @@ public class Edges {
 	 * @return searched target feature
 	 */
 	
-	public edu.pnu.stem.reference.Edges createNodes(String docId, String parentId, String Id, List<String>transitionMember){
-		edu.pnu.stem.reference.Edges newFeature = null;
+	public edu.pnu.stem.feature.Edges createNodes(String docId, String parentId, String Id, List<String>transitionMember){
+		edu.pnu.stem.feature.Edges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			if(transitionMember != null){
@@ -45,11 +45,11 @@ public class Edges {
 		return null;
 	};
 	
-	public edu.pnu.stem.reference.Edges updateNodes(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.Edges updateNodes(String docId, String Id, String attributeType,
 			String updateType, List<String>object, Boolean deleteDuality) {
-		edu.pnu.stem.reference.Edges target = null;
+		edu.pnu.stem.feature.Edges target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.Edges)Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.Edges)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("transitionMember")){
 				List<String>transitionMember = target.getTransitionMember();
 				if(updateType != null){
@@ -91,7 +91,7 @@ public class Edges {
 		
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.Edges target = (edu.pnu.stem.reference.Edges) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.Edges target = (edu.pnu.stem.feature.Edges) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			

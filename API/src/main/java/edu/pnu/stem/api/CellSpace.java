@@ -20,9 +20,9 @@ public class CellSpace {
 	 * @param externalReference
 	 * @return
 	 */
-	public static edu.pnu.stem.reference.CellSpace createCellSpace(String docID, String parentID, String ID,
+	public static edu.pnu.stem.feature.CellSpace createCellSpace(String docID, String parentID, String ID,
 			String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
-		edu.pnu.stem.reference.CellSpace newFeature = null;
+		edu.pnu.stem.feature.CellSpace newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setID(ID);
 			newFeature.setParentID(parentID);
@@ -54,8 +54,8 @@ public class CellSpace {
 	 * @param Id
 	 * @return
 	 */
-	public edu.pnu.stem.reference.CellSpace readCellSpace(String docId, String Id) {
-		edu.pnu.stem.reference.CellSpace target = (edu.pnu.stem.reference.CellSpace) Container.getInstance().getFeature(docId, Id);
+	public edu.pnu.stem.feature.CellSpace readCellSpace(String docId, String Id) {
+		edu.pnu.stem.feature.CellSpace target = (edu.pnu.stem.feature.CellSpace) Container.getInstance().getFeature(docId, Id);
 		return target;
 	};
 
@@ -72,11 +72,11 @@ public class CellSpace {
 	 *            : Data of updated attribute
 	 * @return : updated feature instance
 	 */
-	public edu.pnu.stem.reference.CellSpace updateCellSpace(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.CellSpace updateCellSpace(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
-		edu.pnu.stem.reference.CellSpace target = null;
+		edu.pnu.stem.feature.CellSpace target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.CellSpace) Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.CellSpace) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("cellSpaceGeometry")) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			} else if (attributeType.equals("partialboundedBy")) {
@@ -124,7 +124,7 @@ public class CellSpace {
 	public static void deleteCellSpace(String docId, String Id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.CellSpace target = (edu.pnu.stem.reference.CellSpace) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.CellSpace target = (edu.pnu.stem.feature.CellSpace) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			List<String> partialboundedBy = target.getPartialboundedBy();

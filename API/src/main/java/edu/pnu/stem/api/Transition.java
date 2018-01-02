@@ -21,12 +21,12 @@ public class Transition {
 	 * @param connects
 	 * @return
 	 */
-	public static edu.pnu.stem.reference.Transition createTransition(String docId, String parentId,
+	public static edu.pnu.stem.feature.Transition createTransition(String docId, String parentId,
 			String Id, String name, String description, String duality, String geometry,
 			String externalReference, String[]connects) {
-		edu.pnu.stem.reference.Transition newFeature = null;
+		edu.pnu.stem.feature.Transition newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
-			newFeature = new edu.pnu.stem.reference.Transition();
+			newFeature = new edu.pnu.stem.feature.Transition();
 			newFeature.setDuality(duality);
 			newFeature.setParentID(parentId);
 			if (name != null) {
@@ -67,8 +67,8 @@ public class Transition {
 	 * @param ID ID of target
 	 * @return searched Transition feature instance
 	 */
-	public edu.pnu.stem.reference.Transition readTransition(String docId, String Id) {
-		edu.pnu.stem.reference.Transition target = (edu.pnu.stem.reference.Transition) Container.getInstance().getFeature(docId, Id);
+	public edu.pnu.stem.feature.Transition readTransition(String docId, String Id) {
+		edu.pnu.stem.feature.Transition target = (edu.pnu.stem.feature.Transition) Container.getInstance().getFeature(docId, Id);
 		return target;
 	}
 
@@ -81,11 +81,11 @@ public class Transition {
 	 * @param weight weight can be used for applications in order to deal with the impedance representing absolute barriers in transportation problems 
 	 * @return edited Transition feature instance 
 	 */
-	public edu.pnu.stem.reference.Transition updateTransition(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.Transition updateTransition(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
-		edu.pnu.stem.reference.Transition target = null;
+		edu.pnu.stem.feature.Transition target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.Transition) Container.getInstance().getFeature(docId,
+			target = (edu.pnu.stem.feature.Transition) Container.getInstance().getFeature(docId,
 					Id);
 			if (attributeType.equals("geometry") ) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
@@ -136,7 +136,7 @@ public class Transition {
 	public static void deleteTransition(String docId, String Id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.Transition target = (edu.pnu.stem.reference.Transition) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.Transition target = (edu.pnu.stem.feature.Transition) Container.getInstance().getFeature(docId,
 					Id);
 			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
 			doc.getFeatureContainer("Transition").remove(Id);

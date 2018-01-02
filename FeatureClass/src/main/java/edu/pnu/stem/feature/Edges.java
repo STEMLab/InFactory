@@ -17,6 +17,10 @@ public class Edges {
 	/**
 	 * contains list of Transitions as list
 	 */
-	public List<Transition> transitionMember;
-
+	public List<String> transitionMember;
+	
+	public String parentID;
+	
+	public void setParentID(String id){this.parentID = id;}
+	public String getParentID(){return this.parentID;}
 }	

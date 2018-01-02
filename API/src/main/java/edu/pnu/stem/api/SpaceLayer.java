@@ -23,9 +23,9 @@ public class SpaceLayer {
 	 * @return created SpaceLayer feature instance
 	 */
 
-	public static edu.pnu.stem.reference.SpaceLayer createSpaceLayer(String docID, String parentID, String ID,
+	public static edu.pnu.stem.feature.SpaceLayer createSpaceLayer(String docID, String parentID, String ID,
 			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
-		edu.pnu.stem.reference.SpaceLayer newFeature = null;
+		edu.pnu.stem.feature.SpaceLayer newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setID(ID);
 			newFeature.setParentID(parentID);
@@ -84,11 +84,11 @@ public class SpaceLayer {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return edited SpaceLayer feature instance
 	 */
-	public edu.pnu.stem.reference.SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+	public edu.pnu.stem.feature.SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>objectMember, Object object , Boolean deleteDuality ) {
-		edu.pnu.stem.reference.SpaceLayer target = null;
+		edu.pnu.stem.feature.SpaceLayer target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.reference.SpaceLayer) Container.getInstance().getFeature(docId, Id);
+			target = (edu.pnu.stem.feature.SpaceLayer) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("nodes")) {
 				List<String>nodes = target.getNodes();
 				if(updateType.equals("add")){
@@ -99,7 +99,7 @@ public class SpaceLayer {
 					for(int i = 0 ; i < objectMember.size();i++){
 						if(nodes.contains(objectMember.get(i))){
 							nodes.remove(objectMember.get(i));
-							edu.pnu.stem.reference.Nodes singleNodes= (edu.pnu.stem.reference.Nodes)Container.getInstance().getFeature(docId, objectMember.get(i));
+							edu.pnu.stem.feature.Nodes singleNodes= (edu.pnu.stem.feature.Nodes)Container.getInstance().getFeature(docId, objectMember.get(i));
 							List<String>stateMember = singleNodes.getStateMember();
 							for(int j = 0 ; j < stateMember.size();j++){
 								State.deleteState(docId, stateMember.get(i), deleteDuality);
@@ -123,7 +123,7 @@ public class SpaceLayer {
 					for(int i = 0 ; i < objectMember.size();i++){
 						if(edges.contains(objectMember.get(i))){
 							edges.remove(objectMember.get(i));
-							edu.pnu.stem.reference.Edges singleEdges= (edu.pnu.stem.reference.Edges)Container.getInstance().getFeature(docId, objectMember.get(i));
+							edu.pnu.stem.feature.Edges singleEdges= (edu.pnu.stem.feature.Edges)Container.getInstance().getFeature(docId, objectMember.get(i));
 							List<String>edgesMember = singleEdges.getTransitionMember();
 							for(int j = 0 ; j < edgesMember.size();j++){
 								Edges.deleteEdges(docId, edgesMember.get(i), false);
@@ -165,7 +165,7 @@ public class SpaceLayer {
 	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.reference.SpaceLayer target = (edu.pnu.stem.reference.SpaceLayer) Container.getInstance().getFeature(docId,
+			edu.pnu.stem.feature.SpaceLayer target = (edu.pnu.stem.feature.SpaceLayer) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("SpaceLayer").remove(Id);
@@ -174,7 +174,7 @@ public class SpaceLayer {
 			List<String>edges  = target.getEdges();
 			
 			for(int i = 0 ; i < nodes.size();i++){
-				edu.pnu.stem.reference.Nodes singleNodes = (edu.pnu.stem.reference.Nodes)doc.getFeature(nodes.get(i));
+				edu.pnu.stem.feature.Nodes singleNodes = (edu.pnu.stem.feature.Nodes)doc.getFeature(nodes.get(i));
 				List<String>stateMembers = singleNodes.getStateMember();
 				for(int j = 0 ; j < stateMembers.size();j++){
 					State.deleteState(docId, stateMembers.get(i), false);
@@ -186,7 +186,7 @@ public class SpaceLayer {
 			
 			
 			for(int i = 0 ; i < edges.size();i++){
-				edu.pnu.stem.reference.Edges singleEdges = (edu.pnu.stem.reference.Edges)doc.getFeature(nodes.get(i));
+				edu.pnu.stem.feature.Edges singleEdges = (edu.pnu.stem.feature.Edges)doc.getFeature(nodes.get(i));
 				List<String>transitionMember = singleEdges.getTransitionMember();
 				for(int j = 0 ; j < transitionMember.size();j++){
 				
