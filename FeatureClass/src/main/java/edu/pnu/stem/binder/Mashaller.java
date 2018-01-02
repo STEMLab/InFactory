@@ -20,14 +20,10 @@ import net.opengis.indoorgml.navigation.v_1_0.RouteType;
 
 public class Mashaller {
 
-
 	public static void exportIndoorGMLCore(Properties props, String id, String filePath) throws Exception {
-	
-		IndoorFeaturesType indoorFeaturesType = Convert2JaxbClass.change2JaxbClass((IndoorFeatures)Convert2FeatureClass.docContainer.getFeature(id));
-		marshalIndoorFeatures(filePath, indoorFeaturesType);
+		//IndoorFeaturesType indoorFeaturesType = Convert2JaxbClass.change2JaxbClass((IndoorFeatures)Convert2FeatureClass.docContainer.getFeature(id));
+		//marshalIndoorFeatures(filePath, indoorFeaturesType);
 	}
-
-
 
 	private void marshalRoute(String path, RouteType routeType) throws JAXBException {
 
