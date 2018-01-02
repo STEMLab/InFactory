@@ -14,16 +14,6 @@
 			<version>2.2.11</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-core</artifactId>
-			<version>2.2.11</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.2.11</version>
-		</dependency>
-		<dependency>
 			<groupId>org.jvnet.ogc</groupId>
 			<artifactId>gml-v_3_2_1</artifactId>
 			<version>2.6.2-SNAPSHOT</version>
