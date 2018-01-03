@@ -9,18 +9,18 @@ public class CellSpaceBoundary extends AbstractFeature {
 	 * value of Transition which has duality relationship with this
 	 * CellSpaceBoundary
 	 */
-	public String duality;
+	String duality;
 
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	public String externalReference;
+	String externalReference;
 
 	/**
 	 * ID of parent feature instance
 	 */
-	public String parentID;
-	public String cellSpaceBoundaryGeometry;
+	String parentID;
+	String cellSpaceBoundaryGeometry;
 
 	public void setParentID(String id) {
 		this.parentID = id;

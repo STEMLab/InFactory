@@ -10,37 +10,37 @@ public class CellSpace extends AbstractFeature{
 	/**
 	 * value of geometry of feature
 	 */
-	public String geometry2D;
+	String geometry2D;
 
-	public String geometry3D;
+	String geometry3D;
 
 	/**
 	 * temporal attribute for IndoorGML 1.0.1. for compatibility, Write the
 	 * geometry type as String. Later this will be discarded or changed
 	 */
-	public String geometryType;
+	String geometryType;
 	/**
 	 * temporal attribute for IndoorGML 1.0.1.
 	 */
-	public String cellSpaceGeometryObject;
+	String cellSpaceGeometryObject;
 	/**
 	 * boundary of the CellSpace
 	 */
-	public List<String> partialboundedBy;
+	List<String> partialboundedBy;
 	/**
 	 * value of State which has duality relationship with the CellSpace
 	 */
-	public String duality;
+	String duality;
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	public String externalReference;
+	String externalReference;
 
 	
 	/**
 	 * ID of parent feature instance.
 	 */
-	public String parentID;
+	String parentID;
 	
 	public void setParentID(String parentID){
 		this.parentID = parentID;

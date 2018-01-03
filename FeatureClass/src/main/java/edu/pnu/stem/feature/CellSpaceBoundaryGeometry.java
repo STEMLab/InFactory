@@ -6,12 +6,12 @@ package edu.pnu.stem.feature;
  */
 public class CellSpaceBoundaryGeometry extends AbstractFeature{
 	
-	public String geometry2D;
-	public String geometry3D;
+	String geometry2D;
+	String geometry3D;
 	/**
 	 * ID of parent feature instance.
 	 */	
-	public String parentID;
+String parentID;
 	
 	public String getParentID(){return this.parentID;}
 	public void setParentID(String id){this.parentID = id;}

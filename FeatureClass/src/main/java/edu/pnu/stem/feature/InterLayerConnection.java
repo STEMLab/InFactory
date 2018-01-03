@@ -5,23 +5,23 @@ package edu.pnu.stem.feature;
  */
 public class InterLayerConnection extends AbstractFeature {
 	
-	public String parentID;
+	String parentID;
 	
-	public typeOfTopoExpressionCode typeOfTopoExpression;
+	typeOfTopoExpressionCode typeOfTopoExpression;
 	/**
 	 * describe characteristic of this instance
 	 */
-	public String comment;
+	String comment;
 	/**
 	 * save list of ID of States which are related with each others as this
 	 * InterLayerConnection
 	 */
-	public String[] interConnects;
+	String[] interConnects;
 	/**
 	 * save list of ID of SpaceLayers which are related with each others as this
 	 * InterLayerConnection
 	 */
-	public String[] connectedLayers;
+	String[] connectedLayers;
 
 	public Boolean checkInterConnectsNumber() {
 		// Boolean flag = false;

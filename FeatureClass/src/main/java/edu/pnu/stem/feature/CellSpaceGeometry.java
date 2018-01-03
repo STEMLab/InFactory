@@ -10,17 +10,17 @@ public class CellSpaceGeometry extends AbstractFeature{
 	/**
 	 * save geometry of feature 
 	 */
-	public AbstractGeometryType geometry;
+	AbstractGeometryType geometry;
 	/**
 	 * save geometry type of feature. 
 	 * value can be set as "2D" or "3D"
 	 */
-	public String geometryType;
+	String geometryType;
 	
-	public String geometry2D;
-	public String geometry3D;
+	String geometry2D;
+	String geometry3D;
 	
-	public String parentID;
+	String parentID;
 	
 	public String getID(){ return this.ID; }
 	public void setID(String id){ this.ID = id;} 

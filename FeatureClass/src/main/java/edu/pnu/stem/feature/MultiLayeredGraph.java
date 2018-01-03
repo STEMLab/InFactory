@@ -11,13 +11,13 @@ public class MultiLayeredGraph extends AbstractFeature {
 	/**
 	 * list of the SpaceLayers which are related with in this MultiLayeredGraph
 	 */
-	public List<String> spaceLayers;
+	List<String> spaceLayers;
 	/**
 	 * InterEdges which is between SpaceLayeres
 	 */
-	public List<String> interEdges;
+	List<String> interEdges;
 
-	public String parentID;
+	String parentID;
 
 	/**
 	 * @return the spaceLayers

@@ -11,9 +11,9 @@ public class InterEdges extends AbstractFeature {
 	/**
 	 * hold list of InterLayerConnections
 	 */
-	public List<String> interLayerConnectionMember;
+	List<String> interLayerConnectionMember;
 
-	public String parentID;
+	String parentID;
 
 	public void setParetID(String pi) {
 		this.parentID = pi;

@@ -9,14 +9,14 @@ public class PrimalSpaceFeatures extends AbstractFeature{
 	/**
 	 * List of CellSpaces which this feature contains
 	 */
-	public List<String>cellSpaceMember;
+	List<String>cellSpaceMember;
 	
 	/**
 	 * List of CellSpaceBoundary which this feature contains
 	 */
-	public List<String>cellSpaceBoundaryMember;
+	List<String>cellSpaceBoundaryMember;
 
-	public String parentID;
+	String parentID;
 	
 	public void setParentID(String id){this.parentID = id;}
 	public String getParentID(){return this.parentID;}

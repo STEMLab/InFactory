@@ -8,11 +8,11 @@ public class IndoorFeatures extends AbstractFeature{
 	/**
 	 * save PriamlSpaceFeatures value
 	 */
-	public String primalSpaceFeatures;
+	String primalSpaceFeatures;
 	/**
 	 * save MultiLayeredGraph value
 	 */
-	public String multiLayeredGraph;
+	String multiLayeredGraph;
 	/**
 	 * @return the primalSpaceFeatures
 	 */

@@ -7,9 +7,9 @@ public class Nodes extends AbstractFeature{
 	/**
 	 * State list which this feature contains
 	 */
-	public List<String> stateMember;
+	List<String> stateMember;
 
-	public String parentID;
+	String parentID;
 
 	public void setParentID(String id) {
 		this.parentID = id;
