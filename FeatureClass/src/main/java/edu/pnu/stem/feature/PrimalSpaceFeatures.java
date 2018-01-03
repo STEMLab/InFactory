@@ -5,15 +5,7 @@ import java.util.List;
  * @author jungh
  *	Implements PrimalSpaceFeaturesType of IndoorGML 1.0.3
  */
-public class PrimalSpaceFeatures {
-	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
+public class PrimalSpaceFeatures extends AbstractFeature{
 	/**
 	 * List of CellSpaces which this feature contains
 	 */
@@ -28,30 +20,7 @@ public class PrimalSpaceFeatures {
 	
 	public void setParentID(String id){this.parentID = id;}
 	public String getParentID(){return this.parentID;}
-	/**
-	 * @return the iD
-	 */
-	public String getID() {
-		return ID;
-	}
-	/**
-	 * @param iD the iD to set
-	 */
-	public void setID(String iD) {
-		ID = iD;
-	}
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+
 	/**
 	 * @return the cellSpaceMember
 	 */
