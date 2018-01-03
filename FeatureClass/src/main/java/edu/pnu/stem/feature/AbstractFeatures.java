@@ -1,7 +1,5 @@
 package edu.pnu.stem.feature;
 
-import net.opengis.gml.v_3_2_1.BoundingShapeType;
-
 /**
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
@@ -11,20 +9,23 @@ public class AbstractFeatures {
 	/**
 	 * ID of this feature
 	 */
-	public String ID;
+	String ID;
 	/**
 	 * Name of this feature
 	 */
-	public String name;
+	String name;
 	/**
-	 * value of envelope which wrap this feature
+	 * reference Id of envelope which wrap this feature
 	 */
-	public BoundingShapeType boundedBy;
-	// Location location;
+	String boundedBy;
+	/**
+	 * reference Id of location
+	 */
+	String location;
 	/**
 	 * describe this feature
 	 */
-	public String description;
+	String description;
 	/**
 	 * @return the iD
 	 */
@@ -52,26 +53,38 @@ public class AbstractFeatures {
 	/**
 	 * @return the boundedBy
 	 */
-	public BoundingShapeType getBoundedBy() {
-		return boundedBy;
+	public String getBoundedBy() {
+		return new String(boundedBy);
 	}
 	/**
 	 * @param boundedBy the boundedBy to set
 	 */
-	public void setBoundedBy(BoundingShapeType boundedBy) {
+	public void setBoundedBy(String boundedBy) {
 		this.boundedBy = boundedBy;
 	}
 	/**
 	 * @return the description
 	 */
 	public String getDescription() {
-		return description;
+		return new String(description);
 	}
 	/**
 	 * @param description the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	/**
+	 * @return the location
+	 */
+	public String getLocation() {
+		return new String(location);
+	}
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }
