@@ -4,7 +4,7 @@ package edu.pnu.stem.feature;
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
  */
-public class AbstractFeatures {
+public class AbstractFeature {
 	
 	/**
 	 * ID of this feature

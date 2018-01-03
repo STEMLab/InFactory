@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import edu.pnu.stem.feature.AbstractFeatures;
+import edu.pnu.stem.feature.AbstractFeature;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
@@ -65,8 +65,8 @@ import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
 
 public class Convert2FeatureClass {
 	
-	static AbstractFeatures change2FeatureClass(AbstractFeatureType feature, String parentID) {
-		AbstractFeatures newFeature = new AbstractFeatures();
+	static AbstractFeature change2FeatureClass(AbstractFeatureType feature, String parentID) {
+		AbstractFeature newFeature = new AbstractFeature();
 		Object tempLocation = feature.getLocation().getValue();
 		newFeature.ID = feature.getId();
 		newFeature.boundedBy = feature.getBoundedBy();
