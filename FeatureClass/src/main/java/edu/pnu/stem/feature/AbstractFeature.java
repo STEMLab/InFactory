@@ -2,8 +2,6 @@ package edu.pnu.stem.feature;
 
 import org.locationtech.jts.geom.Envelope;
 
-import net.opengis.gml.v_3_2_1.BoundingShapeType;
-
 /**
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
@@ -13,20 +11,20 @@ public class AbstractFeature {
 	/**
 	 * ID of this feature
 	 */
-	public String id;
+	String id;
 	/**
 	 * Name of this feature
 	 */
-	public String name;
+	String name;
 	/**
 	 * value of envelope which wrap this feature
 	 */
-	public Envelope boundedBy;
+	Envelope boundedBy;
 	// Location location;
 	/**
 	 * describe this feature
 	 */
-	public String description;
+	String description;
 	/**
 	 * @return the iD
 	 */

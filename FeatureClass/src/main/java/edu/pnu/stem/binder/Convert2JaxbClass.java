@@ -63,7 +63,7 @@ public class Convert2JaxbClass {
 		//duality.setState(referredState);
 
 		newFeature.setDuality(duality);
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		
 		List<CellSpaceBoundaryPropertyType> partialboundedBy = new ArrayList<CellSpaceBoundaryPropertyType>();
 		
@@ -118,7 +118,7 @@ public class Convert2JaxbClass {
 		
 		duality.setHref(feature.getDuality());
 		newFeature.setDuality(duality);
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		/*
 		 * if(feature.cellSpaceBoundaryGeometry != null){
 			if(feature.cellSpaceBoundaryGeometry instanceof CurveType){
@@ -147,7 +147,7 @@ public class Convert2JaxbClass {
 	public static EdgesType change2JaxbClass(String docId,Edges feature) throws JAXBException{
 		EdgesType newFeature = indoorgmlcoreOF.createEdgesType();
 
-		newFeature.setId(feature.ID);
+		newFeature.setId(feature.getId());
 		
 		
 		List<TransitionMemberType>transitionmember = new ArrayList<TransitionMemberType>();
@@ -203,7 +203,7 @@ public class Convert2JaxbClass {
 	}
 	private static MultiLayeredGraphType change2JaxbClass(String docId, MultiLayeredGraph feature) throws JAXBException {
 		MultiLayeredGraphType newFeature = new MultiLayeredGraphType();
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		
 		List<SpaceLayersType>spaceLayers = new ArrayList<SpaceLayersType>();
 		List<InterEdgesType>interEdges = new ArrayList<InterEdgesType>();
@@ -226,7 +226,7 @@ public class Convert2JaxbClass {
 	}
 	private static InterEdgesType change2JaxbClass(String docId, InterEdges feature) {
 		InterEdgesType newFeature = indoorgmlcoreOF.createInterEdgesType();
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		List<InterLayerConnectionMemberType>interlayerconnectionmember = new ArrayList<InterLayerConnectionMemberType>();
 		
 		for(int i = 0 ; i < feature.getInterLayerConnectionMember().size();i++){
@@ -268,7 +268,7 @@ public class Convert2JaxbClass {
 	static SpaceLayersType change2JaxbClass(String docId, SpaceLayers feature) throws JAXBException{
 		SpaceLayersType newFeature = new SpaceLayersType();
 		
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		List<SpaceLayerMemberType> spaceLayerMember = new ArrayList<SpaceLayerMemberType>(); 
 		for(int i = 0 ; i < feature.getSpaceLayerMemeber().size(); i++){
 			String tempId = feature.getSpaceLayerMemeber().get(i);
@@ -285,7 +285,7 @@ public class Convert2JaxbClass {
 	}
 	private static SpaceLayerType change2JaxbClass(String docId, SpaceLayer feature) throws JAXBException {
 		SpaceLayerType newFeature = new SpaceLayerType();
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 
 		List<EdgesType>edgesTypeList = new ArrayList<EdgesType>();
 		
@@ -316,7 +316,7 @@ public class Convert2JaxbClass {
 	private static NodesType change2JaxbClass(String docId, Nodes feature) throws JAXBException {
 		NodesType newFeature = new NodesType();
 		
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		
 		List<StateMemberType>smTypeList = new ArrayList<StateMemberType>();
 		for(int i = 0 ; i < feature.getStateMember().size();i++){
@@ -336,7 +336,7 @@ public class Convert2JaxbClass {
 
 	static PrimalSpaceFeaturesType change2JaxbClass(String docId, PrimalSpaceFeatures feature) throws JAXBException {
 		PrimalSpaceFeaturesType newFeature = new PrimalSpaceFeaturesType();
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		
 		List<CellSpaceMemberType>cellspacemember = new ArrayList<CellSpaceMemberType>();
 		List<CellSpaceBoundaryMemberType>cellspaceboundarymember = new ArrayList<CellSpaceBoundaryMemberType>();
@@ -381,7 +381,7 @@ public class Convert2JaxbClass {
 		newFeature.setDuality(duality);
 		//feature.geometry
 		newFeature.setConnects(connects);
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		
 		return newFeature;
 	}
@@ -389,7 +389,7 @@ public class Convert2JaxbClass {
 	static TransitionType change2JaxbClass(Transition feature) throws JAXBException{
 		TransitionType newFeature = new TransitionType();
 		//CurveType tempCurve = feature.geometry;
-		newFeature.setId(feature.id);
+		newFeature.setId(feature.getId());
 		
 		List<StatePropertyType>connects = new ArrayList<StatePropertyType>();
 		
