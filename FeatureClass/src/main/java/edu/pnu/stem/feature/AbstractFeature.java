@@ -1,5 +1,7 @@
 package edu.pnu.stem.feature;
 
+import org.locationtech.jts.geom.Envelope;
+
 import net.opengis.gml.v_3_2_1.BoundingShapeType;
 
 /**
@@ -19,7 +21,7 @@ public class AbstractFeature {
 	/**
 	 * value of envelope which wrap this feature
 	 */
-	public BoundingShapeType boundedBy;
+	public Envelope boundedBy;
 	// Location location;
 	/**
 	 * describe this feature
@@ -52,13 +54,13 @@ public class AbstractFeature {
 	/**
 	 * @return the boundedBy
 	 */
-	public BoundingShapeType getBoundedBy() {
+	public Envelope getBoundedBy() {
 		return boundedBy;
 	}
 	/**
 	 * @param boundedBy the boundedBy to set
 	 */
-	public void setBoundedBy(BoundingShapeType boundedBy) {
+	public void setBoundedBy(Envelope boundedBy) {
 		this.boundedBy = boundedBy;
 	}
 	/**
