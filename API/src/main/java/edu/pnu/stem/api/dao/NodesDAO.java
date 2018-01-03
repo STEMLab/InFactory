@@ -1,13 +1,14 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 
 
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.Nodes;
 
 
-public class Nodes {
+public class NodesDAO {
 	/**
 	 * Create Nodes feature instance 
 	 * @param ID ID of Nodes feature
@@ -15,13 +16,13 @@ public class Nodes {
 	 * @param sl list of states which are related by this Nodes relationship
 	 * @return created Nodes feature
 	 */
-	public edu.pnu.stem.feature.Nodes createNodes(String ID, String parentID, List<State> sl) {
+	public Nodes createNodes(String ID, String parentID, List<StateDAO> sl) {
 		return null;
 	}
-	public edu.pnu.stem.feature.Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
-		edu.pnu.stem.feature.Nodes newFeature = null;
+	public Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
+		Nodes newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
-			newFeature.setID(Id);
+			newFeature.setId(Id);
 			if(stateMember != null){
 				newFeature.setStateMember(stateMember);
 			}
@@ -40,7 +41,7 @@ public class Nodes {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public edu.pnu.stem.feature.Nodes readNodes(String ID) {
+	public Nodes readNodes(String ID) {
 		return null;
 	}
 
@@ -50,11 +51,11 @@ public class Nodes {
 	 * @param sl list of states which are related by this Nodes relationship 
 	 * @return edited Nodes feature
 	 */
-	public edu.pnu.stem.feature.Nodes updateNodes(String docId, String Id, String attributeType,
+	public Nodes updateNodes(String docId, String Id, String attributeType,
 			String updateType, List<String>object, Boolean deleteDuality) {
-		edu.pnu.stem.feature.Nodes target = null;
+		Nodes target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.Nodes)Container.getInstance().getFeature(docId, Id);
+			target = (Nodes)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("stateMember")){
 				List<String>stateMember = target.getStateMember();
 				if(updateType != null){
@@ -66,7 +67,7 @@ public class Nodes {
 						for(int i = 0 ; i < object.size();i++){
 							if(stateMember.contains(object.get(i))){
 								stateMember.remove(object.get(i));
-								State.deleteState(docId, object.get(i),deleteDuality);
+								StateDAO.deleteState(docId, object.get(i),deleteDuality);
 							}
 							
 						}
@@ -87,16 +88,16 @@ public class Nodes {
 	 * Search Nodes feature and delete it
 	 * @param ID ID of target
 	 */
-	public static void deleteNodes(String docId, String Id, Boolean deleteDuality) {
+	public static void deleteNodes(String docId, String Id, Boolean deleteDuality) {	
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.Nodes target = (edu.pnu.stem.feature.Nodes) Container.getInstance().getFeature(docId,
+			Nodes target = (Nodes) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("Nodes").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
 			for(int i = 0 ; i < target.getStateMember().size();i++){
-				State.deleteState(docId, target.getStateMember().get(i), deleteDuality);
+				StateDAO.deleteState(docId, target.getStateMember().get(i), deleteDuality);
 			}
 			
 		}

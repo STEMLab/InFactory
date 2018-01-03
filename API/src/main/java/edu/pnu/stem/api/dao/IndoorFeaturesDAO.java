@@ -1,8 +1,9 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.IndoorFeatures;
 
-public class IndoorFeatures {
+public class IndoorFeaturesDAO {
 	/**
 	 * Create IndoorFeatures feature instance
 	 * @param ID ID of feature
@@ -10,14 +11,14 @@ public class IndoorFeatures {
 	 * @param mlg feature instance of MultiLayeredFeatures
 	 * @return created IndoorFeatures feature
 	 */
-	public edu.pnu.stem.feature.IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
+	public IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeaturesDAO psf, MultiLayeredGraphDAO mlg) {
 		return null;
 	};
-	public static edu.pnu.stem.feature.IndoorFeatures createIndoorFeatures(String docID, String parentID, String ID,
+	public static IndoorFeatures createIndoorFeatures(String docID, String parentID, String ID,
 			String primalSpaceFeatures, String multiLayeredGraph) {
-		edu.pnu.stem.feature.IndoorFeatures newFeature = null;
+		IndoorFeatures newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
-			newFeature.setID(ID);
+			newFeature.setId(ID);
 			//newFeature.setParentID(parentID);
 			if (primalSpaceFeatures!= null) {
 				newFeature.setPrimalSpaceFeatures(primalSpaceFeatures);
@@ -35,7 +36,7 @@ public class IndoorFeatures {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public edu.pnu.stem.feature.IndoorFeatures readIndoorFeatures(String ID) {
+	public IndoorFeatures readIndoorFeatures(String ID) {
 		return null;
 	};
 
@@ -46,14 +47,14 @@ public class IndoorFeatures {
 	 * @param mlg feature instance of MultiLayeredFeatures
 	 * @return edited feature
 	 */
-	public edu.pnu.stem.feature.IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
+	public IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeaturesDAO psf, MultiLayeredGraphDAO mlg) {
 		return null;
 	};
-	public edu.pnu.stem.feature.IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
+	public IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
 			String object ) {
-		edu.pnu.stem.feature.IndoorFeatures target = null;
+		IndoorFeatures target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.IndoorFeatures) Container.getInstance().getFeature(docId, Id);
+			target = (IndoorFeatures) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("primalSpaceFeatures")) {
 				target.setPrimalSpaceFeatures(object);
 				//TODO : add cellSpace to cellSpace container and ID container
@@ -77,7 +78,7 @@ public class IndoorFeatures {
 	public void deleteIndoorFeatures(String docId, String Id) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.IndoorFeatures target = (edu.pnu.stem.feature.IndoorFeatures) Container.getInstance().getFeature(docId,
+			IndoorFeatures target = (IndoorFeatures) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("IndoorFeatures").remove(Id);

@@ -1,7 +1,8 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
-public class InterLayerConnection {
+import edu.pnu.stem.feature.InterLayerConnection;
+public class InterLayerConnectionDAO {
 	/**
 	 * Create InterLayerConnection feature instance
 	 * @param ID ID of InterLayerConnection feature
@@ -11,20 +12,21 @@ public class InterLayerConnection {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return created InterLayerConnection
 	 */
-	public edu.pnu.stem.feature.InterLayerConnection createInterLayerConnection(String ID, String parentID, String typeOfTopoExpressionCode,
-			String comment, State[] sl) {
+	public InterLayerConnection createInterLayerConnection(String ID, String parentID, String typeOfTopoExpressionCode,
+			String comment, StateDAO[] sl) {
 		return null;
 	};
-	public static edu.pnu.stem.feature.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
-		edu.pnu.stem.feature.InterLayerConnection newFeature = null;
+	public static InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
+		InterLayerConnection newFeature = null;
 		if(Container.getInstance().hasDoc(docId)){
-			newFeature = new edu.pnu.stem.feature.InterLayerConnection();
+			newFeature = new InterLayerConnection();
 			newFeature.setParentID(parentId);
 			if(typeOfTopoExpression!= null){
 				//newFeature.setTypeOfTopoExpression(typeOfTopoExpression);
 			}
 			if(comment != null){
-				newFeature.setComment(comment);
+				//TODO : comment is not defined
+				//newFeature.setComment(comment);
 			}
 			if(interConnects.length == 2 && ConnectedLayers.length == 2){
 				if(Container.getInstance().hasFeature(docId, interConnects[0])&&Container.getInstance().hasFeature(docId, interConnects[1])){
@@ -54,7 +56,7 @@ public class InterLayerConnection {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public static edu.pnu.stem.feature.InterLayerConnection readInterLayerConnection(String ID) {
+	public static InterLayerConnection readInterLayerConnection(String ID) {
 		return null;
 	}
 
@@ -66,15 +68,16 @@ public class InterLayerConnection {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return edited feature
 	 */
-	public static edu.pnu.stem.feature.InterLayerConnection updateInterLayerConnection(String docId, String Id, String attributeType, String attributeId, Object o){
-		edu.pnu.stem.feature.InterLayerConnection target = null;
+	public static InterLayerConnection updateInterLayerConnection(String docId, String Id, String attributeType, String attributeId, Object o){
+		InterLayerConnection target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.InterLayerConnection) Container.getInstance().getFeature(docId, Id);
+			target = (InterLayerConnection) Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("typeOfTopoExpression")){
 				//TODO: need to set typeOfTopoExpression Code
 			}
 			else if(attributeType.equals("comment")){
-				target.setComment((String)o);
+				//TODO : comment is not defined
+				//target.setComment((String)o);
 			}
 			else if(attributeType.equals("interConnects")){
 				String[]interConnects = (String[])o;

@@ -1,14 +1,15 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.InterEdges;
 
-public class InterEdges {
-	public static edu.pnu.stem.feature.InterEdges createInterEdges(String docId, String parentId, String Id, List<String>interLayerConnectionMember){
-		edu.pnu.stem.feature.InterEdges newFeature = null;
+public class InterEdgesDAO {
+	public static InterEdges createInterEdges(String docId, String parentId, String Id, List<String>interLayerConnectionMember){
+		InterEdges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
-			newFeature.setID(Id);
+			newFeature.setId(Id);
 			
 			newFeature.setParentID(parentId);
 			if(interLayerConnectionMember != null){
@@ -23,14 +24,14 @@ public class InterEdges {
 		
 		return newFeature;
 	}
-	public static edu.pnu.stem.feature.InterEdges readInterEdges(String docId, String Id){
-		edu.pnu.stem.feature.InterEdges target = null;
+	public static InterEdges readInterEdges(String docId, String Id){
+		InterEdges target = null;
 		return target;
 	}
-	public static edu.pnu.stem.feature.InterEdges updateInterEdges(String docId, String Id, String attributeType, String updateType, Object o){
-		edu.pnu.stem.feature.InterEdges target = null;
+	public static InterEdges updateInterEdges(String docId, String Id, String attributeType, String updateType, Object o){
+		InterEdges target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.InterEdges)Container.getInstance().getFeature(docId, Id);
+			target = (InterEdges)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("interLayerConnectionMember")){
 				List<String>interLayerConnectionMember = target.getInterLayerConnectionMember();
 				if(updateType != null){
@@ -42,7 +43,7 @@ public class InterEdges {
 						for(int i = 0 ; i < object.size();i++){
 							if(interLayerConnectionMember.contains(object.get(i))){
 								interLayerConnectionMember.remove(object.get(i));
-								InterLayerConnection.deleteInterLayerConnection(docId, Id);
+								InterLayerConnectionDAO.deleteInterLayerConnection(docId, Id);
 							}
 							
 						}
@@ -62,13 +63,13 @@ public class InterEdges {
 	public static void deleteInterEdges(String docId, String Id){
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.InterEdges target = (edu.pnu.stem.feature.InterEdges) Container.getInstance().getFeature(docId,
+			InterEdges target = (InterEdges) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("InterEdges").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
 			for(int i = 0 ; i < target.getInterLayerConnectionMember().size();i++){
-				InterLayerConnection.deleteInterLayerConnection(docId, target.getInterLayerConnectionMember().get(i));
+				InterLayerConnectionDAO.deleteInterLayerConnection(docId, target.getInterLayerConnectionMember().get(i));
 			}
 			
 		}
