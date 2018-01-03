@@ -1,58 +1,41 @@
 package edu.pnu.stem.feature;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import net.opengis.gml.v_3_2_1.CodeType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType;
 
-public class SpaceLayer {
-	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
-	/**
-	 * description of usage of the feature
-	 */
-	public String usage;
+public class SpaceLayer extends AbstractFeature {
+
+	String usage;
 	/**
 	 * functionality of the feature
 	 */
-	public List<CodeType> function;
+	List<CodeType> function;
 	/**
 	 * time stamp when the SpaceLayer is created
 	 */
-	public Date createDate;
+	Date createDate;
 	/**
 	 * time stamp when the SpaceLayer is expired
 	 */
-	public Date terminationDate;
+	Date terminationDate;
 	/**
 	 * Nodes which the SpaceLayer contains
 	 */
-	public List<String> nodes;
+	List<String> nodes;
 	/**
 	 * Edges which the SpaceLayer contains
 	 */
-	public List<String> edges;
+	List<String> edges;
 	/**
 	 * represent Class type of the SpaceLayer
 	 */
 	// public SpaceLayerClassTypeType classType;
-	public String parentID;
-	public SpaceLayerClassTypeType classType;
-
-	public void setID(String id) {
-		this.ID = id;
-	};
-
-	public String getID() {
-		return this.ID;
-	};
+	String parentID;
+	SpaceLayerClassTypeType classType;
 
 	public void setParentID(String id) {
 		this.parentID = id;
@@ -63,25 +46,10 @@ public class SpaceLayer {
 	}
 
 	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the usage
 	 */
 	public String getUsage() {
-		return usage;
+		return new String(usage);
 	}
 
 	/**
@@ -111,7 +79,7 @@ public class SpaceLayer {
 	 * @return the createDate
 	 */
 	public Date getCreateDate() {
-		return createDate;
+		return new Date(createDate.getTime());
 	}
 
 	/**
@@ -126,7 +94,7 @@ public class SpaceLayer {
 	 * @return the terminationDate
 	 */
 	public Date getTerminationDate() {
-		return terminationDate;
+		return new Date(terminationDate.getTime());
 	}
 
 	/**
@@ -141,7 +109,7 @@ public class SpaceLayer {
 	 * @return the nodes
 	 */
 	public List<String> getNodes() {
-		return nodes;
+		return new ArrayList<String>(nodes);
 	}
 
 	/**
@@ -156,7 +124,7 @@ public class SpaceLayer {
 	 * @return the edges
 	 */
 	public List<String> getEdges() {
-		return edges;
+		return new ArrayList<String>(edges);
 	}
 
 	/**
