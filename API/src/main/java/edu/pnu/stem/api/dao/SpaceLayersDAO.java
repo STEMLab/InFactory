@@ -3,13 +3,14 @@ import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.SpaceLayers;
 
 public class SpaceLayersDAO {
-	public static edu.pnu.stem.feature.SpaceLayers createSpaceLayers(String docID, String parentID, String ID,
+	public static SpaceLayers createSpaceLayers(String docID, String parentID, String ID,
 			List<String>spaceLayerMember  ) {
-		edu.pnu.stem.feature.SpaceLayers newFeature = null;
+		SpaceLayers newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
-			newFeature.setID(ID);
+			newFeature.setId(ID);
 			newFeature.setParentID(parentID);
 			if (spaceLayerMember!= null) {
 				newFeature.setSpaceLayerMember(spaceLayerMember);
@@ -40,11 +41,11 @@ public class SpaceLayersDAO {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return edited SpaceLayer feature instance
 	 */
-	public static edu.pnu.stem.feature.SpaceLayers updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+	public static SpaceLayers updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>objectMember, Object object , Boolean deleteDuality ) {
-		edu.pnu.stem.feature.SpaceLayers target = null;
+		SpaceLayers target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.SpaceLayers) Container.getInstance().getFeature(docId, Id);
+			target = (SpaceLayers) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("spaceLayerMember")) {
 				List<String>spaceLayerMember = target.getSpaceLayerMember();
 				if(updateType.equals("add")){
@@ -82,7 +83,7 @@ public class SpaceLayersDAO {
 	public static void deleteSpaceLayers(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.SpaceLayers target = (edu.pnu.stem.feature.SpaceLayers) Container.getInstance().getFeature(docId,
+			SpaceLayers target = (SpaceLayers) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("SpaceLayers").remove(Id);

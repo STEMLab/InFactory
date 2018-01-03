@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.Edges;
 
 
 public class EdgesDAO {
@@ -15,7 +16,7 @@ public class EdgesDAO {
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return created Edges feature
 	 */
-	public edu.pnu.stem.feature.Edges createEdges(String ID, String parentID, List<TransitionDAO> tl) {
+	public Edges createEdges(String ID, String parentID, List<TransitionDAO> tl) {
 		return null;
 	};
 
@@ -25,8 +26,8 @@ public class EdgesDAO {
 	 * @return searched target feature
 	 */
 	
-	public edu.pnu.stem.feature.Edges createNodes(String docId, String parentId, String Id, List<String>transitionMember){
-		edu.pnu.stem.feature.Edges newFeature = null;
+	public Edges createNodes(String docId, String parentId, String Id, List<String>transitionMember){
+		Edges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			if(transitionMember != null){
@@ -41,15 +42,15 @@ public class EdgesDAO {
 		
 		return newFeature;
 	}
-	public edu.pnu.stem.feature.Edges readEdges(String ID) {
+	public Edges readEdges(String ID) {
 		return null;
 	};
 	
-	public edu.pnu.stem.feature.Edges updateNodes(String docId, String Id, String attributeType,
+	public Edges updateNodes(String docId, String Id, String attributeType,
 			String updateType, List<String>object, Boolean deleteDuality) {
-		edu.pnu.stem.feature.Edges target = null;
+		Edges target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.Edges)Container.getInstance().getFeature(docId, Id);
+			target = (Edges)Container.getInstance().getFeature(docId, Id);
 			if(attributeType.equals("transitionMember")){
 				List<String>transitionMember = target.getTransitionMembers();
 				if(updateType != null){
@@ -79,7 +80,7 @@ public class EdgesDAO {
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return edited feature
 	 */
-	public edu.pnu.stem.feature.Edges updateEdges(String ID, List<TransitionDAO> tl) {
+	public Edges updateEdges(String ID, List<TransitionDAO> tl) {
 		return null;
 	};
 
@@ -91,7 +92,7 @@ public class EdgesDAO {
 		
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.Edges target = (edu.pnu.stem.feature.Edges) Container.getInstance().getFeature(docId,
+			Edges target = (Edges) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			

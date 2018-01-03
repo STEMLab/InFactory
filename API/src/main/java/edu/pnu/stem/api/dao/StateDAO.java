@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.State;
 import net.opengis.gml.v_3_2_1.PointType;
 
 public class StateDAO {
@@ -18,7 +19,7 @@ public class StateDAO {
 	 * @param geo Geometry instance of Point which represent this state
 	 * @return created State feature instance
 	 */
-	public edu.pnu.stem.feature.State createState(String ID, String parentID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
+	public State createState(String ID, String parentID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
 		return null;
 	}
 
@@ -28,9 +29,9 @@ public class StateDAO {
 	 * @return searched State feature instance
 	 */
 	
-	public static edu.pnu.stem.feature.State createState(String docId, String parentId, String Id,
+	public static State createState(String docId, String parentId, String Id,
 			String duality, List<String> connects, String geometry, String externalReference) {
-		edu.pnu.stem.feature.State newFeature = null;
+		State newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			newFeature.setID(Id);
 			newFeature.setParentID(parentId);
@@ -63,7 +64,7 @@ public class StateDAO {
 	}
 	
 	
-	public edu.pnu.stem.feature.State readState(String ID) {
+	public State readState(String ID) {
 		return null;
 	};
 
@@ -75,14 +76,14 @@ public class StateDAO {
 	 * @param geo Geometry instance of Point which represent this state
 	 * @return edited State feature instance
 	 */
-	public edu.pnu.stem.feature.State updateState(String ID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
+	public State updateState(String ID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
 		return null;
 	}
-	public edu.pnu.stem.feature.State updateState(String docId, String Id, String attributeType,
+	public State updateState(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
-		edu.pnu.stem.feature.State target = null;
+		State target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.State) Container.getInstance().getFeature(docId, Id);
+			target = (State) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("geometry")) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			} else if (attributeType.equals("connects")) {
@@ -113,7 +114,7 @@ public class StateDAO {
 	public static void deleteState(String docId, String Id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.State target = (edu.pnu.stem.feature.State) Container.getInstance().getFeature(docId,
+			State target = (State) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("State").remove(Id);

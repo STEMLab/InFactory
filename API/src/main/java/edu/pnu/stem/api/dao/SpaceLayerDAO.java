@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.SpaceLayer;
 
 
 public class SpaceLayerDAO {
@@ -23,11 +24,11 @@ public class SpaceLayerDAO {
 	 * @return created SpaceLayer feature instance
 	 */
 
-	public static edu.pnu.stem.feature.SpaceLayer createSpaceLayer(String docID, String parentID, String ID,
+	public static SpaceLayer createSpaceLayer(String docID, String parentID, String ID,
 			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
-		edu.pnu.stem.feature.SpaceLayer newFeature = null;
+		SpaceLayer newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
-			newFeature.setID(ID);
+			newFeature.setId(ID);
 			newFeature.setParentID(parentID);
 			if (nodes!= null) {
 				newFeature.setNodes(nodes);
@@ -68,7 +69,7 @@ public class SpaceLayerDAO {
 	 * @param ID ID of target
 	 * @return searched SpaceLayer feature instance
 	 */
-	public edu.pnu.stem.feature.SpaceLayer readSpaceLayer(String ID) {
+	public SpaceLayer readSpaceLayer(String ID) {
 		return null;
 	}
 
@@ -84,11 +85,11 @@ public class SpaceLayerDAO {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return edited SpaceLayer feature instance
 	 */
-	public edu.pnu.stem.feature.SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+	public SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>objectMember, Object object , Boolean deleteDuality ) {
-		edu.pnu.stem.feature.SpaceLayer target = null;
+		SpaceLayer target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.SpaceLayer) Container.getInstance().getFeature(docId, Id);
+			target = (SpaceLayer) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("nodes")) {
 				List<String>nodes = target.getNodes();
 				if(updateType.equals("add")){
@@ -165,7 +166,7 @@ public class SpaceLayerDAO {
 	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.SpaceLayer target = (edu.pnu.stem.feature.SpaceLayer) Container.getInstance().getFeature(docId,
+			SpaceLayer target = (SpaceLayer) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("SpaceLayer").remove(Id);

@@ -1,6 +1,7 @@
 package edu.pnu.stem.api.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpaceBoundary;
 
 
 /**
@@ -25,12 +26,12 @@ public class CellSpaceBoundaryDAO {
 	 * 
 	 * */
 
-	public static edu.pnu.stem.feature.CellSpaceBoundary createCellSpaceBoundary(String docId, String parentID,
+	public static CellSpaceBoundary createCellSpaceBoundary(String docId, String parentID,
 			String ID, String name, String description, String duality, String cellSpaceBoundaryGeometry,
 			String externalReference) {
-		edu.pnu.stem.feature.CellSpaceBoundary newFeature = null;
+		CellSpaceBoundary newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
-			newFeature = new edu.pnu.stem.feature.CellSpaceBoundary();
+			newFeature = new CellSpaceBoundary();
 			newFeature.setDuality(duality);
 			newFeature.setParentID(parentID);
 			if (name != null) {
@@ -82,8 +83,8 @@ public class CellSpaceBoundaryDAO {
 	 *            ID of target
 	 * @return searched feature
 	 */
-	public static edu.pnu.stem.feature.CellSpaceBoundary readCellSpaceBoundary(String docID, String ID) {
-		return (edu.pnu.stem.feature.CellSpaceBoundary) Container.getInstance().getFeature(docID, ID);
+	public static CellSpaceBoundary readCellSpaceBoundary(String docID, String ID) {
+		return (CellSpaceBoundary) Container.getInstance().getFeature(docID, ID);
 	};
 
 	/**
@@ -99,11 +100,11 @@ public class CellSpaceBoundaryDAO {
 	 * @return edited feature
 	 */
 
-	public edu.pnu.stem.feature.CellSpaceBoundary updateCellSpaceBoundary(String docId, String Id, String attributeType,
+	public CellSpaceBoundary updateCellSpaceBoundary(String docId, String Id, String attributeType,
 			String attributeId, Object o) {
-		edu.pnu.stem.feature.CellSpaceBoundary target = null;
+		CellSpaceBoundary target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.CellSpaceBoundary) Container.getInstance().getFeature(docId,
+			target = (CellSpaceBoundary) Container.getInstance().getFeature(docId,
 					Id);
 			if (attributeType.equals("cellSpaceBoundaryGeometry") ) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
@@ -150,7 +151,7 @@ public class CellSpaceBoundaryDAO {
 	public static void deleteCellSpaceBoundary(String docId, String Id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.CellSpaceBoundary target = (edu.pnu.stem.feature.CellSpaceBoundary) Container.getInstance().getFeature(docId,
+			CellSpaceBoundary target = (CellSpaceBoundary) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			if(deleteDuality){

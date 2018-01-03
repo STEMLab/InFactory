@@ -7,6 +7,7 @@ import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
+import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 /**
  * 
@@ -22,16 +23,16 @@ public class PrimalSpaceFeaturesDAO {
 	 * @param csb List of CellSpaceBoundary
 	 * @return created PrimalSpaceFeatures
 	 */
-	public edu.pnu.stem.feature.PrimalSpaceFeatures createPrimalSpaceFeatures(String ID, String parentID, List<CellSpace> csl,
+	public PrimalSpaceFeatures createPrimalSpaceFeatures(String ID, String parentID, List<CellSpace> csl,
 			List<CellSpaceBoundary> csb) {
 		return null;
 	}
 	
-	public static edu.pnu.stem.feature.PrimalSpaceFeatures createPrimalFeatures(String docID, String parentID, String ID,
+	public static PrimalSpaceFeatures createPrimalFeatures(String docID, String parentID, String ID,
 			List<String>cellSpaceMember, List<String>cellSpaceBoundaryMember) {
-		edu.pnu.stem.feature.PrimalSpaceFeatures newFeature = null;
+		PrimalSpaceFeatures newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
-			newFeature.setID(ID);
+			newFeature.setId(ID);
 			newFeature.setParentID(parentID);
 			if (cellSpaceMember!= null) {
 				newFeature.setCellSpaceMember(cellSpaceMember);
@@ -48,7 +49,7 @@ public class PrimalSpaceFeaturesDAO {
 	 * @param ID ID of target
 	 * @return searched PrimalSpaceFeatures
 	 */
-	public edu.pnu.stem.feature.PrimalSpaceFeatures readPrimalSpaceFeatures(String ID) {
+	public PrimalSpaceFeatures readPrimalSpaceFeatures(String ID) {
 		return null;
 	}
 
@@ -59,15 +60,15 @@ public class PrimalSpaceFeaturesDAO {
 	 * @param csbl List of CellSpaceBoundary
 	 * @return edited feature instance
 	 */
-	public edu.pnu.stem.feature.PrimalSpaceFeatures updatePrimalSpaceFeatures(String ID, List<CellSpace> csl, List<CellSpaceBoundary> csbl) {
+	public PrimalSpaceFeatures updatePrimalSpaceFeatures(String ID, List<CellSpace> csl, List<CellSpaceBoundary> csbl) {
 		return null;
 	}
 	
-	public edu.pnu.stem.feature.PrimalSpaceFeatures updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+	public PrimalSpaceFeatures updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>object ) {
-		edu.pnu.stem.feature.PrimalSpaceFeatures target = null;
+		PrimalSpaceFeatures target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (edu.pnu.stem.feature.PrimalSpaceFeatures) Container.getInstance().getFeature(docId, Id);
+			target = (PrimalSpaceFeatures) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("cellSpaceMember")) {
 				List<String>cellSpaceMember = target.getCellSpaceMember();
 				if(updateType.equals("add")){
@@ -115,7 +116,7 @@ public class PrimalSpaceFeaturesDAO {
 	public void deletePrimalSpaceFeatures(String docId, String Id) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			edu.pnu.stem.feature.PrimalSpaceFeatures target = (edu.pnu.stem.feature.PrimalSpaceFeatures) Container.getInstance().getFeature(docId,
+			PrimalSpaceFeatures target = (PrimalSpaceFeatures) Container.getInstance().getFeature(docId,
 					Id);
 			// String duality = target.getd;
 			doc.getFeatureContainer("PrimalSpaceFeatures").remove(Id);
