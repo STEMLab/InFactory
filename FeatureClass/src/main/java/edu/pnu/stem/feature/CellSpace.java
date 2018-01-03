@@ -5,15 +5,8 @@ import java.util.List;
 /**
  * @author jungh Implements CellSpaceType of IndoorGML 1.0.3
  */
-public class CellSpace {
-	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
+public class CellSpace extends AbstractFeature{
+
 	/**
 	 * value of geometry of feature
 	 */
@@ -51,14 +44,6 @@ public class CellSpace {
 	
 	public void setParentID(String parentID){
 		this.parentID = parentID;
-	}
-
-	public String getID() {
-		return this.ID;
-	}
-
-	public void setID(String id) {
-		this.ID = id;
 	}
 	
 	public Object getParent(){
@@ -116,14 +101,6 @@ public class CellSpace {
 	// public String getDuality(){return this.duality;}
 	public void setDuality(String d) {
 		this.duality = d;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getExternalReference() {
