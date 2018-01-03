@@ -5,15 +5,8 @@ import net.opengis.gml.v_3_2_1.AbstractGeometryType;
  * @author jungh
  *	Implements CellSpaceGeometryType of IndoorGML 1.0.3
  */
-public class CellSpaceGeometry {
-	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
+public class CellSpaceGeometry extends AbstractFeature{
+
 	/**
 	 * save geometry of feature 
 	 */
@@ -45,18 +38,6 @@ public class CellSpaceGeometry {
 		Object feature = null;
 		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
 		return feature;
-	}
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 	/**
 	 * @return the geometry
