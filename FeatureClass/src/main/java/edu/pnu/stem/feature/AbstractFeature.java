@@ -72,7 +72,7 @@ public class AbstractFeature {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
->>>>>>> branch 'dev' of https://github.com/STEMLab/IndoorGML_Factory.git
+
 	}
 
 }
