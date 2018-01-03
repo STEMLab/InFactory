@@ -1,5 +1,7 @@
 package edu.pnu.stem.feature;
 
+import net.opengis.gml.v_3_2_1.BoundingShapeType;
+
 /**
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
@@ -9,23 +11,20 @@ public class AbstractFeature {
 	/**
 	 * ID of this feature
 	 */
-	String ID;
+	public String ID;
 	/**
 	 * Name of this feature
 	 */
-	String name;
+	public String name;
 	/**
-	 * reference Id of envelope which wrap this feature
+	 * value of envelope which wrap this feature
 	 */
-	String boundedBy;
-	/**
-	 * reference Id of location
-	 */
-	String location;
+	public BoundingShapeType boundedBy;
+	// Location location;
 	/**
 	 * describe this feature
 	 */
-	String description;
+	public String description;
 	/**
 	 * @return the iD
 	 */
@@ -53,38 +52,27 @@ public class AbstractFeature {
 	/**
 	 * @return the boundedBy
 	 */
-	public String getBoundedBy() {
-		return new String(boundedBy);
+	public BoundingShapeType getBoundedBy() {
+		return boundedBy;
 	}
 	/**
 	 * @param boundedBy the boundedBy to set
 	 */
-	public void setBoundedBy(String boundedBy) {
+	public void setBoundedBy(BoundingShapeType boundedBy) {
 		this.boundedBy = boundedBy;
 	}
 	/**
 	 * @return the description
 	 */
 	public String getDescription() {
-		return new String(description);
+		return description;
 	}
 	/**
 	 * @param description the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	/**
-	 * @return the location
-	 */
-	public String getLocation() {
-		return new String(location);
-	}
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
+>>>>>>> branch 'dev' of https://github.com/STEMLab/IndoorGML_Factory.git
 	}
 
 }
