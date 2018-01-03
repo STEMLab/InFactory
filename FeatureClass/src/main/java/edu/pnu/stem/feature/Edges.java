@@ -34,7 +34,7 @@ public class Edges {
 		return new ArrayList<String>(transitionMember);
 	}
 
-	public void setID(String id) {
+	public void setId(String id) {
 		this.ID = id;
 	}
 
@@ -73,7 +73,8 @@ public class Edges {
 	/**
 	 * @return the iD
 	 */
-	public String getID() {
+	public String getId() {
 		return ID;
 	}
+
 }
