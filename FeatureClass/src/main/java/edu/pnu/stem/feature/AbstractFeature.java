@@ -6,7 +6,7 @@ import net.opengis.gml.v_3_2_1.BoundingShapeType;
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
  */
-public class AbstractFeatures {
+public class AbstractFeature {
 	
 	/**
 	 * ID of this feature
