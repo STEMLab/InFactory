@@ -1,4 +1,5 @@
 package edu.pnu.stem.feature;
+
 import java.util.Date;
 import java.util.List;
 
@@ -41,105 +42,141 @@ public class SpaceLayer {
 	/**
 	 * represent Class type of the SpaceLayer
 	 */
-	//public SpaceLayerClassTypeType classType;
+	// public SpaceLayerClassTypeType classType;
 	public String parentID;
 	public SpaceLayerClassTypeType classType;
-	public void setID(String id){this.ID = id;};
-	public String getID(){return this.ID;};
-	public void setParentID(String id){this.parentID = id;}
-	public String getParentID(){return this.parentID;}
+
+	public void setID(String id) {
+		this.ID = id;
+	};
+
+	public String getID() {
+		return this.ID;
+	};
+
+	public void setParentID(String id) {
+		this.parentID = id;
+	}
+
+	public String getParentID() {
+		return this.parentID;
+	}
+
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
+
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	/**
 	 * @return the usage
 	 */
 	public String getUsage() {
 		return usage;
 	}
+
 	/**
-	 * @param usage the usage to set
+	 * @param usage
+	 *            the usage to set
 	 */
 	public void setUsage(String usage) {
 		this.usage = usage;
 	}
+
 	/**
 	 * @return the function
 	 */
 	public List<CodeType> getFunction() {
 		return function;
 	}
+
 	/**
-	 * @param function the function to set
+	 * @param function
+	 *            the function to set
 	 */
 	public void setFunction(List<CodeType> function) {
 		this.function = function;
 	}
+
 	/**
 	 * @return the createDate
 	 */
 	public Date getCreateDate() {
 		return createDate;
 	}
+
 	/**
-	 * @param createDate the createDate to set
+	 * @param createDate
+	 *            the createDate to set
 	 */
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
 	/**
 	 * @return the terminationDate
 	 */
 	public Date getTerminationDate() {
 		return terminationDate;
 	}
+
 	/**
-	 * @param terminationDate the terminationDate to set
+	 * @param terminationDate
+	 *            the terminationDate to set
 	 */
 	public void setTerminationDate(Date terminationDate) {
 		this.terminationDate = terminationDate;
 	}
+
 	/**
 	 * @return the nodes
 	 */
 	public List<String> getNodes() {
 		return nodes;
 	}
+
 	/**
-	 * @param nodes the nodes to set
+	 * @param nodes
+	 *            the nodes to set
 	 */
 	public void setNodes(List<String> nodes) {
 		this.nodes = nodes;
 	}
+
 	/**
 	 * @return the edges
 	 */
 	public List<String> getEdges() {
 		return edges;
 	}
+
 	/**
-	 * @param edges the edges to set
+	 * @param edges
+	 *            the edges to set
 	 */
 	public void setEdges(List<String> edges) {
 		this.edges = edges;
 	}
+
 	/**
 	 * @return the classType
 	 */
 	public SpaceLayerClassTypeType getClassType() {
 		return classType;
 	}
+
 	/**
-	 * @param classType the classType to set
+	 * @param classType
+	 *            the classType to set
 	 */
 	public void setClassType(SpaceLayerClassTypeType classType) {
 		this.classType = classType;

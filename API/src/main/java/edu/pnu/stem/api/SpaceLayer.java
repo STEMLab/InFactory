@@ -123,7 +123,7 @@ public class SpaceLayer {
 					for(int i = 0 ; i < objectMember.size();i++){
 						if(edges.contains(objectMember.get(i))){
 							edges.remove(objectMember.get(i));
-							edu.pnu.stem.reference.Edges singleEdges= (edu.pnu.stem.reference.Edges)Container.getInstance().getFeature(docId, objectMember.get(i));
+							edu.pnu.stem.feature.Edges singleEdges= (edu.pnu.stem.feature.Edges)Container.getInstance().getFeature(docId, objectMember.get(i));
 							List<String> edgesMember = singleEdges.getTransitionMembers();
 							for(int j = 0 ; j < edgesMember.size();j++){
 								Edges.deleteEdges(docId, edgesMember.get(i), false);
@@ -186,7 +186,7 @@ public class SpaceLayer {
 			
 			
 			for(int i = 0 ; i < edges.size();i++){
-				edu.pnu.stem.reference.Edges singleEdges = (edu.pnu.stem.reference.Edges)doc.getFeature(nodes.get(i));
+				edu.pnu.stem.feature.Edges singleEdges = (edu.pnu.stem.feature.Edges)doc.getFeature(nodes.get(i));
 				List<String> transitionMember = singleEdges.getTransitionMembers();
 				for(int j = 0 ; j < transitionMember.size();j++){
 				
