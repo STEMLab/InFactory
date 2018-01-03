@@ -3,15 +3,8 @@ package edu.pnu.stem.feature;
  * @author jungh
  *	Implements IndoorFeaturesType of IndoorGML 1.0.3
  */
-public class IndoorFeatures {
-	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
+public class IndoorFeatures extends AbstractFeature{
+
 	/**
 	 * save PriamlSpaceFeatures value
 	 */
@@ -21,34 +14,10 @@ public class IndoorFeatures {
 	 */
 	public String multiLayeredGraph;
 	/**
-	 * @return the iD
-	 */
-	public String getID() {
-		return ID;
-	}
-	/**
-	 * @param iD the iD to set
-	 */
-	public void setID(String iD) {
-		ID = iD;
-	}
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	/**
 	 * @return the primalSpaceFeatures
 	 */
 	public String getPrimalSpaceFeatures() {
-		return primalSpaceFeatures;
+		return new String(primalSpaceFeatures);
 	}
 	/**
 	 * @param primalSpaceFeatures the primalSpaceFeatures to set
@@ -60,7 +29,7 @@ public class IndoorFeatures {
 	 * @return the multiLayeredGraph
 	 */
 	public String getMultiLayeredGraph() {
-		return multiLayeredGraph;
+		return new String(multiLayeredGraph);
 	}
 	/**
 	 * @param multiLayeredGraph the multiLayeredGraph to set
