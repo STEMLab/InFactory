@@ -1,4 +1,4 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 
 
 import java.util.List;
@@ -7,7 +7,7 @@ import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
 
-public class Edges {
+public class EdgesDAO {
 	/**
 	 * Create Edges feature instance 
 	 * @param ID of Edges
@@ -15,7 +15,7 @@ public class Edges {
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return created Edges feature
 	 */
-	public edu.pnu.stem.feature.Edges createEdges(String ID, String parentID, List<Transition> tl) {
+	public edu.pnu.stem.feature.Edges createEdges(String ID, String parentID, List<TransitionDAO> tl) {
 		return null;
 	};
 
@@ -61,7 +61,7 @@ public class Edges {
 						for(int i = 0 ; i < object.size();i++){
 							if(transitionMember.contains(object.get(i))){
 								transitionMember.remove(object.get(i));
-								Transition.deleteTransition(docId, object.get(i),deleteDuality);
+								TransitionDAO.deleteTransition(docId, object.get(i),deleteDuality);
 							}
 							
 						}
@@ -79,7 +79,7 @@ public class Edges {
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return edited feature
 	 */
-	public edu.pnu.stem.feature.Edges updateEdges(String ID, List<Transition> tl) {
+	public edu.pnu.stem.feature.Edges updateEdges(String ID, List<TransitionDAO> tl) {
 		return null;
 	};
 
@@ -98,7 +98,7 @@ public class Edges {
 			doc.getFeatureContainer("Nodes").remove(Id);	
 			doc.getFeatureContainer("ID").remove(Id);
 			for(int i = 0 ; i < target.getTransitionMembers().size();i++){
-				State.deleteState(docId, target.getTransitionMembers().get(i), deleteDuality);
+				StateDAO.deleteState(docId, target.getTransitionMembers().get(i), deleteDuality);
 			}
 			
 		}

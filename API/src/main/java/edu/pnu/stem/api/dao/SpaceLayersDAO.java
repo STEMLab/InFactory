@@ -1,10 +1,10 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
-public class SpaceLayers {
+public class SpaceLayersDAO {
 	public static edu.pnu.stem.feature.SpaceLayers createSpaceLayers(String docID, String parentID, String ID,
 			List<String>spaceLayerMember  ) {
 		edu.pnu.stem.feature.SpaceLayers newFeature = null;
@@ -55,7 +55,7 @@ public class SpaceLayers {
 					for(int i = 0 ; i < objectMember.size();i++){
 						if(spaceLayerMember.contains(objectMember.get(i))){
 							spaceLayerMember.remove(objectMember.get(i));
-							State.deleteState(docId, objectMember.get(i), deleteDuality);
+							StateDAO.deleteState(docId, objectMember.get(i), deleteDuality);
 						}
 					}
 				//TODO : remove cellSpace at cellSpace container and ID container?
@@ -90,7 +90,7 @@ public class SpaceLayers {
 			List<String>spaceLayerMember = target.getSpaceLayerMember();
 			
 			for(int i = 0 ; i < spaceLayerMember.size();i++){
-				SpaceLayer.deleteSpaceLayer(docId, spaceLayerMember.get(i), deleteDuality);
+				SpaceLayerDAO.deleteSpaceLayer(docId, spaceLayerMember.get(i), deleteDuality);
 				
 			}
 			

@@ -1,4 +1,4 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 
 
 import java.util.List;
@@ -8,7 +8,7 @@ import edu.pnu.stem.binder.IndoorGMLMap;
 
 
 
-public class MultiLayeredGraph {
+public class MultiLayeredGraphDAO {
 	/**
 	 * Create MultiLayeredGraph feature instance
 	 * @param ID
@@ -17,7 +17,7 @@ public class MultiLayeredGraph {
 	 * @param ie
 	 * @return
 	 */
-	public edu.pnu.stem.feature.MultiLayeredGraph createMultilayeredGraph(String ID, String parentID, List<SpaceLayer> sl, InterEdges ie) {
+	public edu.pnu.stem.feature.MultiLayeredGraph createMultilayeredGraph(String ID, String parentID, List<SpaceLayerDAO> sl, InterEdgesDAO ie) {
 		return null;
 	}
 	public edu.pnu.stem.feature.MultiLayeredGraph createMultiLayeredGraph(String docID, String parentID, String ID, List<String>spaceLayers, List<String>interEdges){
@@ -57,7 +57,7 @@ public class MultiLayeredGraph {
 	 * @param ie
 	 * @return
 	 */
-	public edu.pnu.stem.feature.MultiLayeredGraph updateMultilayeredGraph(String ID, List<SpaceLayer> sl, InterEdges ie) {
+	public edu.pnu.stem.feature.MultiLayeredGraph updateMultilayeredGraph(String ID, List<SpaceLayerDAO> sl, InterEdgesDAO ie) {
 		return null;
 	}
 	public edu.pnu.stem.feature.MultiLayeredGraph updateMultiLayeredGraph(String docId, String Id, String attributeType,
@@ -122,8 +122,8 @@ public class MultiLayeredGraph {
 			if(deleteALL){
 				doc.getFeatureContainer("MultiLayeredGraph").remove(Id);
 				doc.getFeatureContainer("ID").remove(Id);
-				Nodes.deleteNodes(docId, Id, deleteDuality);
-				Edges.deleteEdges(docId, Id, deleteDuality);
+				NodesDAO.deleteNodes(docId, Id, deleteDuality);
+				EdgesDAO.deleteEdges(docId, Id, deleteDuality);
 			}	
 			else if(target.getInterEdges().size()==0&&target.getSpaceLayers().size()==0){
 				doc.getFeatureContainer("MultiLayeredGraph").remove(Id);

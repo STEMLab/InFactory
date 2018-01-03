@@ -1,7 +1,7 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
-public class InterLayerConnection {
+public class InterLayerConnectionDAO {
 	/**
 	 * Create InterLayerConnection feature instance
 	 * @param ID ID of InterLayerConnection feature
@@ -12,7 +12,7 @@ public class InterLayerConnection {
 	 * @return created InterLayerConnection
 	 */
 	public edu.pnu.stem.feature.InterLayerConnection createInterLayerConnection(String ID, String parentID, String typeOfTopoExpressionCode,
-			String comment, State[] sl) {
+			String comment, StateDAO[] sl) {
 		return null;
 	};
 	public static edu.pnu.stem.feature.InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){

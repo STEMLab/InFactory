@@ -1,4 +1,4 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 
 
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
-public class Transition {
+public class TransitionDAO {
 
 	
 	/**
@@ -143,7 +143,7 @@ public class Transition {
 			doc.getFeatureContainer("ID").remove(target.getExternalReference());
 			doc.getFeatureContainer("ID").remove(Id);
 			if(deleteDuality == true){
-				CellSpaceBoundary.deleteCellSpaceBoundary(docId, target.getDuality(), false);
+				CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, target.getDuality(), false);
 			}
 			
 		}

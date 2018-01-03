@@ -1,10 +1,10 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
-public class InterEdges {
+public class InterEdgesDAO {
 	public static edu.pnu.stem.feature.InterEdges createInterEdges(String docId, String parentId, String Id, List<String>interLayerConnectionMember){
 		edu.pnu.stem.feature.InterEdges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
@@ -42,7 +42,7 @@ public class InterEdges {
 						for(int i = 0 ; i < object.size();i++){
 							if(interLayerConnectionMember.contains(object.get(i))){
 								interLayerConnectionMember.remove(object.get(i));
-								InterLayerConnection.deleteInterLayerConnection(docId, Id);
+								InterLayerConnectionDAO.deleteInterLayerConnection(docId, Id);
 							}
 							
 						}
@@ -68,7 +68,7 @@ public class InterEdges {
 			doc.getFeatureContainer("InterEdges").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
 			for(int i = 0 ; i < target.getInterLayerConnectionMember().size();i++){
-				InterLayerConnection.deleteInterLayerConnection(docId, target.getInterLayerConnectionMember().get(i));
+				InterLayerConnectionDAO.deleteInterLayerConnection(docId, target.getInterLayerConnectionMember().get(i));
 			}
 			
 		}

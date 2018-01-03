@@ -1,4 +1,4 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 
 
 import java.util.List;
@@ -7,7 +7,7 @@ import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import net.opengis.gml.v_3_2_1.PointType;
 
-public class State {
+public class StateDAO {
 	
 	/**
 	 * Create State feature instance
@@ -18,7 +18,7 @@ public class State {
 	 * @param geo Geometry instance of Point which represent this state
 	 * @return created State feature instance
 	 */
-	public edu.pnu.stem.feature.State createState(String ID, String parentID, CellSpace d, Transition t, PointType geo) {
+	public edu.pnu.stem.feature.State createState(String ID, String parentID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
 		return null;
 	}
 
@@ -75,7 +75,7 @@ public class State {
 	 * @param geo Geometry instance of Point which represent this state
 	 * @return edited State feature instance
 	 */
-	public edu.pnu.stem.feature.State updateState(String ID, CellSpace d, Transition t, PointType geo) {
+	public edu.pnu.stem.feature.State updateState(String ID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
 		return null;
 	}
 	public edu.pnu.stem.feature.State updateState(String docId, String Id, String attributeType,
@@ -123,7 +123,7 @@ public class State {
 			if(deleteDuality){
 				//State.deleteState(target.getDuality());
 				if(Container.getInstance().hasFeature(docId, target.getDuality())){
-					CellSpace.deleteCellSpace(docId,target.getDuality(),false);
+					CellSpaceDAO.deleteCellSpace(docId,target.getDuality(),false);
 				}
 				
 			}
@@ -131,7 +131,7 @@ public class State {
 			for(int i = 0 ; i < connects.size();i++){
 				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
 				if(count == 1){
-					Transition.deleteTransition(docId, connects.get(i),deleteDuality);
+					TransitionDAO.deleteTransition(docId, connects.get(i),deleteDuality);
 					doc.getFeatureContainer("Reference").remove(connects.get(i));
 				}
 				else{
@@ -145,7 +145,7 @@ public class State {
 			for (int i = 0; i < connects.size(); i++) {
 				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
 				if ( count == 1) {
-					CellSpaceBoundary.deleteCellSpaceBoundary(docId, connects.get(i), deleteDuality);
+					CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, connects.get(i), deleteDuality);
 				}
 				else{
 					doc.setFeature(connects.get(i), "Reference", (count-1));

@@ -1,4 +1,4 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 
 
 import java.util.List;
@@ -13,7 +13,7 @@ import edu.pnu.stem.feature.CellSpaceBoundary;
  * @author jungh
  *	This class implements PrimalSpaceFeaturestype of IndoorGML-1.0.3
  */
-public class PrimalSpaceFeatures {
+public class PrimalSpaceFeaturesDAO {
 	/**
 	 * Create PrimalSpaceFeatures feature instance
 	 * @param ID ID of PrimalSpaceFeatures

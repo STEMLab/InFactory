@@ -1,4 +1,4 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 
 
 import java.util.List;
@@ -7,7 +7,7 @@ import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
 
-public class Nodes {
+public class NodesDAO {
 	/**
 	 * Create Nodes feature instance 
 	 * @param ID ID of Nodes feature
@@ -15,7 +15,7 @@ public class Nodes {
 	 * @param sl list of states which are related by this Nodes relationship
 	 * @return created Nodes feature
 	 */
-	public edu.pnu.stem.feature.Nodes createNodes(String ID, String parentID, List<State> sl) {
+	public edu.pnu.stem.feature.Nodes createNodes(String ID, String parentID, List<StateDAO> sl) {
 		return null;
 	}
 	public edu.pnu.stem.feature.Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
@@ -66,7 +66,7 @@ public class Nodes {
 						for(int i = 0 ; i < object.size();i++){
 							if(stateMember.contains(object.get(i))){
 								stateMember.remove(object.get(i));
-								State.deleteState(docId, object.get(i),deleteDuality);
+								StateDAO.deleteState(docId, object.get(i),deleteDuality);
 							}
 							
 						}
@@ -96,7 +96,7 @@ public class Nodes {
 			doc.getFeatureContainer("Nodes").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
 			for(int i = 0 ; i < target.getStateMember().size();i++){
-				State.deleteState(docId, target.getStateMember().get(i), deleteDuality);
+				StateDAO.deleteState(docId, target.getStateMember().get(i), deleteDuality);
 			}
 			
 		}

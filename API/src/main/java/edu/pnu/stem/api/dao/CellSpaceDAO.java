@@ -1,4 +1,4 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
@@ -8,7 +8,7 @@ import edu.pnu.stem.binder.IndoorGMLMap;
  * @author jungh
  *
  */
-public class CellSpace {
+public class CellSpaceDAO {
 
 	/**
 	 * @param docID
@@ -135,7 +135,7 @@ public class CellSpace {
 			
 			if (deleteDuality) {
 				if (Container.getInstance().hasFeature(docId, target.getDuality())) {
-					State.deleteState(docId, target.getDuality(), false);
+					StateDAO.deleteState(docId, target.getDuality(), false);
 				}
 			}
 			
@@ -144,7 +144,7 @@ public class CellSpace {
 			for (int i = 0; i < partialboundedBy.size(); i++) {
 				int boundaryCount = (Integer) doc.getFeatureContainer("Reference").get(partialboundedBy.get(i));
 				if (boundaryCount == 1) {
-					CellSpaceBoundary.deleteCellSpaceBoundary(docId, partialboundedBy.get(i), deleteDuality);
+					CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, partialboundedBy.get(i), deleteDuality);
 				} else {
 					doc.setFeature(partialboundedBy.get(i), "Reference", (boundaryCount - 1));
 				}

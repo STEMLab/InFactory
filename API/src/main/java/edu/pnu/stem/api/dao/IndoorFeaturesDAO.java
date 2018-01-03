@@ -1,8 +1,8 @@
-package edu.pnu.stem.api;
+package edu.pnu.stem.api.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
-public class IndoorFeatures {
+public class IndoorFeaturesDAO {
 	/**
 	 * Create IndoorFeatures feature instance
 	 * @param ID ID of feature
@@ -10,7 +10,7 @@ public class IndoorFeatures {
 	 * @param mlg feature instance of MultiLayeredFeatures
 	 * @return created IndoorFeatures feature
 	 */
-	public edu.pnu.stem.feature.IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
+	public edu.pnu.stem.feature.IndoorFeatures createIndoorFeatures(String ID, PrimalSpaceFeaturesDAO psf, MultiLayeredGraphDAO mlg) {
 		return null;
 	};
 	public static edu.pnu.stem.feature.IndoorFeatures createIndoorFeatures(String docID, String parentID, String ID,
@@ -46,7 +46,7 @@ public class IndoorFeatures {
 	 * @param mlg feature instance of MultiLayeredFeatures
 	 * @return edited feature
 	 */
-	public edu.pnu.stem.feature.IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeatures psf, MultiLayeredGraph mlg) {
+	public edu.pnu.stem.feature.IndoorFeatures updateIndoorFeatures(String ID, PrimalSpaceFeaturesDAO psf, MultiLayeredGraphDAO mlg) {
 		return null;
 	};
 	public edu.pnu.stem.feature.IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
