@@ -1,53 +1,30 @@
 package edu.pnu.stem.feature;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class Nodes {
+public class Nodes extends AbstractFeature{
 	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
-	
-	/**
-	 * State list which this feature contains 
+	 * State list which this feature contains
 	 */
 	public List<String> stateMember;
-	
+
 	public String parentID;
-	
-	public void setParentID(String id){this.parentID = id;}
-	public String getParentID(){return this.parentID;}
-	
-	public void setStateMember(List<String> sm){ this.stateMember = sm;}
-	public List<String> getStateMember(){return this.stateMember;}
-	/**
-	 * @return the iD
-	 */
-	public String getID() {
-		return ID;
+
+	public void setParentID(String id) {
+		this.parentID = id;
 	}
-	/**
-	 * @param iD the iD to set
-	 */
-	public void setID(String iD) {
-		ID = iD;
+
+	public String getParentID() {
+		return new String(this.parentID);
 	}
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
+
+	public void setStateMember(List<String> sm) {
+		this.stateMember = sm;
 	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
+
+	public List<String> getStateMember() {
+		return new ArrayList<String>(this.stateMember);
 	}
-	
-	
 
 }
