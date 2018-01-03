@@ -71,5 +71,10 @@ public class InterLayerConnection extends AbstractFeature {
 		this.typeOfTopoExpression = typeOfTopoExpression;
 	}
 
+	public void setComment(String comment) {
+		this.comment = comment;
+		
+	}
+
 
 }
