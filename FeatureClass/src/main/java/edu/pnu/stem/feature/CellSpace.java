@@ -63,15 +63,6 @@ public class CellSpace extends AbstractFeature{
 		return feature;
 	}
 
-	@SuppressWarnings("null")
-	public Object getPartialBoundedBy() {
-		List<Object> feature = null;
-		for (int i = 0; i < this.partialboundedBy.size(); i++) {
-			feature.add(
-					IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.geometry2D));
-		}
-		return feature;
-	}
 
 /*
  * 
