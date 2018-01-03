@@ -89,7 +89,7 @@ public class CellSpaceBoundary {
 	/**
 	 * search the CellSpaceBoundaryfeature and edit it as parameters
 	 * 
-	 * @param ID
+	 * @param id
 	 *            ID of target
 	 * @param duality
 	 * @param csbGeometry
@@ -144,7 +144,7 @@ public class CellSpaceBoundary {
 	/**
 	 * search the CellSpaceBoundary feature and delete it
 	 * 
-	 * @param ID
+	 * @param id
 	 *            ID of target
 	 */
 	public static void deleteCellSpaceBoundary(String docId, String Id, Boolean deleteDuality) {

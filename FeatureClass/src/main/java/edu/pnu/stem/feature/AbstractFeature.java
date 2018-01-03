@@ -11,7 +11,7 @@ public class AbstractFeature {
 	/**
 	 * ID of this feature
 	 */
-	public String ID;
+	public String id;
 	/**
 	 * Name of this feature
 	 */
@@ -28,14 +28,14 @@ public class AbstractFeature {
 	/**
 	 * @return the iD
 	 */
-	public String getID() {
-		return ID;
+	public String getId() {
+		return id;
 	}
 	/**
 	 * @param iD the iD to set
 	 */
-	public void setID(String iD) {
-		ID = iD;
+	public void setId(String id) {
+		this.id = id;
 	}
 	/**
 	 * @return the name

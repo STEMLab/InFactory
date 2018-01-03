@@ -111,7 +111,7 @@ public class MultiLayeredGraph {
 	}
 	/**
 	 * Search MultiLayeredGraph feature and delete it
-	 * @param ID
+	 * @param id
 	 */
 	public void deleteMultiLayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {

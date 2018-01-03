@@ -117,7 +117,7 @@ public class CellSpace {
 	/**
 	 * search CellSpace feature and delete the data
 	 * 
-	 * @param ID
+	 * @param id
 	 *            ID of target
 	 */
 

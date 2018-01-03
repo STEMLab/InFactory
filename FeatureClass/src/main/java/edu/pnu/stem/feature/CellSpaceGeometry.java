@@ -22,8 +22,8 @@ public class CellSpaceGeometry extends AbstractFeature{
 	
 	String parentID;
 	
-	public String getID(){ return this.ID; }
-	public void setID(String id){ this.ID = id;} 
+	public String getID(){ return this.id; }
+	public void setID(String id){ this.id = id;} 
 	
 	public String getParentID(){return this.parentID;}
 	public void setParentID(String id){this.parentID = id;}
