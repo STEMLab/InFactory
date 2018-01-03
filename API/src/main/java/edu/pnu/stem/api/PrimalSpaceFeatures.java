@@ -109,7 +109,7 @@ public class PrimalSpaceFeatures {
 	}
 	/**
 	 * Search PrimalSpaceFeatures feature and delete it
-	 * @param ID ID of target
+	 * @param id ID of target
 	 * 
 	 */
 	public void deletePrimalSpaceFeatures(String docId, String Id) {

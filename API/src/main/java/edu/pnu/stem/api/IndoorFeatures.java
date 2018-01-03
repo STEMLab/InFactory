@@ -72,7 +72,7 @@ public class IndoorFeatures {
 	
 	/**
 	 * Search IndoorFeatures feature instance and delete it
-	 * @param ID ID of target
+	 * @param id ID of target
 	 */
 	public void deleteIndoorFeatures(String docId, String Id) {
 		if (Container.getInstance().hasFeature(docId, Id)) {

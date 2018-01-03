@@ -30,7 +30,7 @@ public class SpaceLayers {
 
 	/**
 	 * Search SpaceLayer feature and edit it as the Parameters
-	 * @param ID ID of target
+	 * @param id ID of target
 	 * @param usage Comment on usage
 	 * @param function explanation about functionality of this SpaceLayer
 	 * @param createDate the time when this SpaceLayer is created
@@ -77,7 +77,7 @@ public class SpaceLayers {
 	}
 	/**
 	 * Search SpaceLayer feature and delete it
-	 * @param ID ID of target
+	 * @param id ID of target
 	 */
 	public static void deleteSpaceLayers(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
