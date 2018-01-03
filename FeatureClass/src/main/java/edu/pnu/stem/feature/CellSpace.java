@@ -1,153 +1,175 @@
 package edu.pnu.stem.feature;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.locationtech.jts.geom.Polygon;
 
 /**
  * @author jungh Implements CellSpaceType of IndoorGML 1.0.3
  */
-public class CellSpace extends AbstractFeature{
+public class CellSpace extends AbstractFeature {
 
 	/**
 	 * value of geometry of feature
 	 */
-	String geometry2D;
+	private String geometry2D;
 
-	String geometry3D;
+	private String geometry3D;
 
 	/**
-	 * temporal attribute for IndoorGML 1.0.1. for compatibility, Write the
-	 * geometry type as String. Later this will be discarded or changed
+	 * temporal attribute for IndoorGML 1.0.1. for compatibility, Write the geometry
+	 * type as String. Later this will be discarded or changed
 	 */
-	String geometryType;
+	private String geometryType;
 	/**
 	 * temporal attribute for IndoorGML 1.0.1.
 	 */
-	String cellSpaceGeometryObject;
+	private String cellSpaceGeometryObject;
 	/**
 	 * boundary of the CellSpace
 	 */
-	List<String> partialboundedBy;
+	private List<String> partialboundedBy;
 	/**
 	 * value of State which has duality relationship with the CellSpace
 	 */
-	String duality;
+	private String duality;
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	String externalReference;
+	private String externalReference;
 
-	
 	/**
 	 * ID of parent feature instance.
 	 */
-	String parentID;
-	
-	public void setParentID(String parentID){
-		this.parentID = parentID;
-	}
-	
-	public Object getParent(){
-		Object feature = null;
-		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), this.parentID);
-		return feature;
-	}
-	public Object getGeometry2D() {
-		Object feature = null;
-		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
-		return feature;
-	}
+	private String parentId;
 
-	public Object getGeometry3D() {
-		Object feature = null;
-		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
-		return feature;
-	}
-
-
-/*
- * 
- * 	public Object getDuality() {
-		Object feature = null;
-		if (hasDuality()) {
-
-			feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.duality);
-
+	public void setParent(PrimalSpaceFeatures parent) {
+		State found = (State) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), parent.getId());
+		if(found == null) {
+			IndoorGMLMap.setFeature(parent.getId(), "PrimalSpaceFeatures", parent);
 		}
+		this.parentId = parent.getId();
+	}
+
+	public PrimalSpaceFeatures getParent() {
+		PrimalSpaceFeatures feature = null;
+		feature = (PrimalSpaceFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), this.parentId);
 		return feature;
 	}
- * 
- * */
+
+	public Polygon getGeometry2D() {
+		Polygon feature = null;
+		feature = (Polygon) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
+		return feature;
+	}
+
+	public Solid getGeometry3D() {
+		Solid feature = null;
+		feature = (Solid) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
+		return feature;
+	}
 	
-	public String getDuality(){
-		return this.duality;
-	}
-	public List<String> getPartialboundedBy() {
-		return this.partialboundedBy;
-	}
 
-	public void setPartialboundedBy(List<String> pbB) {
-		this.partialboundedBy = pbB;
+	/**
+	 * @param geometry2d
+	 *            the geometry2D to set
+	 */
+	//TODO
+	/*
+	public void setGeometry2D(Polygon geometry2d) {
+		geometry2D = geometry2d;
 	}
+	*/
 
-	// public String getDuality(){return this.duality;}
-	public void setDuality(String d) {
-		this.duality = d;
+	/**
+	 * @param geometry3d
+	 *            the geometry3D to set
+	 */
+	//TODO
+	/*
+	public void setGeometry3D(String geometry3d) {
+		geometry3D = geometry3d;
 	}
-
-	public String getExternalReference() {
-		return this.externalReference;
-	}
-
-	public void setExternalReference(String e) {
-		this.externalReference = e;
-	}
+	*/
 
 	public boolean hasDuality() {
 		if (this.duality == null) {
 			return false;
-		} else
+		} else {
 			return true;
+		}
 	}
+
+	public State getDuality() {
+		State feature = null;
+		if (hasDuality()) {
+			feature = (State) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.duality);
+		}
+		return feature;
+	}
+	
+	public void setDuality(State s) {
+		State found = (State) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), s.getId());
+		if(found == null) {
+			IndoorGMLMap.setFeature(s.getId(), "State", s);
+		}
+		this.duality = s.getId();
+	}
+
+	public List<CellSpaceBoundary> getPartialboundedBy() {
+		List<CellSpaceBoundary> cboundaries = new ArrayList<CellSpaceBoundary>();
+		for (String s : this.partialboundedBy) {
+			cboundaries.add((CellSpaceBoundary) IndoorGMLMap
+					.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), s));
+		}
+		return cboundaries;
+	}
+
+	//TODO
+	/*public void setPartialboundedBy(List<String> pbB) {
+		this.partialboundedBy = pbB;
+	}
+	*/
+
+	public ExternalReference getExternalReference() {
+		return (ExternalReference) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("ExternalReference"), this.externalReference);
+	}
+
+	//TODO
+	/* 
+	public void setExternalReference(String e) {
+		this.externalReference = e;
+	}
+	*/
+	
 	/**
 	 * @return the geometryType
 	 */
 	public String getGeometryType() {
 		return geometryType;
 	}
+
 	/**
-	 * @param geometryType the geometryType to set
+	 * @param geometryType
+	 *            the geometryType to set
 	 */
 	public void setGeometryType(String geometryType) {
 		this.geometryType = geometryType;
 	}
+
 	/**
 	 * @return the cellSpaceGeometryObject
 	 */
 	public String getCellSpaceGeometryObject() {
 		return cellSpaceGeometryObject;
 	}
+
 	/**
-	 * @param cellSpaceGeometryObject the cellSpaceGeometryObject to set
+	 * @param cellSpaceGeometryObject
+	 *            the cellSpaceGeometryObject to set
 	 */
 	public void setCellSpaceGeometryObject(String cellSpaceGeometryObject) {
 		this.cellSpaceGeometryObject = cellSpaceGeometryObject;
-	}
-	/**
-	 * @return the parentID
-	 */
-	public String getParentID() {
-		return parentID;
-	}
-	/**
-	 * @param geometry2d the geometry2D to set
-	 */
-	public void setGeometry2D(String geometry2d) {
-		geometry2D = geometry2d;
-	}
-	/**
-	 * @param geometry3d the geometry3D to set
-	 */
-	public void setGeometry3D(String geometry3d) {
-		geometry3D = geometry3d;
 	}
 }
