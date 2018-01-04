@@ -17,50 +17,79 @@ public class MultiLayeredGraph extends AbstractFeature {
 	 */
 	List<String> interEdges;
 
-	String parentID;
+	String parentId;
 
 	/**
 	 * @return the spaceLayers
 	 */
-	public List<String> getSpaceLayers() {
-		return new ArrayList<String>(spaceLayers);
+	public List<SpaceLayer> getSpaceLayers() {
+		List<SpaceLayer>spaceLayers = new ArrayList<SpaceLayer>();
+		for(int i = 0 ; i < this.spaceLayers.size();i++){
+			spaceLayers.add((SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), this.spaceLayers.get(i)));			
+		}
+		return spaceLayers;
 	}
-
 	/**
 	 * @param spaceLayers
 	 *            the spaceLayers to set
 	 */
-	public void setSpaceLayers(List<String> spaceLayers) {
-		this.spaceLayers = spaceLayers;
+	public void setSpaceLayers(List<SpaceLayers> spaceLayers) {
+		for(int i = 0 ; i < spaceLayers.size(); i++){
+			SpaceLayers found = null;
+			found = (SpaceLayers)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayers"), spaceLayers.get(i).getId());
+			if(found == null){
+				IndoorGMLMap.setFeature(spaceLayers.get(i).getId(), "SpaceLayers", spaceLayers.get(i));
+			}
+			this.spaceLayers.add(spaceLayers.get(i).getId());
+		}
 	}
 
 	/**
 	 * @return the interEdges
 	 */
-	public List<String> getInterEdges() {
-		return new ArrayList<String>(interEdges);
+	public List<InterEdges> getInterEdges() {
+		List<InterEdges>interEdges = new ArrayList<InterEdges>();
+		for(int i = 0 ; i < this.interEdges.size() ; i++){
+			interEdges.add((InterEdges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("InterEdges"), this.interEdges.get(i)));
+		}
+		return interEdges;
 	}
 
 	/**
 	 * @param interEdges
 	 *            the interEdges to set
 	 */
-	public void setInterEdges(List<String> interEdges) {
-		this.interEdges = interEdges;
+	public void setInterEdges(List<InterEdges> interEdges) {				
+		for(int i = 0 ; i < interEdges.size() ; i++ ){
+			InterEdges found = null;
+			found = (InterEdges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("InterEdges"), interEdges.get(i).getId());
+			if(found == null){
+				IndoorGMLMap.setFeature(interEdges.get(i).getId(), "InterEdges",interEdges.get(i));
+			}
+			if(this.interEdges.contains(interEdges.get(i).getId())){
+				this.interEdges.add(interEdges.get(i).getId());
+			}			
+		}
 	}
-
 	/**
-	 * @return the parentID
+	 * @return
 	 */
-	public String getParentID() {
-		return new String(parentID);
+	public IndoorFeatures getParent() {
+		IndoorFeatures parent = null;
+		parent = (IndoorFeatures)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("IndoorFeatures"), this.parentId);
+		return parent;
 	}
 
 	/**
 	 * @param parentID
 	 *            the parentID to set
 	 */
-	public void setParentID(String parentID) {
-		this.parentID = parentID;
+	public void setParent(IndoorFeatures parent) {
+		IndoorFeatures found = null;
+		found = (IndoorFeatures)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("IndoorFeatures"), parent.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(parent.getId(), "IndoorFeatures", parent);			
+		}
+		this.parentId = parent.getId();
 	}
 }
