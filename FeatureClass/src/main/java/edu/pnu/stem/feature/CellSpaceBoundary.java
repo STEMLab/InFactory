@@ -31,6 +31,11 @@ public class CellSpaceBoundary extends AbstractFeature {
 	}
 
 	public void setParent(PrimalSpaceFeatures parent) {
+		PrimalSpaceFeatures found = null;
+		found = (PrimalSpaceFeatures)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeature"), parent.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(parentId, "PrimalSpaceFeatures", parent);
+		}
 		this.parentId = parent.getId();
 	}
 
