@@ -8,73 +8,52 @@ import java.util.List;
  */
 public class Edges {
 	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
-	/**
 	 * contains list of Transitions as list
 	 */
-	public List<String> transitionMember;
+	List<String> transitionMember;
 
-	public String parentID;
+	public String parentId;
 
-	public void setParentID(String id) {
-		this.parentID = id;
+	public void setParent(MultiLayeredGraph parent) {
+		MultiLayeredGraph found = null;
+		found = (MultiLayeredGraph)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), parent.getId());
+		if( found == null ){
+			IndoorGMLMap.setFeature(parent.getId(), "MultiLayeredGraph", parent );
+		}
+		this.parentId = parent.getId();
 	}
 
-	public String getParentID() {
-		return this.parentID;
+	public MultiLayeredGraph getParent() {
+		MultiLayeredGraph feature = null;
+		feature = (MultiLayeredGraph) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"),
+				this.parentId);
+		return feature;
 	}
 
-	public List<String> getTransitionMembers() {
-		return new ArrayList<String>(transitionMember);
+	public void setTransitionMembers(List<Transition> transitionMember) {
+		for(int i = 0 ; i < transitionMember.size(); i++){
+			Transition found = null;
+			found = (Transition) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), transitionMember.get(i).getId());
+			if(found == null){
+				IndoorGMLMap.setFeature(transitionMember.get(i).getId(), "Transition", transitionMember.get(i));
+			}
+			if(!this.transitionMember.contains(transitionMember.get(i).getId())){
+				this.transitionMember.add(transitionMember.get(i).getId());
+			}
+		}
 	}
 
-	public void setId(String id) {
-		this.ID = id;
-	}
-
-	public void setTransitionMembers(List<String> members) {
-		this.transitionMember = members;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the transitionMember
-	 */
-	public List<String> getTransitionMember() {
+	public List<Transition> getTransitionMember() {
+		List<Transition> transitionMember = new ArrayList<Transition>();
+		if (this.transitionMember.size() != 0) {
+			for (int i = 0; i < this.transitionMember.size(); i++) {
+				Transition found = (Transition) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"),
+						this.transitionMember.get(i));
+				transitionMember.add(found);
+			}
+		}
 		return transitionMember;
 	}
 
-	/**
-	 * @param transitionMember the transitionMember to set
-	 */
-	public void setTransitionMember(List<String> transitionMember) {
-		this.transitionMember = transitionMember;
-	}
-
-	/**
-	 * @return the iD
-	 */
-	public String getId() {
-		return ID;
-	}
 
 }
