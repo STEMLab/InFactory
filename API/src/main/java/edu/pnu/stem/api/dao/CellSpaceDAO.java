@@ -23,7 +23,7 @@ public class CellSpaceDAO {
 	 */
 	public static CellSpace createCellSpace(String docID, String parentID, String ID,
 			String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
-		CellSpace newFeature = null;
+		CellSpace newFeature = new CellSpace();
 		if (Container.getInstance().hasDoc(docID)) {
 			newFeature.setId(ID);
 			newFeature.setParentID(parentID);
