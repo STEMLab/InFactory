@@ -27,10 +27,18 @@ public class Transition extends AbstractFeature {
 	 */
 	String[] connects = new String[2];
 
-	String parentID;
+	String parentId;
 
 	String externalReference;
 
+	public boolean hasDuality() {
+		if (this.duality == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public void setExternalReference(String er) {
 		this.externalReference = er;
 	}
@@ -39,20 +47,26 @@ public class Transition extends AbstractFeature {
 		return new String(this.externalReference);
 	}
 
-	public void setParentID(String id) {
-		this.parentID = id;
+	public void setParent(Edges parent) {		
+		this.parentId = parent.getId();
 	}
 
-	public String getParentID() {
-		return new String(this.parentID);
+	public Edges getParent() {
+		Edges feature = null;
+		feature = (Edges) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Edges"), this.parentId);
+		return feature;
 	}
 
-	public String getDuality() {
-		return new String(this.duality);
+	public CellSpaceBoundary getDuality() {
+		CellSpaceBoundary found = null;
+		if(hasDuality()){
+			found = (CellSpaceBoundary)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.duality);
+		}
+		return found;
 	}
 
-	public void setDuality(String d) {
-		this.duality = d;
+	public void setDuality(CellSpaceBoundary duality) {
+		
 	}
 	public CurveType getGeometry() {
 		return this.geometry;
