@@ -5,7 +5,7 @@ package edu.pnu.stem.feature;
  */
 public class InterLayerConnection extends AbstractFeature {
 	
-	String parentID;
+	String parentId;
 	
 	typeOfTopoExpressionCode typeOfTopoExpression;
 	/**
@@ -32,20 +32,40 @@ public class InterLayerConnection extends AbstractFeature {
 
 	}
 	
-	public void setParentID(String id) {
-		this.parentID = id;
+	public void setParent(InterEdges parent){
+		InterEdges found = null;
+		found = (InterEdges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("InterEdges"), parent.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(parent.getId(), "InterEdges", parent);
+		}
+		this.parentId = parent.getId();
+	}
+	
+	public InterEdges getParent(){
+		InterEdges found = null;
+		found = (InterEdges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("InterEdges"), this.parentId);
+		return found;
 	}
 
-	public String getParentID() {
-		return new String(this.parentID);
+	public void setConnectedLayers(SpaceLayer[] connectedLayers){
+		SpaceLayer[]found = new SpaceLayer[2];
+		found[0] = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), connectedLayers[0].getId());
+		found[1] = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), connectedLayers[1].getId());
+		if(found[0] == null){
+			IndoorGMLMap.setFeature(connectedLayers[0].getId(), "SpaceLayer", connectedLayers[0]);
+		}
+		if(found[1] == null){
+			IndoorGMLMap.setFeature(connectedLayers[1].getId(), "SpaceLayer", connectedLayers[1]);
+		}
+		this.connectedLayers[0] = connectedLayers[0].getId();
+		this.connectedLayers[1] = connectedLayers[1].getId();
 	}
-
-	public void setConnectedLayers(String[] cl) {
-		this.connectedLayers = cl;
-	}
-
-	public String[] getConnectedLayers() {
-		return this.connectedLayers;
+	
+	public SpaceLayer[] getConnectedLayers() {
+		SpaceLayer[] found = new SpaceLayer[2];
+		found[0] = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), this.connectedLayers[0]);
+		found[1] = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), this.connectedLayers[1]);
+		return found;
 	}
 
 	public void setInterConnects(String[] ic) {
