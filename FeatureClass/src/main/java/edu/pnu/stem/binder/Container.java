@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Container {
 	private static Container docs = new Container();
-	public static ConcurrentHashMap<String, IndoorGMLMap> docContainer = new ConcurrentHashMap<String, IndoorGMLMap>();
+	private static ConcurrentHashMap<String, IndoorGMLMap> docContainer = new ConcurrentHashMap<String, IndoorGMLMap>();
 
 	/**
 	 * @return the container
