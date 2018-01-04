@@ -1,9 +1,8 @@
 package edu.pnu.stem.feature;
 
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.locationtech.jts.geom.Polygon;
 
 /**
  * @author jungh Implements CellSpaceType of IndoorGML 1.0.3
@@ -45,7 +44,7 @@ public class CellSpace extends AbstractFeature {
 	private String parentId;
 
 	public void setParent(PrimalSpaceFeatures parent) {
-		State found = (State) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), parent.getId());
+		PrimalSpaceFeatures found = (PrimalSpaceFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), parent.getId());
 		if(found == null) {
 			IndoorGMLMap.setFeature(parent.getId(), "PrimalSpaceFeatures", parent);
 		}
