@@ -4,6 +4,21 @@
 	<groupId>IndoorGML</groupId>
 	<artifactId>IndoorGMLFactory</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>IndoorGML Factory</name>
+
+	<organization>
+		<name>STEMLab in Pusan National University</name>
+		<url>http://stem.pnu.edu</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>BSD License</name>
+			<url>https://www.gnu.org/licenses/bsd.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
 	<packaging>pom</packaging>
 	<modules>
 		<module>API</module>
@@ -11,6 +26,9 @@
 	</modules>
 	<build>
 		<plugins>
+			<!-- ======================================================= -->
+			<!-- Compilation. -->
+			<!-- ======================================================= -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -18,8 +36,85 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+					<fork>true</fork>
+					<maxmem>512M</maxmem>
 				</configuration>
 			</plugin>
+			
+			<!-- ======================================================= -->
+			<!-- Resources. -->
+			<!-- ======================================================= -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<outputDirectory>${basedir}/target</outputDirectory>
+					<resources>
+						<resource>
+							<filtering>true</filtering>
+							<directory>${basedir}</directory>
+							<includes>
+								<include>VERSION.txt</include>
+							</includes>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+			
+						<!-- ======================================================= -->
+			<!-- JAR packaging. -->
+			<!-- ======================================================= -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<Project-Version>${project.version}</Project-Version>
+							<Git-Revision>${build.commit.id}</Git-Revision>
+							<Build-Timestamp>${build.timestamp}</Build-Timestamp>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<!-- ======================================================= -->
+			<!-- Source packaging. -->
+			<!-- ======================================================= -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<inherited>true</inherited>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 </project>
