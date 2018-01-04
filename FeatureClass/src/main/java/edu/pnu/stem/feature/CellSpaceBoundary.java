@@ -19,33 +19,51 @@ public class CellSpaceBoundary extends AbstractFeature {
 	/**
 	 * ID of parent feature instance
 	 */
-	String parentID;
+	String parentId;
 	String cellSpaceBoundaryGeometry;
 
-	public void setParentID(String id) {
-		this.parentID = id;
+	public boolean hasDuality() {
+		if (this.duality == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public void setParentID(PrimalSpaceFeatures parent) {
+		this.parentId = parent.getId();
 	}
 
 	public String getParentID() {
-		return new String(this.parentID);
+		String parentId = new String();
+		PrimalSpaceFeatures feature = null;
+		feature = (PrimalSpaceFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"),
+				this.parentId);
+		return feature.getParentID();
 	}
 
-	public Object getParentInstance() {
-		Object feature = null;
-		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), this.parentID);
+	public PrimalSpaceFeatures getParent() {
+		PrimalSpaceFeatures feature = null;
+		feature = (PrimalSpaceFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"),
+				this.parentId);
 		return feature;
 	}
 
-	public String getDuality() {
-		return new String(this.duality);
+	public Transition getDuality() {
+		Transition found = null;
+		if (hasDuality()) {
+			found = (Transition) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), this.duality);
+		}
+		return found;
 	}
 
-	public Object getDualityInstance() {
-		return IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), this.duality);
-	}
-
-	public void setDuality(String d) {
-		this.duality = d;
+	public void setDuality(Transition duality) {
+		Transition found = null;
+		found = (Transition)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), duality.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(duality.getId(), "Transition", duality);
+		}
+		this.duality = duality.getId();
 	}
 
 	public String getExternalReference() {
