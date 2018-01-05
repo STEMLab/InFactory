@@ -65,7 +65,7 @@ import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
 
 public class Convert2FeatureClass {
 	
-	static AbstractFeature change2FeatureClass(AbstractFeatureType feature, String parentID) {
+	static AbstractFeature change2FeatureClass(AbstractFeatureType feature, String parentId) {
 		AbstractFeature newFeature = new AbstractFeature();
 		Object tempLocation = feature.getLocation().getValue();
 		newFeature.setId( feature.getId());
@@ -74,13 +74,16 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 	
-	public static CellSpace change2FeatureClass(CellSpaceType feature, String parentID) {
+	public static CellSpace change2FeatureClass(CellSpaceType feature, String parentId) {
 		CellSpace newFeature = new CellSpace();
-
+		PrimalSpaceFeatures parent = new PrimalSpaceFeatures();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		StatePropertyType tempState = feature.getDuality();
 		if(tempState != null){
-	
-			newFeature.setDuality(tempState.getHref());
+			State duality = new State();
+			duality.setId(tempState.getHref());
+			newFeature.setDuality(duality);
 		}
 		
 		newFeature.setId(feature.getId());
@@ -89,20 +92,20 @@ public class Convert2FeatureClass {
 			if (geo.getGeometry2D() != null) {
 				Object o = geo.getGeometry2D().getAbstractSurface().getValue();
 				if (o instanceof SurfaceType) {
-					newFeature.setGeometry2D(((SurfaceType) o).getId());
+					//newFeature.setGeometry2D(((SurfaceType) o).getId());
 					newFeature.setGeometryType("SurfaceType");
 				} else if (o instanceof CompositeSurfaceType) {
-					newFeature.setGeometry2D(((CompositeSurfaceType) o).getId());
+					//newFeature.setGeometry2D(((CompositeSurfaceType) o).getId());
 					newFeature.setGeometryType("CompositeSurfaceType");
 				}
 
 			} else if (geo.getGeometry3D() != null) {
 				Object o = geo.getGeometry3D().getAbstractSolid().getValue();
 				if (o instanceof SolidType) {
-					newFeature.setGeometry3D(((SolidType) o).getId());
+					//newFeature.setGeometry3D(((SolidType) o).getId());
 					newFeature.setGeometryType("SolidType");
 				} else if (o instanceof CompositeSolidType) {
-					newFeature.setGeometry3D(((CompositeSolidType) o).getId());
+					//newFeature.setGeometry3D(((CompositeSolidType) o).getId());
 					newFeature.setGeometryType("CompositeSolidType");
 				}
 
@@ -113,10 +116,11 @@ public class Convert2FeatureClass {
 		}
 
 		List<CellSpaceBoundaryPropertyType> boundList = feature.getPartialboundedBy();
-		List<String> csbList = new ArrayList<String>();
+		List<CellSpaceBoundary> csbList = new ArrayList<CellSpaceBoundary>();
 
 		for (int i = 0; i < boundList.size(); i++) {
-			csbList.add(boundList.get(i).getHref());
+			CellSpaceBoundary temp = new CellSpaceBoundary();
+			temp.setId(boundList.get(i).getHref());
 		}
 		newFeature.setPartialboundedBy(csbList);
 		// newFeature.partialboundedBy = feature.getPartialboundedBy();
@@ -124,14 +128,18 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	public static CellSpaceBoundary change2FeatureClass(CellSpaceBoundaryType feature, String parentID) {
+	public static CellSpaceBoundary change2FeatureClass(CellSpaceBoundaryType feature, String parentId) {
 		CellSpaceBoundary newFeature = new CellSpaceBoundary();
 		
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		PrimalSpaceFeatures parent = new PrimalSpaceFeatures();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		TransitionPropertyType tempTransition = feature.getDuality();
 		if(tempTransition!=null){
-			newFeature.setDuality(tempTransition.getHref());
+			Transition duality = new Transition();
+			duality.setId(tempTransition.getHref());
+			newFeature.setDuality(duality);
 		}
 		
 		CellSpaceBoundaryGeometryType geo = feature.getCellSpaceBoundaryGeometry();
@@ -189,7 +197,7 @@ public class Convert2FeatureClass {
 		MultiLayeredGraphType tempML = new MultiLayeredGraphType();
 		// newFeature.multiLayeredGraph =
 		// change2FeatureClass(feature.getMultiLayeredGraph());
-		//Container.getInstance().inputID(feature.getId(), "IndoorFeatures");
+		//Container.getInstance().inputID(feature.getId(), "s");
 		PrimalSpaceFeaturesPropertyType tempPSFP = new PrimalSpaceFeaturesPropertyType();
 		tempPSFP = feature.getPrimalSpaceFeatures();
 		// newFeature.primalSpaceFeatures =
@@ -208,12 +216,14 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	public static MultiLayeredGraph change2FeatureClass(String docId, MultiLayeredGraphPropertyType feature, String id) {
+	public static MultiLayeredGraph change2FeatureClass(String docId, MultiLayeredGraphPropertyType feature, String parentId) {
 		MultiLayeredGraph newFeature = new MultiLayeredGraph();
 		newFeature.setId(feature.getMultiLayeredGraph().getId());
-		newFeature.setParentID(id);
-		List<String> interEdges = new ArrayList<String>();
-		List<String> spaceLayer = new ArrayList<String>();
+		IndoorFeatures parent = new IndoorFeatures();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
+		List<InterEdges> interEdges = new ArrayList<InterEdges>();
+		List<SpaceLayers> spaceLayers = new ArrayList<SpaceLayers>();
 
 		List<SpaceLayersType> spaceLayerInstanceList = new ArrayList<SpaceLayersType>();
 		List<InterEdgesType> interEdgesInstanceList = new ArrayList<InterEdgesType>();
@@ -221,55 +231,66 @@ public class Convert2FeatureClass {
 		for (int i = 0; i < feature.getMultiLayeredGraph().getInterEdges().size(); i++) {
 			InterEdgesType temp = feature.getMultiLayeredGraph().getInterEdges().get(i);
 			// interEdgesInstanceList.add(temp);
-			interEdges.add(temp.getId());
+			InterEdges tempInterEdges = new InterEdges();
+			tempInterEdges.setId(temp.getId());
+			interEdges.add(tempInterEdges);
 			Container.getInstance().setFeature(docId, temp.getId(), "InterEdges", change2FeatureClass(temp, newFeature.getId()));
 		}
 		for (int i = 0; i < feature.getMultiLayeredGraph().getSpaceLayers().size(); i++) {
 			SpaceLayersType temp = feature.getMultiLayeredGraph().getSpaceLayers().get(i);
 			// spaceLayerInstanceList.add(temp);
-			spaceLayer.add(temp.getId());
+			SpaceLayers tempSpaceLayers = new SpaceLayers();
+			tempSpaceLayers.setId(temp.getId());
+			spaceLayers.add(tempSpaceLayers);
 			Container.getInstance().setFeature(docId, temp.getId(), "SpaceLayers", change2FeatureClass(temp, newFeature.getId()));
 		}
 
-		newFeature.setSpaceLayers(spaceLayer);
+		newFeature.setSpaceLayers(spaceLayers);
 		newFeature.setInterEdges(interEdges);
 
 		return newFeature;
 	}
 
-	static SpaceLayers change2FeatureClass(String docId, SpaceLayersType feature, String parentID) {
+	static SpaceLayers change2FeatureClass(String docId, SpaceLayersType feature, String parentId) {
 		SpaceLayers newFeature = new SpaceLayers();
 
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		MultiLayeredGraph parent = new MultiLayeredGraph();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		List<SpaceLayerMemberType> tempSLMList = feature.getSpaceLayerMember();
 		// List<String>spaceLayerMember = new ArrayList<String>();
-		List<String> slm = new ArrayList<String>();
+		List<SpaceLayer> slm = new ArrayList<SpaceLayer>();
 
 		for (int i = 0; i < tempSLMList.size(); i++) {
 			SpaceLayerType s = tempSLMList.get(i).getSpaceLayer();
-
-			slm.add(s.getId());
+			SpaceLayer spacelayer = new SpaceLayer();
+			spacelayer.setId(s.getId());
+			slm.add(spacelayer);
 			Container.getInstance().setFeature(docId, s.getId(), "SpaceLayer", change2FeatureClass(s, newFeature.getId()));
 		}
-		newFeature.setSpaceLayerMemeber(slm);
+		newFeature.setSpaceLayerMember(slm);
 
 		return newFeature;
 
 	}
 
-	public static InterEdges change2FeatureClass(String docId, InterEdgesType feature, String parentID) {
+	public static InterEdges change2FeatureClass(String docId, InterEdgesType feature, String parentId) {
 		InterEdges newFeature = new InterEdges();
 
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		MultiLayeredGraph parent = new MultiLayeredGraph();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		List<InterLayerConnectionMemberType> interLayerConnectionMember = feature.getInterLayerConnectionMember();
-		List<String> interLayerConnection = new ArrayList<String>();
+		List<InterLayerConnection> interLayerConnection = new ArrayList<InterLayerConnection>();
 
 		for (int i = 0; i < interLayerConnectionMember.size(); i++) {
 			InterLayerConnectionType tempILC = new InterLayerConnectionType();
 			tempILC = interLayerConnectionMember.get(i).getInterLayerConnection();
-			interLayerConnection.add(tempILC.getId());
+			InterLayerConnection temp = new InterLayerConnection();
+			temp.setId(tempILC.getId());
+			interLayerConnection.add(temp);
 			Container.getInstance().setFeature(docId, tempILC.getId(), "InterLayerConnection",
 					change2FeatureClass(tempILC, newFeature.getId()));
 		}
@@ -279,52 +300,62 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	static Edges change2FeatureClass(String docId, EdgesType feature, String parentID) {
+	static Edges change2FeatureClass(String docId, EdgesType feature, String parentId) {
 		Edges newFeature = new Edges();
 
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		SpaceLayer parent = new SpaceLayer();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		List<TransitionMemberType> tm = feature.getTransitionMember();
-		List<String> transitionMemberReference = new ArrayList<String>();
+		List<Transition> transitionMemberReference = new ArrayList<Transition>();
 
 		for (int i = 0; i < tm.size(); i++) {
 			TransitionType tempTM = tm.get(i).getTransition();
 			Container.getInstance().setFeature(docId, tempTM.getId(), "Transition", change2FeatureClass(tempTM, newFeature.getId()));
 			//transitionMemberReference.add(change2FeatureClass(tempTM, newFeature.setId()));
-			transitionMemberReference.add(tempTM.getId());
+			Transition temp = new Transition();
+			temp.setId(tempTM.getId());
+			transitionMemberReference.add(temp);
 		}
-		newFeature.transitionMember = transitionMemberReference;
+		newFeature.setTransitionMembers(transitionMemberReference);
 		return newFeature;
 	}
 
-	static InterLayerConnection change2FeatureClass(String docId, InterLayerConnectionType feature, String parentID) {
+	static InterLayerConnection change2FeatureClass(String docId, InterLayerConnectionType feature, String parentId) {
 		InterLayerConnection newFeature = new InterLayerConnection();
-
+		
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		InterEdges parent = new InterEdges();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 
 		List<SpaceLayerPropertyType> tempSLList = feature.getConnectedLayers();
 		List<StatePropertyType> tempILCList = feature.getInterConnects();
-		List<String> spacelayerList = new ArrayList<String>();
-		List<String> interConnectionList = new ArrayList<String>();
+		List<SpaceLayer> spacelayerList = new ArrayList<SpaceLayer>();
+		List<State> interConnectionList = new ArrayList<State>();
 
 		for (int i = 0; i < tempSLList.size(); i++) {
 			SpaceLayerType sl = tempSLList.get(i).getSpaceLayer();
+			SpaceLayer temp = new SpaceLayer();
+			temp.setId(sl.getId());
 			Container.getInstance().setFeature(docId,sl.getId(), "SpaceLayer", change2FeatureClass(sl, newFeature.getId()));
-			spacelayerList.add(sl.getId());
+			spacelayerList.add(temp);
 		}
 
 		for (int i = 0; i < tempILCList.size(); i++) {
 			StateType s = tempILCList.get(i).getState();
-			interConnectionList.add(s.getId());
+			State temp = new State();
+			temp.setId(s.getId());
+			interConnectionList.add(temp);
 			Container.getInstance().setFeature(docId, s.getId(), "State", change2FeatureClass(s, newFeature.getId()));
 		}
 
 		if (spacelayerList.size() != 2 || interConnectionList.size() != 2) {
 			System.out.println("Converter : number of SpaceLayer or InterConnection is not 2 at InterLayerConnection");
 		} else {
-			String[] connectedLayers =null;
-			String[] interConnection = null;
+			SpaceLayer[] connectedLayers =null;
+			State[] interConnection = null;
 			
 			spacelayerList.toArray(connectedLayers);
 			interConnectionList.toArray(interConnection);
@@ -335,28 +366,31 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	public static PrimalSpaceFeatures change2FeatureClass(String docId, PrimalSpaceFeaturesType feature, String parentID)
+	public static PrimalSpaceFeatures change2FeatureClass(String docId, PrimalSpaceFeaturesType feature, String parentId)
 			throws JAXBException {
 		PrimalSpaceFeatures newFeature = new PrimalSpaceFeatures();
-		//JAXBContext context = JaxbUtil.createIndoorGMLContext();
-		// net.opengis.indoorgml.core.v_1_0.ObjectFactory objectFactory = new
-		// ObjectFactory();
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
-		List<String>cellspacemember = new ArrayList<String>();
-		List<String>cellspaceboundarymember = new ArrayList<String>();
+		IndoorFeatures parent = new IndoorFeatures();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
+		List<CellSpace>cellspacemember = new ArrayList<CellSpace>();
+		List<CellSpaceBoundary>cellspaceboundarymember = new ArrayList<CellSpaceBoundary>();
 		
 		for (int i = 0; i < feature.getCellSpaceBoundaryMember().size(); i++) {
-			CellSpaceBoundaryMemberType temp = feature.getCellSpaceBoundaryMember().get(i);
-			CellSpaceBoundaryType cs = temp.getCellSpaceBoundary().getValue();
+			CellSpaceBoundaryMemberType csbm = feature.getCellSpaceBoundaryMember().get(i);
+			CellSpaceBoundaryType cs = csbm.getCellSpaceBoundary().getValue();
 			Container.getInstance().setFeature(docId, cs.getId(), "CellSpaceBoundary", change2FeatureClass(cs, newFeature.getId()));
-			cellspaceboundarymember.add(cs.getId());
+			CellSpaceBoundary temp = new CellSpaceBoundary();
+			temp.setId(cs.getId());
+			cellspaceboundarymember.add(temp);
 		}
 		for (int i = 0; i < feature.getCellSpaceMember().size(); i++) {
-			CellSpaceMemberType temp = feature.getCellSpaceMember().get(i);
-			CellSpaceType cs = temp.getCellSpace().getValue();
+			CellSpaceMemberType csm = feature.getCellSpaceMember().get(i);
+			CellSpaceType cs = csm.getCellSpace().getValue();
 			Container.getInstance().setFeature(docId, cs.getId(), "CellSpace", change2FeatureClass(cs, newFeature.getId()));
-			cellspacemember.add(cs.getId());
+			CellSpace temp = new CellSpace();
+			temp.setId(cs.getId());
+			cellspacemember.add(temp);
 			// CellSpaceType cellSpace =
 			// objectFactory.createCellSpace(temp.getCellSpace().getValue());
 
@@ -366,47 +400,57 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	static Nodes change2FeatureClass(String docId, NodesType feature, String parentID) {
+	static Nodes change2FeatureClass(String docId, NodesType feature, String parentId) {
 		Nodes newFeature = new Nodes();
 
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		SpaceLayer parent = new SpaceLayer();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		List<StateMemberType> tempML = feature.getStateMember();
-		List<String> stateList = new ArrayList<String>();
+		List<State> stateList = new ArrayList<State>();
 
 		for (int i = 0; i < tempML.size(); i++) {
 			StateType tempState = tempML.get(i).getState();
 			Container.getInstance().setFeature(docId, tempState.getId(), "State", change2FeatureClass(tempState, newFeature.getId()));
-			stateList.add(tempState.getId());
+			State temp = new State();
+			temp.setId(tempState.getId());
+			stateList.add(temp);
 		}
 		newFeature.setStateMember(stateList);
 		return newFeature;
 	}
 
-	static SpaceLayer change2FeatureClass(String docId, SpaceLayerType feature, String parentID) {
+	static SpaceLayer change2FeatureClass(String docId, SpaceLayerType feature, String parentId) {
 		SpaceLayer newFeature = new SpaceLayer();
 
 		newFeature.setId(feature.getId());
 		newFeature.setFunction(feature.getFunction());
-		newFeature.setParentID(parentID);
+		SpaceLayers parent = new SpaceLayers();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		// newFeature.createDate = feature.getCreationDate();
 		// newFeature.terminateDate = feature.getTerminateDate();
 		newFeature.setClassType(feature.getClazz());
 
-		List<String> edgeList = new ArrayList<String>();
+		List<Edges> edgeList = new ArrayList<Edges>();
 		List<EdgesType> tempEL = feature.getEdges();
 
-		List<String> nodesList = new ArrayList<String>();
+		List<Nodes> nodesList = new ArrayList<Nodes>();
 		List<NodesType> tempNL = feature.getNodes();
 
 		for (int i = 0; i < tempEL.size(); i++) {
-			edgeList.add(tempEL.get(i).getId());
+			Edges temp = new Edges();
+			temp.setId(tempEL.get(i).getId());
+			edgeList.add(temp);
 			Container.getInstance().setFeature(docId, tempEL.get(i).getId(), "Edges", change2FeatureClass(tempEL.get(i), newFeature.getId()));
 			// tempEdgeList.add(change2FeatureClass(tempEL.get(i)));
 
 		}
 		for (int i = 0; i < tempNL.size(); i++) {
-			nodesList.add(tempNL.get(i).getId());
+			Nodes temp = new Nodes();
+			temp.setId(tempNL.get(i).getId());
+			nodesList.add(temp);
 			Container.getInstance().setFeature(docId, tempNL.get(i).getId(), "Nodes", change2FeatureClass(tempNL.get(i), newFeature.getId()));
 		}
 		newFeature.setEdges(edgeList);
@@ -417,17 +461,21 @@ public class Convert2FeatureClass {
 	SpaceLayerClassType change2FeatureClass(SpaceLayerClassTypeType feature) {
 		return null;
 	}
-	static State change2FeatureClass(String docId, StateType feature, String parentID){
+	static State change2FeatureClass(String docId, StateType feature, String parentId){
 		State newFeature = new State();
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		SpaceLayer parent = new SpaceLayer();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		//newFeature.geometry = 
 		
 		if(feature.getDuality() == null){
 			System.out.println("Convert to State : There is no Duality");
 		}
 		else{
-			newFeature.setDuality(feature.getDuality().getHref());					
+			CellSpace duality = new CellSpace();
+			duality.setId(feature.getDuality().getHref());
+			newFeature.setDuality(duality);					
 		}
 		
 		List<TransitionPropertyType>featureConnects = feature.getConnects();
@@ -443,11 +491,13 @@ public class Convert2FeatureClass {
 		 * */
 		return newFeature;
 	}
-	static Transition change2FeatureClass(String docId, TransitionType feature, String parentID) {
+	static Transition change2FeatureClass(String docId, TransitionType feature, String parentId) {
 		Transition newFeature = new Transition();
 
 		newFeature.setId(feature.getId());
-		newFeature.setParentID(parentID);
+		Edges parent = new Edges();
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 
 		Object geometry = feature.getGeometry().getAbstractCurve().getValue();
 		if (geometry instanceof CurvePropertyType) {
@@ -465,13 +515,14 @@ public class Convert2FeatureClass {
 		newFeature.setConnects(connects);
 		// newFeature.duality =
 		// change2FeatureClass((CellSpaceBoundaryType)feature.getDuality().getCellSpaceBoundary().getValue());
-		Object duality = feature.getDuality();
-		if(duality == null){
+		if(feature.getDuality() == null){
 			System.out.println("Converter to Transition : There is no Duality");
 		}
 		else{
 			CellSpaceBoundaryType tempBoundary = feature.getDuality().getCellSpaceBoundary().getValue();
-			newFeature.setDuality(tempBoundary.getId());
+			CellSpaceBoundary duality = new CellSpaceBoundary();
+			duality.setId(tempBoundary.getId());
+			newFeature.setDuality(duality);
 		}
 		newFeature.setWeight(feature.getWeight());
 		newFeature.setName(feature.getRole());
