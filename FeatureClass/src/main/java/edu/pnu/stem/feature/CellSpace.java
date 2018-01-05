@@ -125,11 +125,19 @@ public class CellSpace extends AbstractFeature {
 		return cboundaries;
 	}
 
-	//TODO
-	/*public void setPartialboundedBy(List<String> pbB) {
-		this.partialboundedBy = pbB;
+	public void setPartialboundedBy(List<CellSpaceBoundary> csbList) {
+		for(CellSpaceBoundary cb : csbList){
+			CellSpaceBoundary found = null;
+			found = (CellSpaceBoundary)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), cb.getId());
+			if(found == null){
+				IndoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
+			}
+			if(!this.partialboundedBy.contains(cb.getId())){
+				this.partialboundedBy.add(cb.getId());
+			}
+		}
+		
 	}
-	*/
 
 	public ExternalReference getExternalReference() {
 		return (ExternalReference) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("ExternalReference"), this.externalReference);
@@ -171,4 +179,6 @@ public class CellSpace extends AbstractFeature {
 	public void setCellSpaceGeometryObject(String cellSpaceGeometryObject) {
 		this.cellSpaceGeometryObject = cellSpaceGeometryObject;
 	}
+
+	
 }
