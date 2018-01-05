@@ -11,18 +11,18 @@ public class Nodes extends AbstractFeature {
 
 	String parentId;
 
-	public void setParent(MultiLayeredGraph parent) {
-		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), parent.getId());
+	public void setParent(SpaceLayer parent) {
+		SpaceLayer found = null;
+		found = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), parent.getId());
 		if( found == null ){
-			IndoorGMLMap.setFeature(parent.getId(), "MultiLayeredGraph", parent );
+			IndoorGMLMap.setFeature(parent.getId(), "SpaceLayer", parent );
 		}
 		this.parentId = parent.getId();
 	}
 
-	public MultiLayeredGraph getParent() {
-		MultiLayeredGraph feature = null;
-		feature = (MultiLayeredGraph) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"),
+	public SpaceLayer getParent() {
+		SpaceLayer feature = null;
+		feature = (SpaceLayer) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"),
 				this.parentId);
 		return feature;
 	}
