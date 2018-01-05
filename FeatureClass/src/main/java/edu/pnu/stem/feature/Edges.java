@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author jungh Implements EdgesType of IndoorGML 1.0.3
  */
-public class Edges {
+public class Edges extends AbstractFeature{
 	/**
 	 * contains list of Transitions as list
 	 */
@@ -54,6 +54,7 @@ public class Edges {
 		}
 		return transitionMember;
 	}
+
 
 
 }
