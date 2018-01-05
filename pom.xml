@@ -18,17 +18,13 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-	
-	<properties>
-		<spring.version>5.0.2.RELEASE</spring.version>
-	</properties>
-	
+
 	<packaging>pom</packaging>
 	<modules>
 		<module>API</module>
 		<module>FeatureClass</module>
 	</modules>
-	
+
 	<build>
 		<plugins>
 			<!-- ======================================================= -->
@@ -45,7 +41,7 @@
 					<maxmem>512M</maxmem>
 				</configuration>
 			</plugin>
-			
+
 			<!-- ======================================================= -->
 			<!-- Resources. -->
 			<!-- ======================================================= -->
@@ -77,8 +73,8 @@
 					</resources>
 				</configuration>
 			</plugin>
-			
-						<!-- ======================================================= -->
+
+			<!-- ======================================================= -->
 			<!-- JAR packaging. -->
 			<!-- ======================================================= -->
 			<plugin>
@@ -119,7 +115,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 </project>
