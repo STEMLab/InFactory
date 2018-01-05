@@ -34,15 +34,24 @@ public class SpaceLayer extends AbstractFeature {
 	 * represent Class type of the SpaceLayer
 	 */
 	// public SpaceLayerClassTypeType classType;
-	String parentID;
+	String parentId;
 	SpaceLayerClassTypeType classType;
 
-	public void setParentID(String id) {
-		this.parentID = id;
+	public void setParent(SpaceLayers parent) {
+		SpaceLayers found = null;
+		found = (SpaceLayers) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayers"),
+				parent.getId());
+		if (found == null) {
+			IndoorGMLMap.setFeature(parent.getId(), "SpaceLayers", parent);
+		}
+		this.parentId = parent.getId();
 	}
 
-	public String getParentID() {
-		return this.parentID;
+	public SpaceLayers getParent() {
+		SpaceLayers found = null;
+		found = (SpaceLayers) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayers"),
+				this.parentId);
+		return found;
 	}
 
 	/**
@@ -108,31 +117,56 @@ public class SpaceLayer extends AbstractFeature {
 	/**
 	 * @return the nodes
 	 */
-	public List<String> getNodes() {
-		return new ArrayList<String>(nodes);
+	public List<Nodes> getNodes() {
+		List<Nodes>nodes = new ArrayList<Nodes>();
+		for(int i = 0 ; i < this.edges.size() ; i++){
+			nodes.add((Nodes)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Nodes"), this.edges.get(i)));
+		}
+		return nodes;
 	}
 
 	/**
 	 * @param nodes
 	 *            the nodes to set
 	 */
-	public void setNodes(List<String> nodes) {
-		this.nodes = nodes;
+	public void setNodes(List<Nodes> nodes) {
+		for(int i = 0 ; i < nodes.size() ; i++ ){
+			Nodes found = null;
+			found = (Nodes)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Nodes"), nodes.get(i).getId());
+			if(found == null){
+				IndoorGMLMap.setFeature(nodes.get(i).getId(), "Nodes",nodes.get(i));
+			}
+			if(this.nodes.contains(nodes.get(i).getId())){
+				this.nodes.add(nodes.get(i).getId());
+			}			
+		}
 	}
-
 	/**
 	 * @return the edges
 	 */
-	public List<String> getEdges() {
-		return new ArrayList<String>(edges);
+	public List<Edges> getEdges() {
+		List<Edges>edges = new ArrayList<Edges>();
+		for(int i = 0 ; i < this.edges.size() ; i++){
+			edges.add((Edges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Edges"), this.edges.get(i)));
+		}
+		return edges;
 	}
 
 	/**
 	 * @param edges
 	 *            the edges to set
 	 */
-	public void setEdges(List<String> edges) {
-		this.edges = edges;
+	public void setEdges(List<Edges> edges) {
+		for(int i = 0 ; i < edges.size() ; i++ ){
+			Edges found = null;
+			found = (Edges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Edges"), edges.get(i).getId());
+			if(found == null){
+				IndoorGMLMap.setFeature(edges.get(i).getId(), "InterEdges",edges.get(i));
+			}
+			if(this.edges.contains(edges.get(i).getId())){
+				this.edges.add(edges.get(i).getId());
+			}			
+		}
 	}
 
 	/**
