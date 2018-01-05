@@ -12,50 +12,41 @@ public class SpaceLayers extends AbstractFeature {
 	 * reference
 	 */
 	List<String> spaceLayerMemeber;
-	String parentID;
+	String parentId;
 
-	public void setParentID(String id) {
-		this.parentID = id;
-	}
-
-	public String getParentID() {
-		return new String(this.parentID);
-	}
-
-	public Object getParentObject() {
-		Object feature = null;
-		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), this.parentID);
-		return feature;
-	}
-
-	public void setSpaceLayerMember(List<String> spaceLayerMember) {
-		this.spaceLayerMemeber = spaceLayerMember;
-	}
-
-	public List<String> getSpaceLayerMember() {
-		return new ArrayList<String>(this.spaceLayerMemeber);
-	}
-
-	public List<Object> getSpaceLayerMemberInstance() {
-		List<Object> feature = new ArrayList<Object>();
-		for (int i = 0; i < this.spaceLayerMemeber.size(); i++) {
-			feature.add(IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"),
-					this.spaceLayerMemeber.get(i)));
+	public void setParent(MultiLayeredGraph parent) {
+		MultiLayeredGraph found = null;
+		found = (MultiLayeredGraph)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), parent.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(parent.getId(), "MultiLayeredGraph", parent);
 		}
-		return feature;
-	}
-	/**
-	 * @return the spaceLayerMemeber
-	 */
-	public List<String> getSpaceLayerMemeber() {
-		return new ArrayList<String>(spaceLayerMemeber);
+		this.parentId = parent.getId(); 
 	}
 
-	/**
-	 * @param spaceLayerMemeber
-	 *            the spaceLayerMemeber to set
-	 */
-	public void setSpaceLayerMemeber(List<String> spaceLayerMemeber) {
-		this.spaceLayerMemeber = spaceLayerMemeber;
+	public MultiLayeredGraph getParent() {
+		MultiLayeredGraph found = null;
+		found = (MultiLayeredGraph)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), this.parentId);
+		return found;
+	}
+
+	public void setSpaceLayerMember(List<SpaceLayer> spaceLayerMember) {
+		for(int i = 0 ; i < spaceLayerMember.size(); i++){
+			SpaceLayer found = null;
+			if(found == null){
+				IndoorGMLMap.setFeature(spaceLayerMember.get(i).getId(), "SpaceLayer", spaceLayerMember.get(i));
+			}
+			if(!this.spaceLayerMemeber.contains(spaceLayerMember.get(i).getId())){
+				this.spaceLayerMemeber.add(spaceLayerMember.get(i).getId());
+			}
+		}
+	}
+
+	public List<SpaceLayer> getSpaceLayerMember() {
+		List<SpaceLayer> spaceLayerMember = new ArrayList<SpaceLayer>();
+		for(int i = 0 ; i < this.spaceLayerMemeber.size() ; i++){
+			SpaceLayer found = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), this.spaceLayerMemeber.get(i));
+			spaceLayerMember.add(found);
+		}
+		return spaceLayerMember;
 	}
 }
