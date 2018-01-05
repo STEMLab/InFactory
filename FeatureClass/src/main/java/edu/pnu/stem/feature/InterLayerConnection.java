@@ -68,12 +68,25 @@ public class InterLayerConnection extends AbstractFeature {
 		return found;
 	}
 
-	public void setInterConnects(String[] ic) {
-		this.interConnects = ic;
+	public void setInterConnects(State[] interConnects) {
+		State[]found = new State[2];
+		found[0] = (State)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), interConnects[0].getId());
+		found[1] = (State)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), interConnects[1].getId());
+		if(found[0] == null){
+			IndoorGMLMap.setFeature(interConnects[0].getId(), "State", interConnects[0]);
+		}
+		if(found[1] == null){
+			IndoorGMLMap.setFeature(interConnects[1].getId(), "State", interConnects[1]);
+		}
+		this.interConnects[0] = interConnects[0].getId();
+		this.interConnects[1] = interConnects[1].getId();
 	}
 
-	public String[] getInterConnects() {
-		return this.interConnects;
+	public State[] getInterConnects() {
+		State[] found = new State[2];
+		found[0] = (State)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.interConnects[0]);
+		found[1] = (State)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.interConnects[1]);
+		return found;
 	}
 
 	/**
@@ -94,6 +107,10 @@ public class InterLayerConnection extends AbstractFeature {
 	public void setComment(String comment) {
 		this.comment = comment;
 		
+	}
+	
+	public String getComment(){
+		return new String(this.comment);
 	}
 
 
