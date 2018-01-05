@@ -1,7 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
+	<parent>
+		<groupId>IndoorGML</groupId>
+		<artifactId>IndoorGMLFactory</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>API</artifactId>
+	<packaging>war</packaging>
+
+
 	<properties>
 		<spring.version>5.0.2.RELEASE</spring.version>
 		<jetty.version>9.4.8.v20171121</jetty.version>
@@ -33,12 +42,6 @@
 		</developer>
 	</developers>
 
-	<parent>
-		<groupId>IndoorGML</groupId>
-		<artifactId>IndoorGMLFactory</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>API</artifactId>
 
 	<dependencies>
 		<dependency>
@@ -82,12 +85,41 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.0.2.RELEASE</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-servlet</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.3</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -109,6 +141,11 @@
 					<warName>IndoorGMLFactoryRestService</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
 			</plugin>
 		</plugins>
 		<finalName>IndoorGMLFactory</finalName>
