@@ -1,4 +1,4 @@
-package edu.pnu.stem.api.dao;
+package edu.pnu.stem.dao;
 
 
 import java.util.Date;

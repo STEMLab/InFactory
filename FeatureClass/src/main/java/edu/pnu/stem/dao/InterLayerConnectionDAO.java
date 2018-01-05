@@ -1,4 +1,4 @@
-package edu.pnu.stem.api.dao;
+package edu.pnu.stem.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.InterLayerConnection;
