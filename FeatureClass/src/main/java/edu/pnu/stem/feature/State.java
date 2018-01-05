@@ -30,14 +30,20 @@ public class State extends AbstractFeature {
 		return this.externalReference;
 	}
 
-	public String parentID;
+	public String parentId;
 
-	public void setParentID(String id) {
-		this.parentID = id;
+	public void setParent(SpaceLayer parent) {
+		SpaceLayer found = null;
+		found = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), parent.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(parent.getId(), "SpaceLayer", parent);
+		}		
+		this.parentId = parent.getId();
 	}
 
-	public String getParentID() {
-		return new String(this.parentID);
+	public SpaceLayer getParentID() {
+		SpaceLayer found = (SpaceLayer)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), this.parentId);
+		return found;
 	}
 
 	public PointPropertyType getGeometry() {
@@ -48,30 +54,39 @@ public class State extends AbstractFeature {
 		this.geometry = g;
 	}
 
-	public String getDuality() {
-		return new String(this.duality);
+	public CellSpace getDuality() {
+		CellSpace found = null;
+		found = (CellSpace)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpace"), this.duality);
+		return found;
 	}
 
-	public void setDuality(String d) {
-		this.duality = d;
+	public void setDuality(CellSpace duality) {
+		CellSpace found = null;
+		found = (CellSpace)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpace"), duality.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(duality.getId(), "CellSpace", duality);
+		}
+		this.duality = duality.getId();
 	}
 
-	public void setConnects(List<String> connects) {
+	public void setConnects(List<Transition> connects) {
 		for (int i = 0; i < connects.size(); i++) {
-			this.connects.add(connects.get(i));
+			Transition found = null;
+			found = (Transition)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), connects.get(i).getId());
+			if(found == null){
+				
+			} 
 		}
 	}
 
-	public List<String> getConnects() {
-		return new ArrayList<String>(this.connects);
-	}
-
-	public List<Object> getConnectsInstance() {
-		List<Object> feature = new ArrayList<Object>();
-		for (int i = 0; i < connects.size(); i++) {
-			feature.add(IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.connects.get(i)));
+	public List<Transition> getConnects() {
+		List<Transition> connects = new ArrayList<Transition>();
+		for(int i = 0 ; i < this.connects.size() ; i++){
+			Transition found = (Transition)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), this.connects.get(i));
+			connects.add(found);
 		}
-		return feature;
-
+		return connects;
 	}
+
+
 }
