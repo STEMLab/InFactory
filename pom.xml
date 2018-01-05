@@ -19,11 +19,16 @@
 		</license>
 	</licenses>
 	
+	<properties>
+		<spring.version>5.0.2.RELEASE</spring.version>
+	</properties>
+	
 	<packaging>pom</packaging>
 	<modules>
 		<module>API</module>
 		<module>FeatureClass</module>
 	</modules>
+	
 	<build>
 		<plugins>
 			<!-- ======================================================= -->
