@@ -13,36 +13,49 @@ public class InterEdges extends AbstractFeature {
 	 */
 	List<String> interLayerConnectionMember;
 
-	String parentID;
+	String parentId;
 
-	public void setParetID(String pi) {
-		this.parentID = pi;
+	public void setParent(MultiLayeredGraph parent) {
+		MultiLayeredGraph found = null;
+		found = (MultiLayeredGraph)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), parent.getId());
+		if(found == null){
+			IndoorGMLMap.setFeature(parent.getId(), "MultiLayeredGraph", parent);
+		}
+		this.parentId = parent.getId(); 
 	}
 
-	public String getParentID() {
-		return new String(this.parentID);
+	public MultiLayeredGraph getParent() {
+		MultiLayeredGraph found = null;
+		found = (MultiLayeredGraph)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), this.parentId);
+		return found;
 	}
 
 		/**
 	 * @return the interLayerConnectionMember
 	 */
-	public List<String> getInterLayerConnectionMember() {
-		return new ArrayList<String>(interLayerConnectionMember);
+	public List<InterLayerConnection> getInterLayerConnectionMember() {
+		List<InterLayerConnection> interLayerConnectionMember = new ArrayList<InterLayerConnection>();
+		for(int i = 0 ; i < this.interLayerConnectionMember.size() ; i++){
+			InterLayerConnection found = (InterLayerConnection)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"), this.interLayerConnectionMember.get(i));
+			interLayerConnectionMember.add(found);
+		}
+		return interLayerConnectionMember;
 	}
 
 	/**
 	 * @param interLayerConnectionMember
 	 *            the interLayerConnectionMember to set
 	 */
-	public void setInterLayerConnectionMember(List<String> interLayerConnectionMember) {
-		this.interLayerConnectionMember = interLayerConnectionMember;
+	public void setInterLayerConnectionMember(List<InterLayerConnection> interLayerConnectionMember) {
+		for(int i = 0 ; i < interLayerConnectionMember.size(); i++){
+			InterLayerConnection found = null;
+			if(found == null){
+				IndoorGMLMap.setFeature(interLayerConnectionMember.get(i).getId(), "InterLayerConnection", interLayerConnectionMember.get(i));
+			}
+			if(!this.interLayerConnectionMember.contains(interLayerConnectionMember.get(i).getId())){
+				this.interLayerConnectionMember.add(interLayerConnectionMember.get(i).getId());
+			}
+		}
 	}
 
-	/**
-	 * @param parentID
-	 *            the parentID to set
-	 */
-	public void setParentID(String parentID) {
-		this.parentID = parentID;
-	}
 }
