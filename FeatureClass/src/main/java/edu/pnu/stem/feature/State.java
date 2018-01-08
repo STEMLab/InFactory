@@ -3,6 +3,7 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pnu.stem.binder.Container;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
 
 /**
@@ -10,18 +11,38 @@ import net.opengis.gml.v_3_2_1.PointPropertyType;
  *
  */
 public class State extends AbstractFeature {
-	String duality;
+	
+	private String docId;
+	
+	private String duality;
 	/**
 	 * value of Transition feature which has this feature as boundary
 	 */
-	List<String> connects = new ArrayList<String>();
+	private List<String> connects = new ArrayList<String>();
 
-	String externalReference;
+	private String externalReference;
 	/**
 	 * geometry of this feature
 	 */
-	PointPropertyType geometry;
+	private PointPropertyType geometry;
+	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
 
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	public void setExternalReference(String e) {
 		this.externalReference = e;
 	}

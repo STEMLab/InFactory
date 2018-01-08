@@ -3,13 +3,17 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pnu.stem.binder.Container;
+
 public class Nodes extends AbstractFeature {
+	
+	private String docId;
 	/**
 	 * State list which this feature contains
 	 */
-	List<String> stateMember;
+	private List<String> stateMember;
 
-	String parentId;
+	private String parentId;
 
 	public void setParent(SpaceLayer parent) {
 		SpaceLayer found = null;
@@ -19,7 +23,24 @@ public class Nodes extends AbstractFeature {
 		}
 		this.parentId = parent.getId();
 	}
+	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
 
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	public SpaceLayer getParent() {
 		SpaceLayer feature = null;
 		feature = (SpaceLayer) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayer"),

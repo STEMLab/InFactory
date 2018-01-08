@@ -1,17 +1,37 @@
 package edu.pnu.stem.feature;
 
+import edu.pnu.stem.binder.Container;
+
 /**
  * @author jungh
  *	Implements CellSpaceBoundaryGeometryType of IndoorGML 1.0.3
  */
 public class CellSpaceBoundaryGeometry extends AbstractFeature{
 	
-	String geometry2D;
-	String geometry3D;
+	private String docId;
+	private String geometry2D;
+	private String geometry3D;
 	/**
 	 * ID of parent feature instance.
 	 */	
-String parentID;
+	private String parentID;
+	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
+
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
 	
 	public String getParentID(){return this.parentID;}
 	public void setParentID(String id){this.parentID = id;}

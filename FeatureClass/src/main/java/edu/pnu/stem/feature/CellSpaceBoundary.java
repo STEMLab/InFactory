@@ -1,27 +1,46 @@
 package edu.pnu.stem.feature;
 
+import edu.pnu.stem.binder.Container;
+
 /**
  * @author jungh Implements CellSpaceBoundaryType of IndoorGML 1.0.3
  */
 public class CellSpaceBoundary extends AbstractFeature {
-
+	
+	private String docId;
 	/**
 	 * value of Transition which has duality relationship with this
 	 * CellSpaceBoundary
 	 */
-	String duality;
+	private String duality;
 
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	String externalReference;
+	private String externalReference;
 
 	/**
 	 * ID of parent feature instance
 	 */
-	String parentId;
-	String cellSpaceBoundaryGeometry;
+	private String parentId;
+	private String cellSpaceBoundaryGeometry;
 
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
+
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
 	public boolean hasDuality() {
 		if (this.duality == null) {
 			return false;

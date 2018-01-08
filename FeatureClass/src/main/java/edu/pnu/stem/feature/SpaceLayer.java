@@ -4,39 +4,59 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.pnu.stem.binder.Container;
 import net.opengis.gml.v_3_2_1.CodeType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType;
 
 public class SpaceLayer extends AbstractFeature {
 
-	String usage;
+	private String docId;
+	
+	private String usage;
 	/**
 	 * functionality of the feature
 	 */
-	List<CodeType> function;
+	private List<CodeType> function;
 	/**
 	 * time stamp when the SpaceLayer is created
 	 */
-	Date createDate;
+	private Date createDate;
 	/**
 	 * time stamp when the SpaceLayer is expired
 	 */
-	Date terminationDate;
+	private Date terminationDate;
 	/**
 	 * Nodes which the SpaceLayer contains
 	 */
-	List<String> nodes;
+	private List<String> nodes;
 	/**
 	 * Edges which the SpaceLayer contains
 	 */
-	List<String> edges;
+	private List<String> edges;
 	/**
 	 * represent Class type of the SpaceLayer
 	 */
 	// public SpaceLayerClassTypeType classType;
-	String parentId;
-	SpaceLayerClassTypeType classType;
+	private String parentId;
+	private SpaceLayerClassTypeType classType;
 
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
+
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	public void setParent(SpaceLayers parent) {
 		SpaceLayers found = null;
 		found = (SpaceLayers) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayers"),
@@ -162,6 +182,9 @@ public class SpaceLayer extends AbstractFeature {
 			found = (Edges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Edges"), edges.get(i).getId());
 			if(found == null){
 				IndoorGMLMap.setFeature(edges.get(i).getId(), "InterEdges",edges.get(i));
+			}
+			if(this.edges == null){
+				this.edges = new ArrayList<String>();
 			}
 			if(this.edges.contains(edges.get(i).getId())){
 				this.edges.add(edges.get(i).getId());

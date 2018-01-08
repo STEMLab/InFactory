@@ -3,22 +3,43 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pnu.stem.binder.Container;
+
 /**
  * @author jungh Implements PrimalSpaceFeaturesType of IndoorGML 1.0.3
  */
 public class PrimalSpaceFeatures extends AbstractFeature {
+	
+	private String docId;
 	/**
 	 * List of CellSpaces which this feature contains
 	 */
-	List<String> cellSpaceMember;
+	private List<String> cellSpaceMember;
 
 	/**
 	 * List of CellSpaceBoundary which this feature contains
 	 */
-	List<String> cellSpaceBoundaryMember;
+	private List<String> cellSpaceBoundaryMember;
 
-	String parentId;
+	private String parentId;
+	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
 
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	public void setParent(IndoorFeatures parent) {
 		IndoorFeatures found = null;
 		found = (IndoorFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("IndoorFeatures"),

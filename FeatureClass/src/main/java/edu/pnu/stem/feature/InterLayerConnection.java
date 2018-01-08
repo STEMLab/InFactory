@@ -1,28 +1,49 @@
 package edu.pnu.stem.feature;
 
+import edu.pnu.stem.binder.Container;
+
 /**
  * @author jungh Implements InteraLayerConnectionType of IndoorGML 1.0.3
  */
 public class InterLayerConnection extends AbstractFeature {
 	
-	String parentId;
+	private String docId;
 	
-	typeOfTopoExpressionCode typeOfTopoExpression;
+	private String parentId;
+	
+	private typeOfTopoExpressionCode typeOfTopoExpression;
 	/**
 	 * describe characteristic of this instance
 	 */
-	String comment;
+	private String comment;
 	/**
 	 * save list of ID of States which are related with each others as this
 	 * InterLayerConnection
 	 */
-	String[] interConnects;
+	private String[] interConnects;
 	/**
 	 * save list of ID of SpaceLayers which are related with each others as this
 	 * InterLayerConnection
 	 */
-	String[] connectedLayers;
+	private String[] connectedLayers;
+	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
 
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	public Boolean checkInterConnectsNumber() {
 		// Boolean flag = false;
 		if (this.interConnects.length != 2 || this.connectedLayers.length != 2) {

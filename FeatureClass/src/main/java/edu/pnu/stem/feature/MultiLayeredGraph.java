@@ -3,22 +3,42 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pnu.stem.binder.Container;
+
 /**
  * @author jungh Implements MultiLayeredGraphType of IndoorGML 1.0.3
  */
 public class MultiLayeredGraph extends AbstractFeature {
-
+	
+	private String docId;
 	/**
 	 * list of the SpaceLayers which are related with in this MultiLayeredGraph
 	 */
-	List<String> spaceLayers;
+	private List<String> spaceLayers;
 	/**
 	 * InterEdges which is between SpaceLayeres
 	 */
-	List<String> interEdges;
+	private List<String> interEdges;
 
-	String parentId;
+	private String parentId;
 
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
+
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	/**
 	 * @return the spaceLayers
 	 */

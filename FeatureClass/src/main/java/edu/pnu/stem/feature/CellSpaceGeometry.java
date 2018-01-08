@@ -1,4 +1,5 @@
 package edu.pnu.stem.feature;
+import edu.pnu.stem.binder.Container;
 import net.opengis.gml.v_3_2_1.AbstractGeometryType;
 
 /**
@@ -6,22 +7,39 @@ import net.opengis.gml.v_3_2_1.AbstractGeometryType;
  *	Implements CellSpaceGeometryType of IndoorGML 1.0.3
  */
 public class CellSpaceGeometry extends AbstractFeature{
-
+	
+	private String docId;
 	/**
 	 * save geometry of feature 
 	 */
-	AbstractGeometryType geometry;
+	private AbstractGeometryType geometry;
 	/**
 	 * save geometry type of feature. 
 	 * value can be set as "2D" or "3D"
 	 */
-	String geometryType;
+	private String geometryType;
 	
-	String geometry2D;
-	String geometry3D;
+	private String geometry2D;
+	private String geometry3D;
 	
-	String parentID;
+	private String parentID;
 	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
+
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
 	public String getID(){ return this.id; }
 	public void setID(String id){ this.id = id;} 
 	

@@ -3,18 +3,38 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pnu.stem.binder.Container;
+
 /**
  * @author jungh Implements InterEdgesType of IndoorGML 1.0.3
  */
 public class InterEdges extends AbstractFeature {
 
+	private String docId;
 	/**
 	 * hold list of InterLayerConnections
 	 */
-	List<String> interLayerConnectionMember;
+	private List<String> interLayerConnectionMember;
 
-	String parentId;
+	private String parentId;
+	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
 
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	public void setParent(MultiLayeredGraph parent) {
 		MultiLayeredGraph found = null;
 		found = (MultiLayeredGraph)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("MultiLayeredGraph"), parent.getId());

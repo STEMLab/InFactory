@@ -1,36 +1,56 @@
 package edu.pnu.stem.feature;
 
+import edu.pnu.stem.binder.Container;
 import net.opengis.gml.v_3_2_1.CurveType;
 
 /**
  * @author jungh Implements TransitionType of IndoorGML 1.0.3
  */
 public class Transition extends AbstractFeature {
+	
+	private String docId;
 	/**
 	 * geometry of transition
 	 */
-	CurveType geometry;
+	private CurveType geometry;
 	/**
 	 * value of CellSpaceBoundary feature which has duality relationship with
 	 * this feature
 	 */
-	String duality;
+	private String duality;
 	/**
 	 * value of weight which usally is used for transfering cost in road
 	 * network, etc.
 	 */
-	double weight;
+	private double weight;
 
 	/**
 	 * Array of connected States. minimum and maximum of the number of element
 	 * needs to be 2
 	 */
-	String[] connects = new String[2];
+	private String[] connects = new String[2];
 
-	String parentId;
+	private String parentId;
 
-	ExternalReference externalReference;
+	private ExternalReference externalReference;
+	
+	/**
+	 * @return the docId
+	 */
+	public String getDocId() {
+		return new String(this.docId);
+	}
 
+	/**
+	 * @param docId the docId to set
+	 */
+	public void setDocId(String docId) {
+		if(Container.hasDoc(docId))
+			this.docId = docId;
+		else
+			System.out.println("There is no document with that document Id.");
+	}
+	
 	public boolean hasDuality() {
 		if (this.duality == null) {
 			return false;
