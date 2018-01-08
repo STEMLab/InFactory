@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>IndoorGML</groupId>
-		<artifactId>IndoorGMLFactory</artifactId>
+		<groupId>edu.pnu.stem.igml</groupId>
+		<artifactId>indoorgml-factory</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>API</artifactId>
+	<artifactId>api</artifactId>
 	<packaging>war</packaging>
 
 
