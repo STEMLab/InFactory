@@ -31,10 +31,14 @@ public class MultiLayeredGraph extends AbstractFeature {
 	 * @return the spaceLayers
 	 */
 	public List<SpaceLayers> getSpaceLayers() {
-		List<SpaceLayers>spaceLayers = new ArrayList<SpaceLayers>();
-		for(int i = 0 ; i < this.spaceLayers.size();i++){
-			spaceLayers.add((SpaceLayers)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"), this.spaceLayers.get(i)));			
+		List<SpaceLayers>spaceLayers = null;
+		if(this.spaceLayers != null){
+			spaceLayers = new ArrayList<SpaceLayers>();
+			for(int i = 0 ; i < this.spaceLayers.size();i++){
+				spaceLayers.add((SpaceLayers)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"), this.spaceLayers.get(i)));			
+			}
 		}
+		
 		return spaceLayers;
 	}
 	/**
@@ -51,7 +55,10 @@ public class MultiLayeredGraph extends AbstractFeature {
 			if(this.spaceLayers == null){
 				this.spaceLayers = new ArrayList<String>();
 			}
-			this.spaceLayers.add(spaceLayers.get(i).getId());
+			if(!this.spaceLayers.contains(spaceLayers.get(i).getId())){
+				this.spaceLayers.add(spaceLayers.get(i).getId());
+			}
+			
 		}
 	}
 
@@ -79,7 +86,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 			if(found == null){
 				indoorGMLMap.setFeature(interEdges.get(i).getId(), "InterEdges",interEdges.get(i));
 			}
-			if(this.interEdges.contains(interEdges.get(i).getId())){
+			if(!this.interEdges.contains(interEdges.get(i).getId())){
 				this.interEdges.add(interEdges.get(i).getId());
 			}			
 		}
