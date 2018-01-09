@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Container {
 	private static Container docs = new Container();
 	private static ConcurrentHashMap<String, IndoorGMLMap> docContainer = new ConcurrentHashMap<String, IndoorGMLMap>();
-
+	
 	/**
 	 * @return the container
 	 */
@@ -23,14 +23,20 @@ public class Container {
 	 */
 
 
-	public void setDocument(String docID) {
+	public static void setDocument(String docID) {
 		IndoorGMLMap map = new IndoorGMLMap();
-		docContainer.put(docID, map);
+		map.setDocId(docID);
+		Container.getInstance().docContainer.put(docID, map);
+		
 	}
-
-
+	
+	public static void setDocument(String docId, IndoorGMLMap map){
+		map.setDocId(docId);
+		Container.getInstance().docContainer.put(docId, map);
+	}
+	
 	public static boolean hasDoc(String ID) {
-		if (docContainer.containsKey(ID))
+		if (Container.getInstance().docContainer.containsKey(ID))
 			return true;
 		else
 			return false;
@@ -38,7 +44,7 @@ public class Container {
 
 	public static boolean hasFeature(String docId, String Id) {
 		if (hasDoc(docId)) {
-			IndoorGMLMap doc = docContainer.get(docId);
+			IndoorGMLMap doc = Container.getInstance().docContainer.get(docId);
 			if (doc.hasID(Id)) {
 				return true;
 			}
@@ -47,27 +53,40 @@ public class Container {
 		return false;
 	}
 
-	public static Object getFeature(String docId, String Id) {
-		Object o = null;
+	public static Object getFeature(String docId, String id) {		
+		Object newFeature = null;
 		if (hasDoc(docId)) {
-			IndoorGMLMap doc = docContainer.get(docId);
-			if (doc.hasID(Id)) {
-				o = doc.getFeature(Id);
+			IndoorGMLMap doc = Container.getInstance().docContainer.get(docId);
+			if (doc.hasID(id)) {
+				String featureName = doc.getFeatureNameFromID(id);
+				ConcurrentHashMap<String, Object> featureContainer = doc.getFeatureContainer(featureName);				
+				if (featureContainer.containsKey(id)) {
+					newFeature = featureContainer.get(id);
+				}
 			}
 
 		}
-		return o;
+		return newFeature;
 	}
 
-	public IndoorGMLMap getDocument(String docID) {
+	public static IndoorGMLMap getDocument(String docID) {
 		if (hasDoc(docID)) {
-			return docContainer.get(docID);
+			return Container.getInstance().docContainer.get(docID);
 		} else
 			return null;
 	}
 
-	public static void setFeature(String docId, String id, String featureName, Object o) {
-		IndoorGMLMap doc = docContainer.get(docId);
-		doc.setFeature(id, featureName, o);
+	public static void setFeature(String docId, String id, String featureName, Object featureValue) {
+		IndoorGMLMap doc = Container.getInstance().docContainer.get(docId);
+		if (!doc.hasID(id)) {
+			doc.inputID(id, featureName);
+			doc.container.get(featureName).put(id, featureValue);
+		} else {
+			System.out.println("Newly updated feature Id : " + id);
+			doc.container.get(featureName).remove(id);
+			doc.container.get(featureName).put(id, featureValue);
+
+		}
+		//doc.setFeature(id, featureName, o);
 	}
 }
