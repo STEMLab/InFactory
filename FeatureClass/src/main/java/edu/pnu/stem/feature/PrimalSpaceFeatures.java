@@ -26,6 +26,8 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	
 	public PrimalSpaceFeatures(IndoorGMLMap doc){
 		indoorGMLMap = doc;
+		cellSpaceMember = new ArrayList<String>();
+		cellSpaceBoundaryMember = new ArrayList<String>();
 	}
 	
 	public void setParent(IndoorFeatures parent) {
@@ -50,7 +52,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	 */
 	public List<CellSpace> getCellSpaceMember() {
 		List<CellSpace>cellSpaceMember = null;
-		if(this.cellSpaceBoundaryMember != null){
+		if(this.cellSpaceBoundaryMember.size() != 0){
 			for (int i = 0; i < this.cellSpaceMember.size(); i++) {
 				CellSpace found = null;
 				found = (CellSpace)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpace"), this.cellSpaceMember.get(i));
@@ -71,9 +73,6 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			if(found == null){
 				indoorGMLMap.setFeature(cellSpaceMember.get(i).getId(), "CellSpace" , cellSpaceMember.get(i));
 			}
-			if(this.cellSpaceMember == null){
-				this.cellSpaceMember = new ArrayList<String>();
-			}
 			if(!this.cellSpaceMember.contains(cellSpaceMember.get(i).getId())){
 				this.cellSpaceMember.add(cellSpaceMember.get(i).getId());
 			}
@@ -85,7 +84,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	 */
 	public List<CellSpaceBoundary> getCellSpaceBoundaryMember() {
 		List<CellSpaceBoundary>cellSpaceBoundaryMember = null;
-		if(this.cellSpaceMember != null){
+		if(this.cellSpaceMember.size() != 0){
 			cellSpaceBoundaryMember = new ArrayList<CellSpaceBoundary>();
 			for(int i = 0 ; i < cellSpaceBoundaryMember.size() ; i++){
 				cellSpaceBoundaryMember.add((CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.cellSpaceMember.get(i)));
@@ -104,9 +103,6 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), cellSpaceBoundaryMember.get(i).getId());
 			if(found == null){
 				indoorGMLMap.setFeature(cellSpaceBoundaryMember.get(i).getId(), "CellSpaceBoundary" , cellSpaceBoundaryMember.get(i));
-			}
-			if(this.cellSpaceBoundaryMember == null){
-				this.cellSpaceBoundaryMember = new ArrayList<String>();
 			}
 			if(!this.cellSpaceBoundaryMember.contains(cellSpaceBoundaryMember.get(i).getId())){
 				this.cellSpaceBoundaryMember.add(cellSpaceBoundaryMember.get(i).getId());
