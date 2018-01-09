@@ -4,7 +4,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class IndoorGMLMap {
 	public static ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> container;
-
+	private static String docId;
 	public IndoorGMLMap() {
 
 		this.container = new ConcurrentHashMap<String, ConcurrentHashMap<String, Object>>();
@@ -97,28 +97,27 @@ public class IndoorGMLMap {
 		return newFeatureContainer;
 	}
 
-	public static Object getFeature(String ID) {
-		String featureName = getFeatureNameFromID(ID);
-		ConcurrentHashMap<String, Object> featureContainer = getFeatureContainer(featureName);
+	public static Object getFeature(String id) {
+		return Container.getInstance().getFeature(docId, id);
+	}
+
+	public static Object getFeature(ConcurrentHashMap<String,Object> container, String id){
 		Object newFeature = null;
-		if (featureContainer.containsKey(ID)) {
-			newFeature = featureContainer.get(ID);
-		}
+		newFeature = container.get(id);
 		return newFeature;
 	}
 
-	public static void setFeature(String id, String featureName, Object featureValue) {
-		if (!hasID(id)) {
-			inputID(id, featureName);
+	
+	public static void setFeature(String id,String featureName, Object featureValue){
+		if(!hasID(id)){
+			inputID(id,featureName);
 			container.get(featureName).put(id, featureValue);
-		} else {
-			System.out.println("Newly updated feature Id : " + id);
-			container.get(featureName).remove(id);
-			container.get(featureName).put(id, featureValue);
-
 		}
-
+		else{
+			System.out.println("Already Exist Id");
+		}		
 	}
+	
 	public static void setReference(String id){
 		if(hasID(id)){
 			ConcurrentHashMap<String, Object> referenceContainer = getFeatureContainer("Reference");
@@ -133,5 +132,14 @@ public class IndoorGMLMap {
 			}
 		}
 	}
+
+	public void setDocId(String id) {
+		this.docId = id;		
+	}
+	public String getDocId(){
+		return new String(this.docId);
+	}
+
+
 
 }
