@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import edu.pnu.stem.binder.Container;
 import net.opengis.gml.v_3_2_1.CodeType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType;
 
 public class SpaceLayer extends AbstractFeature {
-
-	private String docId;
 	
 	private String usage;
 	/**
@@ -40,36 +37,25 @@ public class SpaceLayer extends AbstractFeature {
 	private String parentId;
 	private SpaceLayerClassTypeType classType;
 
-	/**
-	 * @return the docId
-	 */
-	public String getDocId() {
-		return new String(this.docId);
-	}
-
-	/**
-	 * @param docId the docId to set
-	 */
-	public void setDocId(String docId) {
-		if(Container.hasDoc(docId))
-			this.docId = docId;
-		else
-			System.out.println("There is no document with that document Id.");
+	private IndoorGMLMap indoorGMLMap;
+	
+	public SpaceLayer(IndoorGMLMap doc){
+		indoorGMLMap = doc;
 	}
 	
 	public void setParent(SpaceLayers parent) {
 		SpaceLayers found = null;
-		found = (SpaceLayers) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayers"),
+		found = (SpaceLayers) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"),
 				parent.getId());
 		if (found == null) {
-			IndoorGMLMap.setFeature(parent.getId(), "SpaceLayers", parent);
+			indoorGMLMap.setFeature(parent.getId(), "SpaceLayers", parent);
 		}
 		this.parentId = parent.getId();
 	}
 
 	public SpaceLayers getParent() {
 		SpaceLayers found = null;
-		found = (SpaceLayers) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("SpaceLayers"),
+		found = (SpaceLayers) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"),
 				this.parentId);
 		return found;
 	}
@@ -139,8 +125,8 @@ public class SpaceLayer extends AbstractFeature {
 	 */
 	public List<Nodes> getNodes() {
 		List<Nodes>nodes = new ArrayList<Nodes>();
-		for(int i = 0 ; i < this.edges.size() ; i++){
-			nodes.add((Nodes)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Nodes"), this.edges.get(i)));
+		for(int i = 0 ; i < this.nodes.size() ; i++){
+			nodes.add((Nodes)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), this.nodes.get(i)));
 		}
 		return nodes;
 	}
@@ -152,11 +138,14 @@ public class SpaceLayer extends AbstractFeature {
 	public void setNodes(List<Nodes> nodes) {
 		for(int i = 0 ; i < nodes.size() ; i++ ){
 			Nodes found = null;
-			found = (Nodes)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Nodes"), nodes.get(i).getId());
+			found = (Nodes)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), nodes.get(i).getId());
 			if(found == null){
-				IndoorGMLMap.setFeature(nodes.get(i).getId(), "Nodes",nodes.get(i));
+				indoorGMLMap.setFeature(nodes.get(i).getId(), "Nodes",nodes.get(i));
 			}
-			if(this.nodes.contains(nodes.get(i).getId())){
+			if(this.nodes == null){
+				this.nodes = new ArrayList<String>();
+			}
+			if(!this.nodes.contains(nodes.get(i).getId())){
 				this.nodes.add(nodes.get(i).getId());
 			}			
 		}
@@ -166,9 +155,11 @@ public class SpaceLayer extends AbstractFeature {
 	 */
 	public List<Edges> getEdges() {
 		List<Edges>edges = new ArrayList<Edges>();
-		for(int i = 0 ; i < this.edges.size() ; i++){
-			edges.add((Edges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Edges"), this.edges.get(i)));
-		}
+		if(this.edges != null){
+			for(int i = 0 ; i < this.edges.size() ; i++){
+				edges.add((Edges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), this.edges.get(i)));
+			}
+		}		
 		return edges;
 	}
 
@@ -179,14 +170,14 @@ public class SpaceLayer extends AbstractFeature {
 	public void setEdges(List<Edges> edges) {
 		for(int i = 0 ; i < edges.size() ; i++ ){
 			Edges found = null;
-			found = (Edges)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Edges"), edges.get(i).getId());
+			found = (Edges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), edges.get(i).getId());
 			if(found == null){
-				IndoorGMLMap.setFeature(edges.get(i).getId(), "InterEdges",edges.get(i));
+				indoorGMLMap.setFeature(edges.get(i).getId(), "Edges",edges.get(i));
 			}
 			if(this.edges == null){
 				this.edges = new ArrayList<String>();
 			}
-			if(this.edges.contains(edges.get(i).getId())){
+			if(!this.edges.contains(edges.get(i).getId())){
 				this.edges.add(edges.get(i).getId());
 			}			
 		}
