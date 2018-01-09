@@ -16,7 +16,7 @@ public class State extends AbstractFeature {
 	/**
 	 * value of Transition feature which has this feature as boundary
 	 */
-	private List<String> connects = new ArrayList<String>();
+	private List<String> connects;
 
 	private String externalReference;
 	/**
@@ -28,6 +28,7 @@ public class State extends AbstractFeature {
 	
 	public State(IndoorGMLMap doc){
 		indoorGMLMap = doc;
+		connects = new ArrayList<String>();
 	}
 	
 	public void setExternalReference(String e) {
@@ -82,16 +83,22 @@ public class State extends AbstractFeature {
 			Transition found = null;
 			found = (Transition)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), connects.get(i).getId());
 			if(found == null){
-				
-			} 
+				indoorGMLMap.setFeature(connects.get(i).getId(), "Transition", connects.get(i));
+			}
+			if(!this.connects.contains(connects.get(i).getId())){
+				this.connects.add(connects.get(i).getId());
+			}
 		}
 	}
 
 	public List<Transition> getConnects() {
-		List<Transition> connects = new ArrayList<Transition>();
-		for(int i = 0 ; i < this.connects.size() ; i++){
-			Transition found = (Transition)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), this.connects.get(i));
-			connects.add(found);
+		List<Transition> connects = null;
+		if(this.connects.size() != 0){
+			connects = new ArrayList<Transition>();
+			for(int i = 0 ; i < this.connects.size() ; i++){
+				Transition found = (Transition)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), this.connects.get(i));
+				connects.add(found);
+			}
 		}
 		return connects;
 	}
