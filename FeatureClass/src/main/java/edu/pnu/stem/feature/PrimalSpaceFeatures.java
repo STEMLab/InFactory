@@ -51,7 +51,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	 * @return the cellSpaceMember
 	 */
 	public List<CellSpace> getCellSpaceMember() {
-		List<CellSpace>cellSpaceMember = null;
+		List<CellSpace>cellSpaceMember = new ArrayList<CellSpace>();
 		if(this.cellSpaceBoundaryMember.size() != 0){
 			for (int i = 0; i < this.cellSpaceMember.size(); i++) {
 				CellSpace found = null;
@@ -83,9 +83,8 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	 * @return the cellSpaceBoundaryMember
 	 */
 	public List<CellSpaceBoundary> getCellSpaceBoundaryMember() {
-		List<CellSpaceBoundary>cellSpaceBoundaryMember = null;
+		List<CellSpaceBoundary>cellSpaceBoundaryMember = new ArrayList<CellSpaceBoundary>();
 		if(this.cellSpaceMember.size() != 0){
-			cellSpaceBoundaryMember = new ArrayList<CellSpaceBoundary>();
 			for(int i = 0 ; i < cellSpaceBoundaryMember.size() ; i++){
 				cellSpaceBoundaryMember.add((CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.cellSpaceMember.get(i)));
 			}
