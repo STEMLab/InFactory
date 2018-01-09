@@ -1,5 +1,4 @@
 package edu.pnu.stem.feature;
-import edu.pnu.stem.binder.Container;
 import net.opengis.gml.v_3_2_1.AbstractGeometryType;
 
 /**
@@ -8,8 +7,7 @@ import net.opengis.gml.v_3_2_1.AbstractGeometryType;
  */
 public class CellSpaceGeometry extends AbstractFeature{
 	
-	private String docId;
-	/**
+		/**
 	 * save geometry of feature 
 	 */
 	private AbstractGeometryType geometry;
@@ -24,22 +22,13 @@ public class CellSpaceGeometry extends AbstractFeature{
 	
 	private String parentID;
 	
-	/**
-	 * @return the docId
-	 */
-	public String getDocId() {
-		return new String(this.docId);
+	private IndoorGMLMap indoorGMLMap;
+	
+	
+	public CellSpaceGeometry(IndoorGMLMap doc){
+		indoorGMLMap = doc;
 	}
-
-	/**
-	 * @param docId the docId to set
-	 */
-	public void setDocId(String docId) {
-		if(Container.hasDoc(docId))
-			this.docId = docId;
-		else
-			System.out.println("There is no document with that document Id.");
-	}
+	
 	public String getID(){ return this.id; }
 	public void setID(String id){ this.id = id;} 
 	
@@ -48,13 +37,13 @@ public class CellSpaceGeometry extends AbstractFeature{
 	
 	public Object getGeometry2D() {
 		Object feature = null;
-		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
+		feature = indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
 		return feature;
 	}
 
 	public Object getGeometry3D() {
 		Object feature = null;
-		feature = IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
+		feature = indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
 		return feature;
 	}
 	/**
