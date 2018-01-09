@@ -42,6 +42,8 @@ public class SpaceLayer extends AbstractFeature {
 	
 	public SpaceLayer(IndoorGMLMap doc){
 		indoorGMLMap = doc;
+		nodes = new ArrayList<String>();
+		edges = new ArrayList<String>();
 	}
 	
 	public void setParent(SpaceLayers parent) {
@@ -125,10 +127,13 @@ public class SpaceLayer extends AbstractFeature {
 	 * @return the nodes
 	 */
 	public List<Nodes> getNodes() {
-		List<Nodes>nodes = new ArrayList<Nodes>();
-		for(int i = 0 ; i < this.nodes.size() ; i++){
-			nodes.add((Nodes)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), this.nodes.get(i)));
-		}
+		List<Nodes>nodes = null;
+		if(this.nodes.size() != 0){
+			nodes = new ArrayList<Nodes>();
+			for(int i = 0 ; i < this.nodes.size() ; i++){
+				nodes.add((Nodes)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), this.nodes.get(i)));
+			}
+		}	
 		return nodes;
 	}
 
@@ -143,9 +148,6 @@ public class SpaceLayer extends AbstractFeature {
 			if(found == null){
 				indoorGMLMap.setFeature(nodes.get(i).getId(), "Nodes",nodes.get(i));
 			}
-			if(this.nodes == null){
-				this.nodes = new ArrayList<String>();
-			}
 			if(!this.nodes.contains(nodes.get(i).getId())){
 				this.nodes.add(nodes.get(i).getId());
 			}			
@@ -155,8 +157,9 @@ public class SpaceLayer extends AbstractFeature {
 	 * @return the edges
 	 */
 	public List<Edges> getEdges() {
-		List<Edges>edges = new ArrayList<Edges>();
-		if(this.edges != null){
+		List<Edges>edges = null;
+		if(this.edges.size() != 0){
+			edges = new ArrayList<Edges>();
 			for(int i = 0 ; i < this.edges.size() ; i++){
 				edges.add((Edges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), this.edges.get(i)));
 			}
@@ -174,9 +177,6 @@ public class SpaceLayer extends AbstractFeature {
 			found = (Edges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), edges.get(i).getId());
 			if(found == null){
 				indoorGMLMap.setFeature(edges.get(i).getId(), "Edges",edges.get(i));
-			}
-			if(this.edges == null){
-				this.edges = new ArrayList<String>();
 			}
 			if(!this.edges.contains(edges.get(i).getId())){
 				this.edges.add(edges.get(i).getId());
