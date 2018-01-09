@@ -29,11 +29,11 @@
 	</developers>
 
 	<parent>
-		<groupId>IndoorGML</groupId>
-		<artifactId>IndoorGMLFactory</artifactId>
+		<groupId>edu.pnu.stem.igml</groupId>
+		<artifactId>indoorgml-factory</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>FeatureClass</artifactId>
+	<artifactId>feature</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
