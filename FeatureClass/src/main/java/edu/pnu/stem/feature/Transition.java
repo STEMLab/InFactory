@@ -27,7 +27,7 @@ public class Transition extends AbstractFeature {
 	 * Array of connected States. minimum and maximum of the number of element
 	 * needs to be 2
 	 */
-	private String[] connects = new String[2];
+	private String[] connects;
 
 	private String parentId;
 
@@ -37,6 +37,7 @@ public class Transition extends AbstractFeature {
 	
 	public Transition(IndoorGMLMap doc){
 		indoorGMLMap = doc;
+		connects = new String[2];
 	}
 	
 	public boolean hasDuality() {
