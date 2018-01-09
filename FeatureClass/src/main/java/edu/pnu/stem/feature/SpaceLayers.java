@@ -52,9 +52,8 @@ public class SpaceLayers extends AbstractFeature {
 	}
 
 	public List<SpaceLayer> getSpaceLayerMember() {
-		List<SpaceLayer> spaceLayerMember = null;
+		List<SpaceLayer> spaceLayerMember = new ArrayList<SpaceLayer>;
 		if(this.spaceLayerMember.size() != 0){
-			spaceLayerMember = new ArrayList<SpaceLayer>();
 			for(int i = 0 ; i < this.spaceLayerMember.size() ; i++){
 				SpaceLayer found = (SpaceLayer)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), this.spaceLayerMember.get(i));
 				spaceLayerMember.add(found);
