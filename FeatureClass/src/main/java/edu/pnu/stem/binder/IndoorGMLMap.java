@@ -115,6 +115,7 @@ public class IndoorGMLMap {
 		}
 		else{
 			System.out.println("Already Exist Id");
+			container.get(featureName).put(id, featureValue);
 		}		
 	}
 	
