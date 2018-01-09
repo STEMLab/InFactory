@@ -4,14 +4,10 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.binder.Container;
-
 /**
  * @author jungh Implements CellSpaceType of IndoorGML 1.0.3
  */
 public class CellSpace extends AbstractFeature {
-	
-	private String docId;
 
 	/**
 	 * value of geometry of feature
@@ -47,48 +43,29 @@ public class CellSpace extends AbstractFeature {
 	 */
 	private String parentId;
 
-	/**
-	 * @return the docId
-	 */
-	public String getDocId() {
-		return docId;
-	}
-
-	/**
-	 * @param docId the docId to set
-	 */
-	public void setDocId(String docId) {
-		if(Container.hasDoc(docId))
-			this.docId = docId;
-		else
-			System.out.println("There is no document with that document Id.");
+	private IndoorGMLMap indoorGMLMap;
+	
+	
+	public CellSpace(IndoorGMLMap doc){
+		indoorGMLMap = doc;
 	}
 	
-	public void setParent(String docId, PrimalSpaceFeatures parent) {
-		
-		PrimalSpaceFeatures found = null;
-		found = (PrimalSpaceFeatures)Container.getFeature(docId, parent.getId());
-		if(found == null) {
-			IndoorGMLMap.setFeature(parent.getId(), "PrimalSpaceFeatures", parent);
-		}
-		this.parentId = parent.getId();
-	}
 
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
-		feature = (PrimalSpaceFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), this.parentId);
+		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), this.parentId);
 		return feature;
 	}
 
 	public Polygon getGeometry2D() {
 		Polygon feature = null;
-		feature = (Polygon) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
+		feature = (Polygon) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
 		return feature;
 	}
 
 	public Solid getGeometry3D() {
 		Solid feature = null;
-		feature = (Solid) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
+		feature = (Solid) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
 		return feature;
 	}
 	
@@ -126,34 +103,37 @@ public class CellSpace extends AbstractFeature {
 	public State getDuality() {
 		State feature = null;
 		if (hasDuality()) {
-			feature = (State) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.duality);
+			feature = (State) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.duality);
 		}
 		return feature;
 	}
 	
 	public void setDuality(State s) {
-		State found = (State) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), s.getId());
+		State found = (State) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), s.getId());
 		if(found == null) {
-			IndoorGMLMap.setFeature(s.getId(), "State", s);
+			indoorGMLMap.setFeature(s.getId(), "State", s);
 		}
 		this.duality = s.getId();
 	}
 
 	public List<CellSpaceBoundary> getPartialboundedBy() {
 		List<CellSpaceBoundary> cboundaries = new ArrayList<CellSpaceBoundary>();
-		for (String s : this.partialboundedBy) {
-			cboundaries.add((CellSpaceBoundary) IndoorGMLMap
-					.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), s));
+		if(this.partialboundedBy != null){
+			for (String s : this.partialboundedBy) {
+				cboundaries.add((CellSpaceBoundary) indoorGMLMap
+						.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), s));
+			}
 		}
+		
 		return cboundaries;
 	}
 
 	public void setPartialboundedBy(List<CellSpaceBoundary> csbList) {
 		for(CellSpaceBoundary cb : csbList){
 			CellSpaceBoundary found = null;
-			found = (CellSpaceBoundary)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), cb.getId());
+			found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), cb.getId());
 			if(found == null){
-				IndoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
+				indoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
 			}
 			if(this.partialboundedBy == null){
 				this.partialboundedBy = new ArrayList<String>();
@@ -166,7 +146,7 @@ public class CellSpace extends AbstractFeature {
 	}
 
 	public ExternalReference getExternalReference() {
-		return (ExternalReference) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("ExternalReference"), this.externalReference);
+		return (ExternalReference) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("ExternalReference"), this.externalReference);
 	}
 
 	//TODO
