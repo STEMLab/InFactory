@@ -1,13 +1,11 @@
 package edu.pnu.stem.feature;
 
-import edu.pnu.stem.binder.Container;
-
 /**
  * @author jungh Implements CellSpaceBoundaryType of IndoorGML 1.0.3
  */
 public class CellSpaceBoundary extends AbstractFeature {
 	
-	private String docId;
+	
 	/**
 	 * value of Transition which has duality relationship with this
 	 * CellSpaceBoundary
@@ -28,19 +26,13 @@ public class CellSpaceBoundary extends AbstractFeature {
 	/**
 	 * @return the docId
 	 */
-	public String getDocId() {
-		return new String(this.docId);
+	private IndoorGMLMap indoorGMLMap;
+	
+	
+	public CellSpaceBoundary(IndoorGMLMap doc){
+		indoorGMLMap = doc;
 	}
-
-	/**
-	 * @param docId the docId to set
-	 */
-	public void setDocId(String docId) {
-		if(Container.hasDoc(docId))
-			this.docId = docId;
-		else
-			System.out.println("There is no document with that document Id.");
-	}
+	
 	public boolean hasDuality() {
 		if (this.duality == null) {
 			return false;
@@ -48,12 +40,12 @@ public class CellSpaceBoundary extends AbstractFeature {
 			return true;
 		}
 	}
-
+	
 	public void setParent(PrimalSpaceFeatures parent) {
 		PrimalSpaceFeatures found = null;
-		found = (PrimalSpaceFeatures)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeature"), parent.getId());
+		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeature"), parent.getId());
 		if(found == null){
-			IndoorGMLMap.setFeature(parentId, "PrimalSpaceFeatures", parent);
+			indoorGMLMap.setFeature(parentId, "PrimalSpaceFeatures", parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -61,7 +53,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
-		feature = (PrimalSpaceFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"),
+		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"),
 				this.parentId);
 		return feature;
 	}
@@ -69,16 +61,16 @@ public class CellSpaceBoundary extends AbstractFeature {
 	public Transition getDuality() {
 		Transition found = null;
 		if (hasDuality()) {
-			found = (Transition) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), this.duality);
+			found = (Transition) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), this.duality);
 		}
 		return found;
 	}
 
 	public void setDuality(Transition duality) {
 		Transition found = null;
-		found = (Transition)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Transition"), duality.getId());
+		found = (Transition)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), duality.getId());
 		if(found == null){
-			IndoorGMLMap.setFeature(duality.getId(), "Transition", duality);
+			indoorGMLMap.setFeature(duality.getId(), "Transition", duality);
 		}
 		this.duality = duality.getId();
 	}
