@@ -58,7 +58,9 @@ public class Convert2JaxbClass {
 		//JAXBContextImpl jc = (JAXBContextImpl) JAXBContextImpl.newInstance(CellSpaceType.class);
 		CellSpaceType newFeature = indoorgmlcoreOF.createCellSpaceType();
 		StatePropertyType duality = new StatePropertyType();
-		duality.setHref(feature.getDuality().getId());
+		String href = feature.getDuality().getId();
+		href = "#" + href;
+		duality.setHref(href);
 		//StateType referredState = new StateType();
 		//referredState.setId(feature.getDuality().getId());
 		//duality.setState(referredState);
@@ -71,7 +73,9 @@ public class Convert2JaxbClass {
 		
 		for(int i = 0 ; i < feature.getPartialboundedBy().size() ; i++){
 			CellSpaceBoundaryPropertyType tempcsb = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
-			tempcsb.setHref(feature.getPartialboundedBy().get(i).getId());
+			String partialboundedByHref = feature.getPartialboundedBy().get(i).getId();
+			partialboundedByHref = "#" + partialboundedByHref;
+			tempcsb.setHref(partialboundedByHref);
 			partialboundedBy.add(tempcsb);
 		}
 		
@@ -110,8 +114,9 @@ public class Convert2JaxbClass {
 	public static CellSpaceBoundaryType change2JaxbClass(CellSpaceBoundary feature){
 		CellSpaceBoundaryType newFeature = indoorgmlcoreOF.createCellSpaceBoundaryType();
 		TransitionPropertyType duality = new TransitionPropertyType();
-		
-		duality.setHref(feature.getDuality().getId());
+		String href = feature.getDuality().getId();
+		href = "#" + href;
+		duality.setHref(href);
 		newFeature.setDuality(duality);
 		newFeature.setId(feature.getId());
 		/*
@@ -249,7 +254,9 @@ public class Convert2JaxbClass {
 		List<SpaceLayerPropertyType>connectedLayer = new ArrayList<SpaceLayerPropertyType>();
 		for(int i = 0 ; i < feature.getInterConnects().length; i++){
 			StatePropertyType temp = indoorgmlcoreOF.createStatePropertyType();
-			temp.setHref(feature.getInterConnects()[i].getId());
+			String href = feature.getInterConnects()[i].getId();
+			href = "#" + href;
+			temp.setHref(href);
 			interConnects.add(temp);
 		}
 		for(int i = 0 ; i < feature.getConnectedLayers().length;i++){
@@ -301,13 +308,15 @@ public class Convert2JaxbClass {
 		}
 		newFeature.setNodes(nodesTypeList);
 		
-		
-		for(int i = 0 ; i < feature.getEdges().size() ; i++){
-			Edges tempEdge = (Edges) savedMap.getFeature(feature.getEdges().get(i).getId());
-			EdgesType tempEdgesType = change2JaxbClass(docId, tempEdge);						
-			edgesTypeList.add(tempEdgesType);
+		if(feature.getEdges() != null){
+			for(int i = 0 ; i < feature.getEdges().size() ; i++){
+				Edges tempEdge = (Edges) savedMap.getFeature(feature.getEdges().get(i).getId());
+				EdgesType tempEdgesType = change2JaxbClass(docId, tempEdge);						
+				edgesTypeList.add(tempEdgesType);
+			}
+			newFeature.setEdges(edgesTypeList);
 		}
-		newFeature.setEdges(edgesTypeList);
+		
 		
 		return newFeature;
 	}
@@ -371,13 +380,15 @@ public class Convert2JaxbClass {
 		
 		for(int i = 0 ; i < feature.getConnects().size(); i++){
 			TransitionPropertyType tempTransitionPropertyType = new TransitionPropertyType();
-			tempTransitionPropertyType.setHref(feature.getConnects().get(i).getId());
+			String href = feature.getConnects().get(i).getId();
+			href = "#" + href;
+			tempTransitionPropertyType.setHref(href);
 			connects.add(tempTransitionPropertyType);		
 		}
 		CellSpacePropertyType duality = indoorgmlcoreOF.createCellSpacePropertyType();
-		CellSpace temp = feature.getDuality();
-		temp = feature.getDuality();
-		duality.setHref(temp.getId());
+		String href = feature.getDuality().getId();
+		href = "#" + href;
+		duality.setHref(href);
 		newFeature.setDuality(duality);
 		//feature.geometry
 		newFeature.setConnects(connects);
@@ -395,13 +406,17 @@ public class Convert2JaxbClass {
 		
 		for(int i = 0 ; i < feature.getConnects().length;i++){
 			StatePropertyType temp = indoorgmlcoreOF.createStatePropertyType();
-			temp.setHref(feature.getConnects()[i].getId());
+			String href = feature.getConnects()[i].getId();
+			href = "#" + href;
+			temp.setHref(href);
 			connects.add(temp);
 		}
 		newFeature.setConnects(connects);
 		
 		CellSpaceBoundaryPropertyType duality = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
-		duality.setHref(feature.getDuality().getId());
+		String href = feature.getDuality().getId();
+		href = "#" + href;
+		duality.setHref(href);
 		
 		newFeature.setDuality(duality);
 		newFeature.setWeight(feature.getWeight());
