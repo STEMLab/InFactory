@@ -188,5 +188,16 @@ public class CellSpace extends AbstractFeature {
 		this.cellSpaceGeometryObject = cellSpaceGeometryObject;
 	}
 
+
+	public void setParent(PrimalSpaceFeatures parent) {
+		PrimalSpaceFeatures found = null;
+		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());
+		if(found == null){
+			indoorGMLMap.setFeature(parent.getId(), "PrimalSpaceFeatures", parent);
+		}
+		this.parentId = parent.getId();
+		
+	}
+
 	
 }
