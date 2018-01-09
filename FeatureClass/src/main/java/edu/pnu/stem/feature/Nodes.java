@@ -18,6 +18,7 @@ public class Nodes extends AbstractFeature {
 	
 	public Nodes(IndoorGMLMap doc){
 		indoorGMLMap = doc;
+		stateMember = new ArrayList<String>();
 	}
 	
 	public void setParent(SpaceLayer parent) {
@@ -43,9 +44,6 @@ public class Nodes extends AbstractFeature {
 					stateMember.get(i).getId());
 			if (found == null) {
 				indoorGMLMap.setFeature(stateMember.get(i).getId(), "State", stateMember.get(i));
-			}
-			if(this.stateMember == null){
-				this.stateMember = new ArrayList<String>();
 			}
 			if (!this.stateMember.contains(stateMember.get(i).getId())) {
 				this.stateMember.add(stateMember.get(i).getId());
