@@ -8,7 +8,7 @@ import java.util.List;
  * @author jungh Implements CellSpaceType of IndoorGML 1.0.3
  */
 public class CellSpace extends AbstractFeature {
-
+	
 	/**
 	 * value of geometry of feature
 	 */
