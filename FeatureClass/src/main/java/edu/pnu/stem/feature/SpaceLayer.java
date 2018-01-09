@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.pnu.stem.binder.IndoorGMLMap;
 import net.opengis.gml.v_3_2_1.CodeType;
 import net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType;
 

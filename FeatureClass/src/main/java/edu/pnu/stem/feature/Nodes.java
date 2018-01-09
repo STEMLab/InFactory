@@ -3,6 +3,8 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pnu.stem.binder.IndoorGMLMap;
+
 public class Nodes extends AbstractFeature {
 	
 	/**

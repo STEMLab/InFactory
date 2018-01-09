@@ -1,4 +1,5 @@
 package edu.pnu.stem.feature;
+import edu.pnu.stem.binder.IndoorGMLMap;
 import net.opengis.gml.v_3_2_1.AbstractGeometryType;
 
 /**

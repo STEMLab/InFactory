@@ -1,5 +1,7 @@
 package edu.pnu.stem.feature;
 
+import edu.pnu.stem.binder.IndoorGMLMap;
+
 /**
  * @author jungh
  *	Implements IndoorFeaturesType of IndoorGML 1.0.3

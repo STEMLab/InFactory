@@ -4,6 +4,8 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.pnu.stem.binder.IndoorGMLMap;
+
 /**
  * @author jungh Implements CellSpaceType of IndoorGML 1.0.3
  */
