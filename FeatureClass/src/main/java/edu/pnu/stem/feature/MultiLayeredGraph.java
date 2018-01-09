@@ -33,7 +33,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 	 * @return the spaceLayers
 	 */
 	public List<SpaceLayers> getSpaceLayers() {
-		List<SpaceLayers>spaceLayers = ArrayList<SpaceLayers>();
+		List<SpaceLayers>spaceLayers = new ArrayList<SpaceLayers>();
 		if(this.spaceLayers.size() != 0){
 			spaceLayers = new ArrayList<SpaceLayers>();
 			for(int i = 0 ; i < this.spaceLayers.size();i++){
