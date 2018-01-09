@@ -3,14 +3,11 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.binder.Container;
-
 /**
  * @author jungh Implements PrimalSpaceFeaturesType of IndoorGML 1.0.3
  */
 public class PrimalSpaceFeatures extends AbstractFeature {
 	
-	private String docId;
 	/**
 	 * List of CellSpaces which this feature contains
 	 */
@@ -23,36 +20,25 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 
 	private String parentId;
 	
-	/**
-	 * @return the docId
-	 */
-	public String getDocId() {
-		return new String(this.docId);
-	}
-
-	/**
-	 * @param docId the docId to set
-	 */
-	public void setDocId(String docId) {
-		if(Container.hasDoc(docId))
-			this.docId = docId;
-		else
-			System.out.println("There is no document with that document Id.");
+	private IndoorGMLMap indoorGMLMap;
+	
+	public PrimalSpaceFeatures(IndoorGMLMap doc){
+		indoorGMLMap = doc;
 	}
 	
 	public void setParent(IndoorFeatures parent) {
 		IndoorFeatures found = null;
-		found = (IndoorFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("IndoorFeatures"),
+		found = (IndoorFeatures) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("IndoorFeatures"),
 				parent.getId());
 		if (found == null) {
-			IndoorGMLMap.setFeature(parent.getId(), "IndoorFeatures", parent);
+			indoorGMLMap.setFeature(parent.getId(), "IndoorFeatures", parent);
 		}
 		this.parentId = parent.getId();
 	}
 
 	public IndoorFeatures getParent() {
 		IndoorFeatures parent = null;
-		parent = (IndoorFeatures) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("IndoorFeatures"),
+		parent = (IndoorFeatures) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("IndoorFeatures"),
 				this.parentId);
 		return parent;
 	}
@@ -60,7 +46,13 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	/**
 	 * @return the cellSpaceMember
 	 */
-	public List<String> getCellSpaceMember() {
+	public List<CellSpace> getCellSpaceMember() {
+		List<CellSpace>cellSpaceMember = new ArrayList<CellSpace>();
+		for (int i = 0; i < this.cellSpaceMember.size(); i++) {
+			CellSpace found = null;
+			found = (CellSpace)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("IndoorFeatures"), this.cellSpaceMember.get(i));
+			cellSpaceMember.add(found);
+		}
 		return cellSpaceMember;
 	}
 
@@ -71,9 +63,15 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	public void setCellSpaceMember(List<CellSpace> cellSpaceMember) {
 		for (int i = 0; i < cellSpaceMember.size(); i++) {
 			CellSpace found = null;
-			found = (CellSpace)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("IndoorFeatures"), cellSpaceMember.get(i).getId());
+			found = (CellSpace)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("IndoorFeatures"), cellSpaceMember.get(i).getId());
 			if(found == null){
-				IndoorGMLMap.setFeature(cellSpaceMember.get(i).getId(), "IndoorFeatures" , cellSpaceMember.get(i));
+				indoorGMLMap.setFeature(cellSpaceMember.get(i).getId(), "IndoorFeatures" , cellSpaceMember.get(i));
+			}
+			if(this.cellSpaceMember == null){
+				this.cellSpaceMember = new ArrayList<String>();
+			}
+			if(!this.cellSpaceMember.contains(cellSpaceMember.get(i).getId())){
+				this.cellSpaceMember.add(cellSpaceMember.get(i).getId());
 			}
 		}
 	}
@@ -86,7 +84,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 		if(this.cellSpaceMember != null){
 			cellSpaceBoundaryMember = new ArrayList<CellSpaceBoundary>();
 			for(int i = 0 ; i < cellSpaceBoundaryMember.size() ; i++){
-				cellSpaceBoundaryMember.add((CellSpaceBoundary)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.cellSpaceMember.get(i)));
+				cellSpaceBoundaryMember.add((CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.cellSpaceMember.get(i)));
 			}
 		}
 		return cellSpaceBoundaryMember;
@@ -99,9 +97,15 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	public void setCellSpaceBoundaryMember(List<CellSpaceBoundary> cellSpaceBoundaryMember) {
 		for (int i = 0; i < cellSpaceBoundaryMember.size(); i++) {
 			CellSpaceBoundary found = null;
-			found = (CellSpaceBoundary)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("IndoorFeatures"), cellSpaceBoundaryMember.get(i).getId());
+			found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("IndoorFeatures"), cellSpaceBoundaryMember.get(i).getId());
 			if(found == null){
-				IndoorGMLMap.setFeature(cellSpaceBoundaryMember.get(i).getId(), "CellSpaceBoundary" , cellSpaceBoundaryMember.get(i));
+				indoorGMLMap.setFeature(cellSpaceBoundaryMember.get(i).getId(), "CellSpaceBoundary" , cellSpaceBoundaryMember.get(i));
+			}
+			if(this.cellSpaceBoundaryMember == null){
+				this.cellSpaceBoundaryMember = new ArrayList<String>();
+			}
+			if(!this.cellSpaceBoundaryMember.contains(cellSpaceBoundaryMember.get(i).getId())){
+				this.cellSpaceBoundaryMember.add(cellSpaceBoundaryMember.get(i).getId());
 			}
 		}
 	}
