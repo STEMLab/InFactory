@@ -50,6 +50,7 @@ public class CellSpace extends AbstractFeature {
 	
 	public CellSpace(IndoorGMLMap doc){
 		indoorGMLMap = doc;
+		partialboundedBy = new ArrayList<String>();
 	}
 	
 
@@ -120,7 +121,7 @@ public class CellSpace extends AbstractFeature {
 
 	public List<CellSpaceBoundary> getPartialboundedBy() {
 		List<CellSpaceBoundary> cboundaries = new ArrayList<CellSpaceBoundary>();
-		if(this.partialboundedBy != null){
+		if(this.partialboundedBy.size() != 0){
 			for (String s : this.partialboundedBy) {
 				cboundaries.add((CellSpaceBoundary) indoorGMLMap
 						.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), s));
@@ -136,9 +137,6 @@ public class CellSpace extends AbstractFeature {
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), cb.getId());
 			if(found == null){
 				indoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
-			}
-			if(this.partialboundedBy == null){
-				this.partialboundedBy = new ArrayList<String>();
 			}
 			if(!this.partialboundedBy.contains(cb.getId())){
 				this.partialboundedBy.add(cb.getId());
