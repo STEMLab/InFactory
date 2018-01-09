@@ -1,14 +1,12 @@
 package edu.pnu.stem.feature;
 
-import edu.pnu.stem.binder.Container;
 import net.opengis.gml.v_3_2_1.CurveType;
 
 /**
  * @author jungh Implements TransitionType of IndoorGML 1.0.3
  */
 public class Transition extends AbstractFeature {
-	
-	private String docId;
+
 	/**
 	 * geometry of transition
 	 */
@@ -34,21 +32,10 @@ public class Transition extends AbstractFeature {
 
 	private ExternalReference externalReference;
 	
-	/**
-	 * @return the docId
-	 */
-	public String getDocId() {
-		return new String(this.docId);
-	}
-
-	/**
-	 * @param docId the docId to set
-	 */
-	public void setDocId(String docId) {
-		if(Container.hasDoc(docId))
-			this.docId = docId;
-		else
-			System.out.println("There is no document with that document Id.");
+	private IndoorGMLMap indoorGMLMap;
+	
+	public Transition(IndoorGMLMap doc){
+		indoorGMLMap = doc;
 	}
 	
 	public boolean hasDuality() {
@@ -73,23 +60,23 @@ public class Transition extends AbstractFeature {
 
 	public Edges getParent() {
 		Edges feature = null;
-		feature = (Edges) IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("Edges"), this.parentId);
+		feature = (Edges) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), this.parentId);
 		return feature;
 	}
 
 	public CellSpaceBoundary getDuality() {
 		CellSpaceBoundary found = null;
 		if(hasDuality()){
-			found = (CellSpaceBoundary)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.duality);
+			found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.duality);
 		}
 		return found;
 	}
 
 	public void setDuality(CellSpaceBoundary duality) {
 		CellSpaceBoundary found = null;
-		found = (CellSpaceBoundary)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("CellSpaceBoundary"), duality.getId());
+		found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), duality.getId());
 		if(found == null){
-			IndoorGMLMap.setFeature(duality.getId(), "CellSpaceBoundary",duality);
+			indoorGMLMap.setFeature(duality.getId(), "CellSpaceBoundary",duality);
 		}
 		this.duality = duality.getId();
 	}
@@ -112,8 +99,8 @@ public class Transition extends AbstractFeature {
 
 	public State[] getConnects() {	
 		State[] connects = new State[2];
-		connects[0] = (State)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.connects[0]);
-		connects[1] = (State)IndoorGMLMap.getFeature(IndoorGMLMap.getFeatureContainer("State"), this.connects[1]);
+		connects[0] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.connects[0]);
+		connects[1] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.connects[1]);
 		return connects;
 	}
 
