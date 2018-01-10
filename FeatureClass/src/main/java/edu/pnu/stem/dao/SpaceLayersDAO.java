@@ -1,20 +1,32 @@
 package edu.pnu.stem.dao;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.MultiLayeredGraph;
+import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 
 public class SpaceLayersDAO {
-	public static SpaceLayers createSpaceLayers(String docID, String parentID, String ID,
+	public static SpaceLayers createSpaceLayers(String docId, String parentId, String id,
 			List<String>spaceLayerMember  ) {
 		SpaceLayers newFeature = null;
-		if (Container.getInstance().hasDoc(docID)) {
-			newFeature.setId(ID);
-			newFeature.setParentID(parentID);
+		if (Container.getInstance().hasDoc(docId)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature.setId(id);
+			MultiLayeredGraph parent = new MultiLayeredGraph(map);
+			parent.setId(parentId);
+			newFeature.setParent(parent);
 			if (spaceLayerMember!= null) {
-				newFeature.setSpaceLayerMember(spaceLayerMember);
-				Container.getInstance().setFeature(docID, ID, "SpaceLayers", newFeature);
+				List<SpaceLayer>tempSpaceLayerMember = new ArrayList<SpaceLayer>();
+				for(int i = 0 ; i < spaceLayerMember.size(); i++){
+					SpaceLayer temp = new SpaceLayer(map);
+					temp.setId(id);
+					tempSpaceLayerMember.add(temp);
+				}
+				newFeature.setSpaceLayerMember(tempSpaceLayerMember);
+				map.setFeature(id, "SpaceLayers", newFeature);
 			}
 			else if(spaceLayerMember == null){
 				System.out.println("Error at createSpaceLayers : there is no enough SpaceLayerType instance");
@@ -47,9 +59,10 @@ public class SpaceLayersDAO {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			target = (SpaceLayers) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("spaceLayerMember")) {
-				List<String>spaceLayerMember = target.getSpaceLayerMember();
+				List<SpaceLayer>spaceLayerMember = target.getSpaceLayerMember();
 				if(updateType.equals("add")){
-					spaceLayerMember.addAll(objectMember);
+					
+					//spaceLayerMember.addAll(objectMember);
 				}
 				//TODO : add cellSpace to cellSpace container and ID container
 				else if(updateType.equals("delete")){
@@ -88,10 +101,10 @@ public class SpaceLayersDAO {
 			// String duality = target.getd;
 			doc.getFeatureContainer("SpaceLayers").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
-			List<String>spaceLayerMember = target.getSpaceLayerMember();
 			
+			List<SpaceLayer>spaceLayerMember = target.getSpaceLayerMember();			
 			for(int i = 0 ; i < spaceLayerMember.size();i++){
-				SpaceLayerDAO.deleteSpaceLayer(docId, spaceLayerMember.get(i), deleteDuality);
+				SpaceLayerDAO.deleteSpaceLayer(docId, spaceLayerMember.get(i).getId(), deleteDuality);
 				
 			}
 			
