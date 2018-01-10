@@ -63,5 +63,9 @@ public class Nodes extends AbstractFeature {
 		}
 		return stateMember;
 	}
+	
+	public void clearStateMember(){
+		this.stateMember.clear();
+	}
 
 }

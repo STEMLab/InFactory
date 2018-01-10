@@ -1,36 +1,35 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Nodes;
+import edu.pnu.stem.feature.State;
 
 
 public class NodesDAO {
-	/**
-	 * Create Nodes feature instance 
-	 * @param ID ID of Nodes feature
-	 * @param parentID ID of parent which will hold this feature
-	 * @param sl list of states which are related by this Nodes relationship
-	 * @return created Nodes feature
-	 */
-	public Nodes createNodes(String ID, String parentID, List<StateDAO> sl) {
-		return null;
-	}
+
 	public Nodes createNodes(String docId, String parentId, String Id, List<String>stateMember){
 		Nodes newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
 			newFeature.setId(Id);
 			if(stateMember != null){
-				newFeature.setStateMember(stateMember);
+				List<State>tempStateMember = new ArrayList<State>();
+				for(int i = 0 ; i < stateMember.size() ; i++){
+					State temp = new State(map);
+					temp.setId(stateMember.get(i));
+					tempStateMember.add(temp);
+				}
+				newFeature.setStateMember(tempStateMember);
 			}
 			else{
 				System.out.println("Error at createNodes : there is no StateMember");
-			}
-			
-			Container.getInstance().setFeature(docId, Id, "Nodes", newFeature);
+			}		
+			map.setFeature(Id, "Nodes", newFeature);
 		}
 		
 		return newFeature;
@@ -41,8 +40,10 @@ public class NodesDAO {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public Nodes readNodes(String ID) {
-		return null;
+	public Nodes readNodes(String docId, String id) {
+		Nodes target = null;
+		target = (Nodes)Container.getInstance().getFeature(docId, id);
+		return target;
 	}
 
 	/**
@@ -55,13 +56,18 @@ public class NodesDAO {
 			String updateType, List<String>object, Boolean deleteDuality) {
 		Nodes target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (Nodes)Container.getInstance().getFeature(docId, Id);
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			target = (Nodes)map.getFeature(Id);
 			if(attributeType.equals("stateMember")){
-				List<String>stateMember = target.getStateMember();
+				List<State>stateMember = target.getStateMember();
 				if(updateType != null){
-					
 					if(updateType.equals("add")){
-						stateMember.addAll(object);
+						for(int i = 0 ; i < object.size(); i++){
+							State temp = new State(map);
+							temp.setId(object.get(i));
+							stateMember.add(temp);
+						}
+						
 					}
 					else if(updateType.equals("remove")){
 						for(int i = 0 ; i < object.size();i++){
@@ -71,6 +77,7 @@ public class NodesDAO {
 							}
 							
 						}
+						target.clearStateMember();
 					}
 				}
 				if(stateMember.size() != 0){
@@ -88,16 +95,14 @@ public class NodesDAO {
 	 * Search Nodes feature and delete it
 	 * @param ID ID of target
 	 */
-	public static void deleteNodes(String docId, String Id, Boolean deleteDuality) {	
-		if (Container.getInstance().hasFeature(docId, Id)) {
+	public static void deleteNodes(String docId, String id, Boolean deleteDuality) {	
+		if (Container.getInstance().hasFeature(docId, id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			Nodes target = (Nodes) Container.getInstance().getFeature(docId,
-					Id);
+			Nodes target = (Nodes) doc.getFeature(id);
 			// String duality = target.getd;
-			doc.getFeatureContainer("Nodes").remove(Id);
-			doc.getFeatureContainer("ID").remove(Id);
+			doc.deleteFeature(id, "Nodes");
 			for(int i = 0 ; i < target.getStateMember().size();i++){
-				StateDAO.deleteState(docId, target.getStateMember().get(i), deleteDuality);
+				StateDAO.deleteState(docId, target.getStateMember().get(i).getId(), deleteDuality);
 			}
 			
 		}
