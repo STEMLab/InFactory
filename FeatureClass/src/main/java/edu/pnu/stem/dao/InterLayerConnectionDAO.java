@@ -1,26 +1,20 @@
 package edu.pnu.stem.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
+import edu.pnu.stem.feature.SpaceLayer;
+import edu.pnu.stem.feature.State;
 public class InterLayerConnectionDAO {
-	/**
-	 * Create InterLayerConnection feature instance
-	 * @param ID ID of InterLayerConnection feature
-	 * @param parentID ID of parent which will hold this feature
-	 * @param teCode instance of typeOfTopoExpressionCode
-	 * @param comment explanation of this feature
-	 * @param sl list of states which are related by this InterLayerConnection
-	 * @return created InterLayerConnection
-	 */
-	public InterLayerConnection createInterLayerConnection(String ID, String parentID, String typeOfTopoExpressionCode,
-			String comment, StateDAO[] sl) {
-		return null;
-	};
-	public static InterLayerConnection createInterLayerConnection(String docId, String parentId, String Id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
+
+	public static InterLayerConnection createInterLayerConnection(String docId, String parentId, String id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
 		InterLayerConnection newFeature = null;
 		if(Container.getInstance().hasDoc(docId)){
-			newFeature = new InterLayerConnection();
-			newFeature.setParentID(parentId);
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature = new InterLayerConnection(map);
+			InterEdges parent = new InterEdges(map);
+			parent.setId(parentId);
+			newFeature.setParent(parent);
 			if(typeOfTopoExpression!= null){
 				//newFeature.setTypeOfTopoExpression(typeOfTopoExpression);
 			}
@@ -29,10 +23,21 @@ public class InterLayerConnectionDAO {
 				//newFeature.setComment(comment);
 			}
 			if(interConnects.length == 2 && ConnectedLayers.length == 2){
-				if(Container.getInstance().hasFeature(docId, interConnects[0])&&Container.getInstance().hasFeature(docId, interConnects[1])){
-					if(Container.getInstance().hasFeature(docId, ConnectedLayers[0])&&Container.getInstance().hasFeature(docId, ConnectedLayers[0])){
-						newFeature.setInterConnects(interConnects);
-						newFeature.setConnectedLayers(ConnectedLayers);
+				if(map.hasID(interConnects[0])&&map.hasID(interConnects[1])){
+					if(map.hasID(ConnectedLayers[0])&&map.hasID(ConnectedLayers[0])){
+						State[] tempInterLayerConnectionList = new State[2];
+						tempInterLayerConnectionList[0] = new State(map);
+						tempInterLayerConnectionList[1] = new State(map);
+						tempInterLayerConnectionList[0].setId(interConnects[0]);
+						tempInterLayerConnectionList[1].setId(interConnects[1]);
+						newFeature.setInterConnects(tempInterLayerConnectionList);
+						
+						SpaceLayer[] tempConnectedLayers = new SpaceLayer[2];
+						tempConnectedLayers[0] = new SpaceLayer(map);
+						tempConnectedLayers[1] = new SpaceLayer(map);
+						tempConnectedLayers[0].setId(ConnectedLayers[0]);
+						tempConnectedLayers[1].setId(ConnectedLayers[1]);
+						newFeature.setConnectedLayers(tempConnectedLayers);
 					}
 					else{
 						System.out.println("Error at createInterLayerConnection : This SpaceLayer is not exist");
@@ -45,7 +50,7 @@ public class InterLayerConnectionDAO {
 			else{
 				System.out.println("Error at createInterLayerConnection : There is no enough instance of interConnects or ConnectedLayers");
 			}
-			
+			map.setFeature(id, "interLayerConnection", newFeature);
 		}
 		
 		return newFeature;
@@ -56,8 +61,10 @@ public class InterLayerConnectionDAO {
 	 * @param ID ID of target
 	 * @return searched feature
 	 */
-	public static InterLayerConnection readInterLayerConnection(String ID) {
-		return null;
+	public static InterLayerConnection readInterLayerConnection(String docId, String id) {
+		InterLayerConnection target = null;
+		target = (InterLayerConnection)Container.getInstance().getFeature(docId, id);
+		return target;
 	}
 
 	/**
@@ -68,30 +75,40 @@ public class InterLayerConnectionDAO {
 	 * @param sl list of states which are related by this InterLayerConnection
 	 * @return edited feature
 	 */
-	public static InterLayerConnection updateInterLayerConnection(String docId, String Id, String attributeType, String attributeId, Object o){
+	public static InterLayerConnection updateInterLayerConnection(String docId, String id, String attributeType, Object o){
 		InterLayerConnection target = null;
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (InterLayerConnection) Container.getInstance().getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, id)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			target = (InterLayerConnection) map.getFeature(id);
 			if(attributeType.equals("typeOfTopoExpression")){
 				//TODO: need to set typeOfTopoExpression Code
 			}
 			else if(attributeType.equals("comment")){
-				//TODO : comment is not defined
-				//target.setComment((String)o);
+				target.setComment((String)o);
 			}
 			else if(attributeType.equals("interConnects")){
 				String[]interConnects = (String[])o;
 				if(interConnects.length == 2){
-					target.setInterConnects(interConnects);
+					State[] tempInterConnects = new State[2];
+					tempInterConnects[0] = new State(map);
+					tempInterConnects[1] = new State(map);
+					tempInterConnects[0].setId(interConnects[0]);
+					tempInterConnects[1].setId(interConnects[1]);
+					target.setInterConnects(tempInterConnects);
 				}
 				else{
 					System.out.println("Error at updateInterConnection : there is no enough interConnects");
 				}
 			}
 			else if(attributeType.equals("ConnectedLayers")){
-				String[]ConnectedLayers = (String[])o;
-				if(ConnectedLayers.length == 2){
-					target.setInterConnects(ConnectedLayers);
+				String[]connectedLayers = (String[])o;
+				if(connectedLayers.length == 2){
+					SpaceLayer[] tempConnectedLayers = new SpaceLayer[2];
+					tempConnectedLayers[0] = new SpaceLayer(map);
+					tempConnectedLayers[1] = new SpaceLayer(map);
+					tempConnectedLayers[0].setId(connectedLayers[0]);
+					tempConnectedLayers[1].setId(connectedLayers[1]);
+					target.setConnectedLayers(tempConnectedLayers);
 				}
 				else{
 					System.out.println("Error at updateInterConnection : there is no enough ConnectedLayers");
@@ -100,7 +117,7 @@ public class InterLayerConnectionDAO {
 			else{
 				System.out.println("Error at updateInterConnection : there is no such kind of attribute");
 			}
-			Container.getInstance().setFeature(docId, Id, "InterLayerConnection", target);
+			map.setFeature(id, "InterLayerConnection", target);
 		}
 		return target;
 	}
@@ -109,10 +126,10 @@ public class InterLayerConnectionDAO {
 	 * Search InterLayerConnection feature and delete it
 	 * @param ID ID of target
 	 */
-	public static void deleteInterLayerConnection(String docId, String Id) {
+	public static void deleteInterLayerConnection(String docId, String id) {
 		if(Container.getInstance().hasDoc(docId)){
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			doc.getFeatureContainer("InterLayerConnection").remove(Id);
+			doc.deleteFeature(id, "InterLayerConnection");		
 		}
 		
 	};
