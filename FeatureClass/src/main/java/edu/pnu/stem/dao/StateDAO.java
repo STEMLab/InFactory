@@ -1,11 +1,15 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
+import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.State;
+import edu.pnu.stem.feature.Transition;
 import net.opengis.gml.v_3_2_1.PointType;
 
 public class StateDAO {
@@ -33,12 +37,19 @@ public class StateDAO {
 			String duality, List<String> connects, String geometry, String externalReference) {
 		State newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
-			newFeature.setID(Id);
-			newFeature.setParentID(parentId);
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature = new State(map);
+			newFeature.setId(Id);
+			
+			Nodes parent = new Nodes(map);
+			parent.setId(parentId);
+			newFeature.setParent(parent);
 			if (duality != null) {
-				newFeature.setDuality(duality);
-				if(Container.getInstance().getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
-					int count = (Integer)Container.getInstance().getDocument(docId).getFeatureContainer("Reference").get(duality);
+				CellSpace tempDuality = new CellSpace(map);
+				tempDuality.setId(duality);
+				newFeature.setDuality(tempDuality);
+				if(map.getFeatureContainer("Reference").containsKey(duality)){
+					int count = (Integer)map.getFeatureContainer("Reference").get(duality);
 					count++;
 					Container.getInstance().setFeature(docId, duality, "Reference", count);
 				}
@@ -51,9 +62,13 @@ public class StateDAO {
 				// newFeature.set
 			}
 			if (connects != null) {
-			
-				newFeature.setConnects(connects);
-				
+				List<Transition>tempConnects = new ArrayList<Transition>();	
+				for(int i = 0 ; i < connects.size() ; i++){
+					Transition temp = new Transition(map);
+					temp.setId(connects.get(i));
+					tempConnects.add(temp);
+				}
+				newFeature.setConnects(tempConnects);				
 			}
 			if (externalReference != null) {
 				newFeature.setExternalReference(externalReference);
@@ -79,25 +94,52 @@ public class StateDAO {
 	public State updateState(String ID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
 		return null;
 	}
-	public State updateState(String docId, String Id, String attributeType,
-			String attributeId, Object o) {
+	public State updateState(String docId, String Id, String attributeType, String updateType, Object o) {
 		State target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
 			target = (State) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("geometry")) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			} else if (attributeType.equals("connects")) {
-				// 한번에 하나의 cellSpaceBoundary가 들어온다고 가정
-				List<String> connects = target.getConnects();
-				connects.add(attributeId);
-				target.setConnects(connects);
-				Container.getInstance().setFeature(docId, attributeId, "Transition", o);
+				List<String>connects = new ArrayList<String>();
+				List<Transition>tempConnects = target.getConnects();
+				List<Transition>newConnects = new ArrayList<Transition>();
+				if(o instanceof List<?>){
+					connects = (List<String>)o;
+				}
+				else if(o instanceof String){
+					connects.add((String)o);
+				}
+				for(int i = 0 ; i < connects.size() ; i++){
+					Transition temp = new Transition(map);
+					temp.setId(connects.get(i));
+					newConnects.add(temp);
+				}
+				
+				if(updateType.equals("add")){
+					for(int i = 0 ; i < newConnects.size(); i++){
+						if(!tempConnects.contains(newConnects.get(i))){
+							tempConnects.add(newConnects.get(i));
+						}
+					}
+				}
+				else if(updateType.equals("remove")){
+					for(int i = 0 ; i < newConnects.size(); i++){
+						if(tempConnects.contains(newConnects.get(i))){
+							tempConnects.remove(newConnects.get(i));
+						}
+					}
+				}
+				target.clearConnects();
+				target.setConnects(tempConnects);				
 			} else if (attributeType.equals("duality")) {
-				target.setDuality(attributeId);
-				Container.getInstance().setFeature(docId, attributeId, "CellSpace", o);
+				CellSpace tempDuality = new CellSpace(map);
+				tempDuality.setId((String)o);
+				target.setDuality(tempDuality);
 			} else if (attributeType.equals("externalReference")) {
-				target.setExternalReference(attributeId);
-				Container.getInstance().setFeature(docId, attributeId, "ExternaReference", o);
+				//target.setExternalReference(attributeId);
+				//map.setFeature(attributeId, "ExternaReference", o);
 			} else {
 				System.out.println("update error in cellSpaceType : there is no such attribute name");
 			}
@@ -120,11 +162,11 @@ public class StateDAO {
 			doc.getFeatureContainer("State").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
 			
-			List<String> connects = target.getConnects();
+			List<Transition> connects = target.getConnects();
 			if(deleteDuality){
 				//State.deleteState(target.getDuality());
-				if(Container.getInstance().hasFeature(docId, target.getDuality())){
-					CellSpaceDAO.deleteCellSpace(docId,target.getDuality(),false);
+				if(doc.hasID(target.getDuality().getId())){
+					CellSpaceDAO.deleteCellSpace(docId,target.getDuality().getId(),false);
 				}
 				
 			}
@@ -132,11 +174,11 @@ public class StateDAO {
 			for(int i = 0 ; i < connects.size();i++){
 				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
 				if(count == 1){
-					TransitionDAO.deleteTransition(docId, connects.get(i),deleteDuality);
+					TransitionDAO.deleteTransition(docId, connects.get(i).getId(),deleteDuality);
 					doc.getFeatureContainer("Reference").remove(connects.get(i));
 				}
 				else{
-					doc.setFeature(connects.get(i), "Reference", (count-1));
+					doc.setFeature(connects.get(i).getId(), "Reference", (count-1));
 				}
 				
 			}
@@ -146,10 +188,10 @@ public class StateDAO {
 			for (int i = 0; i < connects.size(); i++) {
 				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
 				if ( count == 1) {
-					CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, connects.get(i), deleteDuality);
+					CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, connects.get(i).getId(), deleteDuality);
 				}
 				else{
-					doc.setFeature(connects.get(i), "Reference", (count-1));
+					doc.setFeature(connects.get(i).getId(), "Reference", (count-1));
 				}
 			}
 

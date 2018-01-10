@@ -103,5 +103,7 @@ public class State extends AbstractFeature {
 		return connects;
 	}
 
-
+	public void clearConnects(){
+		this.connects.clear();
+	}
 }
