@@ -79,7 +79,7 @@ public class Container {
 	public static void setFeature(String docId, String id, String featureName, Object featureValue) {
 		IndoorGMLMap doc = Container.getInstance().docContainer.get(docId);
 		if (!doc.hasID(id)) {
-			doc.inputID(id, featureName);
+			doc.setID(id, featureName);
 			doc.container.get(featureName).put(id, featureValue);
 		} else {
 			System.out.println("Newly updated feature Id : " + id);
