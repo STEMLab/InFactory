@@ -1,12 +1,18 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.Edges;
+import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.SpaceLayer;
+import edu.pnu.stem.feature.SpaceLayers;
+import edu.pnu.stem.feature.State;
+import edu.pnu.stem.feature.Transition;
 
 
 public class SpaceLayerDAO {
@@ -28,18 +34,32 @@ public class SpaceLayerDAO {
 			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
 		SpaceLayer newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docID);
 			newFeature.setId(ID);
-			newFeature.setParentID(parentID);
+			SpaceLayers parent = new SpaceLayers(map);
+			parent.setId(parentID);
+			newFeature.setParent(parent);
 			if (nodes!= null) {
-				newFeature.setNodes(nodes);
+				List<Nodes>tempNodes = new ArrayList<Nodes>();
+				for(int i = 0 ; i < nodes.size() ; i++){
+					Nodes temp = new Nodes(map);
+					temp.setId(nodes.get(i));
+					tempNodes.add(temp);
+				}
+				newFeature.setNodes(tempNodes);
 			}
 			else if (nodes== null){
 				System.out.println("Error in createSpaceLayer : no nodes");
 			}
 			if (edges != null) {
-				newFeature.setEdges(edges);
-			}
-			
+				List<Edges>tempEdges = new ArrayList<Edges>();
+				for(int i = 0 ; i < edges.size() ; i++){
+					Edges temp = new Edges(map);
+					temp.setId(edges.get(i));
+					tempEdges.add(temp);
+				}
+				newFeature.setEdges(tempEdges);
+			}			
 			if(creationDate != null){
 				newFeature.setCreateDate(creationDate);
 			}
@@ -69,8 +89,10 @@ public class SpaceLayerDAO {
 	 * @param ID ID of target
 	 * @return searched SpaceLayer feature instance
 	 */
-	public SpaceLayer readSpaceLayer(String ID) {
-		return null;
+	public SpaceLayer readSpaceLayer(String docId, String id) {
+		SpaceLayer target = null;
+		target = (SpaceLayer)Container.getInstance().getDocument(docId).getFeature(id);
+		return target;
 	}
 
 	/**
@@ -85,13 +107,20 @@ public class SpaceLayerDAO {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return edited SpaceLayer feature instance
 	 */
-	public SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
-			String updateType, List<String>objectMember, Object object , Boolean deleteDuality ) {
+	/*
+	 public SpaceLayer updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+			String updateType, Object object , Boolean deleteDuality ) {
 		SpaceLayer target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			target = (SpaceLayer) Container.getInstance().getFeature(docId, Id);
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
 			if (attributeType.equals("nodes")) {
-				List<String>nodes = target.getNodes();
+				List<Nodes>nodes = target.getNodes();
+				List<Nodes> newNodes = new ArrayList<Nodes>();
+				if(object instanceof List<?>){
+					
+				}
+				
 				if(updateType.equals("add")){
 					nodes.addAll(objectMember);
 				}
@@ -159,6 +188,11 @@ public class SpaceLayerDAO {
 		Container.getInstance().setFeature(docId, Id, "SpaceLayer", target);
 		return target;
 	}
+	 * 
+	 * */
+	
+	
+	
 	/**
 	 * Search SpaceLayer feature and delete it
 	 * @param id ID of target
@@ -171,14 +205,14 @@ public class SpaceLayerDAO {
 			// String duality = target.getd;
 			doc.getFeatureContainer("SpaceLayer").remove(Id);
 			doc.getFeatureContainer("ID").remove(Id);
-			List<String>nodes = target.getNodes();
-			List<String>edges  = target.getEdges();
+			List<Nodes>nodes = target.getNodes();
+			List<Edges>edges  = target.getEdges();
 			
 			for(int i = 0 ; i < nodes.size();i++){
-				edu.pnu.stem.feature.Nodes singleNodes = (edu.pnu.stem.feature.Nodes)doc.getFeature(nodes.get(i));
-				List<String>stateMembers = singleNodes.getStateMember();
+				edu.pnu.stem.feature.Nodes singleNodes = (edu.pnu.stem.feature.Nodes)doc.getFeature(nodes.get(i).getId());
+				List<State>stateMembers = singleNodes.getStateMember();
 				for(int j = 0 ; j < stateMembers.size();j++){
-					StateDAO.deleteState(docId, stateMembers.get(i), false);
+					StateDAO.deleteState(docId, stateMembers.get(i).getId(), false);
 					//doc.getFeatureContainer("State").remove(stateMembers.get(i));
 				}
 				//Nodes.deleteNodes(docId, nodes.get(i));
@@ -187,12 +221,12 @@ public class SpaceLayerDAO {
 			
 			
 			for(int i = 0 ; i < edges.size();i++){
-				edu.pnu.stem.feature.Edges singleEdges = (edu.pnu.stem.feature.Edges)doc.getFeature(nodes.get(i));
-				List<String> transitionMember = singleEdges.getTransitionMembers();
+				edu.pnu.stem.feature.Edges singleEdges = (edu.pnu.stem.feature.Edges)doc.getFeature(nodes.get(i).getId());
+				List<Transition> transitionMember = singleEdges.getTransitionMember();
 				for(int j = 0 ; j < transitionMember.size();j++){
 				
 					//doc.getFeatureContainer("Transition").remove(stateMembers.get(i));
-					TransitionDAO.deleteTransition(docId, transitionMember.get(i),deleteDuality);
+					TransitionDAO.deleteTransition(docId, transitionMember.get(i).getId(),deleteDuality);
 				}
 				//doc.getFeatureContainer("Edges").remove(nodes.get(i));
 				
