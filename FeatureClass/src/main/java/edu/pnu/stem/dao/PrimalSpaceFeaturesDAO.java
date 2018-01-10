@@ -49,8 +49,8 @@ public class PrimalSpaceFeaturesDAO {
 	 * @param ID ID of target
 	 * @return searched PrimalSpaceFeatures
 	 */
-	public PrimalSpaceFeatures readPrimalSpaceFeatures(String ID) {
-		return null;
+	public static PrimalSpaceFeatures readPrimalSpaceFeatures(String docId, String id) {
+		return (PrimalSpaceFeatures)Container.getInstance().getFeature(docId, id);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class PrimalSpaceFeaturesDAO {
 	 * @param csbl List of CellSpaceBoundary
 	 * @return edited feature instance
 	 */
-	public PrimalSpaceFeatures updatePrimalSpaceFeatures(String ID, List<CellSpace> csl, List<CellSpaceBoundary> csbl) {
+	public static PrimalSpaceFeatures updatePrimalSpaceFeatures(String ID, List<CellSpace> csl, List<CellSpaceBoundary> csbl) {
 		return null;
 	}
 	
@@ -113,7 +113,7 @@ public class PrimalSpaceFeaturesDAO {
 	 * @param id ID of target
 	 * 
 	 */
-	public void deletePrimalSpaceFeatures(String docId, String Id) {
+	public static void deletePrimalSpaceFeatures(String docId, String Id) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
 			PrimalSpaceFeatures target = (PrimalSpaceFeatures) Container.getInstance().getFeature(docId,
