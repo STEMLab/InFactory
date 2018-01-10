@@ -14,25 +14,6 @@ import net.opengis.gml.v_3_2_1.PointType;
 
 public class StateDAO {
 	
-	/**
-	 * Create State feature instance
-	 * @param ID ID of State feature instance 
-	 * @param parentID ID of parent which will hold this feature
-	 * @param d feature instance of CellSpace which has duality relationship with this state
-	 * @param t feature instance of Transition which is connected with this feature
-	 * @param geo Geometry instance of Point which represent this state
-	 * @return created State feature instance
-	 */
-	public State createState(String ID, String parentID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
-		return null;
-	}
-
-	/**
-	 * Search State feature in document
-	 * @param Id ID of target 
-	 * @return searched State feature instance
-	 */
-	
 	public static State createState(String docId, String parentId, String Id,
 			String duality, List<String> connects, String geometry, String externalReference) {
 		State newFeature = null;
@@ -130,8 +111,8 @@ public class StateDAO {
 							tempConnects.remove(newConnects.get(i));
 						}
 					}
+					target.clearConnects();
 				}
-				target.clearConnects();
 				target.setConnects(tempConnects);				
 			} else if (attributeType.equals("duality")) {
 				CellSpace tempDuality = new CellSpace(map);
