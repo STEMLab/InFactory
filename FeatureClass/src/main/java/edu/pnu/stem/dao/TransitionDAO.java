@@ -42,15 +42,15 @@ public class TransitionDAO {
 				CellSpaceBoundary tempDuality = new CellSpaceBoundary(map);
 				tempDuality.setId(duality);
 				newFeature.setDuality(tempDuality);
-				if(Container.getInstance().getDocument(docId).getFeatureContainer("Reference").containsKey(duality)){
+				if(map.getFeatureContainer("Reference").containsKey(duality)){
 					int count = (Integer)map.getFeatureContainer("Reference").get(duality);
 					count++;
-					Container.getInstance().setFeature(docId, duality, "Reference", count);
+					map.setFeature(duality, "Reference", count);
 				}
 				else{
-					Container.getInstance().setFeature(docId, duality, "Reference", 1);
+					map.setFeature(duality, "Reference", 1);
 				}
-				Container.getInstance().setFeature(docId, Id, "Reference", 1);
+				map.setFeature(Id, "Reference", 1);
 			}
 			if (externalReference != null) {
 				//newFeature.setExternalReference(externalReference);
@@ -69,7 +69,7 @@ public class TransitionDAO {
 			else{
 				System.out.println("createTransition : there is no enough number of connections for this transition");
 			}
-			Container.getInstance().setFeature(docId, Id, "CellSpaceBoundary", newFeature);
+			map.setFeature(Id, "CellSpaceBoundary", newFeature);
 
 		}
 		return newFeature;
@@ -95,13 +95,12 @@ public class TransitionDAO {
 	 * @param weight weight can be used for applications in order to deal with the impedance representing absolute barriers in transportation problems 
 	 * @return edited Transition feature instance 
 	 */
-	public Transition updateTransition(String docId, String Id, String attributeType,
+	public Transition updateTransition(String docId, String id, String attributeType,
 			String attributeId, Object o) {
 		Transition target = null;
 		IndoorGMLMap map = Container.getInstance().getDocument(docId);
-		if (map.hasID(Id)) {
-			target = (Transition) Container.getInstance().getFeature(docId,
-					Id);
+		if (map.hasID(id)) {
+			target = (Transition) map.getFeature(id);
 			if (attributeType.equals("geometry") ) {
 				// TODO: need to implement geometry class at IndoorGMLAPI
 			}  else if (attributeType == "duality") {
@@ -110,7 +109,7 @@ public class TransitionDAO {
 					tempDuality.setId(attributeId);
 					target.setDuality(tempDuality);
 					int count = (Integer)map.getFeatureContainer("Reference").get(attributeId);
-					Container.getInstance().setFeature(docId, attributeId, "Reference", (count++));
+					map.setFeature(attributeId, "Reference", (count++));
 					
 				}
 			} else if(attributeType.equals("name")){
@@ -141,7 +140,7 @@ public class TransitionDAO {
 				System.out.println("update error in cellSpaceType : there is no such attribute name");
 			}
 		} else {
-			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
+			System.out.println("there is no name with Id :" + id + " in document Id : " + docId);
 		}
 		return target;
 	}
@@ -150,15 +149,14 @@ public class TransitionDAO {
 	 * Search Transition feature and delete it
 	 * @param ID ID of target
 	 */
-	public static void deleteTransition(String docId, String Id, Boolean deleteDuality) {
-		if (Container.getInstance().hasFeature(docId, Id)) {
+	public static void deleteTransition(String docId, String id, Boolean deleteDuality) {
+		if (Container.getInstance().hasFeature(docId, id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			Transition target = (Transition) Container.getInstance().getFeature(docId,
-					Id);
+			Transition target = (Transition) doc.getFeature(id);
 			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
-			doc.getFeatureContainer("Transition").remove(Id);
+			doc.getFeatureContainer("Transition").remove(id);
 			doc.getFeatureContainer("ID").remove(target.getExternalReference());
-			doc.getFeatureContainer("ID").remove(Id);
+			doc.getFeatureContainer("ID").remove(id);
 			if(deleteDuality == true){
 				CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, target.getDuality().getId(), false);
 			}
