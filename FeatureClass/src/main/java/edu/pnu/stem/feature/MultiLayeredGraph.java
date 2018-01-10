@@ -111,4 +111,12 @@ public class MultiLayeredGraph extends AbstractFeature {
 		}
 		this.parentId = parent.getId();
 	}
+	
+	public void clearInterEdges(){
+		this.interEdges.clear();
+	}
+	
+	public void clearSpaceLayers(){
+		this.spaceLayers.clear();
+	}
 }
