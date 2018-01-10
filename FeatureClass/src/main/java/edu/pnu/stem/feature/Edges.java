@@ -67,7 +67,10 @@ public class Edges extends AbstractFeature{
 		}
 		return transitionMember;
 	}
-
+	
+	public void cleanTransitionMember(){
+		this.transitionMember.clear();
+	}
 
 
 }
