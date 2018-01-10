@@ -1,73 +1,75 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
+import edu.pnu.stem.feature.Transition;
 
 
 public class EdgesDAO {
-	/**
-	 * Create Edges feature instance 
-	 * @param ID of Edges
-	 * @param parentID ID of parent which will hold this feature
-	 * @param tl list of transitions which will be held by SpaceLayer(parent)
-	 * @return created Edges feature
-	 */
-	public Edges createEdges(String ID, String parentID, List<TransitionDAO> tl) {
-		return null;
-	};
 
-	/**
-	 * Search the Edges feature in document
-	 * @param ID ID of target
-	 * @return searched target feature
-	 */
-	
-	public Edges createNodes(String docId, String parentId, String Id, List<String>transitionMember){
+	public Edges createNodes(String docId, String parentId, String id, List<String>transitionMember){
 		Edges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
-			newFeature.setID(Id);
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature.setId(id);
 			if(transitionMember != null){
-				newFeature.setTransitionMembers(transitionMember);
+				List<Transition>transitionMembers = new ArrayList<Transition>();
+				for(int i = 0 ; i < transitionMember.size() ; i++){
+					Transition temp = new Transition(map);
+					temp.setId(transitionMember.get(i));
+					transitionMembers.add(temp);
+				}
+				newFeature.setTransitionMembers(transitionMembers);
 			}
 			else{
 				System.out.println("Error at createNodes : there is no StateMember");
 			}
 			
-			Container.getInstance().setFeature(docId, Id, "Edges", newFeature);
+			Container.getInstance().setFeature(docId, id, "Edges", newFeature);
 		}
 		
 		return newFeature;
 	}
-	public Edges readEdges(String ID) {
-		return null;
+	public Edges readEdges(String docId, String id) {
+		Edges target = null;
+		target = (Edges)Container.getInstance().getDocument(docId).getFeature(id);
+		return target;
 	};
 	
-	public Edges updateNodes(String docId, String Id, String attributeType,
+	public Edges updateNodes(String docId, String id, String attributeType,
 			String updateType, List<String>object, Boolean deleteDuality) {
 		Edges target = null;
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			target = (Edges)Container.getInstance().getFeature(docId, Id);
+		if (Container.getInstance().hasFeature(docId, id)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			target = (Edges)map.getFeature(id);
 			if(attributeType.equals("transitionMember")){
-				List<String>transitionMember = target.getTransitionMembers();
-				if(updateType != null){
-					
-					if(updateType.equals("add")){
-						transitionMember.addAll(object);
+				List<Transition>transitionMember = target.getTransitionMember();
+				List<Transition>newTransitionMember = new ArrayList<Transition>();
+				for(int i = 0 ; i < object.size() ; i++){
+					Transition temp = new Transition(map);
+					temp.setId(id);
+					newTransitionMember.add(temp);
+				}
+				if(updateType != null){				
+					if(updateType.equals("add")){						
+						transitionMember.addAll(newTransitionMember);
 					}
 					else if(updateType.equals("remove")){
 						for(int i = 0 ; i < object.size();i++){
-							if(transitionMember.contains(object.get(i))){
-								transitionMember.remove(object.get(i));
+							if(transitionMember.contains(newTransitionMember.get(i))){
+								transitionMember.remove(newTransitionMember.get(i));
 								TransitionDAO.deleteTransition(docId, object.get(i),deleteDuality);
 							}
 							
 						}
 					}
 				}
+				target.cleanTransitionMember();
 				target.setTransitionMembers(transitionMember);
 			}
 		}
@@ -98,8 +100,8 @@ public class EdgesDAO {
 			
 			doc.getFeatureContainer("Nodes").remove(Id);	
 			doc.getFeatureContainer("ID").remove(Id);
-			for(int i = 0 ; i < target.getTransitionMembers().size();i++){
-				StateDAO.deleteState(docId, target.getTransitionMembers().get(i), deleteDuality);
+			for(int i = 0 ; i < target.getTransitionMember().size();i++){
+				StateDAO.deleteState(docId, target.getTransitionMember().get(i).getId(), deleteDuality);
 			}
 			
 		}
