@@ -67,5 +67,9 @@ public class InterEdges extends AbstractFeature {
 			}
 		}
 	}
+	
+	public void clearInterLayerConnectionMember(){
+		this.interLayerConnectionMember.clear();
+	}
 
 }
