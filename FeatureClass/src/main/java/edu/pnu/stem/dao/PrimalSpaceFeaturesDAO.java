@@ -1,12 +1,14 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
+import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 /**
@@ -28,19 +30,34 @@ public class PrimalSpaceFeaturesDAO {
 		return null;
 	}
 	
-	public static PrimalSpaceFeatures createPrimalFeatures(String docID, String parentID, String ID,
+	public static PrimalSpaceFeatures createPrimalFeatures(String docId, String parentId, String id,
 			List<String>cellSpaceMember, List<String>cellSpaceBoundaryMember) {
 		PrimalSpaceFeatures newFeature = null;
-		if (Container.getInstance().hasDoc(docID)) {
-			newFeature.setId(ID);
-			newFeature.setParentID(parentID);
+		if (Container.getInstance().hasDoc(docId)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature.setId(id);
+			IndoorFeatures parent = new IndoorFeatures(map);
+			parent.setId(parentId);
+			newFeature.setParent(parent);
 			if (cellSpaceMember!= null) {
-				newFeature.setCellSpaceMember(cellSpaceMember);
+				List<CellSpace>tempCellSpaceMember = new ArrayList<CellSpace>();
+				for(int i = 0 ; i < cellSpaceMember.size(); i++){
+					CellSpace temp = new CellSpace(map);
+					temp.setId(cellSpaceMember.get(i));
+					tempCellSpaceMember.add(temp);
+				}
+				newFeature.setCellSpaceMember(tempCellSpaceMember);
 			}
 			if (cellSpaceBoundaryMember != null) {
-				newFeature.setCellSpaceBoundaryMember(cellSpaceBoundaryMember);
+				List<CellSpaceBoundary>tempCellSpaceBoundaryMember = new ArrayList<CellSpaceBoundary>();
+				for(int i = 0 ; i < cellSpaceBoundaryMember.size(); i++){
+					CellSpaceBoundary temp = new CellSpaceBoundary(map);
+					temp.setId(cellSpaceMember.get(i));
+					tempCellSpaceBoundaryMember.add(temp);
+				}
+				newFeature.setCellSpaceBoundaryMember(tempCellSpaceBoundaryMember);
 			}
-			Container.getInstance().setFeature(docID, ID, "CellSpace", newFeature);
+			Container.getInstance().setFeature(docId, id, "CellSpace", newFeature);
 		}
 		return newFeature;
 	}
@@ -50,7 +67,9 @@ public class PrimalSpaceFeaturesDAO {
 	 * @return searched PrimalSpaceFeatures
 	 */
 	public static PrimalSpaceFeatures readPrimalSpaceFeatures(String docId, String id) {
-		return (PrimalSpaceFeatures)Container.getInstance().getFeature(docId, id);
+		PrimalSpaceFeatures target = null;
+		target = (PrimalSpaceFeatures)Container.getInstance().getDocument(docId).getFeature(id);
+		return target;
 	}
 
 	/**
@@ -70,9 +89,12 @@ public class PrimalSpaceFeaturesDAO {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			target = (PrimalSpaceFeatures) Container.getInstance().getFeature(docId, Id);
 			if (attributeType.equals("cellSpaceMember")) {
-				List<String>cellSpaceMember = target.getCellSpaceMember();
+				List<CellSpace>cellSpaceMember = target.getCellSpaceMember();
+				for(int i = 0 ; i < object.size(); i++){
+					
+				}
 				if(updateType.equals("add")){
-					cellSpaceMember.addAll(object);
+					//cellSpaceMember.addAll(object);
 				}
 				//TODO : add cellSpace to cellSpace container and ID container
 				else if(updateType.equals("delete")){
@@ -85,7 +107,8 @@ public class PrimalSpaceFeaturesDAO {
 				}
 				
 			} else if (attributeType.equals("cellSpaceBoundaryMember")) {
-				List<String>cellSpaceBoundaryMember = target.getCellSpaceBoundaryMember();
+				/*
+				 *List<String>cellSpaceBoundaryMember = target.getCellSpaceBoundaryMember();
 				if(updateType.equals("add")){
 					cellSpaceBoundaryMember.addAll(object);
 				}
@@ -100,6 +123,8 @@ public class PrimalSpaceFeaturesDAO {
 					//answer : because relationship is aggregation, so do not have.
 				}
 
+				 * 
+				 * */
 			}  else {
 				System.out.println("update error in cellSpaceType : there is no such attribute name");
 			}
