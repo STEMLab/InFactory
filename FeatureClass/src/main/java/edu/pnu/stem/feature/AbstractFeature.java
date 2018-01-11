@@ -1,9 +1,7 @@
 package edu.pnu.stem.feature;
 
-import org.locationtech.jts.geom.Geometry;
-
+import org.locationtech.jts.geom.Envelope;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.util.GeometryUtil;
 
 /**
  * @author jungh
@@ -23,7 +21,8 @@ public class AbstractFeature {
 	/**
 	 * value of envelope which wrap this feature
 	 */
-	String boundedBy;
+	
+	boolean boundedBy;
 	// Location location;
 	/**
 	 * describe this feature
@@ -62,19 +61,25 @@ public class AbstractFeature {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Geometry getBoundedBy() {
-		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
+	public Envelope getBoundedBy() {
+		Envelope feature = null;
+		if(boundedBy) {
+			feature = (Envelope) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Envelope"), this.id);
+		} else {
+			feature = new Envelope();
+		}
 		return feature;
 	}
 	
-	public void setBoundedBy(Geometry geom) {
-		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+	public void setBoundedBy(Envelope env) {
+		Envelope found = (Envelope) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Envelope"), this.id);
 		if(found == null) {
-			indoorGMLMap.setFeature(gId, "Geometry", geom);
+			indoorGMLMap.setFeature(this.id, "Envelope", env);
 		}
-		this.geometry = gId;
+		
+		if(!env.isNull()) {
+			this.boundedBy = true;
+		}
 	}
 	/**
 	 * @return the description
