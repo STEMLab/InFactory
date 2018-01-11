@@ -56,6 +56,7 @@ public class IndoorGMLMap {
 		container.put("Solid", solidGeometry);
 		container.put("State", State);
 		container.put("Reference", Reference);
+		container.put("Envelope", new ConcurrentHashMap<String,Object>());
 	}
 
 	public static boolean hasID(String id) {
