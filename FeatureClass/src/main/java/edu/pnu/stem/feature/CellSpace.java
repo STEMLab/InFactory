@@ -29,7 +29,7 @@ public class CellSpace extends AbstractFeature {
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	private String externalReference;
+	private ExternalReference externalReference;
 
 	/**
 	 * ID of parent feature instance.
@@ -117,15 +117,15 @@ public class CellSpace extends AbstractFeature {
 	}
 
 	public ExternalReference getExternalReference() {
-		return (ExternalReference) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("ExternalReference"), this.externalReference);
+		return this.getExternalReference();
 	}
 
-	//TODO
-	/* 
-	public void setExternalReference(String e) {
+	
+	 
+	public void setExternalReference(ExternalReference e) {
 		this.externalReference = e;
 	}
-	*/
+	
 	
 
 	public void setParent(PrimalSpaceFeatures parent) {
