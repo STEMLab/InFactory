@@ -6,6 +6,8 @@ package edu.pnu.stem.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.locationtech.jts.geom.Geometry;
+
 /**
  * @author hyung
  *
