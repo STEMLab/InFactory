@@ -1,6 +1,9 @@
 package edu.pnu.stem.feature;
 
+import org.locationtech.jts.geom.Geometry;
+
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.util.GeometryUtil;
 
 /**
  * @author jungh Implements CellSpaceBoundaryType of IndoorGML 1.0.3
@@ -8,6 +11,7 @@ import edu.pnu.stem.binder.IndoorGMLMap;
 public class CellSpaceBoundary extends AbstractFeature {
 	
 	
+	private String geometry;
 	/**
 	 * value of Transition which has duality relationship with this
 	 * CellSpaceBoundary
@@ -41,6 +45,20 @@ public class CellSpaceBoundary extends AbstractFeature {
 		} else {
 			return true;
 		}
+	}
+	public Geometry getGeometry() {
+		Geometry feature = null;
+		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
+		return feature;
+	}
+	
+	public void setGeometry(Geometry geom) {
+		String gId = GeometryUtil.getMetadata(geom, "id");
+		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+		if(found == null) {
+			indoorGMLMap.setFeature(gId, "Geometry", geom);
+		}
+		this.geometry = gId;
 	}
 	
 	public void setParent(PrimalSpaceFeatures parent) {
