@@ -1,17 +1,16 @@
 package edu.pnu.stem.feature;
 
+import org.locationtech.jts.geom.Geometry;
+
 import edu.pnu.stem.binder.IndoorGMLMap;
-import net.opengis.gml.v_3_2_1.CurveType;
+import edu.pnu.stem.util.GeometryUtil;
 
 /**
  * @author jungh Implements TransitionType of IndoorGML 1.0.3
  */
 public class Transition extends AbstractFeature {
 
-	/**
-	 * geometry of transition
-	 */
-	private CurveType geometry;
+	private String geometry;
 	/**
 	 * value of CellSpaceBoundary feature which has duality relationship with
 	 * this feature
@@ -82,14 +81,20 @@ public class Transition extends AbstractFeature {
 		}
 		this.duality = duality.getId();
 	}
-	public CurveType getGeometry() {
-		return this.geometry;
+	public Geometry getGeometry() {
+		Geometry feature = null;
+		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
+		return feature;
 	}
-
-	public void setGeometry(CurveType g) {
-		this.geometry = g;
+	
+	public void setGeometry(Geometry geom) {
+		String gId = GeometryUtil.getMetadata(geom, "id");
+		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+		if(found == null) {
+			indoorGMLMap.setFeature(gId, "Geometry", geom);
+		}
+		this.geometry = gId;
 	}
-
 	public void setConnects(State[] connects) {
 		if (connects.length != 2) {
 			System.out.println("FeatureClass.Transition.setConnects : The size of input is not 2");
