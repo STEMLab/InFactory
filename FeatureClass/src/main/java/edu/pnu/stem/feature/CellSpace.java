@@ -1,10 +1,11 @@
 package edu.pnu.stem.feature;
 
-import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.util.GeometryUtil;
 
 /**
  * @author jungh Implements CellSpaceType of IndoorGML 1.0.3
@@ -14,10 +15,8 @@ public class CellSpace extends AbstractFeature {
 	/**
 	 * value of geometry of feature
 	 */
-	private String geometry2D;
-
-	private String geometry3D;
-
+	private String geometry;
+	
 	/**
 	 * temporal attribute for IndoorGML 1.0.1. for compatibility, Write the geometry
 	 * type as String. Later this will be discarded or changed
@@ -60,40 +59,20 @@ public class CellSpace extends AbstractFeature {
 		return feature;
 	}
 
-	public Polygon getGeometry2D() {
-		Polygon feature = null;
-		feature = (Polygon) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
-		return feature;
-	}
-
-	public Solid getGeometry3D() {
-		Solid feature = null;
-		feature = (Solid) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
+	public Geometry getGeometry() {
+		Geometry feature = null;
+		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
 		return feature;
 	}
 	
-
-	/**
-	 * @param geometry2d
-	 *            the geometry2D to set
-	 */
-	//TODO
-	/*
-	public void setGeometry2D(Polygon geometry2d) {
-		geometry2D = geometry2d;
+	public void setGeometry(Geometry geom) {
+		String gId = GeometryUtil.getMetadata(geom, "id");
+		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+		if(found == null) {
+			indoorGMLMap.setFeature(gId, "Geometry", geom);
+		}
+		this.geometry = gId;
 	}
-	*/
-
-	/**
-	 * @param geometry3d
-	 *            the geometry3D to set
-	 */
-	//TODO
-	/*
-	public void setGeometry3D(String geometry3d) {
-		geometry3D = geometry3d;
-	}
-	*/
 
 	public boolean hasDuality() {
 		if (this.duality == null) {
