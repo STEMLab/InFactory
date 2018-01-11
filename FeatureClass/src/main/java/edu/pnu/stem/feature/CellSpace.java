@@ -2,7 +2,8 @@ package edu.pnu.stem.feature;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import org.locationtech.jts.geom.Geometry;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.util.GeometryUtil;
@@ -16,16 +17,7 @@ public class CellSpace extends AbstractFeature {
 	 * value of geometry of feature
 	 */
 	private String geometry;
-	
-	/**
-	 * temporal attribute for IndoorGML 1.0.1. for compatibility, Write the geometry
-	 * type as String. Later this will be discarded or changed
-	 */
-	private String geometryType;
-	/**
-	 * temporal attribute for IndoorGML 1.0.1.
-	 */
-	private String cellSpaceGeometryObject;
+
 	/**
 	 * boundary of the CellSpace
 	 */
@@ -135,36 +127,6 @@ public class CellSpace extends AbstractFeature {
 	}
 	*/
 	
-	/**
-	 * @return the geometryType
-	 */
-	public String getGeometryType() {
-		return geometryType;
-	}
-
-	/**
-	 * @param geometryType
-	 *            the geometryType to set
-	 */
-	public void setGeometryType(String geometryType) {
-		this.geometryType = geometryType;
-	}
-
-	/**
-	 * @return the cellSpaceGeometryObject
-	 */
-	public String getCellSpaceGeometryObject() {
-		return cellSpaceGeometryObject;
-	}
-
-	/**
-	 * @param cellSpaceGeometryObject
-	 *            the cellSpaceGeometryObject to set
-	 */
-	public void setCellSpaceGeometryObject(String cellSpaceGeometryObject) {
-		this.cellSpaceGeometryObject = cellSpaceGeometryObject;
-	}
-
 
 	public void setParent(PrimalSpaceFeatures parent) {
 		PrimalSpaceFeatures found = null;
