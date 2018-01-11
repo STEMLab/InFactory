@@ -5,17 +5,17 @@ package edu.pnu.stem.geometry.jts;
 
 import java.util.Arrays;
 
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.CoordinateFilter;
-import org.locationtech.jts.geom.CoordinateSequenceComparator;
-import org.locationtech.jts.geom.CoordinateSequenceFilter;
-import org.locationtech.jts.geom.Envelope;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryComponentFilter;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.GeometryFilter;
-import org.locationtech.jts.geom.MultiPolygon;
-import org.locationtech.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.CoordinateFilter;
+import com.vividsolutions.jts.geom.CoordinateSequenceComparator;
+import com.vividsolutions.jts.geom.CoordinateSequenceFilter;
+import com.vividsolutions.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryComponentFilter;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.GeometryFilter;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com)
@@ -28,20 +28,20 @@ public class Solid extends Geometry {
 	
 	public Solid(MultiPolygon shell, MultiPolygon[] holes, GeometryFactory factory) {
 		super(factory);
-	    if (shell == null) {
-		      shell = getFactory().createMultiPolygon();
-		    }
-		    if (holes == null) {
-		      holes = new MultiPolygon[]{};
-		    }
-		    if (hasNullElements(holes)) {
-		      throw new IllegalArgumentException("holes must not contain null elements");
-		    }
-		    if (shell.isEmpty() && hasNonEmptyElements(holes)) {
-		      throw new IllegalArgumentException("shell is empty but holes are not");
-		    }
-		    this.shell = shell;
-		    this.holes = holes;
+		if (shell == null) {
+			shell = getFactory().createMultiPolygon(null);
+		}
+		if (holes == null) {
+			holes = new MultiPolygon[] {};
+		}
+		if (hasNullElements(holes)) {
+			throw new IllegalArgumentException("holes must not contain null elements");
+		}
+		if (shell.isEmpty() && hasNonEmptyElements(holes)) {
+			throw new IllegalArgumentException("shell is empty but holes are not");
+		}
+		this.shell = shell;
+		this.holes = holes;
 	}
 
 	@Override
@@ -103,6 +103,9 @@ public class Solid extends Geometry {
 		return shell.getEnvelopeInternal();
 	}
 
+
+	/*
+	 * for location tech jts
 	@Override
 	public Solid copy() {
 	    MultiPolygon shellCopy = shell.copy();
@@ -112,6 +115,7 @@ public class Solid extends Geometry {
 	    }
 	    return new Solid(shellCopy, holeCopies, factory);
 	}
+	*/
 
 	@Override
 	public boolean equalsExact(Geometry other, double tolerance) {
@@ -138,7 +142,7 @@ public class Solid extends Geometry {
 	@Override
 	public Geometry getBoundary() {
 		if (isEmpty()) {
-			return getFactory().createMultiLineString();
+			return getFactory().createMultiLineString(null);
 		}
 		MultiPolygon[] rings = new MultiPolygon[holes.length + 1];
 		rings[0] = shell;
@@ -191,10 +195,12 @@ public class Solid extends Geometry {
 	    return numPoints;
 	}
 
+	/* TODO : for locationtech jts
 	@Override
 	protected int getSortIndex() {
 		throw new UnsupportedOperationException();
 	}
+	*/
 
 	@Override
 	public boolean isEmpty() {
@@ -216,7 +222,13 @@ public class Solid extends Geometry {
 		}
 		ring.normalize();
 	}
+
+	@Override
+	public Geometry reverse() {
+		throw new UnsupportedOperationException();
+	}
 	
+	/* TODO : for locationtech jts
 	@Override
 	public Geometry reverse() {
 	    Solid s = copy();
@@ -227,5 +239,6 @@ public class Solid extends Geometry {
 	    }
 	    return s;// return the clone
 	}
+	*/
 
 }

@@ -3,9 +3,9 @@
  */
 package edu.pnu.stem.geometry.jts;
 
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.MultiPolygon;
-import org.locationtech.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com)

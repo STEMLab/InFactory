@@ -1,6 +1,6 @@
 package edu.pnu.stem.feature;
 
-import org.locationtech.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.util.GeometryUtil;

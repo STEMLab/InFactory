@@ -108,6 +108,9 @@ public class Convert2FeatureClass {
 			CellSpaceGeometryType geo = feature.getCellSpaceGeometry();
 			if (geo.getGeometry2D() != null) {
 				Object o = geo.getGeometry2D().getAbstractSurface().getValue();
+				
+				//TODO
+				/*
 				if (o instanceof SurfaceType) {
 					//newFeature.setGeometry2D(((SurfaceType) o).getId());
 					newFeature.setGeometryType("SurfaceType");
@@ -115,9 +118,13 @@ public class Convert2FeatureClass {
 					//newFeature.setGeometry2D(((CompositeSurfaceType) o).getId());
 					newFeature.setGeometryType("CompositeSurfaceType");
 				}
+				*/
 
 			} else if (geo.getGeometry3D() != null) {
 				Object o = geo.getGeometry3D().getAbstractSolid().getValue();
+				
+				//TODO
+				/*
 				if (o instanceof SolidType) {
 					//newFeature.setGeometry3D(((SolidType) o).getId());
 					newFeature.setGeometryType("SolidType");
@@ -125,6 +132,7 @@ public class Convert2FeatureClass {
 					//newFeature.setGeometry3D(((CompositeSolidType) o).getId());
 					newFeature.setGeometryType("CompositeSolidType");
 				}
+				*/
 
 			}
 		} else {
@@ -194,14 +202,14 @@ public class Convert2FeatureClass {
 	ExternalObjectReference change2FeatureClass(ExternalObjectReferenceType feature) {
 		ExternalObjectReference newFeature = new ExternalObjectReference();
 
-		newFeature.uri = (String) feature.getUri();
+		newFeature.setUri(feature.getUri());
 		return newFeature;
 	}
 
 	ExternalReference change2FeatureClass(ExternalReferenceType feature) {
 		ExternalReference newFeature = new ExternalReference();
 		ExternalObjectReference referredObject = new ExternalObjectReference();
-		referredObject.uri = feature.getExternalObject().getUri();
+		referredObject.setUri(feature.getExternalObject().getUri());
 
 		newFeature.externalObject = referredObject;
 

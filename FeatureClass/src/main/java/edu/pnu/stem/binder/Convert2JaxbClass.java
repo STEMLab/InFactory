@@ -166,7 +166,7 @@ public class Convert2JaxbClass {
 
 	ExternalObjectReferenceType change2JaxbClass(ExternalObjectReference feature){
 		ExternalObjectReferenceType newFeature = new ExternalObjectReferenceType();
-		newFeature.setUri(feature.uri);
+		newFeature.setUri(feature.getUri());
 		
 		return newFeature;
 		
