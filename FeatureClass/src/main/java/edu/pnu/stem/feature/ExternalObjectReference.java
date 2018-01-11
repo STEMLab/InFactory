@@ -6,40 +6,23 @@ package edu.pnu.stem.feature;
  *	Implements ExternalObjectReferenceType of IndoorGML 1.0.3
  */
 public class ExternalObjectReference {
-	/**
-	 * ID of this feature
-	 */
-	public String ID;
-	/**
-	 * Name of this feature
-	 */
-	public String name;
+
+	private String name;
 	/**
 	 * Save uri of External Object Reference
 	 */
-	public String uri;
-	/**
-	 * @return the iD
-	 */
-	public String getID() {
-		return ID;
-	}
-	/**
-	 * @param iD the iD to set
-	 */
-	public void setID(String iD) {
-		ID = iD;
-	}
+	private String uri;
+
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	private String getName() {
 		return name;
 	}
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 	/**
