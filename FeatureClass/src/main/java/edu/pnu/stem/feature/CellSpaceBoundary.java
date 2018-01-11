@@ -21,7 +21,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 	/**
 	 * If External Reference of the feature is exist, then set this.
 	 */
-	private String externalReference;
+	private ExternalReference externalReference;
 
 	/**
 	 * ID of parent feature instance
@@ -95,11 +95,11 @@ public class CellSpaceBoundary extends AbstractFeature {
 		this.duality = duality.getId();
 	}
 
-	public String getExternalReference() {
-		return new String(this.externalReference);
+	public ExternalReference getExternalReference() {
+		return this.externalReference;
 	}
 
-	public void setExternalReference(String e) {
+	public void setExternalReference(ExternalReference e) {
 		this.externalReference = e;
 	}
 
