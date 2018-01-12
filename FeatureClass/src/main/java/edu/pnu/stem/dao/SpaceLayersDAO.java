@@ -14,10 +14,12 @@ public class SpaceLayersDAO {
 		SpaceLayers newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature = new SpaceLayers(map);
 			newFeature.setId(id);
 			MultiLayeredGraph parent = new MultiLayeredGraph(map);
 			parent.setId(parentId);
 			newFeature.setParent(parent);
+			
 			if (spaceLayerMember!= null) {
 				List<SpaceLayer>tempSpaceLayerMember = new ArrayList<SpaceLayer>();
 				for(int i = 0 ; i < spaceLayerMember.size(); i++){

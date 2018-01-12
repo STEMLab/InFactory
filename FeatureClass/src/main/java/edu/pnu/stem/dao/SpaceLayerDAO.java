@@ -35,6 +35,7 @@ public class SpaceLayerDAO {
 		SpaceLayer newFeature = null;
 		if (Container.getInstance().hasDoc(docID)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docID);
+			newFeature = new SpaceLayer(map);
 			newFeature.setId(ID);
 			SpaceLayers parent = new SpaceLayers(map);
 			parent.setId(parentID);

@@ -35,6 +35,7 @@ public class PrimalSpaceFeaturesDAO {
 		PrimalSpaceFeatures newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature = new PrimalSpaceFeatures(map);
 			newFeature.setId(id);
 			IndoorFeatures parent = new IndoorFeatures(map);
 			parent.setId(parentId);

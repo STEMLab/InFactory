@@ -16,6 +16,7 @@ public class NodesDAO {
 		Nodes newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature = new Nodes(map);
 			newFeature.setId(Id);
 			if(stateMember != null){
 				List<State>tempStateMember = new ArrayList<State>();
