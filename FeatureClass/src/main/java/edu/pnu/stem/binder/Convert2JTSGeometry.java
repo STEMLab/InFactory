@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
@@ -28,12 +29,15 @@ public class Convert2JTSGeometry {
 	public Solid Convert2Solid(SolidType feature){
 		Solid newFeature = null;
 		ShellType exterior = feature.getExterior().getShell();
-		Convert2Shell(exterior);
+		MultiPolygon shell = Convert2Shell(exterior);
+		newFeature = new Solid(shell, null, geometryFactory);
 		return newFeature;
 	}
 	public MultiPolygon Convert2Shell(ShellType feature){
 		MultiPolygon newFeature = null;
-		AbstractSurfaceType firstGeo = feature.getSurfaceMember().get(0).getAbstractSurface();
+		AbstractSurfaceType firstGeo = feature.getSurfaceMember().get(0).getAbstractSurface().getValue();
+		List<Polygon>multiPolygonList = new ArrayList<Polygon>();
+		MultiPolygon shell = null;
 		if(firstGeo instanceof CompositeSurfaceType){
 			//TODO : support CompositeSurfaceType later
 		}
@@ -46,18 +50,24 @@ public class Convert2JTSGeometry {
 				polygonList.add((PolygonType)feature.getSurfaceMember().get(i).getAbstractSurface().getValue());
 			}
 			
-			for(int i = 0 ; i < polygonList.size() ; i++){
-				Convert2Polygon(polygonList.get(i));
+			for(int i = 0 ; i < polygonList.size() ; i++){	
+				multiPolygonList.add(Convert2Polygon(polygonList.get(i)));
+				Polygon[]temp = null;
+				shell = geometryFactory.createMultiPolygon(multiPolygonList.toArray(temp));
 			}
 		}
 		else if(firstGeo instanceof SurfaceType){
 			//TODO : support SurfaceType later
 		}
-		return Shell;
+		return shell;
 	}
+	/*
 	public Polygon Convert2Surface(SurfaceType feature){
-
+	
+		
 	}
+	 * */
+	
 	public Polygon Convert2Polygon(PolygonType feature){
 		AbstractRingType ring = feature.getExterior().getAbstractRing().getValue();
 		Polygon newFeature = null;
@@ -71,17 +81,17 @@ public class Convert2JTSGeometry {
 	}
 	public LinearRing Convert2LinearRing(LinearRingType feature){
 		DirectPositionListType directpositionList = feature.getPosList();
-
-		List<Coordinate>temp = Convert2DirectPosistionList(directpositionList);
+		List<Coordinate>temp = Convert2DirectPositionList(directpositionList);
 		Coordinate[] newCoordinate = null;
 		temp.toArray(newCoordinate);
 		LinearRing newFeature = geometryFactory.createLinearRing(newCoordinate);
 		return newFeature;
 	}
-	public Object Convert2LineString(LineStringType feature){
-		
+	public LineString Convert2LineString(LineStringType feature){
+		List<Coordinate>coordinateList = Convert2DirectPositionList(feature.getPosList());
+		return geometryFactory.createLineString((Coordinate[]) coordinateList.toArray());
 	}
-	public List<Coordinate> Convert2DirectPosistionList(DirectPositionListType feature){
+	public List<Coordinate> Convert2DirectPositionList(DirectPositionListType feature){
 		List<Double>pointList = feature.getValue();
 		List<Coordinate>coordinateList = new ArrayList<Coordinate>();
 		if(feature.getSrsDimension().intValue() == 2){
