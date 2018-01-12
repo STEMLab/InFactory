@@ -25,6 +25,7 @@ import net.opengis.gml.v_3_2_1.PolygonType;
 import net.opengis.gml.v_3_2_1.RingType;
 import net.opengis.gml.v_3_2_1.ShellType;
 import net.opengis.gml.v_3_2_1.SolidType;
+import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 import net.opengis.gml.v_3_2_1.SurfaceType;
 
 public class Convert2JTSGeometry {
@@ -45,6 +46,8 @@ public class Convert2JTSGeometry {
 			//TODO : support CompositeSurfaceType later
 		}
 		else if(firstGeo instanceof OrientableSurfaceType){
+			SurfacePropertyType surface = ((OrientableSurfaceType) firstGeo).getBaseSurface();
+			//surface.getHref()
 			//TODO : support OrientableSurfaceType later
 		}
 		else if(firstGeo instanceof PolygonType){
