@@ -8,6 +8,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 import edu.pnu.stem.geometry.jts.Solid;
@@ -18,6 +19,7 @@ import net.opengis.gml.v_3_2_1.DirectPositionListType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.LinearRingType;
 import net.opengis.gml.v_3_2_1.OrientableSurfaceType;
+import net.opengis.gml.v_3_2_1.PointType;
 import net.opengis.gml.v_3_2_1.PolygonType;
 import net.opengis.gml.v_3_2_1.RingType;
 import net.opengis.gml.v_3_2_1.ShellType;
@@ -29,11 +31,11 @@ public class Convert2JTSGeometry {
 	public Solid Convert2Solid(SolidType feature){
 		Solid newFeature = null;
 		ShellType exterior = feature.getExterior().getShell();
-		MultiPolygon shell = Convert2Shell(exterior);
+		MultiPolygon shell = Convert2MultiPolygon(exterior);
 		newFeature = new Solid(shell, null, geometryFactory);
 		return newFeature;
 	}
-	public MultiPolygon Convert2Shell(ShellType feature){
+	public MultiPolygon Convert2MultiPolygon(ShellType feature){
 		MultiPolygon newFeature = null;
 		AbstractSurfaceType firstGeo = feature.getSurfaceMember().get(0).getAbstractSurface().getValue();
 		List<Polygon>multiPolygonList = new ArrayList<Polygon>();
@@ -81,17 +83,22 @@ public class Convert2JTSGeometry {
 	}
 	public LinearRing Convert2LinearRing(LinearRingType feature){
 		DirectPositionListType directpositionList = feature.getPosList();
-		List<Coordinate>temp = Convert2DirectPositionList(directpositionList);
+		List<Coordinate>temp = Convert2CoordinateList(directpositionList);
 		Coordinate[] newCoordinate = null;
 		temp.toArray(newCoordinate);
 		LinearRing newFeature = geometryFactory.createLinearRing(newCoordinate);
 		return newFeature;
 	}
 	public LineString Convert2LineString(LineStringType feature){
-		List<Coordinate>coordinateList = Convert2DirectPositionList(feature.getPosList());
+		List<Coordinate>coordinateList = Convert2CoordinateList(feature.getPosList());
 		return geometryFactory.createLineString((Coordinate[]) coordinateList.toArray());
 	}
-	public List<Coordinate> Convert2DirectPositionList(DirectPositionListType feature){
+	public Point Convert2Point(PointType feature){
+		
+		return null;
+		
+	}
+	public List<Coordinate> Convert2CoordinateList(DirectPositionListType feature){
 		List<Double>pointList = feature.getValue();
 		List<Coordinate>coordinateList = new ArrayList<Coordinate>();
 		if(feature.getSrsDimension().intValue() == 2){
@@ -111,4 +118,5 @@ public class Convert2JTSGeometry {
 		}
 		return coordinateList;
 	}
+	
 }
