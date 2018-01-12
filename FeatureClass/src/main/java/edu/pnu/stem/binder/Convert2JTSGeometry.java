@@ -16,6 +16,7 @@ import net.opengis.gml.v_3_2_1.AbstractRingType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
 import net.opengis.gml.v_3_2_1.DirectPositionListType;
+import net.opengis.gml.v_3_2_1.DirectPositionType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.LinearRingType;
 import net.opengis.gml.v_3_2_1.OrientableSurfaceType;
@@ -94,9 +95,20 @@ public class Convert2JTSGeometry {
 		return geometryFactory.createLineString((Coordinate[]) coordinateList.toArray());
 	}
 	public Point Convert2Point(PointType feature){
-		
-		return null;
-		
+		Point newFeature = null;
+		newFeature = geometryFactory.createPoint(Convert2Coordinate(feature.getPos()));
+		return newFeature;		
+	}
+	public Coordinate Convert2Coordinate(DirectPositionType feature){
+		Coordinate newFeature = null;
+		List<Double>coordinates = feature.getValue();
+		if(coordinates.size() == 2){
+			newFeature = new Coordinate(coordinates.get(0), coordinates.get(1));
+		}
+		else if(coordinates.size() == 3){
+			newFeature = new Coordinate(coordinates.get(0), coordinates.get(1), coordinates.get(2));
+		}
+		return newFeature;
 	}
 	public List<Coordinate> Convert2CoordinateList(DirectPositionListType feature){
 		List<Double>pointList = feature.getValue();
