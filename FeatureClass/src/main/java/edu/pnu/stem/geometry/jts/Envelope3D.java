@@ -463,6 +463,8 @@ public class Envelope3D extends Envelope {
 	 *            another point
 	 * @return <code>true</code> if the extents intersect
 	 */
+	/*
+	 * TODO : for locationtech jts
 	@Override
 	public boolean intersects(Coordinate a, Coordinate b) {
 		if (isNull()) {
@@ -481,8 +483,8 @@ public class Envelope3D extends Envelope {
 			return true;
 		}
 		return false;
-	}
-
+	 }
+	 */
 	/**
 	 * Check if the point <code>p</code> intersects (lies inside) the region of this
 	 * <code>Envelope</code>.

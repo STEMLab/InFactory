@@ -1,6 +1,7 @@
 package edu.pnu.stem.feature;
 
-import org.locationtech.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.Envelope;
+
 import edu.pnu.stem.binder.IndoorGMLMap;
 
 /**

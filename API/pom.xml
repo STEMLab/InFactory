@@ -45,8 +45,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>IndoorGML</groupId>
-			<artifactId>FeatureClass</artifactId>
+			<groupId>edu.pnu.stem.igml</groupId>
+			<artifactId>feature</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

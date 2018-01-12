@@ -3,7 +3,7 @@ package edu.pnu.stem.feature;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.locationtech.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.util.GeometryUtil;
@@ -15,6 +15,9 @@ import net.opengis.gml.v_3_2_1.PointPropertyType;
  */
 public class State extends AbstractFeature {
 	
+	/**
+	 * geometry of this feature
+	 */
 	private String geometry;
 	
 	private String duality;
@@ -24,10 +27,6 @@ public class State extends AbstractFeature {
 	private List<String> connects;
 
 	private String externalReference;
-	/**
-	 * geometry of this feature
-	 */
-	private PointPropertyType geometry;
 	
 	private IndoorGMLMap indoorGMLMap;
 	
@@ -73,14 +72,6 @@ public class State extends AbstractFeature {
 	public Nodes getParentID() {
 		Nodes found = (Nodes)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), this.parentId);
 		return found;
-	}
-
-	public PointPropertyType getGeometry() {
-		return this.geometry;
-	}
-
-	public void setGeometry(PointPropertyType g) {
-		this.geometry = g;
 	}
 
 	public CellSpace getDuality() {

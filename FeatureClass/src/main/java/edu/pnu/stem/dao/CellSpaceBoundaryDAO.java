@@ -2,6 +2,7 @@ package edu.pnu.stem.dao;
 import edu.pnu.stem.binder.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpaceBoundary;
+import edu.pnu.stem.feature.ExternalReference;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.Transition;
 
@@ -30,7 +31,7 @@ public class CellSpaceBoundaryDAO {
 
 	public static CellSpaceBoundary createCellSpaceBoundary(String docId, String parentId,
 			String ID, String name, String description, String duality, String cellSpaceBoundaryGeometry,
-			String externalReference) {
+			ExternalReference externalReference) {
 		CellSpaceBoundary newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
@@ -136,8 +137,10 @@ public class CellSpaceBoundaryDAO {
 				//TODO : add description at FeatureClassReference.CellSpaceBoundary
 			}			
 			else if (attributeType.equals("externalReference") ) {
+				/* TODO
 				target.setExternalReference(attributeId);
 				Container.getInstance().setFeature(docId, attributeId, "ExternaReference", o);
+				*/
 			} else {
 				System.out.println("update error in cellSpaceType : there is no such attribute name");
 			}

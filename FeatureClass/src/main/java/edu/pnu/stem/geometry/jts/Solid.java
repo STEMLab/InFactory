@@ -28,20 +28,20 @@ public class Solid extends Geometry {
 	
 	public Solid(MultiPolygon shell, MultiPolygon[] holes, GeometryFactory factory) {
 		super(factory);
-	    if (shell == null) {
-		      shell = getFactory().createMultiPolygon();
-		    }
-		    if (holes == null) {
-		      holes = new MultiPolygon[]{};
-		    }
-		    if (hasNullElements(holes)) {
-		      throw new IllegalArgumentException("holes must not contain null elements");
-		    }
-		    if (shell.isEmpty() && hasNonEmptyElements(holes)) {
-		      throw new IllegalArgumentException("shell is empty but holes are not");
-		    }
-		    this.shell = shell;
-		    this.holes = holes;
+		if (shell == null) {
+			shell = getFactory().createMultiPolygon(null);
+		}
+		if (holes == null) {
+			holes = new MultiPolygon[] {};
+		}
+		if (hasNullElements(holes)) {
+			throw new IllegalArgumentException("holes must not contain null elements");
+		}
+		if (shell.isEmpty() && hasNonEmptyElements(holes)) {
+			throw new IllegalArgumentException("shell is empty but holes are not");
+		}
+		this.shell = shell;
+		this.holes = holes;
 	}
 
 	@Override
@@ -103,6 +103,10 @@ public class Solid extends Geometry {
 		return shell.getEnvelopeInternal();
 	}
 
+	/*
+	 * for location tech jts
+	@Override
+>>>>>>> branch 'dev' of https://github.com/STEMLab/IndoorGML_Factory.git
 	public Solid copy() {
 	    MultiPolygon shellCopy = shell.copy();
 	    MultiPolygon[] holeCopies = new MultiPolygon[this.holes.length];
@@ -111,6 +115,7 @@ public class Solid extends Geometry {
 	    }
 	    return new Solid(shellCopy, holeCopies, factory);
 	}
+	*/
 
 	@Override
 	public boolean equalsExact(Geometry other, double tolerance) {
@@ -137,7 +142,7 @@ public class Solid extends Geometry {
 	@Override
 	public Geometry getBoundary() {
 		if (isEmpty()) {
-			return getFactory().createMultiLineString();
+			return getFactory().createMultiLineString(null);
 		}
 		MultiPolygon[] rings = new MultiPolygon[holes.length + 1];
 		rings[0] = shell;
@@ -190,10 +195,12 @@ public class Solid extends Geometry {
 	    return numPoints;
 	}
 
+	/* TODO : for locationtech jts
 	@Override
 	protected int getSortIndex() {
 		throw new UnsupportedOperationException();
 	}
+	*/
 
 	@Override
 	public boolean isEmpty() {
@@ -215,7 +222,13 @@ public class Solid extends Geometry {
 		}
 		ring.normalize();
 	}
+
+	@Override
+	public Geometry reverse() {
+		throw new UnsupportedOperationException();
+	}
 	
+	/* TODO : for locationtech jts
 	@Override
 	public Geometry reverse() {
 	    Solid s = copy();
@@ -226,5 +239,6 @@ public class Solid extends Geometry {
 	    }
 	    return s;// return the clone
 	}
+	*/
 
 }
