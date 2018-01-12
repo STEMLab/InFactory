@@ -103,10 +103,10 @@ public class Solid extends Geometry {
 		return shell.getEnvelopeInternal();
 	}
 
-
 	/*
 	 * for location tech jts
 	@Override
+>>>>>>> branch 'dev' of https://github.com/STEMLab/IndoorGML_Factory.git
 	public Solid copy() {
 	    MultiPolygon shellCopy = shell.copy();
 	    MultiPolygon[] holeCopies = new MultiPolygon[this.holes.length];

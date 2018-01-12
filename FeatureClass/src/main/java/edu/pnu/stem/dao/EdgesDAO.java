@@ -16,6 +16,7 @@ public class EdgesDAO {
 		Edges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature = new Edges(map);
 			newFeature.setId(id);
 			if(transitionMember != null){
 				List<Transition>transitionMembers = new ArrayList<Transition>();

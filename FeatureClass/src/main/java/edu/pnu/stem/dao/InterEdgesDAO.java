@@ -13,6 +13,7 @@ public class InterEdgesDAO {
 		InterEdges newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			newFeature = new InterEdges(map);
 			newFeature.setId(Id);
 			MultiLayeredGraph parent = new MultiLayeredGraph(map);
 			parent.setId(parentId);
