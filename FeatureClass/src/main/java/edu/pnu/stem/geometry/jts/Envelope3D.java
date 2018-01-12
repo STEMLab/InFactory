@@ -3,8 +3,8 @@
  */
 package edu.pnu.stem.geometry.jts;
 
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Envelope;
 
 /**
  * @author hyung
