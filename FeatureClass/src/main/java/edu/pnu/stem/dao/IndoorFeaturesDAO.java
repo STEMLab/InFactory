@@ -1,5 +1,7 @@
 package edu.pnu.stem.dao;
-import edu.pnu.stem.binder.Container;
+import java.util.UUID;
+
+import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
@@ -15,25 +17,39 @@ public class IndoorFeaturesDAO {
 	 * @param multiLayeredGraph
 	 * @return
 	 */
-	public static IndoorFeatures createIndoorFeatures(String docId, String parentID, String ID,
+	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id,
 			String primalSpaceFeatures, String multiLayeredGraph) {
-		IndoorFeatures newFeature = null;
-		if (Container.getInstance().hasDoc(docId)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature.setId(ID);
-			//newFeature.setParentID(parentID);
-			if (primalSpaceFeatures!= null) {
-				PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map);
-				newPrimalSpaceFeatures.setId(primalSpaceFeatures);
-				newFeature.setPrimalSpaceFeatures(newPrimalSpaceFeatures);
-			}
-			if (multiLayeredGraph != null) {
-				MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map);
-				newMultiLayeredGraph.setId(multiLayeredGraph);
-				newFeature.setMultiLayeredGraph(newMultiLayeredGraph);
-			}
-			map.setFeature(ID, "IndoorFeatures", newFeature);
+		IndoorFeatures newFeature = new IndoorFeatures(map);
+		newFeature.setId(id);
+		//newFeature.setParentID(parentID);
+		if (primalSpaceFeatures!= null) {
+			PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map);
+			newPrimalSpaceFeatures.setId(primalSpaceFeatures);
+			newFeature.setPrimalSpaceFeatures(newPrimalSpaceFeatures);
 		}
+		if (multiLayeredGraph != null) {
+			MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map);
+			newMultiLayeredGraph.setId(multiLayeredGraph);
+			newFeature.setMultiLayeredGraph(newMultiLayeredGraph);
+		}
+		map.setFeature(id, "IndoorFeatures", newFeature);
+		return newFeature;
+	}
+	
+	/**
+	 * @param docId
+	 * @param id
+	 * @return
+	 */
+	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String docId, String id) {
+		IndoorFeatures newFeature = new IndoorFeatures(map);
+			
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		newFeature = new IndoorFeatures(map);
+		newFeature.setId(id);
+		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}
 	
@@ -43,13 +59,17 @@ public class IndoorFeaturesDAO {
 	 * @return searched feature
 	 */
 	public IndoorFeatures readIndoorFeatures(String docId, String id) {
+		/*
 		IndoorFeatures target = null;
 		target = (IndoorFeatures)Container.getDocument(docId).getFeature(id);
 		return target;
+		*/
+		return null;
 	};
 
 	public IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
 			String object ) {
+		/*
 		IndoorFeatures target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
@@ -70,6 +90,8 @@ public class IndoorFeaturesDAO {
 			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
 		}
 		return target;
+		*/
+		return null;
 	}
 	
 	/**
@@ -77,6 +99,7 @@ public class IndoorFeaturesDAO {
 	 * @param id ID of target
 	 */
 	public void deleteIndoorFeatures(String docId, String Id, boolean deleteChild) {
+		/*
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
 			IndoorFeatures target = (IndoorFeatures) doc.getFeature(Id);
@@ -88,6 +111,7 @@ public class IndoorFeaturesDAO {
 				MultiLayeredGraphDAO.deleteMultiLayeredGraph(docId, Id, true, true);
 			}
 		}
+		*/
 	};
 
 }

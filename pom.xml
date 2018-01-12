@@ -20,10 +20,6 @@
 	</licenses>
 
 	<packaging>pom</packaging>
-	<modules>
-		<module>API</module>
-		<module>FeatureClass</module>
-	</modules>
 
 	<build>
 		<plugins>
@@ -118,4 +114,8 @@
 
 		</plugins>
 	</build>
+	<modules>
+		<module>API</module>
+		<module>FeatureClass</module>
+	</modules>
 </project>

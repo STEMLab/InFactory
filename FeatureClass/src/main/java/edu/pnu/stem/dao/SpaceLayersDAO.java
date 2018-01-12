@@ -2,7 +2,7 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.binder.Container;
+import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.SpaceLayer;
@@ -10,7 +10,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 public class SpaceLayersDAO {
 	public static SpaceLayers createSpaceLayers(String docId, String parentId, String id,
-			List<String>spaceLayerMember  ) {
+			List<String> spaceLayerMember) {
 		SpaceLayers newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);

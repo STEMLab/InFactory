@@ -1,6 +1,6 @@
 package edu.pnu.stem.feature;
 
-import edu.pnu.stem.binder.Container;
+import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
 /**

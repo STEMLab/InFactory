@@ -1,5 +1,5 @@
 package edu.pnu.stem.dao;
-import edu.pnu.stem.binder.Container;
+import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.ExternalReference;
