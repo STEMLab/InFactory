@@ -23,13 +23,22 @@ import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.feature.typeOfTopoExpressionCode;
+import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractFeatureType;
+import net.opengis.gml.v_3_2_1.AbstractRingPropertyType;
+import net.opengis.gml.v_3_2_1.AbstractSolidType;
+import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeCurveType;
 import net.opengis.gml.v_3_2_1.CompositeSolidType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
 import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.CurveType;
+import net.opengis.gml.v_3_2_1.LineStringType;
+import net.opengis.gml.v_3_2_1.OrientableCurveType;
+import net.opengis.gml.v_3_2_1.OrientableSurfaceType;
+import net.opengis.gml.v_3_2_1.PolygonType;
 import net.opengis.gml.v_3_2_1.SolidType;
+import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 import net.opengis.gml.v_3_2_1.SurfaceType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryGeometryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
@@ -91,6 +100,84 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 	
+	public static Object change2FeatureClass(String parentId, CellSpaceGeometryType feature){
+		Object newFeature = null;
+		if(feature.isSetGeometry2D()){
+			AbstractSurfaceType temp = feature.getGeometry2D().getAbstractSurface().getValue();
+			if(temp instanceof CompositeSurfaceType){
+				CompositeSurfaceType tempGeo = (CompositeSurfaceType)temp;
+				List<SurfacePropertyType>surfList = tempGeo.getSurfaceMember();
+			
+				
+			}
+			else if(temp instanceof OrientableSurfaceType){
+				newFeature = (OrientableSurfaceType)temp;
+			}
+			else if(temp instanceof PolygonType){
+				PolygonType tempGeo = (PolygonType)temp;
+			}
+			else if(temp instanceof SurfaceType){
+				SurfaceType tempGeo = (SurfaceType)temp;
+				List<AbstractSurfacePatch>tempGeo.getPatches().getValue().getAbstractSurfacePatch()
+			}
+		}
+	
+		else if(feature.isSetGeometry3D()){
+			AbstractSolidType temp = feature.getGeometry3D().getAbstractSolid().getValue();
+			if(temp instanceof CompositeSolidType){
+				newFeature = (CompositeSolidType)temp;
+			}
+			else if(temp instanceof SolidType){
+				newFeature = (SolidType)temp;
+			}
+		}
+		
+		if(newFeature != null){
+			savedMap.setFeature(parentId, "Geometry", newFeature);
+		}
+		
+		return newFeature;
+	}
+	public static Object change2FeatureClass(String parentId, CellSpaceBoundaryGeometryType feature){
+		Object newFeature = null;
+		if(feature.isSetGeometry2D()){
+			AbstractCurveType temp = feature.getGeometry2D().getAbstractCurve().getValue();
+			if(temp instanceof CompositeCurveType){
+				newFeature = (CompositeCurveType)temp;
+			}
+			else if(temp instanceof CurveType){
+				newFeature = (CurveType)temp;
+			}
+			else if(temp instanceof LineStringType){
+				newFeature = (LineStringType)temp;
+			}
+			else if(temp instanceof OrientableCurveType){
+				newFeature = (OrientableCurveType)temp;
+			}
+		}
+		else if(feature.isSetGeometry3D()){
+			AbstractSurfaceType temp = feature.getGeometry3D().getAbstractSurface().getValue();
+			if(temp instanceof CompositeSurfaceType){
+				newFeature = (CompositeSurfaceType)temp;
+			}
+			else if(temp instanceof OrientableSurfaceType){
+				newFeature = (OrientableSurfaceType)temp;
+			}
+			else if(temp instanceof PolygonType){
+				newFeature = (PolygonType)temp;
+			}
+			else if(temp instanceof SurfaceType){
+				newFeature = (SurfaceType)temp;
+			}
+		}
+		
+		if(newFeature != null){
+			savedMap.setFeature(parentId, "Geometry", newFeature);
+		}
+		
+		return newFeature;
+		
+	}
 	public static CellSpace change2FeatureClass(CellSpaceType feature, String parentId) {
 		CellSpace newFeature = new CellSpace(savedMap);
 		PrimalSpaceFeatures parent = new PrimalSpaceFeatures(savedMap);
@@ -106,27 +193,8 @@ public class Convert2FeatureClass {
 		newFeature.setId(feature.getId());
 		if (feature.getCellSpaceGeometry() != null) {
 			CellSpaceGeometryType geo = feature.getCellSpaceGeometry();
-			if (geo.getGeometry2D() != null) {
-				Object o = geo.getGeometry2D().getAbstractSurface().getValue();
-				if (o instanceof SurfaceType) {
-					//newFeature.setGeometry2D(((SurfaceType) o).getId());
-					newFeature.setGeometryType("SurfaceType");
-				} else if (o instanceof CompositeSurfaceType) {
-					//newFeature.setGeometry2D(((CompositeSurfaceType) o).getId());
-					newFeature.setGeometryType("CompositeSurfaceType");
-				}
-
-			} else if (geo.getGeometry3D() != null) {
-				Object o = geo.getGeometry3D().getAbstractSolid().getValue();
-				if (o instanceof SolidType) {
-					//newFeature.setGeometry3D(((SolidType) o).getId());
-					newFeature.setGeometryType("SolidType");
-				} else if (o instanceof CompositeSolidType) {
-					//newFeature.setGeometry3D(((CompositeSolidType) o).getId());
-					newFeature.setGeometryType("CompositeSolidType");
-				}
-
-			}
+			change2FeatureClass(feature.getId(),geo);
+			
 		} else {
 			System.out.println("Converter : There is no Geometry Information");
 
@@ -161,22 +229,7 @@ public class Convert2FeatureClass {
 		
 		CellSpaceBoundaryGeometryType geo = feature.getCellSpaceBoundaryGeometry();
 		if (geo != null) {
-			if (geo.getGeometry2D() != null) {
-				Object o = geo.getGeometry2D().getAbstractCurve().getValue();
-				if (o instanceof CurveType) {
-					newFeature.setCellSpaceBoundaryGeometry(((CurveType) o).getId());
-				} else if (o instanceof CompositeCurveType) {
-					newFeature.setCellSpaceBoundaryGeometry(((CompositeCurveType) o).getId());
-				}
-
-			} else if (geo.getGeometry3D() != null) {
-				Object o = geo.getGeometry3D().getAbstractSurface().getValue();
-				if (o instanceof SurfaceType) {
-					newFeature.setCellSpaceBoundaryGeometry(((SurfaceType) o).getId());
-				} else if (o instanceof CompositeSurfaceType) {
-					newFeature.setCellSpaceBoundaryGeometry(((CompositeSurfaceType) o).getId());
-				}
-			}
+			change2FeatureClass(feature.getId(),geo);
 		} else {
 			System.out.println("Warning : There is no geometry at CellSpaceBoundary : " + feature.getId());
 		}
@@ -184,27 +237,18 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	/*
-	 * 
-	 * CellSpaceBoundaryGeometry
-	 * change2FeatureClass(CellSpaceBoundaryGeometryType feature) { return null;
-	 * } CellSpaceGeometry change2FeatureClass(CellSpaceGeometryType feature) {
-	 * return null; }
-	 */
+
 	ExternalObjectReference change2FeatureClass(ExternalObjectReferenceType feature) {
 		ExternalObjectReference newFeature = new ExternalObjectReference();
-
-		newFeature.uri = (String) feature.getUri();
+		newFeature.setUri((String) feature.getUri());
 		return newFeature;
 	}
 
 	ExternalReference change2FeatureClass(ExternalReferenceType feature) {
 		ExternalReference newFeature = new ExternalReference();
 		ExternalObjectReference referredObject = new ExternalObjectReference();
-		referredObject.uri = feature.getExternalObject().getUri();
-
-		newFeature.externalObject = referredObject;
-
+		newFeature.setExternalObject(change2FeatureClass(feature.getExternalObject()));
+		newFeature.setInformationSystem(feature.getInformationSystem());
 		return newFeature;
 	}
 
