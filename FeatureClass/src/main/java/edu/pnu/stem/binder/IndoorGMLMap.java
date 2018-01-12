@@ -3,15 +3,15 @@ package edu.pnu.stem.binder;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class IndoorGMLMap {
-	public static ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> container;
-	private static String docId;
+	private ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> container;
+	private String docId;
+	
 	public IndoorGMLMap() {
-
 		this.container = new ConcurrentHashMap<String, ConcurrentHashMap<String, Object>>();
 		setFeatureClassContainer();
 	}
 
-	public static void setFeatureClassContainer() {
+	private void setFeatureClassContainer() {
 		ConcurrentHashMap<String, Object> idHashMap = new ConcurrentHashMap<String, Object>();
 		ConcurrentHashMap<String, Object> IndoorFeatures = new ConcurrentHashMap<String, Object>();
 		ConcurrentHashMap<String, Object> MultiLayeredGraph = new ConcurrentHashMap<String, Object>();
@@ -59,7 +59,7 @@ public class IndoorGMLMap {
 		container.put("Envelope", new ConcurrentHashMap<String,Object>());
 	}
 
-	public static boolean hasID(String id) {
+	public boolean hasID(String id) {
 		boolean flag = false;
 		ConcurrentHashMap<String, Object> idContainer = getFeatureContainer("id");
 		if (idContainer.containsKey(id)) {
@@ -68,29 +68,29 @@ public class IndoorGMLMap {
 		return flag;
 	}
 	
-	public static void setID(String id, String featureName) {
+	public void setID(String id, String featureName) {
 		if(!hasID(id)){
 			getFeatureContainer("ID").put(id, featureName);
 		}
 	}
 	
-	public static void removeID(String id){
+	public void removeID(String id){
 		getFeatureContainer("ID").remove(id);
 	}
 	
-	public static String getFeatureNameFromID(String id) {
+	public String getFeatureNameFromID(String id) {
 		ConcurrentHashMap<String, Object> idContainer = getFeatureContainer("id");
 		String featureName = (String) idContainer.get(id);
 		return featureName;
 	}
 
-	public static String getFeatureNameFromClassType(Object value) {
+	public String getFeatureNameFromClassType(Object value) {
 		String featureName = null;
 
 		return featureName;
 	}
 
-	public static ConcurrentHashMap<String, Object> getFeatureContainer(String featureName) {
+	public ConcurrentHashMap<String, Object> getFeatureContainer(String featureName) {
 		ConcurrentHashMap<String, Object> newFeatureContainer = null;
 
 		if (container.containsKey(featureName)) {
@@ -100,9 +100,11 @@ public class IndoorGMLMap {
 		return newFeatureContainer;
 	}
 
+	/*
 	public static Object getFeature(String id) {
 		return Container.getInstance().getFeature(docId, id);
 	}
+	*/
 	
 	public static Object getFeature(ConcurrentHashMap<String,Object> container, String id){
 		Object newFeature = null;
@@ -111,7 +113,7 @@ public class IndoorGMLMap {
 	}
 
 	
-	public static void setFeature(String id,String featureName, Object featureValue){
+	public void setFeature(String id,String featureName, Object featureValue){
 		if(!hasID(id)){
 			setID(id,featureName);
 			container.get(featureName).put(id, featureValue);
@@ -121,13 +123,13 @@ public class IndoorGMLMap {
 			container.get(featureName).put(id, featureValue);
 		}		
 	}
-	public static void deleteFeature(String id, String featureName){
+	public void deleteFeature(String id, String featureName){
 		if(hasID(id)){
 			getFeatureContainer(featureName).remove(id);
 			removeID(id);
 		}
 	}
-	public static void setReference(String id){
+	public void setReference(String id){
 		if(hasID(id)){
 			ConcurrentHashMap<String, Object> referenceContainer = getFeatureContainer("Reference");
 			if(!referenceContainer.containsKey(id)){
