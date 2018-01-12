@@ -44,6 +44,20 @@ public class Solid extends Geometry {
 		this.holes = holes;
 	}
 
+	/**
+	 * @return the shell
+	 */
+	public MultiPolygon getShell() {
+		return shell;
+	}
+
+	/**
+	 * @param shell the shell to set
+	 */
+	public void setShell(MultiPolygon shell) {
+		this.shell = shell;
+	}
+
 	@Override
 	public void apply(CoordinateFilter filter) {
 		shell.apply(filter);
