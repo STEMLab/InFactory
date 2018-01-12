@@ -1,5 +1,7 @@
 package edu.pnu.stem.dao;
-import edu.pnu.stem.binder.Container;
+import java.util.UUID;
+
+import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
@@ -15,12 +17,12 @@ public class IndoorFeaturesDAO {
 	 * @param multiLayeredGraph
 	 * @return
 	 */
-	public static IndoorFeatures createIndoorFeatures(String docId, String parentID, String ID,
+	public static IndoorFeatures createIndoorFeatures(String docId, String id,
 			String primalSpaceFeatures, String multiLayeredGraph) {
 		IndoorFeatures newFeature = null;
 		if (Container.getInstance().hasDoc(docId)) {
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature.setId(ID);
+			newFeature.setId(id);
 			//newFeature.setParentID(parentID);
 			if (primalSpaceFeatures!= null) {
 				PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map);
@@ -32,7 +34,29 @@ public class IndoorFeaturesDAO {
 				newMultiLayeredGraph.setId(multiLayeredGraph);
 				newFeature.setMultiLayeredGraph(newMultiLayeredGraph);
 			}
-			map.setFeature(ID, "IndoorFeatures", newFeature);
+			map.setFeature(id, "IndoorFeatures", newFeature);
+		}
+		return newFeature;
+	}
+	
+	/**
+	 * @param docId
+	 * @param id
+	 * @return
+	 */
+	public static IndoorFeatures createIndoorFeatures(String docId, String id) {
+		IndoorFeatures newFeature = null;
+		if (Container.getInstance().hasDoc(docId)) {
+			IndoorGMLMap map = Container.getInstance().getDocument(docId);
+			
+			if(id == null) {
+				id = UUID.randomUUID().toString();
+			}
+			newFeature = new IndoorFeatures(map);
+			newFeature.setId(id);
+			map.setFeature(id, "IndoorFeatures", newFeature);
+		} else {
+			throw new NullPointerException();
 		}
 		return newFeature;
 	}

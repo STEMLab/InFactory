@@ -1,7 +1,10 @@
-package edu.pnu.stem.binder;
+package edu.pnu.stem.api;
 
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.stereotype.Service;
+import edu.pnu.stem.binder.IndoorGMLMap;
 
+@Service
 public class Container {
 	private static Container docs = new Container();
 	private static ConcurrentHashMap<String, IndoorGMLMap> docContainer = new ConcurrentHashMap<String, IndoorGMLMap>();
