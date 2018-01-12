@@ -37,6 +37,8 @@ import edu.pnu.stem.feature.IndoorFeatures;
 @RequestMapping("/indoorfeatures")
 public class IndoorFeaturesController {
 	
+	
+	
 	@PostMapping(value = "/", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createIndoorFeatures(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {

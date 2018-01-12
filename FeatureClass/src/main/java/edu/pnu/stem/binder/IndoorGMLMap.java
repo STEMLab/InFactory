@@ -1,6 +1,13 @@
 package edu.pnu.stem.binder;
 
+import java.io.IOException;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.xml.bind.JAXBException;
+
+import edu.pnu.stem.feature.IndoorFeatures;
+import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 public class IndoorGMLMap {
 	private ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> container;
@@ -106,7 +113,7 @@ public class IndoorGMLMap {
 	}
 	*/
 	
-	public static Object getFeature(ConcurrentHashMap<String,Object> container, String id){
+	public Object getFeature(String id){
 		Object newFeature = null;
 		newFeature = container.get(id);
 		return newFeature;
@@ -123,12 +130,14 @@ public class IndoorGMLMap {
 			container.get(featureName).put(id, featureValue);
 		}		
 	}
+	
 	public void deleteFeature(String id, String featureName){
 		if(hasID(id)){
 			getFeatureContainer(featureName).remove(id);
 			removeID(id);
 		}
 	}
+	
 	public void setReference(String id){
 		if(hasID(id)){
 			ConcurrentHashMap<String, Object> referenceContainer = getFeatureContainer("Reference");
@@ -150,7 +159,29 @@ public class IndoorGMLMap {
 	public String getDocId(){
 		return new String(this.docId);
 	}
-
-
+	
+	public void Marshall(String path) {
+		
+		Enumeration<Object> fe = container.get("IndoorFeatures").elements();
+		IndoorFeatures features = null;
+		if(fe.hasMoreElements()) {
+			features = (IndoorFeatures) fe.nextElement();
+			
+			IndoorFeaturesType resultDoc;
+			try {
+				resultDoc = edu.pnu.stem.binder.Convert2JaxbClass.change2JaxbClass(this.docId, features);
+				Mashaller.marshalIndoorFeatures(path + this.docId, resultDoc);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			//TODO
+			//Exception
+		}
+	}
 
 }
