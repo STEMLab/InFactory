@@ -47,19 +47,19 @@ public class CellSpace extends AbstractFeature {
 
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
-		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), this.parentId);
+		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.parentId);
 		return feature;
 	}
 
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
+		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
 		return feature;
 	}
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
 		if(found == null) {
 			indoorGMLMap.setFeature(gId, "Geometry", geom);
 		}
@@ -77,13 +77,13 @@ public class CellSpace extends AbstractFeature {
 	public State getDuality() {
 		State feature = null;
 		if (hasDuality()) {
-			feature = (State) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.duality);
+			feature = (State) indoorGMLMap.getFeature(this.duality);
 		}
 		return feature;
 	}
 	
 	public void setDuality(State s) {
-		State found = (State) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), s.getId());
+		State found = (State) indoorGMLMap.getFeature(s.getId());
 		if(found == null) {
 			indoorGMLMap.setFeature(s.getId(), "State", s);
 		}
@@ -95,7 +95,7 @@ public class CellSpace extends AbstractFeature {
 		if(this.partialboundedBy.size() != 0){
 			for (String s : this.partialboundedBy) {
 				cboundaries.add((CellSpaceBoundary) indoorGMLMap
-						.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), s));
+						.getFeature(s));
 			}
 		}
 		
@@ -105,7 +105,7 @@ public class CellSpace extends AbstractFeature {
 	public void setPartialboundedBy(List<CellSpaceBoundary> csbList) {
 		for(CellSpaceBoundary cb : csbList){
 			CellSpaceBoundary found = null;
-			found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), cb.getId());
+			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cb.getId());
 			if(found == null){
 				indoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
 			}

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,8 @@ import edu.pnu.stem.feature.IndoorFeatures;
 @RequestMapping("/indoorfeatures")
 public class IndoorFeaturesController {
 	
-	
+	@Autowired
+    private ApplicationContext applicationContext;
 	
 	@PostMapping(value = "/", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -51,7 +53,9 @@ public class IndoorFeaturesController {
 		
 		IndoorFeatures f;
 		try {
-			f = IndoorFeaturesDAO.createIndoorFeatures(docId, id);
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+			f = IndoorFeaturesDAO.createIndoorFeatures(map, id);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

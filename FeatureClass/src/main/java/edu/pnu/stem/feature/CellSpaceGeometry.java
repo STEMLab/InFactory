@@ -25,7 +25,6 @@ public class CellSpaceGeometry extends AbstractFeature{
 	
 	private IndoorGMLMap indoorGMLMap;
 	
-	
 	public CellSpaceGeometry(IndoorGMLMap doc){
 		indoorGMLMap = doc;
 	}
@@ -38,13 +37,13 @@ public class CellSpaceGeometry extends AbstractFeature{
 	
 	public Object getGeometry2D() {
 		Object feature = null;
-		feature = indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Surface"), this.geometry2D);
+		feature = indoorGMLMap.getFeature(this.geometry2D);
 		return feature;
 	}
 
 	public Object getGeometry3D() {
 		Object feature = null;
-		feature = indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Solid"), this.geometry3D);
+		feature = indoorGMLMap.getFeature(this.geometry3D);
 		return feature;
 	}
 	/**

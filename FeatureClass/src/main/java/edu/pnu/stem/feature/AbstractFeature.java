@@ -65,7 +65,7 @@ public class AbstractFeature {
 	public Envelope getBoundedBy() {
 		Envelope feature = null;
 		if(boundedBy) {
-			feature = (Envelope) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Envelope"), this.id);
+			feature = (Envelope) indoorGMLMap.getFeature(this.id);
 		} else {
 			feature = new Envelope();
 		}
@@ -73,7 +73,7 @@ public class AbstractFeature {
 	}
 	
 	public void setBoundedBy(Envelope env) {
-		Envelope found = (Envelope) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Envelope"), this.id);
+		Envelope found = (Envelope) indoorGMLMap.getFeature(this.id);
 		if(found == null) {
 			indoorGMLMap.setFeature(this.id, "Envelope", env);
 		}

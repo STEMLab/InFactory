@@ -11,11 +11,11 @@ public class IndoorFeatures extends AbstractFeature{
 	/**
 	 * save PriamlSpaceFeatures value
 	 */
-	private String primalSpaceFeatures;
+	private String primalSpaceFeatures = null;
 	/**
 	 * save MultiLayeredGraph value
 	 */
-	private String multiLayeredGraph;
+	private String multiLayeredGraph = null;
 	
 	/**
 	 * @return the docId
@@ -31,7 +31,11 @@ public class IndoorFeatures extends AbstractFeature{
 	 */
 	public PrimalSpaceFeatures getPrimalSpaceFeatures() {
 		PrimalSpaceFeatures found = null;
-		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), this.primalSpaceFeatures);
+		
+		if(this.primalSpaceFeatures != null) {
+			found = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.primalSpaceFeatures);
+		}
+		
 		return found;
 	}
 	/**
@@ -39,7 +43,7 @@ public class IndoorFeatures extends AbstractFeature{
 	 */
 	public void setPrimalSpaceFeatures(PrimalSpaceFeatures primalSpaceFeatures) {
 		PrimalSpaceFeatures found = null;
-		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"), primalSpaceFeatures.getId());
+		found = (PrimalSpaceFeatures) indoorGMLMap.getFeature(primalSpaceFeatures.getId());
 		if( found == null ){
 			indoorGMLMap.setFeature(primalSpaceFeatures.getId(), "PrimalSpaceFeatures", primalSpaceFeatures);
 		}		
@@ -50,7 +54,11 @@ public class IndoorFeatures extends AbstractFeature{
 	 */
 	public MultiLayeredGraph getMultiLayeredGraph() {
 		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("MultiLayeredGraph"), this.multiLayeredGraph);
+		
+		if(this.multiLayeredGraph != null) {
+			found = (MultiLayeredGraph) indoorGMLMap.getFeature(this.multiLayeredGraph);
+		}
+		
 		return found;
 	}
 	/**
@@ -58,7 +66,7 @@ public class IndoorFeatures extends AbstractFeature{
 	 */
 	public void setMultiLayeredGraph(MultiLayeredGraph multiLayeredGraph) {
 		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("MultiLayeredGraph"), multiLayeredGraph.getId());
+		found = (MultiLayeredGraph)indoorGMLMap.getFeature(multiLayeredGraph.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(multiLayeredGraph.getId(), "MultiLayeredGraph", multiLayeredGraph);
 		}
@@ -67,7 +75,7 @@ public class IndoorFeatures extends AbstractFeature{
 	
 	public MultiLayeredGraph getMultiLayeredGraph1(){
 		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("MultiLayeredGraph"),this.multiLayeredGraph);
+		found = (MultiLayeredGraph)indoorGMLMap.getFeature(this.multiLayeredGraph);
 		return found;
 	}
 }

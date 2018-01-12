@@ -27,7 +27,7 @@ public class InterEdges extends AbstractFeature {
 	
 	public void setParent(MultiLayeredGraph parent) {
 		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("MultiLayeredGraph"), parent.getId());
+		found = (MultiLayeredGraph)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(parent.getId(), "MultiLayeredGraph", parent);
 		}
@@ -36,7 +36,7 @@ public class InterEdges extends AbstractFeature {
 
 	public MultiLayeredGraph getParent() {
 		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("MultiLayeredGraph"), this.parentId);
+		found = (MultiLayeredGraph)indoorGMLMap.getFeature(this.parentId);
 		return found;
 	}
 
@@ -46,7 +46,7 @@ public class InterEdges extends AbstractFeature {
 	public List<InterLayerConnection> getInterLayerConnectionMember() {
 		List<InterLayerConnection> interLayerConnectionMember = new ArrayList<InterLayerConnection>();
 		for(int i = 0 ; i < this.interLayerConnectionMember.size() ; i++){
-			InterLayerConnection found = (InterLayerConnection)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), this.interLayerConnectionMember.get(i));
+			InterLayerConnection found = (InterLayerConnection)indoorGMLMap.getFeature(this.interLayerConnectionMember.get(i));
 			interLayerConnectionMember.add(found);
 		}
 		return interLayerConnectionMember;

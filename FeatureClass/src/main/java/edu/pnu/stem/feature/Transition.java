@@ -61,21 +61,21 @@ public class Transition extends AbstractFeature {
 
 	public Edges getParent() {
 		Edges feature = null;
-		feature = (Edges) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), this.parentId);
+		feature = (Edges) indoorGMLMap.getFeature(this.parentId);
 		return feature;
 	}
 
 	public CellSpaceBoundary getDuality() {
 		CellSpaceBoundary found = null;
 		if(hasDuality()){
-			found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), this.duality);
+			found = (CellSpaceBoundary)indoorGMLMap.getFeature(this.duality);
 		}
 		return found;
 	}
 
 	public void setDuality(CellSpaceBoundary duality) {
 		CellSpaceBoundary found = null;
-		found = (CellSpaceBoundary)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpaceBoundary"), duality.getId());
+		found = (CellSpaceBoundary)indoorGMLMap.getFeature(duality.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(duality.getId(), "CellSpaceBoundary",duality);
 		}
@@ -83,13 +83,13 @@ public class Transition extends AbstractFeature {
 	}
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
+		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
 		return feature;
 	}
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
 		if(found == null) {
 			indoorGMLMap.setFeature(gId, "Geometry", geom);
 		}
@@ -106,8 +106,8 @@ public class Transition extends AbstractFeature {
 
 	public State[] getConnects() {	
 		State[] connects = new State[2];
-		connects[0] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.connects[0]);
-		connects[1] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.connects[1]);
+		connects[0] = (State)indoorGMLMap.getFeature(this.connects[0]);
+		connects[1] = (State)indoorGMLMap.getFeature(this.connects[1]);
 		return connects;
 	}
 

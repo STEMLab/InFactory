@@ -26,7 +26,7 @@ public class Edges extends AbstractFeature{
 	
 	public void setParent(SpaceLayer parent) {
 		SpaceLayer found = null;
-		found = (SpaceLayer)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), parent.getId());
+		found = (SpaceLayer)indoorGMLMap.getFeature(parent.getId());
 		if( found == null ){
 			indoorGMLMap.setFeature(parent.getId(), "SpaceLayer", parent );
 		}
@@ -35,15 +35,14 @@ public class Edges extends AbstractFeature{
 
 	public SpaceLayer getParent() {
 		SpaceLayer feature = null;
-		feature = (SpaceLayer) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"),
-				this.parentId);
+		feature = (SpaceLayer) indoorGMLMap.getFeature(this.parentId);
 		return feature;
 	}
 
 	public void setTransitionMembers(List<Transition> transitionMember) {
 		for(int i = 0 ; i < transitionMember.size(); i++){
 			Transition found = null;
-			found = (Transition) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), transitionMember.get(i).getId());
+			found = (Transition) indoorGMLMap.getFeature(transitionMember.get(i).getId());
 			if(found == null){
 				indoorGMLMap.setFeature(transitionMember.get(i).getId(), "Transition", transitionMember.get(i));
 			}
@@ -60,8 +59,7 @@ public class Edges extends AbstractFeature{
 		List<Transition> transitionMember = new ArrayList<Transition>();
 		if (this.transitionMember.size() != 0) {
 			for (int i = 0; i < this.transitionMember.size(); i++) {
-				Transition found = (Transition) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"),
-						this.transitionMember.get(i));
+				Transition found = (Transition) indoorGMLMap.getFeature(this.transitionMember.get(i));
 				transitionMember.add(found);
 			}
 		}

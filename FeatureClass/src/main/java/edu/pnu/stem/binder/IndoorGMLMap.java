@@ -42,7 +42,7 @@ public class IndoorGMLMap {
 		ConcurrentHashMap<String, Object> ExternalReference = new ConcurrentHashMap<String, Object>();
 		ConcurrentHashMap<String, Object> Reference = new ConcurrentHashMap<String, Object>();
 		
-		container.put("id", idHashMap);
+		container.put("ID", idHashMap);
 		container.put("IndoorFeatures", IndoorFeatures);
 		container.put("MultiLayeredGraph", MultiLayeredGraph);
 		container.put("PrimalSpaceFeatures", PrimalSpaceFeatures);
@@ -68,7 +68,7 @@ public class IndoorGMLMap {
 
 	public boolean hasID(String id) {
 		boolean flag = false;
-		ConcurrentHashMap<String, Object> idContainer = getFeatureContainer("id");
+		ConcurrentHashMap<String, Object> idContainer = getFeatureContainer("ID");
 		if (idContainer.containsKey(id)) {
 			flag = true;
 		}
@@ -169,8 +169,8 @@ public class IndoorGMLMap {
 			
 			IndoorFeaturesType resultDoc;
 			try {
-				resultDoc = edu.pnu.stem.binder.Convert2JaxbClass.change2JaxbClass(this.docId, features);
-				Mashaller.marshalIndoorFeatures(path + this.docId, resultDoc);
+				resultDoc = edu.pnu.stem.binder.Convert2JaxbClass.change2JaxbClass(this, features);
+				Mashaller.marshalIndoorFeatures(this.docId, resultDoc);
 			} catch (JAXBException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

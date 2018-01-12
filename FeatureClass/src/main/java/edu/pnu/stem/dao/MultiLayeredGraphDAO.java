@@ -4,7 +4,6 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.InterEdges;
@@ -15,39 +14,36 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 public class MultiLayeredGraphDAO {
 
-	public static MultiLayeredGraph createMultiLayeredGraph(String docId, String parentId, String id, List<String>spaceLayers, List<String>interEdges){
+	public static MultiLayeredGraph createMultiLayeredGraph(IndoorGMLMap map, String parentId, String id, List<String>spaceLayers, List<String>interEdges){
 		MultiLayeredGraph newFeature = null;
-		if (Container.getInstance().hasDoc(docId)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature = new MultiLayeredGraph(map);
-			newFeature.setId(id);
-			
-			IndoorFeatures parent = new IndoorFeatures(map);
-			parent.setId(parentId);
-			newFeature.setParent(parent);
-			if (spaceLayers!= null) {
-				List<SpaceLayers>tempSpaceLayers = new ArrayList<SpaceLayers>();
-				for(int i = 0 ; i < spaceLayers.size() ; i++){
-					SpaceLayers temp = new SpaceLayers(map);
-					temp.setId(spaceLayers.get(i));
-					tempSpaceLayers.add(temp);
-				}
-				newFeature.setSpaceLayers(tempSpaceLayers);
+		newFeature = new MultiLayeredGraph(map);
+		newFeature.setId(id);
+		
+		IndoorFeatures parent = new IndoorFeatures(map);
+		parent.setId(parentId);
+		newFeature.setParent(parent);
+		if (spaceLayers!= null) {
+			List<SpaceLayers>tempSpaceLayers = new ArrayList<SpaceLayers>();
+			for(int i = 0 ; i < spaceLayers.size() ; i++){
+				SpaceLayers temp = new SpaceLayers(map);
+				temp.setId(spaceLayers.get(i));
+				tempSpaceLayers.add(temp);
 			}
-			else if(spaceLayers == null){
-				System.out.println("Error at createMultiLayeredGraph : there is no enough SpaceLayersType instance");
-			}
-			if (interEdges != null) {
-				List<InterEdges>tempInterEdges = new ArrayList<InterEdges>();
-				for(int i = 0 ; i < interEdges.size(); i++){
-					InterEdges temp = new InterEdges(map);
-					temp.setId(interEdges.get(i));
-					tempInterEdges.add(temp);
-				}
-				newFeature.setInterEdges(tempInterEdges);
-			}
-			map.setFeature(id, "MultiLayeredGraph", newFeature);
+			newFeature.setSpaceLayers(tempSpaceLayers);
 		}
+		else if(spaceLayers == null){
+			System.out.println("Error at createMultiLayeredGraph : there is no enough SpaceLayersType instance");
+		}
+		if (interEdges != null) {
+			List<InterEdges>tempInterEdges = new ArrayList<InterEdges>();
+			for(int i = 0 ; i < interEdges.size(); i++){
+				InterEdges temp = new InterEdges(map);
+				temp.setId(interEdges.get(i));
+				tempInterEdges.add(temp);
+			}
+			newFeature.setInterEdges(tempInterEdges);
+		}
+		map.setFeature(id, "MultiLayeredGraph", newFeature);
 		return newFeature;
 	}
 
@@ -56,11 +52,13 @@ public class MultiLayeredGraphDAO {
 	 * @param ID
 	 * @return
 	 */
+	/*
 	public static MultiLayeredGraph readMultilayeredGraph(String ID) {
 		return null;
 	}
+	*/
 
-
+	/*
 	public static MultiLayeredGraph updateMultiLayeredGraph(String docId, String Id, String attributeType,
 			String updateType, List<String>object ) {
 		MultiLayeredGraph target = null;
@@ -122,10 +120,13 @@ public class MultiLayeredGraphDAO {
 		}
 		return target;
 	}
+	*/
+	
 	/**
 	 * Search MultiLayeredGraph feature and delete it
 	 * @param id
 	 */
+	/*
 	public static void deleteMultiLayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
@@ -152,5 +153,5 @@ public class MultiLayeredGraphDAO {
 			doc.getFeatureContainer("ID").remove(Id);
 		}
 	};
-
+	*/
 }

@@ -2,41 +2,39 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
 import edu.pnu.stem.feature.MultiLayeredGraph;
 
 public class InterEdgesDAO {
-	public static InterEdges createInterEdges(String docId, String parentId, String Id, List<String>interLayerConnectionMember){
+	public static InterEdges createInterEdges(IndoorGMLMap map, String parentId, String Id, List<String>interLayerConnectionMember){
 		InterEdges newFeature = null;
-		if (Container.getInstance().hasDoc(docId)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature = new InterEdges(map);
-			newFeature.setId(Id);
-			MultiLayeredGraph parent = new MultiLayeredGraph(map);
-			parent.setId(parentId);
-			newFeature.setParent(parent);
-			
-			if(interLayerConnectionMember != null){
-				List<InterLayerConnection>tempList = new ArrayList<InterLayerConnection>();
-				for(int i = 0 ; i < interLayerConnectionMember.size() ; i++){
-					InterLayerConnection temp = new InterLayerConnection(map);
-					temp.setId(interLayerConnectionMember.get(i));
-					tempList.add(temp);
-				}
-				newFeature.setInterLayerConnectionMember(tempList);
-			}
-			else{
-				System.out.println("Error at createInterEdges : there is no InterLayerConnectionMember");
-			}
-			map.setFeature(Id, "ID", "InterEdges");
-			map.setFeature(Id, "InterEdges", newFeature);
-		}
+		newFeature = new InterEdges(map);
+		newFeature.setId(Id);
+		MultiLayeredGraph parent = new MultiLayeredGraph(map);
+		parent.setId(parentId);
+		newFeature.setParent(parent);
 		
+		if(interLayerConnectionMember != null){
+			List<InterLayerConnection>tempList = new ArrayList<InterLayerConnection>();
+			for(int i = 0 ; i < interLayerConnectionMember.size() ; i++){
+				InterLayerConnection temp = new InterLayerConnection(map);
+				temp.setId(interLayerConnectionMember.get(i));
+				tempList.add(temp);
+			}
+			newFeature.setInterLayerConnectionMember(tempList);
+		}
+		else{
+			System.out.println("Error at createInterEdges : there is no InterLayerConnectionMember");
+		}
+		map.setFeature(Id, "ID", "InterEdges");
+		map.setFeature(Id, "InterEdges", newFeature);
+	
 		return newFeature;
 	}
+	
+	/*
 	public static InterEdges readInterEdges(String docId, String Id){
 		InterEdges target = null;
 		return target;
@@ -93,4 +91,5 @@ public class InterEdgesDAO {
 			
 		}
 	}
+	*/
 }
