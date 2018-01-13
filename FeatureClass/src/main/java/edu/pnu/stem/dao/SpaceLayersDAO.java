@@ -2,37 +2,33 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 
 public class SpaceLayersDAO {
-	public static SpaceLayers createSpaceLayers(String docId, String parentId, String id,
+	public static SpaceLayers createSpaceLayers(IndoorGMLMap map, String parentId, String id,
 			List<String> spaceLayerMember) {
 		SpaceLayers newFeature = null;
-		if (Container.getInstance().hasDoc(docId)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature = new SpaceLayers(map);
-			newFeature.setId(id);
-			MultiLayeredGraph parent = new MultiLayeredGraph(map);
-			parent.setId(parentId);
-			newFeature.setParent(parent);
-			
-			if (spaceLayerMember!= null) {
-				List<SpaceLayer>tempSpaceLayerMember = new ArrayList<SpaceLayer>();
-				for(int i = 0 ; i < spaceLayerMember.size(); i++){
-					SpaceLayer temp = new SpaceLayer(map);
-					temp.setId(id);
-					tempSpaceLayerMember.add(temp);
-				}
-				newFeature.setSpaceLayerMember(tempSpaceLayerMember);
-				map.setFeature(id, "SpaceLayers", newFeature);
+		newFeature = new SpaceLayers(map);
+		newFeature.setId(id);
+		MultiLayeredGraph parent = new MultiLayeredGraph(map);
+		parent.setId(parentId);
+		newFeature.setParent(parent);
+		
+		if (spaceLayerMember!= null) {
+			List<SpaceLayer>tempSpaceLayerMember = new ArrayList<SpaceLayer>();
+			for(int i = 0 ; i < spaceLayerMember.size(); i++){
+				SpaceLayer temp = new SpaceLayer(map);
+				temp.setId(id);
+				tempSpaceLayerMember.add(temp);
 			}
-			else if(spaceLayerMember == null){
-				System.out.println("Error at createSpaceLayers : there is no enough SpaceLayerType instance");
-			}
+			newFeature.setSpaceLayerMember(tempSpaceLayerMember);
+			map.setFeature(id, "SpaceLayers", newFeature);
+		}
+		else if(spaceLayerMember == null){
+			System.out.println("Error at createSpaceLayers : there is no enough SpaceLayerType instance");
 		}
 		return newFeature;
 	}
@@ -55,7 +51,7 @@ public class SpaceLayersDAO {
 	 * @param ct SpaceLayerClassType of this SpaceLayer
 	 * @return edited SpaceLayer feature instance
 	 */
-	public static SpaceLayers updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
+/*	public static SpaceLayers updatePrimalSpaceFeatures(String docId, String Id, String attributeType,
 			String updateType, List<String>objectMember, Object object , Boolean deleteDuality ) {
 		SpaceLayers target = null;
 		if (Container.getInstance().hasFeature(docId, Id)) {
@@ -90,12 +86,12 @@ public class SpaceLayersDAO {
 		}
 		Container.getInstance().setFeature(docId, Id, "SpaceLayer", target);
 		return target;
-	}
+	}*/
 	/**
 	 * Search SpaceLayer feature and delete it
 	 * @param id ID of target
 	 */
-	public static void deleteSpaceLayers(String docId, String Id,Boolean deleteDuality) {
+/*	public static void deleteSpaceLayers(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
 			SpaceLayers target = (SpaceLayers) Container.getInstance().getFeature(docId,
@@ -112,5 +108,5 @@ public class SpaceLayersDAO {
 			
 			
 		}
-	}
+	}*/
 }

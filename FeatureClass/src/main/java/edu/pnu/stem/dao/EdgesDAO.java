@@ -4,7 +4,6 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
 import edu.pnu.stem.feature.Transition;
@@ -12,30 +11,29 @@ import edu.pnu.stem.feature.Transition;
 
 public class EdgesDAO {
 
-	public Edges createNodes(String docId, String parentId, String id, List<String>transitionMember){
+	public Edges createNodes(IndoorGMLMap map, String parentId, String id, List<String>transitionMember){
 		Edges newFeature = null;
-		if (Container.getInstance().hasDoc(docId)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature = new Edges(map);
-			newFeature.setId(id);
-			if(transitionMember != null){
-				List<Transition>transitionMembers = new ArrayList<Transition>();
-				for(int i = 0 ; i < transitionMember.size() ; i++){
-					Transition temp = new Transition(map);
-					temp.setId(transitionMember.get(i));
-					transitionMembers.add(temp);
-				}
-				newFeature.setTransitionMembers(transitionMembers);
+		newFeature = new Edges(map);
+		newFeature.setId(id);
+		if(transitionMember != null){
+			List<Transition>transitionMembers = new ArrayList<Transition>();
+			for(int i = 0 ; i < transitionMember.size() ; i++){
+				Transition temp = new Transition(map);
+				temp.setId(transitionMember.get(i));
+				transitionMembers.add(temp);
 			}
-			else{
-				System.out.println("Error at createNodes : there is no StateMember");
-			}
-			
-			Container.getInstance().setFeature(docId, id, "Edges", newFeature);
+			newFeature.setTransitionMembers(transitionMembers);
 		}
+		else{
+			System.out.println("Error at createNodes : there is no StateMember");
+		}
+		
+		map.setFeature(id, "Edges", newFeature);
 		
 		return newFeature;
 	}
+	
+	/*
 	public Edges readEdges(String docId, String id) {
 		Edges target = null;
 		target = (Edges)Container.getInstance().getDocument(docId).getFeature(id);
@@ -76,21 +74,26 @@ public class EdgesDAO {
 		}
 		return target;
 	}
-
+	*/
+	
 	/**
 	 * Search the Edges feature and edit it as the parameters
 	 * @param ID ID of target
 	 * @param tl list of transitions which will be held by SpaceLayer(parent)
 	 * @return edited feature
 	 */
+	
+	/*
 	public Edges updateEdges(String ID, List<TransitionDAO> tl) {
 		return null;
 	};
-
+	*/
+	
 	/**
 	 * Search the Edges feature and delete it
 	 * @param ID ID of target
 	 */
+	/*
 	public static void deleteEdges(String docId, String Id, Boolean deleteDuality) {
 		
 		if (Container.getInstance().hasFeature(docId, Id)) {
@@ -107,5 +110,5 @@ public class EdgesDAO {
 			
 		}
 	};
-
+	*/
 }	

@@ -1,7 +1,6 @@
 package edu.pnu.stem.dao;
 import java.util.UUID;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
@@ -41,13 +40,12 @@ public class IndoorFeaturesDAO {
 	 * @param id
 	 * @return
 	 */
-	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String docId, String id) {
+	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id) {
 		IndoorFeatures newFeature = new IndoorFeatures(map);
 			
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		newFeature = new IndoorFeatures(map);
 		newFeature.setId(id);
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;

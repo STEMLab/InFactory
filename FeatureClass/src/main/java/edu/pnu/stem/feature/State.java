@@ -37,13 +37,13 @@ public class State extends AbstractFeature {
 	
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
+		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
 		return feature;
 	}
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
 		if(found == null) {
 			indoorGMLMap.setFeature(gId, "Geometry", geom);
 		}
@@ -62,7 +62,7 @@ public class State extends AbstractFeature {
 
 	public void setParent(Nodes parent) {
 		Nodes found = null;
-		found = (Nodes)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), parent.getId());
+		found = (Nodes)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(parent.getId(), "Nodes", parent);
 		}		
@@ -70,19 +70,19 @@ public class State extends AbstractFeature {
 	}
 
 	public Nodes getParentID() {
-		Nodes found = (Nodes)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), this.parentId);
+		Nodes found = (Nodes)indoorGMLMap.getFeature(this.parentId);
 		return found;
 	}
 
 	public CellSpace getDuality() {
 		CellSpace found = null;
-		found = (CellSpace)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpace"), this.duality);
+		found = (CellSpace)indoorGMLMap.getFeature(this.duality);
 		return found;
 	}
 
 	public void setDuality(CellSpace duality) {
 		CellSpace found = null;
-		found = (CellSpace)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("CellSpace"), duality.getId());
+		found = (CellSpace)indoorGMLMap.getFeature(duality.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(duality.getId(), "CellSpace", duality);
 		}
@@ -92,7 +92,7 @@ public class State extends AbstractFeature {
 	public void setConnects(List<Transition> connects) {
 		for (int i = 0; i < connects.size(); i++) {
 			Transition found = null;
-			found = (Transition)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), connects.get(i).getId());
+			found = (Transition)indoorGMLMap.getFeature(connects.get(i).getId());
 			if(found == null){
 				indoorGMLMap.setFeature(connects.get(i).getId(), "Transition", connects.get(i));
 			}
@@ -107,7 +107,7 @@ public class State extends AbstractFeature {
 		if(this.connects.size() != 0){
 			connects = new ArrayList<Transition>();
 			for(int i = 0 ; i < this.connects.size() ; i++){
-				Transition found = (Transition)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), this.connects.get(i));
+				Transition found = (Transition)indoorGMLMap.getFeature(this.connects.get(i));
 				connects.add(found);
 			}
 		}

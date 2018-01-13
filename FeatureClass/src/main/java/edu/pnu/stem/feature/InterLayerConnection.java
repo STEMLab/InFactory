@@ -45,7 +45,7 @@ public class InterLayerConnection extends AbstractFeature {
 	
 	public void setParent(InterEdges parent){
 		InterEdges found = null;
-		found = (InterEdges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("InterEdges"), parent.getId());
+		found = (InterEdges)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(parent.getId(), "InterEdges", parent);
 		}
@@ -54,14 +54,14 @@ public class InterLayerConnection extends AbstractFeature {
 	
 	public InterEdges getParent(){
 		InterEdges found = null;
-		found = (InterEdges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("InterEdges"), this.parentId);
+		found = (InterEdges)indoorGMLMap.getFeature(this.parentId);
 		return found;
 	}
 
 	public void setConnectedLayers(SpaceLayer[] connectedLayers){
 		SpaceLayer[]found = new SpaceLayer[2];
-		found[0] = (SpaceLayer)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), connectedLayers[0].getId());
-		found[1] = (SpaceLayer)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), connectedLayers[1].getId());
+		found[0] = (SpaceLayer)indoorGMLMap.getFeature(connectedLayers[0].getId());
+		found[1] = (SpaceLayer)indoorGMLMap.getFeature(connectedLayers[1].getId());
 		if(found[0] == null){
 			indoorGMLMap.setFeature(connectedLayers[0].getId(), "SpaceLayer", connectedLayers[0]);
 		}
@@ -74,15 +74,15 @@ public class InterLayerConnection extends AbstractFeature {
 	
 	public SpaceLayer[] getConnectedLayers() {
 		SpaceLayer[] found = new SpaceLayer[2];
-		found[0] = (SpaceLayer)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), this.connectedLayers[0]);
-		found[1] = (SpaceLayer)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), this.connectedLayers[1]);
+		found[0] = (SpaceLayer)indoorGMLMap.getFeature(this.connectedLayers[0]);
+		found[1] = (SpaceLayer)indoorGMLMap.getFeature(this.connectedLayers[1]);
 		return found;
 	}
 
 	public void setInterConnects(State[] interConnects) {
 		State[]found = new State[2];
-		found[0] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), interConnects[0].getId());
-		found[1] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), interConnects[1].getId());
+		found[0] = (State)indoorGMLMap.getFeature(interConnects[0].getId());
+		found[1] = (State)indoorGMLMap.getFeature(interConnects[1].getId());
 		if(found[0] == null){
 			indoorGMLMap.setFeature(interConnects[0].getId(), "State", interConnects[0]);
 		}
@@ -95,8 +95,8 @@ public class InterLayerConnection extends AbstractFeature {
 
 	public State[] getInterConnects() {
 		State[] found = new State[2];
-		found[0] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.interConnects[0]);
-		found[1] = (State)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("State"), this.interConnects[1]);
+		found[0] = (State)indoorGMLMap.getFeature(this.interConnects[0]);
+		found[1] = (State)indoorGMLMap.getFeature(this.interConnects[1]);
 		return found;
 	}
 

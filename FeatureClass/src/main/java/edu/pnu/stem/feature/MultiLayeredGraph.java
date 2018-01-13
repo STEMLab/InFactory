@@ -37,7 +37,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 		if(this.spaceLayers.size() != 0){
 			spaceLayers = new ArrayList<SpaceLayers>();
 			for(int i = 0 ; i < this.spaceLayers.size();i++){
-				spaceLayers.add((SpaceLayers)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"), this.spaceLayers.get(i)));			
+				spaceLayers.add((SpaceLayers)indoorGMLMap.getFeature(this.spaceLayers.get(i)));			
 			}
 		}
 		
@@ -50,7 +50,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 	public void setSpaceLayers(List<SpaceLayers> spaceLayers) {
 		for(int i = 0 ; i < spaceLayers.size(); i++){
 			SpaceLayers found = null;
-			found = (SpaceLayers)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"), spaceLayers.get(i).getId());
+			found = (SpaceLayers)indoorGMLMap.getFeature(spaceLayers.get(i).getId());
 			if(found == null){
 				indoorGMLMap.setFeature(spaceLayers.get(i).getId(), "SpaceLayers", spaceLayers.get(i));
 			}
@@ -68,7 +68,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 		List<InterEdges>interEdges = new ArrayList<InterEdges>();
 		if(this.interEdges != null){
 			for(int i = 0 ; i < this.interEdges.size() ; i++){
-				interEdges.add((InterEdges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("InterEdges"), this.interEdges.get(i)));
+				interEdges.add((InterEdges)indoorGMLMap.getFeature(this.interEdges.get(i)));
 			}
 		}		
 		return interEdges;
@@ -81,7 +81,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 	public void setInterEdges(List<InterEdges> interEdges) {				
 		for(int i = 0 ; i < interEdges.size() ; i++ ){
 			InterEdges found = null;
-			found = (InterEdges)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("InterEdges"), interEdges.get(i).getId());
+			found = (InterEdges)indoorGMLMap.getFeature(interEdges.get(i).getId());
 			if(found == null){
 				indoorGMLMap.setFeature(interEdges.get(i).getId(), "InterEdges",interEdges.get(i));
 			}
@@ -95,7 +95,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 	 */
 	public IndoorFeatures getParent() {
 		IndoorFeatures parent = null;
-		parent = (IndoorFeatures)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("IndoorFeatures"), this.parentId);
+		parent = (IndoorFeatures)indoorGMLMap.getFeature(this.parentId);
 		return parent;
 	}
 
@@ -105,7 +105,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 	 */
 	public void setParent(IndoorFeatures parent) {
 		IndoorFeatures found = null;
-		found = (IndoorFeatures)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("IndoorFeatures"), parent.getId());
+		found = (IndoorFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(parent.getId(), "IndoorFeatures", parent);			
 		}

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,13 +41,20 @@ public class DocumentController {
 		
 		IndoorGMLMap map = container.getDocument(id);
 		if(map != null) {
+			//Exception
 			throw new DuplicatedFeatureException();
 		} else {
-			container.setDocument(id);
-			map = container.getDocument(id);
+			map = container.createDocument(id);
 		}
 
 	    response.setHeader("Location", request.getRequestURL().append(map.getDocId()).toString());
 	}
 	
+	@GetMapping(value = "/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void getDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+		Container container = applicationContext.getBean(Container.class);
+		IndoorGMLMap map = container.getDocument(id);
+		map.Marshall("");
+	}
 }

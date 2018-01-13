@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
 import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
-import edu.pnu.stem.feature.State;
-import edu.pnu.stem.feature.Transition;
 
 
 public class SpaceLayerDAO {
@@ -30,59 +27,56 @@ public class SpaceLayerDAO {
 	 * @return created SpaceLayer feature instance
 	 */
 
-	public static SpaceLayer createSpaceLayer(String docID, String parentID, String ID,
+	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentID, String ID,
 			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
 		SpaceLayer newFeature = null;
-		if (Container.getInstance().hasDoc(docID)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docID);
-			newFeature = new SpaceLayer(map);
-			newFeature.setId(ID);
-			SpaceLayers parent = new SpaceLayers(map);
-			parent.setId(parentID);
-			newFeature.setParent(parent);
-			if (nodes!= null) {
-				List<Nodes>tempNodes = new ArrayList<Nodes>();
-				for(int i = 0 ; i < nodes.size() ; i++){
-					Nodes temp = new Nodes(map);
-					temp.setId(nodes.get(i));
-					tempNodes.add(temp);
-				}
-				newFeature.setNodes(tempNodes);
+		newFeature = new SpaceLayer(map);
+		newFeature.setId(ID);
+		SpaceLayers parent = new SpaceLayers(map);
+		parent.setId(parentID);
+		newFeature.setParent(parent);
+		if (nodes!= null) {
+			List<Nodes>tempNodes = new ArrayList<Nodes>();
+			for(int i = 0 ; i < nodes.size() ; i++){
+				Nodes temp = new Nodes(map);
+				temp.setId(nodes.get(i));
+				tempNodes.add(temp);
 			}
-			else if (nodes== null){
-				System.out.println("Error in createSpaceLayer : no nodes");
-			}
-			if (edges != null) {
-				List<Edges>tempEdges = new ArrayList<Edges>();
-				for(int i = 0 ; i < edges.size() ; i++){
-					Edges temp = new Edges(map);
-					temp.setId(edges.get(i));
-					tempEdges.add(temp);
-				}
-				newFeature.setEdges(tempEdges);
-			}			
-			if(creationDate != null){
-				newFeature.setCreateDate(creationDate);
-			}
-			if(terminationDate != null){
-				newFeature.setTerminationDate(terminationDate);
-			}
-			if(function != null){
-				//newFeature.setFunction
-				//TODO : check codeType at SpaceLayer
-			}
-			if(classType != null){
-				//newFeature.setClassType(classType);
-				//TODO : check classType at SpaceLayer
-			}
-			if(usage != null){
-				newFeature.setUsage(usage);
-			}
-			if(codeType != null){
-				//TODO : check codeType at SpaceLayer
-			}
-			Container.getInstance().setFeature(docID, ID, "SpaceLayer", newFeature);
+			newFeature.setNodes(tempNodes);
 		}
+		else if (nodes== null){
+			System.out.println("Error in createSpaceLayer : no nodes");
+		}
+		if (edges != null) {
+			List<Edges>tempEdges = new ArrayList<Edges>();
+			for(int i = 0 ; i < edges.size() ; i++){
+				Edges temp = new Edges(map);
+				temp.setId(edges.get(i));
+				tempEdges.add(temp);
+			}
+			newFeature.setEdges(tempEdges);
+		}			
+		if(creationDate != null){
+			newFeature.setCreateDate(creationDate);
+		}
+		if(terminationDate != null){
+			newFeature.setTerminationDate(terminationDate);
+		}
+		if(function != null){
+			//newFeature.setFunction
+			//TODO : check codeType at SpaceLayer
+		}
+		if(classType != null){
+			//newFeature.setClassType(classType);
+			//TODO : check classType at SpaceLayer
+		}
+		if(usage != null){
+			newFeature.setUsage(usage);
+		}
+		if(codeType != null){
+			//TODO : check codeType at SpaceLayer
+		}
+		map.setFeature(ID, "SpaceLayer", newFeature);
 		return newFeature;
 	}
 	/**
@@ -90,11 +84,11 @@ public class SpaceLayerDAO {
 	 * @param ID ID of target
 	 * @return searched SpaceLayer feature instance
 	 */
-	public SpaceLayer readSpaceLayer(String docId, String id) {
+/*	public SpaceLayer readSpaceLayer(String docId, String id) {
 		SpaceLayer target = null;
 		target = (SpaceLayer)Container.getInstance().getDocument(docId).getFeature(id);
 		return target;
-	}
+	}*/
 
 	/**
 	 * Search SpaceLayer feature and edit it as the Parameters
@@ -198,7 +192,7 @@ public class SpaceLayerDAO {
 	 * Search SpaceLayer feature and delete it
 	 * @param id ID of target
 	 */
-	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
+/*	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
 			SpaceLayer target = (SpaceLayer) Container.getInstance().getFeature(docId,
@@ -234,6 +228,6 @@ public class SpaceLayerDAO {
 			}
 			
 		}
-	}
+	}*/
 
 }

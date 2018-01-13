@@ -48,13 +48,13 @@ public class CellSpaceBoundary extends AbstractFeature {
 	}
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), this.geometry);
+		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
 		return feature;
 	}
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Geometry"), gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
 		if(found == null) {
 			indoorGMLMap.setFeature(gId, "Geometry", geom);
 		}
@@ -63,7 +63,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 	
 	public void setParent(PrimalSpaceFeatures parent) {
 		PrimalSpaceFeatures found = null;
-		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeature"), parent.getId());
+		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(parentId, "PrimalSpaceFeatures", parent);
 		}
@@ -73,22 +73,21 @@ public class CellSpaceBoundary extends AbstractFeature {
 
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
-		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("PrimalSpaceFeatures"),
-				this.parentId);
+		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.parentId);
 		return feature;
 	}
 
 	public Transition getDuality() {
 		Transition found = null;
 		if (hasDuality()) {
-			found = (Transition) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), this.duality);
+			found = (Transition) indoorGMLMap.getFeature(this.duality);
 		}
 		return found;
 	}
 
 	public void setDuality(Transition duality) {
 		Transition found = null;
-		found = (Transition)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Transition"), duality.getId());
+		found = (Transition)indoorGMLMap.getFeature(duality.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(duality.getId(), "Transition", duality);
 		}

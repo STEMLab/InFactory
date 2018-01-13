@@ -48,7 +48,7 @@ public class SpaceLayer extends AbstractFeature {
 
 	public void setParent(SpaceLayers parent) {
 		SpaceLayers found = null;
-		found = (SpaceLayers) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"), parent.getId());
+		found = (SpaceLayers) indoorGMLMap.getFeature(parent.getId());
 		if (found == null) {
 			indoorGMLMap.setFeature(parent.getId(), "SpaceLayers", parent);
 		}
@@ -57,7 +57,7 @@ public class SpaceLayer extends AbstractFeature {
 
 	public SpaceLayers getParent() {
 		SpaceLayers found = null;
-		found = (SpaceLayers) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayers"), this.parentId);
+		found = (SpaceLayers) indoorGMLMap.getFeature(this.parentId);
 		return found;
 	}
 
@@ -128,7 +128,7 @@ public class SpaceLayer extends AbstractFeature {
 		List<Nodes> nodes = new ArrayList<Nodes>();
 		nodes = new ArrayList<Nodes>();
 		for (int i = 0; i < this.nodes.size(); i++) {
-			nodes.add((Nodes) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), this.nodes.get(i)));
+			nodes.add((Nodes) indoorGMLMap.getFeature(this.nodes.get(i)));
 		}
 		return nodes;
 	}
@@ -140,7 +140,7 @@ public class SpaceLayer extends AbstractFeature {
 	public void setNodes(List<Nodes> nodes) {
 		for (int i = 0; i < nodes.size(); i++) {
 			Nodes found = null;
-			found = (Nodes) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Nodes"), nodes.get(i).getId());
+			found = (Nodes) indoorGMLMap.getFeature(nodes.get(i).getId());
 			if (found == null) {
 				indoorGMLMap.setFeature(nodes.get(i).getId(), "Nodes", nodes.get(i));
 			}
@@ -159,7 +159,7 @@ public class SpaceLayer extends AbstractFeature {
 			edges = new ArrayList<Edges>();
 			for (int i = 0; i < this.edges.size(); i++) {
 				edges.add(
-						(Edges) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), this.edges.get(i)));
+						(Edges) indoorGMLMap.getFeature(this.edges.get(i)));
 			}
 		}
 		return edges;
@@ -172,7 +172,7 @@ public class SpaceLayer extends AbstractFeature {
 	public void setEdges(List<Edges> edges) {
 		for (int i = 0; i < edges.size(); i++) {
 			Edges found = null;
-			found = (Edges) indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("Edges"), edges.get(i).getId());
+			found = (Edges) indoorGMLMap.getFeature(edges.get(i).getId());
 			if (found == null) {
 				indoorGMLMap.setFeature(edges.get(i).getId(), "Edges", edges.get(i));
 			}

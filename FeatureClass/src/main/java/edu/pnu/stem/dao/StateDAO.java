@@ -4,58 +4,53 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
-import net.opengis.gml.v_3_2_1.PointType;
 
 public class StateDAO {
 	
-	public static State createState(String docId, String parentId, String Id,
+	public static State createState(IndoorGMLMap map, String parentId, String Id,
 			String duality, List<String> connects, String geometry, String externalReference) {
 		State newFeature = null;
-		if (Container.getInstance().hasDoc(docId)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature = new State(map);
-			newFeature.setId(Id);
-			
-			Nodes parent = new Nodes(map);
-			parent.setId(parentId);
-			newFeature.setParent(parent);
-			if (duality != null) {
-				CellSpace tempDuality = new CellSpace(map);
-				tempDuality.setId(duality);
-				newFeature.setDuality(tempDuality);
-				if(map.getFeatureContainer("Reference").containsKey(duality)){
-					int count = (Integer)map.getFeatureContainer("Reference").get(duality);
-					count++;
-					Container.getInstance().setFeature(docId, duality, "Reference", count);
-				}
-				else{
-					Container.getInstance().setFeature(docId, duality, "Reference", 1);
-				}
-				Container.getInstance().setFeature(docId, Id, "Reference", 1);
+		newFeature = new State(map);
+		newFeature.setId(Id);
+		
+		Nodes parent = new Nodes(map);
+		parent.setId(parentId);
+		newFeature.setParent(parent);
+		if (duality != null) {
+			CellSpace tempDuality = new CellSpace(map);
+			tempDuality.setId(duality);
+			newFeature.setDuality(tempDuality);
+			if(map.getFeatureContainer("Reference").containsKey(duality)){
+				int count = (Integer)map.getFeatureContainer("Reference").get(duality);
+				count++;
+				map.setFeature(duality, "Reference", count);
 			}
-			if (geometry != null) {
-				// newFeature.set
+			else{
+				map.setFeature(duality, "Reference", 1);
 			}
-			if (connects != null) {
-				List<Transition>tempConnects = new ArrayList<Transition>();	
-				for(int i = 0 ; i < connects.size() ; i++){
-					Transition temp = new Transition(map);
-					temp.setId(connects.get(i));
-					tempConnects.add(temp);
-				}
-				newFeature.setConnects(tempConnects);				
-			}
-			if (externalReference != null) {
-				newFeature.setExternalReference(externalReference);
-			}
-			Container.getInstance().setFeature(docId, Id, "CellSpace", newFeature);
+			map.setFeature(Id, "Reference", 1);
 		}
+		if (geometry != null) {
+			// newFeature.set
+		}
+		if (connects != null) {
+			List<Transition>tempConnects = new ArrayList<Transition>();	
+			for(int i = 0 ; i < connects.size() ; i++){
+				Transition temp = new Transition(map);
+				temp.setId(connects.get(i));
+				tempConnects.add(temp);
+			}
+			newFeature.setConnects(tempConnects);				
+		}
+		if (externalReference != null) {
+			newFeature.setExternalReference(externalReference);
+		}
+		map.setFeature(Id, "CellSpace", newFeature);
 		return newFeature;
 	}
 	
@@ -72,7 +67,7 @@ public class StateDAO {
 	 * @param geo Geometry instance of Point which represent this state
 	 * @return edited State feature instance
 	 */
-	public State updateState(String ID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
+/*	public State updateState(String ID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
 		return null;
 	}
 	public State updateState(String docId, String Id, String attributeType, String updateType, Object o) {
@@ -129,12 +124,12 @@ public class StateDAO {
 		}
 		return target;
 	}
-	
+	*/
 	/**
 	 * Search State feature and delete it
 	 * @param ID ID of target 
 	 */
-	public static void deleteState(String docId, String Id, Boolean deleteDuality) {
+/*	public static void deleteState(String docId, String Id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
 			State target = (State) Container.getInstance().getFeature(docId,
@@ -182,5 +177,5 @@ public class StateDAO {
 		}
 
 	};
-
+*/
 }

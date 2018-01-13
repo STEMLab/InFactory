@@ -26,7 +26,7 @@ public class SpaceLayers extends AbstractFeature {
 	
 	public void setParent(MultiLayeredGraph parent) {
 		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("MultiLayeredGraph"), parent.getId());
+		found = (MultiLayeredGraph)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
 			indoorGMLMap.setFeature(parent.getId(), "MultiLayeredGraph", parent);
 		}
@@ -35,7 +35,7 @@ public class SpaceLayers extends AbstractFeature {
 
 	public MultiLayeredGraph getParent() {
 		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("MultiLayeredGraph"), this.parentId);
+		found = (MultiLayeredGraph)indoorGMLMap.getFeature(this.parentId);
 		return found;
 	}
 
@@ -55,7 +55,7 @@ public class SpaceLayers extends AbstractFeature {
 		List<SpaceLayer> spaceLayerMember = new ArrayList<SpaceLayer>();
 		if(this.spaceLayerMember.size() != 0){
 			for(int i = 0 ; i < this.spaceLayerMember.size() ; i++){
-				SpaceLayer found = (SpaceLayer)indoorGMLMap.getFeature(indoorGMLMap.getFeatureContainer("SpaceLayer"), this.spaceLayerMember.get(i));
+				SpaceLayer found = (SpaceLayer)indoorGMLMap.getFeature(this.spaceLayerMember.get(i));
 				spaceLayerMember.add(found);
 			}
 		}

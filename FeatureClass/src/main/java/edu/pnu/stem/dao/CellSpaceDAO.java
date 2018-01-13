@@ -2,7 +2,6 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
@@ -25,44 +24,41 @@ public class CellSpaceDAO {
 	 * @param externalReference
 	 * @return
 	 */
-	public static CellSpace createCellSpace(String docId, String parentId, String ID,
-			String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
+	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String ID,
+		String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
 		CellSpace newFeature = null;
-		if (Container.getInstance().hasDoc(docId)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			newFeature = new CellSpace(map);
-			newFeature.setId(ID);
-			PrimalSpaceFeatures parent = new PrimalSpaceFeatures(map);
-			parent.setId(parentId);
-			newFeature.setParent(parent);
-			if (duality != null) {
-				State tempDuality = new State(map);
-				tempDuality.setId(duality);
-				newFeature.setDuality(tempDuality);
-				if (map.getFeatureContainer("Reference").containsKey(duality)) {
-					int count = (Integer) map.getFeatureContainer("Reference").get(duality);
-					count++;
-					map.setFeature(ID, "Reference", count);
-				}
+		newFeature = new CellSpace(map);
+		newFeature.setId(ID);
+		PrimalSpaceFeatures parent = new PrimalSpaceFeatures(map);
+		parent.setId(parentId);
+		newFeature.setParent(parent);
+		if (duality != null) {
+			State tempDuality = new State(map);
+			tempDuality.setId(duality);
+			newFeature.setDuality(tempDuality);
+			if (map.getFeatureContainer("Reference").containsKey(duality)) {
+				int count = (Integer) map.getFeatureContainer("Reference").get(duality);
+				count++;
+				map.setFeature(ID, "Reference", count);
 			}
-
-			if (cellSpaceGeometry != null) {
-				// newFeature.set
-			}
-			if (partialboundedBy != null) {
-				List<CellSpaceBoundary>tempartialboundedBy = new ArrayList<CellSpaceBoundary>();
-				for(int i = 0 ; i < partialboundedBy.size(); i++){
-					CellSpaceBoundary temp = new CellSpaceBoundary(map);
-					temp.setId(partialboundedBy.get(i));
-					tempartialboundedBy.add(temp);
-				}
-				newFeature.setPartialboundedBy(tempartialboundedBy);
-			}
-			if (externalReference != null) {
-				//newFeature.setExternalReference(externalReference);
-			}
-			map.setFeature(ID, "CellSpace", newFeature);
 		}
+
+		if (cellSpaceGeometry != null) {
+			// newFeature.set
+		}
+		if (partialboundedBy != null) {
+			List<CellSpaceBoundary>tempartialboundedBy = new ArrayList<CellSpaceBoundary>();
+			for(int i = 0 ; i < partialboundedBy.size(); i++){
+				CellSpaceBoundary temp = new CellSpaceBoundary(map);
+				temp.setId(partialboundedBy.get(i));
+				tempartialboundedBy.add(temp);
+			}
+			newFeature.setPartialboundedBy(tempartialboundedBy);
+		}
+		if (externalReference != null) {
+			//newFeature.setExternalReference(externalReference);
+		}
+		map.setFeature(ID, "CellSpace", newFeature);
 		return newFeature;
 	}
 
@@ -71,11 +67,13 @@ public class CellSpaceDAO {
 	 * @param Id
 	 * @return
 	 */
+	/*
 	public CellSpace readCellSpace(String docId, String Id) {
 		CellSpace target = null;
 		target = (CellSpace) Container.getInstance().getFeature(docId, Id);
 		return target;
 	};
+	*/
 
 	/**
 	 * @param docId
@@ -90,6 +88,7 @@ public class CellSpaceDAO {
 	 *            : Data of updated attribute
 	 * @return : updated feature instance
 	 */
+	/*
 	public CellSpace updateCellSpace(String docId, String id, String attributeType,
 			String attributeId, Object o) {
 		CellSpace target = null;
@@ -135,14 +134,14 @@ public class CellSpaceDAO {
 		}
 		return target;
 	}
-
+	*/
 	/**
 	 * search CellSpace feature and delete the data
 	 * 
 	 * @param id
 	 *            ID of target
 	 */
-
+	/*
 	public static void deleteCellSpace(String docId, String Id, Boolean deleteDuality) {
 		if(Container.getDocument(docId) != null){
 			IndoorGMLMap map = Container.getInstance().getDocument(docId);
@@ -190,5 +189,5 @@ public class CellSpaceDAO {
 		}
 
 	};
-
+	*/
 }

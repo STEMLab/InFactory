@@ -1,13 +1,8 @@
 package edu.pnu.stem;
 
-import javax.xml.bind.JAXBException;
-
-import edu.pnu.stem.binder.Container;
-import edu.pnu.stem.feature.IndoorFeatures;
-import junit.framework.TestCase;
-import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
-
-public class testApp extends TestCase {
+public class testApp {
+	
+	/*
 	public void testConverter(){
 		 try {
 			 IndoorFeaturesType importedDoc = (IndoorFeaturesType)edu.pnu.stem.binder.Unmashaller.importIndoorGML("test","src/test/resources/FJK-Haus_IndoorGML_withEXR-corrected_1_0_3.gml");
@@ -24,4 +19,5 @@ public class testApp extends TestCase {
 			e.printStackTrace();
 		}
 	}
+	*/
 }
