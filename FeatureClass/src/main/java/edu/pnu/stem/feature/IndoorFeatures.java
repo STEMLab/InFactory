@@ -65,12 +65,9 @@ public class IndoorFeatures extends AbstractFeature{
 	 * @param multiLayeredGraph the multiLayeredGraph to set
 	 */
 	public void setMultiLayeredGraph(MultiLayeredGraph multiLayeredGraph) {
-		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(multiLayeredGraph.getId());
-		if(found == null){
-			indoorGMLMap.setFeature(multiLayeredGraph.getId(), "MultiLayeredGraph", multiLayeredGraph);
+		if(multiLayeredGraph != null) {
+			this.multiLayeredGraph = multiLayeredGraph.getId();
 		}
-		this.multiLayeredGraph = multiLayeredGraph.getId();
 	}
 	
 	public MultiLayeredGraph getMultiLayeredGraph1(){

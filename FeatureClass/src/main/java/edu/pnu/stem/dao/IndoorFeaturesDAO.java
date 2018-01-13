@@ -47,6 +47,7 @@ public class IndoorFeaturesDAO {
 			id = UUID.randomUUID().toString();
 		}
 		newFeature.setId(id);
+		
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}

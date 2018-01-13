@@ -115,7 +115,13 @@ public class IndoorGMLMap {
 	
 	public Object getFeature(String id){
 		Object newFeature = null;
-		newFeature = container.get(id);
+		if(hasID(id)){
+			String typeName = (String) getFeatureContainer("ID").get(id);
+			newFeature = container.get(typeName).get(id);
+		} else {
+			//TODO
+			//Excpetion
+		}
 		return newFeature;
 	}
 
@@ -128,7 +134,7 @@ public class IndoorGMLMap {
 		else{
 			System.out.println("Already Exist Id");
 			container.get(featureName).put(id, featureValue);
-		}		
+		}
 	}
 	
 	public void deleteFeature(String id, String featureName){
@@ -170,7 +176,7 @@ public class IndoorGMLMap {
 			IndoorFeaturesType resultDoc;
 			try {
 				resultDoc = edu.pnu.stem.binder.Convert2JaxbClass.change2JaxbClass(this, features);
-				Mashaller.marshalIndoorFeatures(this.docId, resultDoc);
+				Mashaller.marshalIndoorFeatures(path, resultDoc);
 			} catch (JAXBException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
