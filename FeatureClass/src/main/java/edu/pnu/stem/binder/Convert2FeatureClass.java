@@ -22,6 +22,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.feature.typeOfTopoExpressionCode;
+import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeCurveType;
@@ -263,10 +264,9 @@ public class Convert2FeatureClass {
 
 		for (int i = 0; i < tempSLMList.size(); i++) {
 			SpaceLayerType s = tempSLMList.get(i).getSpaceLayer();
-			SpaceLayer spacelayer = new SpaceLayer(savedMap);
-			spacelayer.setId(s.getId());
-			slm.add(spacelayer);
-			savedMap.setFeature(s.getId(), "SpaceLayer", change2FeatureClass(savedMap, s, newFeature.getId()));
+			SpaceLayer temp = change2FeatureClass(savedMap, s, newFeature.getId());
+			savedMap.setFeature(s.getId(), "SpaceLayer", temp);
+			slm.add(temp);		
 		}
 		newFeature.setSpaceLayerMember(slm);
 
@@ -311,11 +311,10 @@ public class Convert2FeatureClass {
 
 		for (int i = 0; i < tm.size(); i++) {
 			TransitionType tempTM = tm.get(i).getTransition();
-			savedMap.setFeature(tempTM.getId(), "Transition", change2FeatureClass(savedMap, tempTM, newFeature.getId()));
+			Transition temp = change2FeatureClass(savedMap, tempTM, newFeature.getId());
+			savedMap.setFeature(tempTM.getId(), "Transition", temp);
 			// transitionMemberReference.add(change2FeatureClass(tempTM,
 			// newFeature.setId()));
-			Transition temp = new Transition(savedMap);
-			temp.setId(tempTM.getId());
 			transitionMemberReference.add(temp);
 		}
 		newFeature.setTransitionMembers(transitionMemberReference);
@@ -412,9 +411,8 @@ public class Convert2FeatureClass {
 
 		for (int i = 0; i < tempML.size(); i++) {
 			StateType tempState = tempML.get(i).getState();
-			savedMap.setFeature(tempState.getId(), "State", change2FeatureClass(savedMap, tempState, newFeature.getId()));
-			State temp = new State(savedMap);
-			temp.setId(tempState.getId());
+			State temp = change2FeatureClass(savedMap, tempState, newFeature.getId());
+			savedMap.setFeature(tempState.getId(), "State", temp);
 			stateList.add(temp);
 		}
 		newFeature.setStateMember(stateList);
@@ -440,18 +438,17 @@ public class Convert2FeatureClass {
 		List<NodesType> tempNL = feature.getNodes();
 
 		for (int i = 0; i < tempEL.size(); i++) {
-			Edges temp = new Edges(savedMap);
-			temp.setId(tempEL.get(i).getId());
+			Edges temp = change2FeatureClass(savedMap, tempEL.get(i), newFeature.getId());
 			edgeList.add(temp);
-			savedMap.setFeature(tempEL.get(i).getId(), "Edges", change2FeatureClass(savedMap, tempEL.get(i), newFeature.getId()));
+			savedMap.setFeature(tempEL.get(i).getId(), "Edges", temp);
 			// tempEdgeList.add(change2FeatureClass(tempEL.get(i)));
 
 		}
 		for (int i = 0; i < tempNL.size(); i++) {
-			Nodes temp = new Nodes(savedMap);
+			Nodes temp = change2FeatureClass(savedMap, tempNL.get(i), newFeature.getId());
 			temp.setId(tempNL.get(i).getId());
 			nodesList.add(temp);
-			savedMap.setFeature(tempNL.get(i).getId(), "Nodes", change2FeatureClass(savedMap, tempNL.get(i), newFeature.getId()));
+			savedMap.setFeature(tempNL.get(i).getId(), "Nodes", temp);
 		}
 		newFeature.setEdges(edgeList);
 		newFeature.setNodes(nodesList);
@@ -471,8 +468,8 @@ public class Convert2FeatureClass {
 		
 		if(feature.isSetGeometry()){
 			com.vividsolutions.jts.geom.Point geom = Convert2JTSGeometry.convert2Point(feature.getGeometry().getPoint());
+			GeometryUtil.setMetadata(geom, "id", feature.getGeometry().getPoint().getId());
 			newFeature.setGeometry(geom);
-			savedMap.setFeature(feature.getId(), "Geometry", geom);
 		}
 
 		if (feature.getDuality() == null) {
@@ -487,7 +484,7 @@ public class Convert2FeatureClass {
 		List<Transition> connects = new ArrayList<Transition>();
 		for (int i = 0; i < featureConnects.size(); i++) {
 			Transition temp = new Transition(savedMap);
-			temp.setId(featureConnects.get(i).getHref());
+			temp.setId(featureConnects.get(i).getHref().substring(1));
 			connects.add(temp);
 		}
 		newFeature.setConnects(connects);
@@ -520,8 +517,8 @@ public class Convert2FeatureClass {
 		State[] connects = new State[2];
 		State connects1 = new State(savedMap);
 		State connects2 = new State(savedMap);
-		connects1.setId(tempConnect.get(0).getHref());
-		connects2.setId(tempConnect.get(1).getHref());
+		connects1.setId(tempConnect.get(0).getHref().substring(1));
+		connects2.setId(tempConnect.get(1).getHref().substring(1));
 		connects[0] = connects1;
 		connects[1] = connects2;
 		newFeature.setConnects(connects);
