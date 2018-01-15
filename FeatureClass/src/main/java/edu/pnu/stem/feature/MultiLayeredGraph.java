@@ -60,7 +60,14 @@ public class MultiLayeredGraph extends AbstractFeature {
 			
 		}
 	}
-
+	
+	public void addSpaceLayers(SpaceLayers sls) {
+		if(!this.spaceLayers.contains(sls.getId())){
+			this.spaceLayers.add(sls.getId());
+			indoorGMLMap.setFeature(sls.getId(), "SpaceLayers", sls);
+		}
+	}
+	
 	/**
 	 * @return the interEdges
 	 */

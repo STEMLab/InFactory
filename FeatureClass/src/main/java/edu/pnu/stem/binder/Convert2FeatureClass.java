@@ -68,15 +68,6 @@ import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
 
 public class Convert2FeatureClass {
 	
-	public static AbstractFeature change2FeatureClass(AbstractFeatureType feature) {
-		AbstractFeature newFeature = new AbstractFeature();
-		// Object tempLocation = feature.getLocation().getValue();
-		newFeature.setId(feature.getId());
-		// newFeature.boundedBy = feature.getBoundedBy();
-		// TODO : implement geometry of boundedBy using jts geometry library
-		return newFeature;
-	}
-
 	public static IndoorFeatures change2FeatureClass(IndoorGMLMap savedMap, String docId, IndoorFeaturesType feature) throws JAXBException {
 		IndoorFeatures newFeature = new IndoorFeatures(savedMap);
 		newFeature.setId(feature.getId());

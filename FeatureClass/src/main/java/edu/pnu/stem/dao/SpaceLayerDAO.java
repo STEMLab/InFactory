@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
+import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
@@ -79,6 +80,17 @@ public class SpaceLayerDAO {
 		map.setFeature(ID, "SpaceLayer", newFeature);
 		return newFeature;
 	}
+	
+	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentId, String id) {
+		SpaceLayer newFeature = null;
+		newFeature = new SpaceLayer(map);
+		newFeature.setId(id);
+		
+		
+		SpaceLayers parent = (SpaceLayers) map.getFeature(parentId);
+		return newFeature;
+	}
+	
 	/**
 	 * Search SpaceLayer feature in document
 	 * @param ID ID of target
