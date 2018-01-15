@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import edu.pnu.stem.feature.AbstractFeature;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
@@ -24,7 +23,6 @@ import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.feature.typeOfTopoExpressionCode;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
-import net.opengis.gml.v_3_2_1.AbstractFeatureType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeCurveType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
@@ -67,7 +65,6 @@ import net.opengis.indoorgml.core.v_1_0.TransitionType;
 import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
 
 public class Convert2FeatureClass {
-	
 	public static IndoorFeatures change2FeatureClass(IndoorGMLMap savedMap, String docId, IndoorFeaturesType feature) throws JAXBException {
 		IndoorFeatures newFeature = new IndoorFeatures(savedMap);
 		newFeature.setId(feature.getId());
@@ -470,7 +467,12 @@ public class Convert2FeatureClass {
 		Nodes parent = new Nodes(savedMap);
 		parent.setId(parentId);
 		newFeature.setParent(parent);
-		// newFeature.geometry =
+		
+		if(feature.isSetGeometry()){
+			com.vividsolutions.jts.geom.Point geom = Convert2JTSGeometry.convert2Point(feature.getGeometry().getPoint());
+			newFeature.setGeometry(geom);
+			savedMap.setFeature(feature.getId(), "Geometry", geom);
+		}
 
 		if (feature.getDuality() == null) {
 			System.out.println("Convert to State : There is no Duality");
