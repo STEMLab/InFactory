@@ -78,20 +78,27 @@ public class Convert2JaxbGeometry {
 	}
 	public static DirectPositionType Convert2CoordinateType(Coordinate feature, int dimension){
 		DirectPositionType newFeature = gmlFactory.createDirectPositionType();
-		if(dimension == 2){
+		int count = 0;
+		for (char ch: feature.toString().toCharArray()) {
+	        if (ch == ',')  {
+	        	count++;
+	        } 
+	    }		
+		 if(count == 1){
 			List<Double> points = new ArrayList<Double>();
 			points.add(feature.x);
 			points.add(feature.y);
 			newFeature.setValue(points);
 		}
-		else if(dimension == 3){
+		else if(count == 2){
 			List<Double>points = new ArrayList<Double>();
 			points.add(feature.x);
 			points.add(feature.y);
 			points.add(feature.z);
 			newFeature.setValue(points);
 		}
-		BigInteger d = BigInteger.valueOf((long)dimension);
+		count++;
+		BigInteger d = BigInteger.valueOf((long)count);
 		newFeature.setSrsDimension(d);
 		return newFeature;
 	}
