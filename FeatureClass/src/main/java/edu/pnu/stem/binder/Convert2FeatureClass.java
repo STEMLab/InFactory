@@ -470,7 +470,9 @@ public class Convert2FeatureClass {
 		newFeature.setParent(parent);
 		
 		if(feature.isSetGeometry()){
-			savedMap.setFeature(feature.getId(), "Geometry", Convert2JTSGeometry.convert2Point(feature.getGeometry().getPoint()));
+			com.vividsolutions.jts.geom.Point geom = Convert2JTSGeometry.convert2Point(feature.getGeometry().getPoint());
+			newFeature.setGeometry(geom);
+			savedMap.setFeature(feature.getId(), "Geometry", geom);
 		}
 
 		if (feature.getDuality() == null) {
