@@ -88,6 +88,8 @@ public class SpaceLayerDAO {
 		
 		
 		SpaceLayers parent = (SpaceLayers) map.getFeature(parentId);
+		parent.addSpaceLayer(newFeature);
+		
 		return newFeature;
 	}
 	

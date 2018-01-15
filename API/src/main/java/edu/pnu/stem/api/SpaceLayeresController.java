@@ -31,7 +31,7 @@ import edu.pnu.stem.feature.SpaceLayers;
  *
  */
 @RestController
-@RequestMapping("/spacelayeres")
+@RequestMapping("/spacelayers")
 public class SpaceLayeresController {
 	
 	@Autowired
