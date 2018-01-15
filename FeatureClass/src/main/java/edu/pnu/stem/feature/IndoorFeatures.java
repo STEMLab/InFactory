@@ -6,7 +6,7 @@ import edu.pnu.stem.binder.IndoorGMLMap;
  * @author jungh
  *	Implements IndoorFeaturesType of IndoorGML 1.0.3
  */
-public class IndoorFeatures extends AbstractFeature{
+public class IndoorFeatures extends AbstractFeature {
 
 	/**
 	 * save PriamlSpaceFeatures value
@@ -16,15 +16,9 @@ public class IndoorFeatures extends AbstractFeature{
 	 * save MultiLayeredGraph value
 	 */
 	private String multiLayeredGraph = null;
-	
-	/**
-	 * @return the docId
-	 */
-	private IndoorGMLMap indoorGMLMap;
-	
-	
-	public IndoorFeatures(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+
+	public IndoorFeatures(IndoorGMLMap doc) {
+		super(doc);
 	}
 	/**
 	 * @return the primalSpaceFeatures

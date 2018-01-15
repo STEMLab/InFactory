@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
@@ -30,6 +31,18 @@ public class SpaceLayersDAO {
 		else if(spaceLayerMember == null){
 			System.out.println("Error at createSpaceLayers : there is no enough SpaceLayerType instance");
 		}
+		return newFeature;
+	}
+	
+	public static SpaceLayers createSpaceLayers(IndoorGMLMap map, String parentId, String id) {
+		SpaceLayers newFeature = null;
+		
+		newFeature = new SpaceLayers(map);
+		newFeature.setId(id);
+		
+		MultiLayeredGraph parent = (MultiLayeredGraph) map.getFeature(parentId);
+		parent.addSpaceLayers(newFeature);
+		
 		return newFeature;
 	}
 	/**

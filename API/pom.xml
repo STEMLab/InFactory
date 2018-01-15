@@ -10,7 +10,6 @@
 	<artifactId>api</artifactId>
 	<packaging>war</packaging>
 
-
 	<properties>
 		<spring.version>5.0.2.RELEASE</spring.version>
 		<jetty.version>9.4.8.v20171121</jetty.version>

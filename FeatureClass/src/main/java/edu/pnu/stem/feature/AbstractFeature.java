@@ -8,7 +8,7 @@ import edu.pnu.stem.binder.IndoorGMLMap;
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
  */
-public class AbstractFeature {
+public abstract class AbstractFeature {
 	
 	IndoorGMLMap indoorGMLMap;
 	/**
