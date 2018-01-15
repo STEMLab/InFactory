@@ -29,15 +29,15 @@ import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 import net.opengis.gml.v_3_2_1.SurfaceType;
 
 public class Convert2JTSGeometry {
-	private final GeometryFactory geometryFactory = new GeometryFactory();
+	private final static GeometryFactory geometryFactory = new GeometryFactory();
 	public Solid Convert2Solid(SolidType feature){
 		Solid newFeature = null;
 		ShellType exterior = feature.getExterior().getShell();
-		MultiPolygon shell = Convert2MultiPolygon(exterior);
+		MultiPolygon shell = convert2MultiPolygon(exterior);
 		newFeature = new Solid(shell, null, geometryFactory);
 		return newFeature;
 	}
-	public MultiPolygon Convert2MultiPolygon(ShellType feature){
+	public MultiPolygon convert2MultiPolygon(ShellType feature){
 		MultiPolygon newFeature = null;
 		AbstractSurfaceType firstGeo = feature.getSurfaceMember().get(0).getAbstractSurface().getValue();
 		List<Polygon>multiPolygonList = new ArrayList<Polygon>();
@@ -57,7 +57,7 @@ public class Convert2JTSGeometry {
 			}
 			
 			for(int i = 0 ; i < polygonList.size() ; i++){	
-				multiPolygonList.add(Convert2Polygon(polygonList.get(i)));
+				multiPolygonList.add(convert2Polygon(polygonList.get(i)));
 				Polygon[]temp = null;
 				shell = geometryFactory.createMultiPolygon(multiPolygonList.toArray(temp));
 			}
@@ -74,35 +74,35 @@ public class Convert2JTSGeometry {
 	}
 	 * */
 	
-	public Polygon Convert2Polygon(PolygonType feature){
+	public Polygon convert2Polygon(PolygonType feature){
 		AbstractRingType ring = feature.getExterior().getAbstractRing().getValue();
 		Polygon newFeature = null;
 		if(ring instanceof LinearRingType){
-			newFeature = geometryFactory.createPolygon(Convert2LinearRing((LinearRingType)ring));
+			newFeature = geometryFactory.createPolygon(convert2LinearRing((LinearRingType)ring));
 		}
 		else if(ring instanceof RingType){
 			//TODO : support RingType later
 		}
 		return newFeature;
 	}
-	public LinearRing Convert2LinearRing(LinearRingType feature){
+	public LinearRing convert2LinearRing(LinearRingType feature){
 		DirectPositionListType directpositionList = feature.getPosList();
-		List<Coordinate>temp = Convert2CoordinateList(directpositionList);
+		List<Coordinate>temp = convert2CoordinateList(directpositionList);
 		Coordinate[] newCoordinate = null;
 		temp.toArray(newCoordinate);
 		LinearRing newFeature = geometryFactory.createLinearRing(newCoordinate);
 		return newFeature;
 	}
-	public LineString Convert2LineString(LineStringType feature){
-		List<Coordinate>coordinateList = Convert2CoordinateList(feature.getPosList());
+	public LineString convert2LineString(LineStringType feature){
+		List<Coordinate>coordinateList = convert2CoordinateList(feature.getPosList());
 		return geometryFactory.createLineString((Coordinate[]) coordinateList.toArray());
 	}
-	public Point Convert2Point(PointType feature){
+	public static Point convert2Point(PointType feature){
 		Point newFeature = null;
-		newFeature = geometryFactory.createPoint(Convert2Coordinate(feature.getPos()));
+		newFeature = geometryFactory.createPoint(convert2Coordinate(feature.getPos()));
 		return newFeature;		
 	}
-	public Coordinate Convert2Coordinate(DirectPositionType feature){
+	public static Coordinate convert2Coordinate(DirectPositionType feature){
 		Coordinate newFeature = null;
 		List<Double>coordinates = feature.getValue();
 		if(coordinates.size() == 2){
@@ -113,7 +113,7 @@ public class Convert2JTSGeometry {
 		}
 		return newFeature;
 	}
-	public List<Coordinate> Convert2CoordinateList(DirectPositionListType feature){
+	public List<Coordinate> convert2CoordinateList(DirectPositionListType feature){
 		List<Double>pointList = feature.getValue();
 		List<Coordinate>coordinateList = new ArrayList<Coordinate>();
 		if(feature.getSrsDimension().intValue() == 2){
