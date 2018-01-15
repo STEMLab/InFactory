@@ -21,43 +21,43 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.dao.MultiLayeredGraphDAO;
-import edu.pnu.stem.dao.SpaceLayersDAO;
-import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.SpaceLayers;
+import edu.pnu.stem.dao.StateDAO;
+import edu.pnu.stem.feature.State;
 
 /**
  * @author hyung
  *
  */
 @RestController
-@RequestMapping("/spacelayers")
-public class SpaceLayeresController {
+@RequestMapping("/state")
+public class StateController {
 	
 	@Autowired
     private ApplicationContext applicationContext;
 	
 	@PostMapping(value = "/", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayeres(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createSpaceLayer(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		String id = json.get("id").asText().trim();
+		
+		String geom = json.get("geometry").asText().trim();
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
-		SpaceLayers sls;
+		State s;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			sls = SpaceLayersDAO.createSpaceLayers(map, parentId, id);
+			s = StateDAO.createState(map, parentId, id, geom);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
 		}
-		response.setHeader("Location", request.getRequestURL().append(sls.getId()).toString());
+		response.setHeader("Location", request.getRequestURL().append(s.getId()).toString());
 	}
 	
 }

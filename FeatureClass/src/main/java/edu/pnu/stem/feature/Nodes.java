@@ -59,6 +59,14 @@ public class Nodes extends AbstractFeature {
 		return stateMember;
 	}
 	
+	
+	public void addStateMember(State s) {
+		if(!this.stateMember.contains(s.getId())){
+			this.stateMember.add(s.getId());
+			indoorGMLMap.setFeature(s.getId(), "State", s);
+		}
+	}
+	
 	public void clearStateMember(){
 		this.stateMember.clear();
 	}

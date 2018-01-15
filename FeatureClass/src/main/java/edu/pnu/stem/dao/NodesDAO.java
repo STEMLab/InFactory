@@ -6,12 +6,13 @@ import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Nodes;
+import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.State;
 
 
 public class NodesDAO {
 
-	public Nodes createNodes(IndoorGMLMap map, String parentId, String Id, List<String>stateMember){
+	public static Nodes createNodes(IndoorGMLMap map, String parentId, String Id, List<String>stateMember){
 		Nodes newFeature = null;
 		newFeature = new Nodes(map);
 		newFeature.setId(Id);
@@ -29,6 +30,18 @@ public class NodesDAO {
 		}		
 		map.setFeature(Id, "Nodes", newFeature);
 		
+		return newFeature;
+	}
+	
+	public static Nodes createNodes(IndoorGMLMap map, String parentId, String Id){
+		Nodes newFeature = null;
+		newFeature = new Nodes(map);
+		newFeature.setId(Id);
+		
+		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
+		parent.addNodes(newFeature);
+		
+		map.setFeature(Id, "Nodes", newFeature);
 		return newFeature;
 	}
 
