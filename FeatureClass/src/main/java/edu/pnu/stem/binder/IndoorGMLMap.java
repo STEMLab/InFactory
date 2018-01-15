@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.bind.JAXBException;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 import edu.pnu.stem.feature.IndoorFeatures;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
@@ -64,6 +66,7 @@ public class IndoorGMLMap {
 		container.put("State", State);
 		container.put("Reference", Reference);
 		container.put("Envelope", new ConcurrentHashMap<String,Object>());
+		container.put("Geometry", new ConcurrentHashMap<String,Object>());
 	}
 
 	public boolean hasID(String id) {
@@ -90,13 +93,7 @@ public class IndoorGMLMap {
 		String featureName = (String) idContainer.get(id);
 		return featureName;
 	}
-
-	public String getFeatureNameFromClassType(Object value) {
-		String featureName = null;
-
-		return featureName;
-	}
-
+	
 	public ConcurrentHashMap<String, Object> getFeatureContainer(String featureName) {
 		ConcurrentHashMap<String, Object> newFeatureContainer = null;
 
@@ -124,7 +121,29 @@ public class IndoorGMLMap {
 		}
 		return newFeature;
 	}
-
+	
+	public Geometry getFeature4Geometry(String id){
+		ConcurrentHashMap<String,Object> geomContainer = container.get("Geometry");
+		Geometry geom = null;
+		if(geomContainer.containsKey(id)){
+			geom = (Geometry)geomContainer.get(id);
+		}
+		else{
+			//TODO
+			//Excpetion
+		}
+		return geom;
+	}
+	public void setFeature4Geometry(String id, Geometry geom){
+		ConcurrentHashMap<String,Object> geomContainer = container.get("Geometry");
+		if(!geomContainer.containsKey(id)){
+			geomContainer.put(id, geom);
+		}
+		else{
+			//TODO
+			//Excpetion
+		}
+	}
 	
 	public void setFeature(String id,String featureName, Object featureValue){
 		if(!hasID(id)){

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import com.vividsolutions.jts.geom.Point;
+
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
@@ -19,6 +21,8 @@ import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
+import net.opengis.gml.v_3_2_1.PointPropertyType;
+import net.opengis.gml.v_3_2_1.PointType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
@@ -51,7 +55,7 @@ import net.opengis.indoorgml.core.v_1_0.TransitionType;
 
 public class Convert2JaxbClass {
 	static net.opengis.indoorgml.core.v_1_0.ObjectFactory indoorgmlcoreOF = new net.opengis.indoorgml.core.v_1_0.ObjectFactory();
-	net.opengis.gml.v_3_2_1.ObjectFactory gmlOF = new net.opengis.gml.v_3_2_1.ObjectFactory();
+	static net.opengis.gml.v_3_2_1.ObjectFactory gmlOF = new net.opengis.gml.v_3_2_1.ObjectFactory();
 	private static IndoorGMLMap savedMap;
 	@SuppressWarnings("unchecked")
 	public static CellSpaceType change2JaxbClass(IndoorGMLMap savedMap, CellSpace feature) throws JAXBException {
@@ -384,6 +388,15 @@ public class Convert2JaxbClass {
 			tempTransitionPropertyType.setHref(href);
 			connects.add(tempTransitionPropertyType);		
 		}
+
+		Point geom = (Point) feature.getGeometry();
+		if(geom != null){
+			PointType point = Convert2JaxbGeometry.Convert2PointType(geom);
+			PointPropertyType pointProp = gmlOF.createPointPropertyType();
+			pointProp.setPoint(point);
+			newFeature.setGeometry(pointProp);
+		}
+		
 		CellSpacePropertyType duality = indoorgmlcoreOF.createCellSpacePropertyType();
 		String href = feature.getDuality().getId();
 		href = "#" + href;
@@ -411,13 +424,14 @@ public class Convert2JaxbClass {
 			connects.add(temp);
 		}
 		newFeature.setConnects(connects);
+		if(feature.getDuality() != null){
+			CellSpaceBoundaryPropertyType duality = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
+			String href = feature.getDuality().getId();
+			href = "#" + href;
+			duality.setHref(href);			
+			newFeature.setDuality(duality);
+		}
 		
-		CellSpaceBoundaryPropertyType duality = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
-		String href = feature.getDuality().getId();
-		href = "#" + href;
-		duality.setHref(href);
-		
-		newFeature.setDuality(duality);
 		newFeature.setWeight(feature.getWeight());
 		
 		

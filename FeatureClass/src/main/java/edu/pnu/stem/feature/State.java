@@ -7,7 +7,6 @@ import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.util.GeometryUtil;
-import net.opengis.gml.v_3_2_1.PointPropertyType;
 
 /**
  * @author jungh
@@ -35,15 +34,15 @@ public class State extends AbstractFeature {
 	
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
+		feature = (Geometry) indoorGMLMap.getFeature4Geometry(this.geometry);
 		return feature;
 	}
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature4Geometry(gId);
 		if(found == null) {
-			indoorGMLMap.setFeature(gId, "Geometry", geom);
+			indoorGMLMap.setFeature4Geometry(gId, geom);
 		}
 		this.geometry = gId;
 	}
