@@ -16,13 +16,7 @@ public class IndoorFeatures extends AbstractFeature {
 	 * save MultiLayeredGraph value
 	 */
 	private String multiLayeredGraph = null;
-	
-	/**
-	 * @return the docId
-	 */
-	private IndoorGMLMap indoorGMLMap;
-	
-	
+
 	public IndoorFeatures(IndoorGMLMap doc) {
 		super(doc);
 	}

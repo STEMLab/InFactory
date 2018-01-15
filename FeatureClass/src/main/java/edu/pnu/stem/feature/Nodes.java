@@ -14,10 +14,8 @@ public class Nodes extends AbstractFeature {
 
 	private String parentId;
 	
-	private IndoorGMLMap indoorGMLMap;
-	
 	public Nodes(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 		stateMember = new ArrayList<String>();
 	}
 	

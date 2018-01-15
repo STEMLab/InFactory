@@ -10,8 +10,6 @@ import edu.pnu.stem.binder.IndoorGMLMap;
  */
 public class CellSpaceBoundaryGeometry extends AbstractFeature {
 	
-	private IndoorGMLMap indoorGMLMap;
-	
 	private String docId;
 	private String geometry2D;
 	private String geometry3D;
@@ -21,7 +19,7 @@ public class CellSpaceBoundaryGeometry extends AbstractFeature {
 	private String parentID;
 	
 	public CellSpaceBoundaryGeometry(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 	}
 	
 	public String getParentID(){return this.parentID;}

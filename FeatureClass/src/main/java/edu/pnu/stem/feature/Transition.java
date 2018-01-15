@@ -31,11 +31,9 @@ public class Transition extends AbstractFeature {
 	private String parentId;
 
 	private ExternalReference externalReference;
-	
-	private IndoorGMLMap indoorGMLMap;
-	
+
 	public Transition(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 		connects = new String[2];
 	}
 	

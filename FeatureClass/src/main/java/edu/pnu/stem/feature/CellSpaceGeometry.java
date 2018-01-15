@@ -6,7 +6,7 @@ import net.opengis.gml.v_3_2_1.AbstractGeometryType;
  * @author jungh
  *	Implements CellSpaceGeometryType of IndoorGML 1.0.3
  */
-public class CellSpaceGeometry extends AbstractFeature{
+public class CellSpaceGeometry extends AbstractFeature {
 	
 		/**
 	 * save geometry of feature 
@@ -23,10 +23,8 @@ public class CellSpaceGeometry extends AbstractFeature{
 	
 	private String parentID;
 	
-	private IndoorGMLMap indoorGMLMap;
-	
 	public CellSpaceGeometry(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 	}
 	
 	public String getID(){ return this.id; }

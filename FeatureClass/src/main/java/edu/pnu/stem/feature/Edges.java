@@ -17,11 +17,8 @@ public class Edges extends AbstractFeature{
 
 	private String parentId;
 	
-	private IndoorGMLMap indoorGMLMap;
-	
-	
 	public Edges(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 	}
 	
 	public void setParent(SpaceLayer parent) {

@@ -28,10 +28,8 @@ public class State extends AbstractFeature {
 
 	private String externalReference;
 	
-	private IndoorGMLMap indoorGMLMap;
-	
 	public State(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 		connects = new ArrayList<String>();
 	}
 	

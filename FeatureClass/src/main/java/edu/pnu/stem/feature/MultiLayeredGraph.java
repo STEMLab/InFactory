@@ -21,10 +21,8 @@ public class MultiLayeredGraph extends AbstractFeature {
 
 	private String parentId;
 
-	private IndoorGMLMap indoorGMLMap;
-	
 	public MultiLayeredGraph(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 		spaceLayers = new ArrayList<String>();
 		interEdges = new ArrayList<String>();
 	}

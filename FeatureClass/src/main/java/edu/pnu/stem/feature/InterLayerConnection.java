@@ -25,13 +25,8 @@ public class InterLayerConnection extends AbstractFeature {
 	 */
 	private String[] connectedLayers;
 	
-	/**
-	 * @return the docId
-	 */
-	private IndoorGMLMap indoorGMLMap;
-	
 	public InterLayerConnection(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 	}
 	
 	public Boolean checkInterConnectsNumber() {

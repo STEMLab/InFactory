@@ -36,11 +36,8 @@ public class CellSpace extends AbstractFeature {
 	 */
 	private String parentId;
 
-	private IndoorGMLMap indoorGMLMap;
-	
-	
 	public CellSpace(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 		partialboundedBy = new ArrayList<String>();
 	}
 	

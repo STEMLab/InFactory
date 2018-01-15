@@ -17,11 +17,8 @@ public class InterEdges extends AbstractFeature {
 
 	private String parentId;
 
-	private IndoorGMLMap indoorGMLMap;
-	
-	
 	public InterEdges(IndoorGMLMap doc){
-		indoorGMLMap = doc;
+		super(doc);
 		interLayerConnectionMember = new ArrayList<String>();
 	}
 	
