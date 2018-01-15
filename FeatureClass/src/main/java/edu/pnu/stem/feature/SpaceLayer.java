@@ -148,6 +148,13 @@ public class SpaceLayer extends AbstractFeature {
 		}
 	}
 
+	public void addNodes(Nodes ns) {
+		if(!this.nodes.contains(ns.getId())){
+			this.nodes.add(ns.getId());
+			indoorGMLMap.setFeature(ns.getId(), "Nodes", ns);
+		}
+	}
+	
 	/**
 	 * @return the edges
 	 */

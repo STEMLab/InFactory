@@ -4,6 +4,10 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
+
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
@@ -53,6 +57,31 @@ public class StateDAO {
 		map.setFeature(Id, "CellSpace", newFeature);
 		return newFeature;
 	}
+	
+	public static State createState(IndoorGMLMap map, String parentId, String Id, String geometry) {
+		State newFeature = null;
+		newFeature = new State(map);
+		newFeature.setId(Id);
+		
+		Nodes parent = new Nodes(map);
+		parent.setId(parentId);
+		newFeature.setParent(parent);
+		
+		if (geometry != null) {
+			WKTReader wkt = new WKTReader();
+			try {
+				Point p = (Point) wkt.read(geometry);
+				newFeature.setGeometry(p);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		map.setFeature(Id, "CellSpace", newFeature);
+		return newFeature;
+	}
+	
 	
 	
 	public State readState(String ID) {
