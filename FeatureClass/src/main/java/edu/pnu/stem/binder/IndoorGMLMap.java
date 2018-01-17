@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.feature.IndoorFeatures;
+import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 public class IndoorGMLMap {
@@ -135,6 +136,7 @@ public class IndoorGMLMap {
 		return geom;
 	}
 	public void setFeature4Geometry(String id, Geometry geom){
+		GeometryUtil.setMetadata(geom, "id", id);
 		ConcurrentHashMap<String,Object> geomContainer = container.get("Geometry");
 		if(!geomContainer.containsKey(id)){
 			geomContainer.put(id, geom);

@@ -386,12 +386,15 @@ public class Convert2JaxbClass {
 		
 		List<TransitionPropertyType>connects = new ArrayList<TransitionPropertyType>();
 		
-		for(int i = 0 ; i < feature.getConnects().size(); i++){
-			TransitionPropertyType tempTransitionPropertyType = new TransitionPropertyType();
-			String href = feature.getConnects().get(i).getId();
-			href = "#" + href;
-			tempTransitionPropertyType.setHref(href);
-			connects.add(tempTransitionPropertyType);		
+		if(feature.getConnects() != null) {
+			for(int i = 0 ; i < feature.getConnects().size(); i++){
+				TransitionPropertyType tempTransitionPropertyType = new TransitionPropertyType();
+				String href = feature.getConnects().get(i).getId();
+				href = "#" + href;
+				tempTransitionPropertyType.setHref(href);
+				connects.add(tempTransitionPropertyType);		
+			}
+			newFeature.setConnects(connects);
 		}
 
 		Point geom = (Point) feature.getGeometry();
@@ -402,15 +405,16 @@ public class Convert2JaxbClass {
 			newFeature.setGeometry(pointProp);
 		}
 		
-		CellSpacePropertyType duality = indoorgmlcoreOF.createCellSpacePropertyType();
-		String href = feature.getDuality().getId();
-		href = "#" + href;
-		duality.setHref(href);
-		newFeature.setDuality(duality);
+		if(feature.getDuality() != null) {
+			CellSpacePropertyType duality = indoorgmlcoreOF.createCellSpacePropertyType();
+			String href = feature.getDuality().getId();
+			href = "#" + href;
+			duality.setHref(href);
+			newFeature.setDuality(duality);
+		}
 		//feature.geometry
-		newFeature.setConnects(connects);
-		newFeature.setId(feature.getId());
 		
+		newFeature.setId(feature.getId());
 		return newFeature;
 	}
 

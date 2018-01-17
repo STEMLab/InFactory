@@ -1,27 +1,21 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.UUID;
+
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
+
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
+import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
 public class TransitionDAO {
 
-	
-	/**
-	 * @param docId
-	 * @param parentId
-	 * @param Id
-	 * @param name
-	 * @param description
-	 * @param duality
-	 * @param geometry
-	 * @param externalReference
-	 * @param connects
-	 * @return
-	 */
 	public static Transition createTransition(IndoorGMLMap map, String parentId,
 			String Id, String name, String description, String duality, String geometry,
 			String externalReference, String[]connects) {
@@ -64,7 +58,65 @@ public class TransitionDAO {
 		else{
 			System.out.println("createTransition : there is no enough number of connections for this transition");
 		}
-		map.setFeature(Id, "CellSpaceBoundary", newFeature);
+		map.setFeature(Id, "Transition", newFeature);
+		return newFeature;
+	}
+	
+	public static Transition createTransition(IndoorGMLMap map, String parentId,
+			String id, String geometry, String[] connects) {
+		Transition newFeature = null;
+		newFeature = new Transition(map);
+		newFeature.setId(id);
+		
+		Edges parent = (Edges) map.getFeature(parentId);
+		parent.addTransitionMember(newFeature);
+		newFeature.setParent(parent);
+		
+		/*
+		if (duality != null) {
+			CellSpaceBoundary tempDuality = new CellSpaceBoundary(map);
+			tempDuality.setId(duality);
+			newFeature.setDuality(tempDuality);
+			if(map.getFeatureContainer("Reference").containsKey(duality)){
+				int count = (Integer)map.getFeatureContainer("Reference").get(duality);
+				count++;
+				map.setFeature(duality, "Reference", count);
+			}
+			else{
+				map.setFeature(duality, "Reference", 1);
+			}
+			map.setFeature(Id, "Reference", 1);
+		}
+		if (externalReference != null) {
+			//newFeature.setExternalReference(externalReference);
+		}
+		*/
+		
+		if (geometry != null) {
+			WKTReader wkt = new WKTReader();
+			try {
+				LineString l = (LineString) wkt.read(geometry);
+				map.setFeature4Geometry(UUID.randomUUID().toString(), l);
+				newFeature.setGeometry(l);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if(connects.length == 2) {
+			State[] tempConnects = new State[2];
+			tempConnects[0] = (State) map.getFeature(connects[0]);
+			tempConnects[1] = (State) map.getFeature(connects[1]);
+			tempConnects[0].setId(connects[0]);
+			tempConnects[1].setId(connects[1]);
+			newFeature.setConnects(tempConnects);
+		}
+		
+		else{
+			System.out.println("createTransition : there is no enough number of connections for this transition");
+		}
+		map.setFeature(id, "Transition", newFeature);
 		return newFeature;
 	}
 
@@ -138,10 +190,6 @@ public class TransitionDAO {
 		return target;
 	}*/
 
-	/**
-	 * Search Transition feature and delete it
-	 * @param ID ID of target
-	 */
 /*	public static void deleteTransition(String docId, String id, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);

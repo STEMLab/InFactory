@@ -95,19 +95,13 @@ public class MultiLayeredGraph extends AbstractFeature {
 			}			
 		}
 	}
-	/**
-	 * @return
-	 */
+	
 	public IndoorFeatures getParent() {
 		IndoorFeatures parent = null;
 		parent = (IndoorFeatures)indoorGMLMap.getFeature(this.parentId);
 		return parent;
 	}
 
-	/**
-	 * @param parentID
-	 *            the parentID to set
-	 */
 	public void setParent(IndoorFeatures parent) {
 		IndoorFeatures found = null;
 		found = (IndoorFeatures)indoorGMLMap.getFeature(parent.getId());
