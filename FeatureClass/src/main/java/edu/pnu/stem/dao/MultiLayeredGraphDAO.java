@@ -47,11 +47,6 @@ public class MultiLayeredGraphDAO {
 		return newFeature;
 	}
 
-	/**
-	 * @param docId
-	 * @param id
-	 * @return
-	 */
 	public static MultiLayeredGraph createMultiLayeredGraph(IndoorGMLMap map, String parentId, String id) {
 		MultiLayeredGraph newFeature = new MultiLayeredGraph(map);
 		
@@ -67,11 +62,6 @@ public class MultiLayeredGraphDAO {
 		return newFeature;
 	}
 	
-	/**
-	 * Search MultiLayeredGraph feature in document
-	 * @param ID
-	 * @return
-	 */
 	/*
 	public static MultiLayeredGraph readMultilayeredGraph(String ID) {
 		return null;
@@ -142,10 +132,6 @@ public class MultiLayeredGraphDAO {
 	}
 	*/
 	
-	/**
-	 * Search MultiLayeredGraph feature and delete it
-	 * @param id
-	 */
 	/*
 	public static void deleteMultiLayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {

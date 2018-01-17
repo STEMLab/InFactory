@@ -3,6 +3,7 @@ package edu.pnu.stem.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.ParseException;
@@ -11,6 +12,8 @@ import com.vividsolutions.jts.io.WKTReader;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
+import edu.pnu.stem.feature.SpaceLayer;
+import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
@@ -22,9 +25,10 @@ public class StateDAO {
 		newFeature = new State(map);
 		newFeature.setId(Id);
 		
-		Nodes parent = new Nodes(map);
-		parent.setId(parentId);
+		Nodes parent = (Nodes) map.getFeature(parentId);
+		parent.addStateMember(newFeature);
 		newFeature.setParent(parent);
+		
 		if (duality != null) {
 			CellSpace tempDuality = new CellSpace(map);
 			tempDuality.setId(duality);
@@ -62,15 +66,16 @@ public class StateDAO {
 		State newFeature = null;
 		newFeature = new State(map);
 		newFeature.setId(Id);
-		
-		Nodes parent = new Nodes(map);
-		parent.setId(parentId);
+
+		Nodes parent = (Nodes) map.getFeature(parentId);
+		parent.addStateMember(newFeature);
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
 			WKTReader wkt = new WKTReader();
 			try {
 				Point p = (Point) wkt.read(geometry);
+				map.setFeature4Geometry(UUID.randomUUID().toString(), p);
 				newFeature.setGeometry(p);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -78,11 +83,9 @@ public class StateDAO {
 			}
 		}
 
-		map.setFeature(Id, "CellSpace", newFeature);
+		map.setFeature(Id, "State", newFeature);
 		return newFeature;
 	}
-	
-	
 	
 	public State readState(String ID) {
 		return null;

@@ -6,12 +6,14 @@ import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
+import edu.pnu.stem.feature.Nodes;
+import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.Transition;
 
 
 public class EdgesDAO {
 
-	public Edges createNodes(IndoorGMLMap map, String parentId, String id, List<String>transitionMember){
+	public Edges createEdges(IndoorGMLMap map, String parentId, String id, List<String>transitionMember){
 		Edges newFeature = null;
 		newFeature = new Edges(map);
 		newFeature.setId(id);
@@ -30,6 +32,18 @@ public class EdgesDAO {
 		
 		map.setFeature(id, "Edges", newFeature);
 		
+		return newFeature;
+	}
+	
+	public static Edges createEdges(IndoorGMLMap map, String parentId, String Id){
+		Edges newFeature = null;
+		newFeature = new Edges(map);
+		newFeature.setId(Id);
+		
+		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
+		parent.addEdges(newFeature);
+		
+		map.setFeature(Id, "Edges", newFeature);
 		return newFeature;
 	}
 	

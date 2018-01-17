@@ -14,16 +14,6 @@ import edu.pnu.stem.feature.State;
  */
 public class CellSpaceDAO {
 
-	/**
-	 * @param docID
-	 * @param parentID
-	 * @param ID
-	 * @param duality
-	 * @param partialboundedBy
-	 * @param cellSpaceGeometry
-	 * @param externalReference
-	 * @return
-	 */
 	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String ID,
 		String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
 		CellSpace newFeature = null;
