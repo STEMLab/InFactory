@@ -97,9 +97,14 @@ public class Convert2JTSGeometry {
 		return newFeature;
 	}
 
-	public LineString convert2LineString(LineStringType feature){
-		List<Coordinate>coordinateList = convert2CoordinateList(feature.getPosList());
-		return geometryFactory.createLineString((Coordinate[]) coordinateList.toArray());
+	public static LineString convert2LineString(LineStringType feature){
+		List<Coordinate> pointList = new ArrayList<Coordinate>();
+		
+		for(int i = 0 ; i < feature.getPosOrPointPropertyOrPointRep().size() ; i++){
+			pointList.add(convert2Coordinate((DirectPositionType)feature.getPosOrPointPropertyOrPointRep().get(i).getValue()));
+		}
+		Coordinate[] coordList = new Coordinate[pointList.size()];
+		return geometryFactory.createLineString(pointList.toArray(coordList));
 	}
 
 	public static Point convert2Point(PointType feature){
@@ -120,18 +125,18 @@ public class Convert2JTSGeometry {
 		return newFeature;
 	}
 	
-	public List<Coordinate> convert2CoordinateList(DirectPositionListType feature){
-		List<Double>pointList = feature.getValue();
-		List<Coordinate>coordinateList = new ArrayList<Coordinate>();
-		if(feature.getSrsDimension().intValue() == 2){
-			for(int i = 0 ; i <pointList.size(); i++){
-				Coordinate temp = new Coordinate(pointList.get(i), pointList.get(i+1));
+	public static List<Coordinate> convert2CoordinateList(DirectPositionListType feature) {
+		List<Double> pointList = feature.getValue();
+		List<Coordinate> coordinateList = new ArrayList<Coordinate>();
+		if(feature.getSrsDimension().intValue() == 2) {
+			for(int i = 0 ; i < pointList.size(); i++) {
+				Coordinate temp = new Coordinate(pointList.get(i), pointList.get(i + 1));
 				coordinateList.add(temp);
 			}
 		}
-		else if(feature.getSrsDimension().intValue() == 3){
-			for(int i = 0 ; i <pointList.size(); i++){
-				Coordinate temp = new Coordinate(pointList.get(i), pointList.get(i+1), pointList.get(i+2));
+		else if(feature.getSrsDimension().intValue() == 3) {
+			for(int i = 0 ; i < pointList.size(); i++) {
+				Coordinate temp = new Coordinate(pointList.get(i), pointList.get(i + 1), pointList.get(i + 2));
 				coordinateList.add(temp);
 			}
 		}
