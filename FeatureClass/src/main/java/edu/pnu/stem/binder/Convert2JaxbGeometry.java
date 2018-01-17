@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
@@ -57,12 +59,15 @@ public class Convert2JaxbGeometry {
 	
 	public static LineStringType Convert2LineStringType(LineString feature){
 		LineStringType newFeature = gmlFactory.createLineStringType();
-		DirectPositionListType directPost = gmlFactory.createDirectPositionListType();
-		List<Coordinate>coordList = new ArrayList<Coordinate>();
-		for(int i = 0 ; i < feature.getCoordinates().length;i++){
-			
+		
+		List<JAXBElement<?>> dpList = new ArrayList<JAXBElement<?>>();
+		for(int i = 0 ; i < feature.getCoordinates().length; i++){
+			Coordinate c = feature.getCoordinates()[i];
+			JAXBElement<DirectPositionType> dpt = gmlFactory.createPos(Convert2CoordinateType(c, feature.getDimension()));
+			dpList.add(dpt);
 		}
 		
+		newFeature.setPosOrPointPropertyOrPointRep(dpList);
 		return newFeature;
 	}
 	

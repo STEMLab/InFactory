@@ -436,10 +436,9 @@ public class Convert2JaxbClass {
 		LineString geom = (LineString) feature.getGeometry();
 		if(geom != null){
 			LineStringType linestring = Convert2JaxbGeometry.Convert2LineStringType(geom);
-			AbstractCurveType curve = (AbstractCurveType)linestring;
 			CurvePropertyType curveProperty = gmlOF.createCurvePropertyType();
-			JAXBContext gmlContext = JaxbUtil.createGMLContext();
-			
+			curveProperty.setAbstractCurve(gmlOF.createLineString(linestring));
+			newFeature.setGeometry(curveProperty);
 		}
 		
 		newFeature.setConnects(connects);
