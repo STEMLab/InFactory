@@ -2,8 +2,10 @@ package edu.pnu.stem.binder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 import edu.pnu.stem.feature.CellSpace;
@@ -21,6 +23,9 @@ import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
+import net.opengis.gml.v_3_2_1.AbstractCurveType;
+import net.opengis.gml.v_3_2_1.CurvePropertyType;
+import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
 import net.opengis.gml.v_3_2_1.PointType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
@@ -423,6 +428,16 @@ public class Convert2JaxbClass {
 			temp.setHref(href);
 			connects.add(temp);
 		}
+		
+		LineString geom = (LineString) feature.getGeometry();
+		if(geom != null){
+			LineStringType linestring = Convert2JaxbGeometry.Convert2LineStringType(geom);
+			AbstractCurveType curve = (AbstractCurveType)linestring;
+			CurvePropertyType curveProperty = gmlOF.createCurvePropertyType();
+			JAXBContext gmlContext = JaxbUtil.createGMLContext();
+			
+		}
+		
 		newFeature.setConnects(connects);
 		if(feature.getDuality() != null){
 			CellSpaceBoundaryPropertyType duality = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
