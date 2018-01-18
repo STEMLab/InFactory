@@ -3,11 +3,13 @@ package edu.pnu.stem.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.IndoorFeatures;
+import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 /**
@@ -17,7 +19,7 @@ import edu.pnu.stem.feature.PrimalSpaceFeatures;
  */
 public class PrimalSpaceFeaturesDAO {
 	
-	public static PrimalSpaceFeatures createPrimalFeatures(IndoorGMLMap map, String parentId, String id,
+	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id,
 		List<String>cellSpaceMember, List<String>cellSpaceBoundaryMember) {
 		PrimalSpaceFeatures newFeature = null;
 		newFeature = new PrimalSpaceFeatures(map);
@@ -44,6 +46,22 @@ public class PrimalSpaceFeaturesDAO {
 			newFeature.setCellSpaceBoundaryMember(tempCellSpaceBoundaryMember);
 		}
 		map.setFeature(id, "CellSpace", newFeature);
+		return newFeature;
+	}
+	
+	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id) {
+
+		PrimalSpaceFeatures newFeature = new PrimalSpaceFeatures(map);
+
+		if (id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		newFeature.setId(id);
+
+		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
+		parent.setPrimalSpaceFeatures(newFeature);
+
+		map.setFeature(id, "PrimalSpaceFeatures", newFeature);
 		return newFeature;
 	}
 	

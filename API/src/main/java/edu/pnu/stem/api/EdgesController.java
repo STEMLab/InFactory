@@ -25,7 +25,7 @@ import edu.pnu.stem.dao.EdgesDAO;
 import edu.pnu.stem.feature.Edges;
 
 /**
- * @author hyung
+ * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
 @RestController

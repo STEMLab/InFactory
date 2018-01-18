@@ -8,7 +8,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com)
+ * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
 public class GeometryFactory3D extends GeometryFactory {
@@ -40,8 +40,18 @@ public class GeometryFactory3D extends GeometryFactory {
 	   *            the empty geometry is to be created.
 	   * @throws IllegalArgumentException if the boundary ring is invalid
 	   */
-	  public Solid createSolid(Polygon[] shell) {
-	    return createSolid(createMultiPolygon(shell));
+	  public Solid createSolid(MultiPolygon[] shells) {
+		if(shells == null || shells.length == 0) {
+			return createSolid();
+		} else if(shells.length == 1) {
+			return createSolid(shells[0]);
+		} else {
+			MultiPolygon[] holes = new MultiPolygon[shells.length - 1];
+			for(int i = 1; i < shells.length; i++) {
+				holes[i - 1] = shells[i];
+			}
+			return createSolid(shells[0], holes);
+		}
 	  }
 
 	  /**

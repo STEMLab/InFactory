@@ -2,9 +2,10 @@ package edu.pnu.stem.binder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -23,14 +24,17 @@ import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
-import net.opengis.gml.v_3_2_1.AbstractCurveType;
+import edu.pnu.stem.geometry.jts.Solid;
 import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
 import net.opengis.gml.v_3_2_1.PointType;
+import net.opengis.gml.v_3_2_1.SolidPropertyType;
+import net.opengis.gml.v_3_2_1.SolidType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
+import net.opengis.indoorgml.core.v_1_0.CellSpaceGeometryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceMemberType;
 import net.opengis.indoorgml.core.v_1_0.CellSpacePropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceType;
@@ -89,6 +93,28 @@ public class Convert2JaxbClass {
 		}
 		
 		newFeature.setPartialboundedBy(partialboundedBy);
+		
+
+		//TODO setting Geometry 2D
+		Geometry geom = (Geometry) feature.getGeometry();
+		if(geom != null){
+			
+			if(geom instanceof Solid) {
+				Solid s = (Solid) geom;
+				SolidType solid = Convert2JaxbGeometry.Convert2SolidType(s);
+				JAXBElement<SolidType> jaxbSolid = gmlOF.createSolid(solid);
+				SolidPropertyType solidProp = gmlOF.createSolidPropertyType();
+				solidProp.setAbstractSolid(jaxbSolid);
+				
+				CellSpaceGeometryType cellSpaceGeometryType = indoorgmlcoreOF.createCellSpaceGeometryType();
+				cellSpaceGeometryType.setGeometry3D(solidProp);
+
+				newFeature.setCellSpaceGeometry(cellSpaceGeometryType);
+			}
+			else {
+				// TODO
+			}
+		}
 		//newFeature.setPartialboundedBy(feature.getPartialBoundedBy());
 		/*
 		 * 		if(feature.cellSpaceGeometryObject != null){

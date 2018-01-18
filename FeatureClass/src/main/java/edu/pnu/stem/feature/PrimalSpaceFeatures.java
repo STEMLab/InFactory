@@ -74,7 +74,14 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			}
 		}
 	}
-
+	
+	
+	public void addCellSpaceMember(CellSpace c) {
+		if( !this.cellSpaceMember.contains(c.getId()) ){
+			this.cellSpaceMember.add(c.getId());
+		}
+	}
+	
 	/**
 	 * @return the cellSpaceBoundaryMember
 	 */
