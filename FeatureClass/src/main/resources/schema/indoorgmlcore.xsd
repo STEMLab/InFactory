@@ -270,7 +270,7 @@
 		<xs:annotation>
 			<xs:documentation>
  				Within the dual graph structure of one layer, an edge in dual space represents the adjacencies or connections (e.g. doors or passages as intra-space connections)
-			</xs:documentation>
+ 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<!-- ====================================================================== -->
