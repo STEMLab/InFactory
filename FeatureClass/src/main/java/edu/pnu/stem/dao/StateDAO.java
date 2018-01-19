@@ -18,7 +18,7 @@ import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
 public class StateDAO {
-	
+	/*
 	public static State createState(IndoorGMLMap map, String parentId, String Id,
 			String duality, List<String> connects, String geometry, String externalReference) {
 		State newFeature = null;
@@ -61,11 +61,13 @@ public class StateDAO {
 		map.setFeature(Id, "CellSpace", newFeature);
 		return newFeature;
 	}
+	*/
 	
-	public static State createState(IndoorGMLMap map, String parentId, String Id, String geometry) {
-		State newFeature = null;
-		newFeature = new State(map);
-		newFeature.setId(Id);
+	public static State createState(IndoorGMLMap map, String parentId, String id, String geometry) {
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		State newFeature = new State(map, id);
 
 		Nodes parent = (Nodes) map.getFeature(parentId);
 		parent.addStateMember(newFeature);
@@ -83,7 +85,7 @@ public class StateDAO {
 			}
 		}
 
-		map.setFeature(Id, "State", newFeature);
+		map.setFeature(id, "State", newFeature);
 		return newFeature;
 	}
 	

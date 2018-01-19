@@ -8,8 +8,8 @@ public class InterLayerConnectionDAO {
 
 	public static InterLayerConnection createInterLayerConnection(IndoorGMLMap map, String parentId, String id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
 		InterLayerConnection newFeature = null;
-		newFeature = new InterLayerConnection(map);
-		InterEdges parent = new InterEdges(map);
+		newFeature = new InterLayerConnection(map, id);
+		InterEdges parent = new InterEdges(map, parentId);
 		parent.setId(parentId);
 		newFeature.setParent(parent);
 		if(typeOfTopoExpression!= null){
@@ -23,17 +23,13 @@ public class InterLayerConnectionDAO {
 			if(map.hasID(interConnects[0])&&map.hasID(interConnects[1])){
 				if(map.hasID(ConnectedLayers[0])&&map.hasID(ConnectedLayers[0])){
 					State[] tempInterLayerConnectionList = new State[2];
-					tempInterLayerConnectionList[0] = new State(map);
-					tempInterLayerConnectionList[1] = new State(map);
-					tempInterLayerConnectionList[0].setId(interConnects[0]);
-					tempInterLayerConnectionList[1].setId(interConnects[1]);
+					tempInterLayerConnectionList[0] = new State(map, interConnects[0]);
+					tempInterLayerConnectionList[1] = new State(map, interConnects[1]);
 					newFeature.setInterConnects(tempInterLayerConnectionList);
 					
 					SpaceLayer[] tempConnectedLayers = new SpaceLayer[2];
-					tempConnectedLayers[0] = new SpaceLayer(map);
-					tempConnectedLayers[1] = new SpaceLayer(map);
-					tempConnectedLayers[0].setId(ConnectedLayers[0]);
-					tempConnectedLayers[1].setId(ConnectedLayers[1]);
+					tempConnectedLayers[0] = new SpaceLayer(map, ConnectedLayers[0]);
+					tempConnectedLayers[1] = new SpaceLayer(map, ConnectedLayers[1]);
 					newFeature.setConnectedLayers(tempConnectedLayers);
 				}
 				else{

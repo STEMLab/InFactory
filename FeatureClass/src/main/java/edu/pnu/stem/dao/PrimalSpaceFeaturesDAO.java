@@ -19,6 +19,7 @@ import edu.pnu.stem.feature.PrimalSpaceFeatures;
  */
 public class PrimalSpaceFeaturesDAO {
 	
+	/*
 	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id,
 		List<String>cellSpaceMember, List<String>cellSpaceBoundaryMember) {
 		PrimalSpaceFeatures newFeature = null;
@@ -48,15 +49,13 @@ public class PrimalSpaceFeaturesDAO {
 		map.setFeature(id, "CellSpace", newFeature);
 		return newFeature;
 	}
+	*/
 	
 	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id) {
-
-		PrimalSpaceFeatures newFeature = new PrimalSpaceFeatures(map);
-
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		newFeature.setId(id);
+		PrimalSpaceFeatures newFeature = new PrimalSpaceFeatures(map, id);
 
 		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
 		parent.setPrimalSpaceFeatures(newFeature);

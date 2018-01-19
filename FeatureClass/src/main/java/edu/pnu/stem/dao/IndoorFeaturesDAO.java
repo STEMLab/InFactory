@@ -10,17 +10,15 @@ public class IndoorFeaturesDAO {
 
 	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id,
 			String primalSpaceFeatures, String multiLayeredGraph) {
-		IndoorFeatures newFeature = new IndoorFeatures(map);
-		newFeature.setId(id);
+		IndoorFeatures newFeature = new IndoorFeatures(map, id);
+		
 		//newFeature.setParentID(parentID);
 		if (primalSpaceFeatures!= null) {
-			PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map);
-			newPrimalSpaceFeatures.setId(primalSpaceFeatures);
+			PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map, primalSpaceFeatures);
 			newFeature.setPrimalSpaceFeatures(newPrimalSpaceFeatures);
 		}
 		if (multiLayeredGraph != null) {
-			MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map);
-			newMultiLayeredGraph.setId(multiLayeredGraph);
+			MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map, multiLayeredGraph);
 			newFeature.setMultiLayeredGraph(newMultiLayeredGraph);
 		}
 		map.setFeature(id, "IndoorFeatures", newFeature);
@@ -28,13 +26,10 @@ public class IndoorFeaturesDAO {
 	}
 	
 	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id) {
-		IndoorFeatures newFeature = new IndoorFeatures(map);
-			
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		newFeature.setId(id);
-		
+		IndoorFeatures newFeature = new IndoorFeatures(map, id);
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}

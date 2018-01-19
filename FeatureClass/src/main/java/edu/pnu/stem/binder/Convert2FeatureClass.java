@@ -354,13 +354,14 @@ public class Convert2FeatureClass {
 		MultiLayeredGraph parent = (MultiLayeredGraph) savedMap.getFeature(parentId);
 		newFeature.setParent(parent);
 		
+		//TODO
 		List<InterLayerConnectionMemberType> interLayerConnectionMember = feature.getInterLayerConnectionMember();
 		List<InterLayerConnection> interLayerConnection = new ArrayList<InterLayerConnection>();
 
 		for (int i = 0; i < interLayerConnectionMember.size(); i++) {
 			InterLayerConnectionType tempILC = new InterLayerConnectionType();
 			tempILC = interLayerConnectionMember.get(i).getInterLayerConnection();
-			InterLayerConnection temp = new InterLayerConnection(savedMap);
+			InterLayerConnection temp = new InterLayerConnection(savedMap, tempILC.getId());
 			temp.setId(tempILC.getId());
 			interLayerConnection.add(temp);
 			savedMap.setFeature(tempILC.getId(), "InterLayerConnection",
@@ -418,16 +419,14 @@ public class Convert2FeatureClass {
 
 		for (int i = 0; i < tempSLList.size(); i++) {
 			SpaceLayerType sl = tempSLList.get(i).getSpaceLayer();
-			SpaceLayer temp = new SpaceLayer(savedMap);
-			temp.setId(sl.getId());
+			SpaceLayer temp = new SpaceLayer(savedMap, sl.getId());
 			savedMap.setFeature(sl.getId(), "SpaceLayer", change2FeatureClass(savedMap, sl, newFeature.getId()));
 			spacelayerList.add(temp);
 		}
 
 		for (int i = 0; i < tempILCList.size(); i++) {
 			StateType s = tempILCList.get(i).getState();
-			State temp = new State(savedMap);
-			temp.setId(s.getId());
+			State temp = new State(savedMap, s.getId());
 			interConnectionList.add(temp);
 			savedMap.setFeature(s.getId(), "State", change2FeatureClass(savedMap, s, newFeature.getId()));
 		}

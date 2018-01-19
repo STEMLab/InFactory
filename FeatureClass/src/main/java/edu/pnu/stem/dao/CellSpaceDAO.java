@@ -22,6 +22,7 @@ import edu.pnu.stem.geometry.jts.WKTReader3D;
  */
 public class CellSpaceDAO {
 
+	/*
 	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String ID,
 		String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
 		CellSpace newFeature = null;
@@ -59,10 +60,13 @@ public class CellSpaceDAO {
 		map.setFeature(ID, "CellSpace", newFeature);
 		return newFeature;
 	}
+	*/
 	
 	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, String geometry, String duality) {
-		CellSpace newFeature = new CellSpace(map);
-		newFeature.setId(id);
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		CellSpace newFeature = new CellSpace(map, id);
 
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		parent.addCellSpaceMember(newFeature);

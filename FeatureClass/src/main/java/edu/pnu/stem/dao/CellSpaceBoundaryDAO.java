@@ -35,11 +35,15 @@ public class CellSpaceBoundaryDAO {
 	 * 
 	 * */
 
+	/*
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId,
 			String ID, String name, String description, String duality, String cellSpaceBoundaryGeometry,
 			ExternalReference externalReference) {
-		CellSpaceBoundary newFeature = null;
-		newFeature = new CellSpaceBoundary(map);		
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		
+		CellSpaceBoundary newFeature = new CellSpaceBoundary(map, id);		
 		PrimalSpaceFeatures parent = new PrimalSpaceFeatures(map);
 		parent.setId(parentId);			
 		newFeature.setParent(parent);
@@ -67,10 +71,13 @@ public class CellSpaceBoundaryDAO {
 		map.setFeature(ID, "ID", "CellSpaceBoundary");
 		return newFeature;
 	}
+	*/
 	
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id, String geometry, String duality) {
-		CellSpaceBoundary newFeature = new CellSpaceBoundary(map);
-		newFeature.setId(id);
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		CellSpaceBoundary newFeature = new CellSpaceBoundary(map, id);
 
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		parent.addCellSpaceBoundaryMember(newFeature);
