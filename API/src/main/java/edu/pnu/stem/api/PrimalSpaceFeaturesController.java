@@ -22,24 +22,24 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.dao.MultiLayeredGraphDAO;
-import edu.pnu.stem.dao.SpaceLayersDAO;
+import edu.pnu.stem.dao.PrimalSpaceFeaturesDAO;
 import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.SpaceLayers;
+import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
 @RestController
-@RequestMapping("/spacelayers")
-public class SpaceLayeresController {
+@RequestMapping("/primalspacefeaures")
+public class PrimalSpaceFeaturesController {
 	
 	@Autowired
     private ApplicationContext applicationContext;
 	
 	@PostMapping(value = "/", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayeres(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createMultiLayeredGraph(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		String id = json.get("id").asText().trim();
@@ -48,16 +48,16 @@ public class SpaceLayeresController {
 			id = UUID.randomUUID().toString();
 		}
 		
-		SpaceLayers sls;
+		PrimalSpaceFeatures psf;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			sls = SpaceLayersDAO.createSpaceLayers(map, parentId, id);
+			psf = PrimalSpaceFeaturesDAO.createPrimalSpaceFeatures(map, parentId, id);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
 		}
-		response.setHeader("Location", request.getRequestURL().append(sls.getId()).toString());
+		response.setHeader("Location", request.getRequestURL().append(psf.getId()).toString());
 	}
 	
 }

@@ -27,8 +27,8 @@ public class State extends AbstractFeature {
 
 	private String externalReference;
 	
-	public State(IndoorGMLMap doc){
-		super(doc);
+	public State(IndoorGMLMap doc, String id){
+		super(doc, id);
 		connects = new ArrayList<String>();
 	}
 	
@@ -73,7 +73,9 @@ public class State extends AbstractFeature {
 
 	public CellSpace getDuality() {
 		CellSpace found = null;
-		found = (CellSpace)indoorGMLMap.getFeature(this.duality);
+		if(this.duality != null) {
+			found = (CellSpace)indoorGMLMap.getFeature(this.duality);
+		}
 		return found;
 	}
 
@@ -96,6 +98,13 @@ public class State extends AbstractFeature {
 			if(!this.connects.contains(connects.get(i).getId())){
 				this.connects.add(connects.get(i).getId());
 			}
+		}
+	}
+	
+	public void addConnects(Transition t) {
+		if(!this.connects.contains(t.getId())){
+			this.connects.add(t.getId());
+			indoorGMLMap.setFeature(t.getId(), "Transition", t);
 		}
 	}
 

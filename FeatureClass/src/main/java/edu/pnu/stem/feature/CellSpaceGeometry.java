@@ -23,8 +23,8 @@ public class CellSpaceGeometry extends AbstractFeature {
 	
 	private String parentID;
 	
-	public CellSpaceGeometry(IndoorGMLMap doc){
-		super(doc);
+	public CellSpaceGeometry(IndoorGMLMap doc, String id){
+		super(doc, id);
 	}
 	
 	public String getID(){ return this.id; }

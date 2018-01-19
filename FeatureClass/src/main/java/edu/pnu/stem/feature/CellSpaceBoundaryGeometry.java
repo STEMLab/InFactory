@@ -18,8 +18,8 @@ public class CellSpaceBoundaryGeometry extends AbstractFeature {
 	 */	
 	private String parentID;
 	
-	public CellSpaceBoundaryGeometry(IndoorGMLMap doc){
-		super(doc);
+	public CellSpaceBoundaryGeometry(IndoorGMLMap doc, String id){
+		super(doc, id);
 	}
 	
 	public String getParentID(){return this.parentID;}

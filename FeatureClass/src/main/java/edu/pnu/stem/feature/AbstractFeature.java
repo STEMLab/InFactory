@@ -29,36 +29,24 @@ public abstract class AbstractFeature {
 	 * describe this feature
 	 */
 	String description;
-	/**
-	 * @return the iD
-	 */
 	
-	public AbstractFeature(IndoorGMLMap map){
+	public AbstractFeature(IndoorGMLMap map, String id){
 		this.indoorGMLMap = map;
-	}
-	
-	public AbstractFeature(){
-		
+		this.id = id;
 	}
 	
 	public String getId() {
 		return id;
 	}
-	/**
-	 * @param iD the iD to set
-	 */
+	
 	public void setId(String id) {
 		this.id = id;
 	}
-	/**
-	 * @return the name
-	 */
+	
 	public String getName() {
 		return name;
 	}
-	/**
-	 * @param name the name to set
-	 */
+	
 	public void setName(String name) {
 		this.name = name;
 	}

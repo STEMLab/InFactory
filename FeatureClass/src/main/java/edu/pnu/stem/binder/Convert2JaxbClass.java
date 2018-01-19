@@ -2,8 +2,11 @@ package edu.pnu.stem.binder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 import edu.pnu.stem.feature.CellSpace;
@@ -21,11 +24,17 @@ import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
+import edu.pnu.stem.geometry.jts.Solid;
+import net.opengis.gml.v_3_2_1.CurvePropertyType;
+import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
 import net.opengis.gml.v_3_2_1.PointType;
+import net.opengis.gml.v_3_2_1.SolidPropertyType;
+import net.opengis.gml.v_3_2_1.SolidType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
+import net.opengis.indoorgml.core.v_1_0.CellSpaceGeometryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceMemberType;
 import net.opengis.indoorgml.core.v_1_0.CellSpacePropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceType;
@@ -84,6 +93,28 @@ public class Convert2JaxbClass {
 		}
 		
 		newFeature.setPartialboundedBy(partialboundedBy);
+		
+
+		//TODO setting Geometry 2D
+		Geometry geom = (Geometry) feature.getGeometry();
+		if(geom != null){
+			
+			if(geom instanceof Solid) {
+				Solid s = (Solid) geom;
+				SolidType solid = Convert2JaxbGeometry.Convert2SolidType(s);
+				JAXBElement<SolidType> jaxbSolid = gmlOF.createSolid(solid);
+				SolidPropertyType solidProp = gmlOF.createSolidPropertyType();
+				solidProp.setAbstractSolid(jaxbSolid);
+				
+				CellSpaceGeometryType cellSpaceGeometryType = indoorgmlcoreOF.createCellSpaceGeometryType();
+				cellSpaceGeometryType.setGeometry3D(solidProp);
+
+				newFeature.setCellSpaceGeometry(cellSpaceGeometryType);
+			}
+			else {
+				// TODO
+			}
+		}
 		//newFeature.setPartialboundedBy(feature.getPartialBoundedBy());
 		/*
 		 * 		if(feature.cellSpaceGeometryObject != null){
@@ -381,12 +412,15 @@ public class Convert2JaxbClass {
 		
 		List<TransitionPropertyType>connects = new ArrayList<TransitionPropertyType>();
 		
-		for(int i = 0 ; i < feature.getConnects().size(); i++){
-			TransitionPropertyType tempTransitionPropertyType = new TransitionPropertyType();
-			String href = feature.getConnects().get(i).getId();
-			href = "#" + href;
-			tempTransitionPropertyType.setHref(href);
-			connects.add(tempTransitionPropertyType);		
+		if(feature.getConnects() != null) {
+			for(int i = 0 ; i < feature.getConnects().size(); i++){
+				TransitionPropertyType tempTransitionPropertyType = new TransitionPropertyType();
+				String href = feature.getConnects().get(i).getId();
+				href = "#" + href;
+				tempTransitionPropertyType.setHref(href);
+				connects.add(tempTransitionPropertyType);		
+			}
+			newFeature.setConnects(connects);
 		}
 
 		Point geom = (Point) feature.getGeometry();
@@ -397,15 +431,16 @@ public class Convert2JaxbClass {
 			newFeature.setGeometry(pointProp);
 		}
 		
-		CellSpacePropertyType duality = indoorgmlcoreOF.createCellSpacePropertyType();
-		String href = feature.getDuality().getId();
-		href = "#" + href;
-		duality.setHref(href);
-		newFeature.setDuality(duality);
+		if(feature.getDuality() != null) {
+			CellSpacePropertyType duality = indoorgmlcoreOF.createCellSpacePropertyType();
+			String href = feature.getDuality().getId();
+			href = "#" + href;
+			duality.setHref(href);
+			newFeature.setDuality(duality);
+		}
 		//feature.geometry
-		newFeature.setConnects(connects);
-		newFeature.setId(feature.getId());
 		
+		newFeature.setId(feature.getId());
 		return newFeature;
 	}
 
@@ -423,6 +458,15 @@ public class Convert2JaxbClass {
 			temp.setHref(href);
 			connects.add(temp);
 		}
+		
+		LineString geom = (LineString) feature.getGeometry();
+		if(geom != null){
+			LineStringType linestring = Convert2JaxbGeometry.Convert2LineStringType(geom);
+			CurvePropertyType curveProperty = gmlOF.createCurvePropertyType();
+			curveProperty.setAbstractCurve(gmlOF.createLineString(linestring));
+			newFeature.setGeometry(curveProperty);
+		}
+		
 		newFeature.setConnects(connects);
 		if(feature.getDuality() != null){
 			CellSpaceBoundaryPropertyType duality = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();

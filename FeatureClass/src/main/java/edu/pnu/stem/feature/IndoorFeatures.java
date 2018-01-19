@@ -17,8 +17,8 @@ public class IndoorFeatures extends AbstractFeature {
 	 */
 	private String multiLayeredGraph = null;
 
-	public IndoorFeatures(IndoorGMLMap doc) {
-		super(doc);
+	public IndoorFeatures(IndoorGMLMap doc, String id) {
+		super(doc, id);
 	}
 	/**
 	 * @return the primalSpaceFeatures

@@ -36,12 +36,11 @@ public class CellSpace extends AbstractFeature {
 	 */
 	private String parentId;
 
-	public CellSpace(IndoorGMLMap doc){
-		super(doc);
+	public CellSpace(IndoorGMLMap doc, String id){
+		super(doc, id);
 		partialboundedBy = new ArrayList<String>();
 	}
 	
-
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
 		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.parentId);
@@ -110,21 +109,23 @@ public class CellSpace extends AbstractFeature {
 				this.partialboundedBy.add(cb.getId());
 			}
 		}
-		
+	}
+	
+	public void addPartialBoundedBy(CellSpaceBoundary cb) {
+		if(!this.partialboundedBy.contains(cb.getId())){
+			this.partialboundedBy.add(cb.getId());
+			indoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
+		}
 	}
 
 	public ExternalReference getExternalReference() {
 		return this.getExternalReference();
 	}
 
-	
-	 
 	public void setExternalReference(ExternalReference e) {
 		this.externalReference = e;
 	}
 	
-	
-
 	public void setParent(PrimalSpaceFeatures parent) {
 		PrimalSpaceFeatures found = null;
 		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());

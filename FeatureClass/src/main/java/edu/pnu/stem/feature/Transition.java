@@ -32,8 +32,8 @@ public class Transition extends AbstractFeature {
 
 	private ExternalReference externalReference;
 
-	public Transition(IndoorGMLMap doc){
-		super(doc);
+	public Transition(IndoorGMLMap doc, String id){
+		super(doc, id);
 		connects = new String[2];
 	}
 	

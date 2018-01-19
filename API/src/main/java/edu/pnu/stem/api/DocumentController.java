@@ -27,6 +27,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.pnu.stem.api.exception.DuplicatedFeatureException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 
+/**
+ * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
+ *
+ */
 @RestController
 @RequestMapping("/document")
 public class DocumentController {

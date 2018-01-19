@@ -17,8 +17,9 @@ public class Edges extends AbstractFeature{
 
 	private String parentId;
 	
-	public Edges(IndoorGMLMap doc){
-		super(doc);
+	public Edges(IndoorGMLMap doc, String id){
+		super(doc, id);
+		transitionMember = new ArrayList<String>();
 	}
 	
 	public void setParent(SpaceLayer parent) {
@@ -65,6 +66,13 @@ public class Edges extends AbstractFeature{
 	
 	public void cleanTransitionMember(){
 		this.transitionMember.clear();
+	}
+
+	public void addTransitionMember(Transition t) {
+		if(!this.transitionMember.contains(t.getId())){
+			this.transitionMember.add(t.getId());
+			indoorGMLMap.setFeature(t.getId(), "Transition", t);
+		}
 	}
 
 

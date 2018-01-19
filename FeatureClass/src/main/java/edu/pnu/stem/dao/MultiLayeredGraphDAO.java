@@ -15,6 +15,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 public class MultiLayeredGraphDAO {
 
+	/*
 	public static MultiLayeredGraph createMultiLayeredGraph(IndoorGMLMap map, String parentId, String id, List<String>spaceLayers, List<String>interEdges){
 		MultiLayeredGraph newFeature = new MultiLayeredGraph(map);
 		newFeature.setId(id);
@@ -46,20 +47,14 @@ public class MultiLayeredGraphDAO {
 		map.setFeature(id, "MultiLayeredGraph", newFeature);
 		return newFeature;
 	}
+	*/
 
-	/**
-	 * @param docId
-	 * @param id
-	 * @return
-	 */
 	public static MultiLayeredGraph createMultiLayeredGraph(IndoorGMLMap map, String parentId, String id) {
-		MultiLayeredGraph newFeature = new MultiLayeredGraph(map);
-		
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		newFeature.setId(id);
-		
+		MultiLayeredGraph newFeature = new MultiLayeredGraph(map, id);
+
 		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
 		parent.setMultiLayeredGraph(newFeature);
 
@@ -67,11 +62,6 @@ public class MultiLayeredGraphDAO {
 		return newFeature;
 	}
 	
-	/**
-	 * Search MultiLayeredGraph feature in document
-	 * @param ID
-	 * @return
-	 */
 	/*
 	public static MultiLayeredGraph readMultilayeredGraph(String ID) {
 		return null;
@@ -142,10 +132,6 @@ public class MultiLayeredGraphDAO {
 	}
 	*/
 	
-	/**
-	 * Search MultiLayeredGraph feature and delete it
-	 * @param id
-	 */
 	/*
 	public static void deleteMultiLayeredGraph(String docId, String Id, Boolean deleteALL, Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {

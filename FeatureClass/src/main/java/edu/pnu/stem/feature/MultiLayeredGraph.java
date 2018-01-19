@@ -21,8 +21,8 @@ public class MultiLayeredGraph extends AbstractFeature {
 
 	private String parentId;
 
-	public MultiLayeredGraph(IndoorGMLMap doc){
-		super(doc);
+	public MultiLayeredGraph(IndoorGMLMap doc, String id){
+		super(doc, id);
 		spaceLayers = new ArrayList<String>();
 		interEdges = new ArrayList<String>();
 	}
@@ -95,19 +95,20 @@ public class MultiLayeredGraph extends AbstractFeature {
 			}			
 		}
 	}
-	/**
-	 * @return
-	 */
+	
+	public void addInterEdges(InterEdges ie) {
+		if(!this.interEdges.contains(ie.getId())){
+			this.interEdges.add(ie.getId());
+			indoorGMLMap.setFeature(ie.getId(), "InterEdges", ie);
+		}
+	}
+	
 	public IndoorFeatures getParent() {
 		IndoorFeatures parent = null;
 		parent = (IndoorFeatures)indoorGMLMap.getFeature(this.parentId);
 		return parent;
 	}
 
-	/**
-	 * @param parentID
-	 *            the parentID to set
-	 */
 	public void setParent(IndoorFeatures parent) {
 		IndoorFeatures found = null;
 		found = (IndoorFeatures)indoorGMLMap.getFeature(parent.getId());

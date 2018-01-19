@@ -4,6 +4,7 @@ package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
@@ -14,20 +15,8 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 
 public class SpaceLayerDAO {
-	/**
-	 * Create SpaceLayer feature instance
-	 * @param ID ID of SpaceLayer
-	 * @param parentID ID of parent which will hold this feature
-	 * @param usage Comment on usage
-	 * @param function explanation about functionality of this SpaceLayer
-	 * @param createDate the time when this SpaceLayer is created
-	 * @param terminationDate the time when this SpaceLayer is expired
-	 * @param n nodes which is contained in this SpaceLayer
-	 * @param e	edges which is contained in this SpaceLayer
-	 * @param ct SpaceLayerClassType of this SpaceLayer
-	 * @return created SpaceLayer feature instance
-	 */
 
+	/*
 	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentID, String ID,
 			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
 		SpaceLayer newFeature = null;
@@ -80,11 +69,13 @@ public class SpaceLayerDAO {
 		map.setFeature(ID, "SpaceLayer", newFeature);
 		return newFeature;
 	}
+	*/
 	
 	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentId, String id) {
-		SpaceLayer newFeature = null;
-		newFeature = new SpaceLayer(map);
-		newFeature.setId(id);
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		SpaceLayer newFeature = new SpaceLayer(map, id);
 		
 		SpaceLayers parent = (SpaceLayers) map.getFeature(parentId);
 		parent.addSpaceLayer(newFeature);
@@ -200,11 +191,6 @@ public class SpaceLayerDAO {
 	 * */
 	
 	
-	
-	/**
-	 * Search SpaceLayer feature and delete it
-	 * @param id ID of target
-	 */
 /*	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);

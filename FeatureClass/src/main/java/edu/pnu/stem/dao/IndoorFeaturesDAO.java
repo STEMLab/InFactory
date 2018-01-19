@@ -8,55 +8,32 @@ import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 public class IndoorFeaturesDAO {
 
-	/**
-	 * @param docID
-	 * @param parentID
-	 * @param ID
-	 * @param primalSpaceFeatures
-	 * @param multiLayeredGraph
-	 * @return
-	 */
 	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id,
 			String primalSpaceFeatures, String multiLayeredGraph) {
-		IndoorFeatures newFeature = new IndoorFeatures(map);
-		newFeature.setId(id);
+		IndoorFeatures newFeature = new IndoorFeatures(map, id);
+		
 		//newFeature.setParentID(parentID);
 		if (primalSpaceFeatures!= null) {
-			PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map);
-			newPrimalSpaceFeatures.setId(primalSpaceFeatures);
+			PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map, primalSpaceFeatures);
 			newFeature.setPrimalSpaceFeatures(newPrimalSpaceFeatures);
 		}
 		if (multiLayeredGraph != null) {
-			MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map);
-			newMultiLayeredGraph.setId(multiLayeredGraph);
+			MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map, multiLayeredGraph);
 			newFeature.setMultiLayeredGraph(newMultiLayeredGraph);
 		}
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}
 	
-	/**
-	 * @param docId
-	 * @param id
-	 * @return
-	 */
 	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id) {
-		IndoorFeatures newFeature = new IndoorFeatures(map);
-			
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		newFeature.setId(id);
-		
+		IndoorFeatures newFeature = new IndoorFeatures(map, id);
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}
 	
-	/**
-	 * Search IndoorFeatures feature instance in document
-	 * @param ID ID of target
-	 * @return searched feature
-	 */
 	public IndoorFeatures readIndoorFeatures(String docId, String id) {
 		/*
 		IndoorFeatures target = null;
@@ -92,11 +69,7 @@ public class IndoorFeaturesDAO {
 		*/
 		return null;
 	}
-	
-	/**
-	 * Search IndoorFeatures feature instance and delete it
-	 * @param id ID of target
-	 */
+
 	public void deleteIndoorFeatures(String docId, String Id, boolean deleteChild) {
 		/*
 		if (Container.getInstance().hasFeature(docId, Id)) {

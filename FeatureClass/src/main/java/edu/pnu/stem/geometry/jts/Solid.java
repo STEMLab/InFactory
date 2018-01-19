@@ -18,7 +18,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com)
+ * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
 public class Solid extends Geometry {
