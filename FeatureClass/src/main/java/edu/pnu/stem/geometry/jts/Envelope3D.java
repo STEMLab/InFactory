@@ -7,7 +7,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * @author hyung
+ * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
 public class Envelope3D extends Envelope {
@@ -132,19 +132,6 @@ public class Envelope3D extends Envelope {
 		setToNull();
 	}
 
-	/**
-	 * Initialize an <code>Envelope</code> for a region defined by maximum and
-	 * minimum values.
-	 *
-	 * @param x1
-	 *            the first x-value
-	 * @param x2
-	 *            the second x-value
-	 * @param y1
-	 *            the first y-value
-	 * @param y2
-	 *            the second y-value
-	 */
 	public void init(double x1, double x2, double y1, double y2, double z1, double z2) {
 		super.init(x1, x2, y1, y2);
 		if (z1 < z2) {

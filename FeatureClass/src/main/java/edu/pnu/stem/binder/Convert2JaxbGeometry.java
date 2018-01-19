@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
@@ -12,14 +14,18 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 import edu.pnu.stem.geometry.jts.Solid;
+import net.opengis.gml.v_3_2_1.AbstractRingPropertyType;
 import net.opengis.gml.v_3_2_1.DirectPositionListType;
 import net.opengis.gml.v_3_2_1.DirectPositionType;
 import net.opengis.gml.v_3_2_1.LineStringType;
+import net.opengis.gml.v_3_2_1.LinearRingPropertyType;
 import net.opengis.gml.v_3_2_1.LinearRingType;
 import net.opengis.gml.v_3_2_1.PointType;
+import net.opengis.gml.v_3_2_1.PolygonType;
+import net.opengis.gml.v_3_2_1.ShellPropertyType;
 import net.opengis.gml.v_3_2_1.ShellType;
 import net.opengis.gml.v_3_2_1.SolidType;
-import net.opengis.gml.v_3_2_1.SurfaceType;
+import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 
 public class Convert2JaxbGeometry {
 	private final static net.opengis.gml.v_3_2_1.ObjectFactory gmlFactory = new net.opengis.gml.v_3_2_1.ObjectFactory();
@@ -27,42 +33,72 @@ public class Convert2JaxbGeometry {
 	public static SolidType Convert2SolidType(Solid feature){
 		MultiPolygon shell = feature.getShell();
 		SolidType newFeature = gmlFactory.createSolidType();
-		Convert2ShellType(shell);
+		
+		ShellType shellType = Convert2ShellType(shell);
+		ShellPropertyType shellProp = gmlFactory.createShellPropertyType();
+		shellProp.setShell(shellType);
+		
+		newFeature.setExterior(shellProp);
+		
 		return newFeature;
 	}
 	
 	public static ShellType Convert2ShellType(MultiPolygon feature){
-		List<Polygon>polygonList = new ArrayList<Polygon>();
+		List<SurfacePropertyType> surfaceProps = new ArrayList<SurfacePropertyType>();
 		ShellType newFeature = gmlFactory.createShellType();
-		for(int i = 0 ; i < feature.getLength() ; i++){
-			polygonList.add((Polygon)feature.getGeometryN(i));
+		for(int i = 0 ; i < feature.getNumGeometries() ; i++){
+			Polygon p = (Polygon) feature.getGeometryN(i);
+			PolygonType s = Convert2SurfaceType(p);
+			SurfacePropertyType sProp = gmlFactory.createSurfacePropertyType();
+			sProp.setAbstractSurface(gmlFactory.createPolygon(s));
+			surfaceProps.add(sProp);
 		}
+
+		newFeature.setSurfaceMember(surfaceProps);
+		
 		return newFeature;
 	}
 	
-	public static SurfaceType Convert2SurfaceType(Polygon feature){
-		Convert2LinearRingType((LinearRing)feature.getExteriorRing());
-		SurfaceType newFeature = gmlFactory.createSurfaceType();
+	public static PolygonType Convert2SurfaceType(Polygon feature){
+		PolygonType newFeature = gmlFactory.createPolygonType();
+		
+		LinearRingType extRing = Convert2LinearRingType((LinearRing)feature.getExteriorRing());
+		AbstractRingPropertyType extProp = gmlFactory.createAbstractRingPropertyType();
+		extProp.setAbstractRing(gmlFactory.createLinearRing(extRing));
+		newFeature.setExterior(extProp);
+		
+		if(feature.getNumInteriorRing() > 0) {
+			//TODO
+		}
+
 		return newFeature;
 	}
 	
 	public static LinearRingType Convert2LinearRingType(LinearRing feature){
-		List<Point>pointList = new ArrayList<Point>();
 		LinearRingType newFeature = gmlFactory.createLinearRingType();
-		for(int i = 0 ; i < feature.getLength() ; i++){
-			pointList.add(feature.getPointN(i));
+		
+		List<JAXBElement<?>> dpList = new ArrayList<JAXBElement<?>>();
+		for(int i = 0 ; i < feature.getCoordinates().length; i++){
+			Coordinate c = feature.getCoordinates()[i];
+			JAXBElement<DirectPositionType> dpt = gmlFactory.createPos(Convert2CoordinateType(c, feature.getDimension()));
+			dpList.add(dpt);
 		}
+		
+		newFeature.setPosOrPointPropertyOrPointRep(dpList);
 		return newFeature;
 	}
 	
 	public static LineStringType Convert2LineStringType(LineString feature){
 		LineStringType newFeature = gmlFactory.createLineStringType();
-		DirectPositionListType directPost = gmlFactory.createDirectPositionListType();
-		List<Coordinate>coordList = new ArrayList<Coordinate>();
-		for(int i = 0 ; i < feature.getCoordinates().length;i++){
-			
+		
+		List<JAXBElement<?>> dpList = new ArrayList<JAXBElement<?>>();
+		for(int i = 0 ; i < feature.getCoordinates().length; i++){
+			Coordinate c = feature.getCoordinates()[i];
+			JAXBElement<DirectPositionType> dpt = gmlFactory.createPos(Convert2CoordinateType(c, feature.getDimension()));
+			dpList.add(dpt);
 		}
 		
+		newFeature.setPosOrPointPropertyOrPointRep(dpList);
 		return newFeature;
 	}
 	

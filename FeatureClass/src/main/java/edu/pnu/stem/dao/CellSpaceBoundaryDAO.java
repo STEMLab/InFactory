@@ -1,11 +1,16 @@
 package edu.pnu.stem.dao;
-import java.awt.Container;
+import java.util.UUID;
+
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.ParseException;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.ExternalReference;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
+import edu.pnu.stem.geometry.jts.WKTReader3D;
 
 
 /**
@@ -62,6 +67,34 @@ public class CellSpaceBoundaryDAO {
 		map.setFeature(ID, "ID", "CellSpaceBoundary");
 		return newFeature;
 	}
+	
+	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id, String geometry, String duality) {
+		CellSpaceBoundary newFeature = new CellSpaceBoundary(map);
+		newFeature.setId(id);
+
+		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
+		parent.addCellSpaceBoundaryMember(newFeature);
+		newFeature.setParent(parent);
+		
+		if (geometry != null) {
+			WKTReader3D wkt = new WKTReader3D();
+			try {
+				Polygon p = (Polygon) wkt.read(geometry);
+				map.setFeature4Geometry(UUID.randomUUID().toString(), p);
+				newFeature.setGeometry(p);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		Transition dualityFeature = (Transition) map.getFeature(duality);
+		dualityFeature.setDuality(newFeature);
+		newFeature.setDuality(dualityFeature);
+
+		map.setFeature(id, "CellSpaceBoundary", newFeature);
+		return newFeature;
+	}
+	
 
 	/**
 	 * Create CellSpaceBoundary feature instance

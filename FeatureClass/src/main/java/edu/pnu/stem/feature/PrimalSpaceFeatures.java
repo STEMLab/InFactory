@@ -74,7 +74,13 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			}
 		}
 	}
-
+	
+	public void addCellSpaceMember(CellSpace c) {
+		if( !this.cellSpaceMember.contains(c.getId()) ){
+			this.cellSpaceMember.add(c.getId());
+		}
+	}
+	
 	/**
 	 * @return the cellSpaceBoundaryMember
 	 */
@@ -104,4 +110,11 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			}
 		}
 	}
+	
+	public void addCellSpaceBoundaryMember(CellSpaceBoundary c) {
+		if( !this.cellSpaceBoundaryMember.contains(c.getId()) ){
+			this.cellSpaceBoundaryMember.add(c.getId());
+		}
+	}
+	
 }

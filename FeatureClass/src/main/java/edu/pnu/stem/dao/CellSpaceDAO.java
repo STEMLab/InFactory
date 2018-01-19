@@ -1,12 +1,20 @@
 package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
+import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
+import edu.pnu.stem.geometry.jts.Solid;
+import edu.pnu.stem.geometry.jts.WKTReader3D;
 
 /**
  * @author jungh
@@ -14,16 +22,6 @@ import edu.pnu.stem.feature.State;
  */
 public class CellSpaceDAO {
 
-	/**
-	 * @param docID
-	 * @param parentID
-	 * @param ID
-	 * @param duality
-	 * @param partialboundedBy
-	 * @param cellSpaceGeometry
-	 * @param externalReference
-	 * @return
-	 */
 	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String ID,
 		String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
 		CellSpace newFeature = null;
@@ -59,6 +57,34 @@ public class CellSpaceDAO {
 			//newFeature.setExternalReference(externalReference);
 		}
 		map.setFeature(ID, "CellSpace", newFeature);
+		return newFeature;
+	}
+	
+	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, String geometry, String duality) {
+		CellSpace newFeature = new CellSpace(map);
+		newFeature.setId(id);
+
+		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
+		parent.addCellSpaceMember(newFeature);
+		newFeature.setParent(parent);
+		
+		if (geometry != null) {
+			WKTReader3D wkt = new WKTReader3D();
+			try {
+				Solid s = (Solid) wkt.read(geometry);
+				map.setFeature4Geometry(UUID.randomUUID().toString(), s);
+				newFeature.setGeometry(s);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		State dualityFeature = (State) map.getFeature(duality);
+		dualityFeature.setDuality(newFeature);
+		newFeature.setDuality(dualityFeature);
+
+		map.setFeature(id, "CellSpace", newFeature);
 		return newFeature;
 	}
 

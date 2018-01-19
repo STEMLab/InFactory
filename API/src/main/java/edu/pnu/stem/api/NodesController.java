@@ -25,7 +25,7 @@ import edu.pnu.stem.dao.NodesDAO;
 import edu.pnu.stem.feature.Nodes;
 
 /**
- * @author hyung
+ * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
 @RestController

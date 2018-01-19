@@ -21,43 +21,47 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.dao.MultiLayeredGraphDAO;
-import edu.pnu.stem.dao.SpaceLayersDAO;
-import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.SpaceLayers;
+import edu.pnu.stem.dao.CellSpaceBoundaryDAO;
+import edu.pnu.stem.dao.CellSpaceDAO;
+import edu.pnu.stem.feature.CellSpace;
+import edu.pnu.stem.feature.CellSpaceBoundary;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
 @RestController
-@RequestMapping("/spacelayers")
-public class SpaceLayeresController {
+@RequestMapping("/cellspaceboundary")
+public class CellSpaceBoundaryController {
 	
 	@Autowired
     private ApplicationContext applicationContext;
 	
 	@PostMapping(value = "/", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayeres(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createSpaceLayer(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		String id = json.get("id").asText().trim();
+		
+		String geom = json.get("geometry").asText().trim();
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
-		SpaceLayers sls;
+		String duality = json.get("duality").asText().trim();
+		
+		CellSpaceBoundary c;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			sls = SpaceLayersDAO.createSpaceLayers(map, parentId, id);
+			c = CellSpaceBoundaryDAO.createCellSpaceBoundary(map, parentId, id, geom, duality);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
 		}
-		response.setHeader("Location", request.getRequestURL().append(sls.getId()).toString());
+		response.setHeader("Location", request.getRequestURL().append(c.getId()).toString());
 	}
 	
 }

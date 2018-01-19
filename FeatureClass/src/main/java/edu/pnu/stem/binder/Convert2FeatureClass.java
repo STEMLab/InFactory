@@ -27,7 +27,6 @@ import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeCurveType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
-import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.CurveType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.OrientableCurveType;
@@ -501,17 +500,13 @@ public class Convert2FeatureClass {
 		Edges parent = new Edges(savedMap);
 		parent.setId(parentId);
 		newFeature.setParent(parent);
-
-		Object geometry = feature.getGeometry().getAbstractCurve().getValue();
-		if (geometry instanceof CurvePropertyType) {
-			// newFeature.geometry = (CurveType) geometry;
-			System.out.println("Converter to Transition : Not yet support");
-
-		} else {
-			System.out.println("Converter to Transition : This is not CurveType geometry");
-
+		
+		if(feature.isSetGeometry()){
+			com.vividsolutions.jts.geom.LineString geom = Convert2JTSGeometry.convert2LineString((LineStringType)feature.getGeometry().getAbstractCurve().getValue());
+			GeometryUtil.setMetadata(geom, "id", feature.getGeometry().getAbstractCurve().getValue().getId());
+			newFeature.setGeometry(geom);
 		}
-
+		
 		List<StatePropertyType> tempConnect = feature.getConnects();
 		State[] connects = new State[2];
 		State connects1 = new State(savedMap);

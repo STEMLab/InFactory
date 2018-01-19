@@ -14,19 +14,6 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 
 public class SpaceLayerDAO {
-	/**
-	 * Create SpaceLayer feature instance
-	 * @param ID ID of SpaceLayer
-	 * @param parentID ID of parent which will hold this feature
-	 * @param usage Comment on usage
-	 * @param function explanation about functionality of this SpaceLayer
-	 * @param createDate the time when this SpaceLayer is created
-	 * @param terminationDate the time when this SpaceLayer is expired
-	 * @param n nodes which is contained in this SpaceLayer
-	 * @param e	edges which is contained in this SpaceLayer
-	 * @param ct SpaceLayerClassType of this SpaceLayer
-	 * @return created SpaceLayer feature instance
-	 */
 
 	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentID, String ID,
 			List<String>nodes, List<String>edges, Date creationDate, Date terminationDate, String function, String classType, String usage, List<String> codeType  ) {
@@ -200,11 +187,6 @@ public class SpaceLayerDAO {
 	 * */
 	
 	
-	
-	/**
-	 * Search SpaceLayer feature and delete it
-	 * @param id ID of target
-	 */
 /*	public static void deleteSpaceLayer(String docId, String Id,Boolean deleteDuality) {
 		if (Container.getInstance().hasFeature(docId, Id)) {
 			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
