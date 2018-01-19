@@ -34,10 +34,6 @@ public abstract class AbstractFeature {
 		this.indoorGMLMap = map;
 	}
 	
-	public AbstractFeature(){
-		
-	}
-	
 	public String getId() {
 		return id;
 	}
