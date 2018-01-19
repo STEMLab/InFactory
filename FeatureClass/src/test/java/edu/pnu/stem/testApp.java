@@ -1,7 +1,6 @@
 package edu.pnu.stem;
 
-public class testApp {
-	
+public class testApp {	
 	/*
 	public void testConverter(){
 		 try {

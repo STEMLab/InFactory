@@ -64,9 +64,4 @@ public class IndoorFeatures extends AbstractFeature {
 		}
 	}
 	
-	public MultiLayeredGraph getMultiLayeredGraph1(){
-		MultiLayeredGraph found = null;
-		found = (MultiLayeredGraph)indoorGMLMap.getFeature(this.multiLayeredGraph);
-		return found;
-	}
 }
