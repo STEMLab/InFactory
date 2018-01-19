@@ -1,17 +1,16 @@
 package edu.pnu.stem;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.After;
-import org.junit.Ignore;
-import java.util.*;  
+
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.xml.bind.JAXBException;
 
-import edu.pnu.stem.binder.Convert2JaxbClass;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Edges;
@@ -26,9 +25,9 @@ import edu.pnu.stem.feature.Transition;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 public class junittest {
-    private static IndoorGMLMap map =new IndoorGMLMap();
-    private static IndoorFeaturesType doc = new IndoorFeaturesType();
-    private static IndoorFeatures testObject = new IndoorFeatures(map);
+    private static IndoorGMLMap map = new IndoorGMLMap();
+    private static IndoorFeaturesType doc;
+    private static IndoorFeatures testObject;
     
      @BeforeClass    
      public static void InitXMLtoJava() {
