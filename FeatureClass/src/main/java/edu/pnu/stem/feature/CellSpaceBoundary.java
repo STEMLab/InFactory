@@ -29,8 +29,8 @@ public class CellSpaceBoundary extends AbstractFeature {
 	private String parentId;
 	private String cellSpaceBoundaryGeometry;
 
-	public CellSpaceBoundary(IndoorGMLMap doc){
-		super(doc);
+	public CellSpaceBoundary(IndoorGMLMap doc, String id){
+		super(doc, id);
 	}
 	
 	public boolean hasDuality() {

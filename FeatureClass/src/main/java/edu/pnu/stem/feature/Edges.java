@@ -17,8 +17,8 @@ public class Edges extends AbstractFeature{
 
 	private String parentId;
 	
-	public Edges(IndoorGMLMap doc){
-		super(doc);
+	public Edges(IndoorGMLMap doc, String id){
+		super(doc, id);
 		transitionMember = new ArrayList<String>();
 	}
 	

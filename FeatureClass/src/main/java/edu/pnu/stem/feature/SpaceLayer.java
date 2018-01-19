@@ -38,8 +38,8 @@ public class SpaceLayer extends AbstractFeature {
 	private String parentId;
 	private SpaceLayerClassTypeType classType;
 
-	public SpaceLayer(IndoorGMLMap doc) {
-		super(doc);
+	public SpaceLayer(IndoorGMLMap doc, String id) {
+		super(doc, id);
 		nodes = new ArrayList<String>();
 		edges = new ArrayList<String>();
 	}

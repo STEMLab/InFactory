@@ -17,8 +17,8 @@ public class SpaceLayers extends AbstractFeature {
 	private List<String> spaceLayerMember;
 	private String parentId;
 
-	public SpaceLayers(IndoorGMLMap doc){
-		super(doc);
+	public SpaceLayers(IndoorGMLMap doc, String id){
+		super(doc, id);
 		spaceLayerMember = new ArrayList<String>();
 	}
 	

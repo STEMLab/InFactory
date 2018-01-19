@@ -22,8 +22,8 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 
 	private String parentId;
 	
-	public PrimalSpaceFeatures(IndoorGMLMap doc){
-		super(doc);
+	public PrimalSpaceFeatures(IndoorGMLMap doc, String id){
+		super(doc, id);
 		cellSpaceMember = new ArrayList<String>();
 		cellSpaceBoundaryMember = new ArrayList<String>();
 	}

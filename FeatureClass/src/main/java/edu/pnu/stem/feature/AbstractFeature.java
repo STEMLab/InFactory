@@ -30,8 +30,9 @@ public abstract class AbstractFeature {
 	 */
 	String description;
 	
-	public AbstractFeature(IndoorGMLMap map){
+	public AbstractFeature(IndoorGMLMap map, String id){
 		this.indoorGMLMap = map;
+		this.id = id;
 	}
 	
 	public String getId() {
