@@ -412,35 +412,56 @@ public class Convert2FeatureClass {
 		InterEdges parent = (InterEdges) savedMap.getFeature(parentId);
 		newFeature.setParent(parent);
 
-		List<SpaceLayerPropertyType> tempSLList = feature.getConnectedLayers();
-		List<StatePropertyType> tempILCList = feature.getInterConnects();
 		List<SpaceLayer> spacelayerList = new ArrayList<SpaceLayer>();
+		for (SpaceLayerPropertyType slpProp : feature.getConnectedLayers()) {
+			
+			SpaceLayer connected = null;
+			if(slpProp.getHref() != null) {
+				String href = slpProp.getHref().substring(1);
+				
+				connected = (SpaceLayer) savedMap.getFeature(href);
+				if(connected == null) {
+					//TODO
+					connected = new SpaceLayer(savedMap, href);
+					savedMap.setFeature(href, "SpaceLayer", connected);
+				}
+			} else {
+				//TODO
+				SpaceLayerType sl = slpProp.getSpaceLayer();
+			}
+			spacelayerList.add(connected);
+		}
+		SpaceLayer[] connectedLayers = new SpaceLayer[2];
+		spacelayerList.toArray(connectedLayers);
+		newFeature.setConnectedLayers(connectedLayers);
+
 		List<State> interConnectionList = new ArrayList<State>();
-
-		for (int i = 0; i < tempSLList.size(); i++) {
-			SpaceLayerType sl = tempSLList.get(i).getSpaceLayer();
-			SpaceLayer temp = new SpaceLayer(savedMap, sl.getId());
-			savedMap.setFeature(sl.getId(), "SpaceLayer", change2FeatureClass(savedMap, sl, newFeature.getId()));
-			spacelayerList.add(temp);
+		for (StatePropertyType stateProp : feature.getInterConnects()) {
+			
+			State s = null;
+			if(stateProp.getHref() != null) {
+				String href = stateProp.getHref().substring(1);
+				
+				s = (State) savedMap.getFeature(href);
+				if(s == null) {
+					//TODO
+					s = new State(savedMap, href);
+					savedMap.setFeature(href, "State", s);
+				}
+			} else {
+				//TODO
+				StateType sl = stateProp.getState();
+			}
+			interConnectionList.add(s);
 		}
-
-		for (int i = 0; i < tempILCList.size(); i++) {
-			StateType s = tempILCList.get(i).getState();
-			State temp = new State(savedMap, s.getId());
-			interConnectionList.add(temp);
-			savedMap.setFeature(s.getId(), "State", change2FeatureClass(savedMap, s, newFeature.getId()));
-		}
+		State[] interConnection = new State[2];
+		interConnectionList.toArray(interConnection);
+		newFeature.setInterConnects(interConnection);
 
 		if (spacelayerList.size() != 2 || interConnectionList.size() != 2) {
 			System.out.println("Converter : number of SpaceLayer or InterConnection is not 2 at InterLayerConnection");
 		} else {
-			SpaceLayer[] connectedLayers = null;
-			State[] interConnection = null;
-
-			spacelayerList.toArray(connectedLayers);
-			interConnectionList.toArray(interConnection);
-			newFeature.setConnectedLayers(connectedLayers);
-			newFeature.setInterConnects(interConnection);
+			
 		}
 
 		return newFeature;
