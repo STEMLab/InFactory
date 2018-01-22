@@ -59,6 +59,8 @@
 			<groupId>org.jvnet.ogc</groupId>
 			<artifactId>indoorgml-v_1_0</artifactId>
 			<version>2.6.2-SNAPSHOT</version>
+			<scope>system</scope>
+    		<systemPath>${project.basedir}/lib/indoorgml-v_1_0-2.6.2-SNAPSHOT.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
