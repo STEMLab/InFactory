@@ -71,6 +71,8 @@ public class Edges extends AbstractFeature{
 	public void addTransitionMember(Transition t) {
 		if(!this.transitionMember.contains(t.getId())){
 			this.transitionMember.add(t.getId());
+			
+			//TODO : check duplicated id
 			indoorGMLMap.setFeature(t.getId(), "Transition", t);
 		}
 	}
