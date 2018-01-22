@@ -638,14 +638,14 @@ public class Convert2FeatureClass {
 		
 		String connects1Id = connects.get(0).getHref().substring(1);
 		State connects1 = (State) savedMap.getFeature(connects1Id);
-		if(connects == null) {
+		if(connects1 == null) {
 			savedMap.setFeature(connects1Id, "State", new Transition(savedMap, connects1Id));
 		}
 		sArr[0] = connects1;
 		
 		String connects2Id = connects.get(1).getHref().substring(1);
 		State connects2 = (State) savedMap.getFeature(connects2Id);
-		if(connects == null) {
+		if(connects2 == null) {
 			savedMap.setFeature(connects2Id, "State", new Transition(savedMap, connects2Id));
 		}
 		sArr[1] = connects2;
