@@ -22,52 +22,31 @@ public class IndoorGMLMap {
 	}
 
 	private void setFeatureClassContainer() {
-		ConcurrentHashMap<String, Object> idHashMap = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> IndoorFeatures = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> MultiLayeredGraph = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> PrimalSpaceFeatures = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> CellSpace = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> CellSpaceBoundary = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> SpaceLayers = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> SpaceLayer = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> Nodes = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> Edges = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> State = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> Transition = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> InterLayerConnection = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> InterEdges = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> CellSpaceGeometry = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> CellSpaceBoundaryGeometry = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> pointGeometry = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> curveGeometry = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> surfaceGeometry = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> solidGeometry = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> ExternalReference = new ConcurrentHashMap<String, Object>();
-		ConcurrentHashMap<String, Object> Reference = new ConcurrentHashMap<String, Object>();
 		
-		container.put("ID", idHashMap);
-		container.put("IndoorFeatures", IndoorFeatures);
-		container.put("MultiLayeredGraph", MultiLayeredGraph);
-		container.put("PrimalSpaceFeatures", PrimalSpaceFeatures);
-		container.put("CellSpace", CellSpace);
-		container.put("CellSpaceBoundary", CellSpaceBoundary);
-		container.put("SpaceLayers", SpaceLayers);
-		container.put("SpaceLayer", SpaceLayer);
-		container.put("Nodes", Nodes);
-		container.put("Edges", Edges);
-		container.put("Transition", Transition);
-		container.put("InterLayerConnection", InterLayerConnection);
-		container.put("InterEdges", InterEdges);
-		container.put("CellSpaceGeometry", CellSpaceGeometry);
-		container.put("CellSpaceBoundaryGeometry", CellSpaceBoundaryGeometry);
-		container.put("Point", pointGeometry);
-		container.put("Curve", curveGeometry);
-		container.put("Surface", surfaceGeometry);
-		container.put("Solid", solidGeometry);
-		container.put("State", State);
-		container.put("Reference", Reference);
+		container.put("ID", new ConcurrentHashMap<String,Object>());
+		container.put("IndoorFeatures", new ConcurrentHashMap<String,Object>());
+		container.put("MultiLayeredGraph", new ConcurrentHashMap<String,Object>());
+		container.put("PrimalSpaceFeatures", new ConcurrentHashMap<String,Object>());
+		container.put("CellSpace", new ConcurrentHashMap<String,Object>());
+		container.put("CellSpaceBoundary", new ConcurrentHashMap<String,Object>());
+		container.put("SpaceLayers", new ConcurrentHashMap<String,Object>());
+		container.put("SpaceLayer", new ConcurrentHashMap<String,Object>());
+		container.put("Nodes", new ConcurrentHashMap<String,Object>());
+		container.put("Edges", new ConcurrentHashMap<String,Object>());
+		container.put("Transition", new ConcurrentHashMap<String,Object>());
+		container.put("InterLayerConnection", new ConcurrentHashMap<String,Object>());
+		container.put("InterEdges", new ConcurrentHashMap<String,Object>());
+		container.put("CellSpaceGeometry", new ConcurrentHashMap<String,Object>());
+		container.put("CellSpaceBoundaryGeometry", new ConcurrentHashMap<String,Object>());
+		container.put("Point", new ConcurrentHashMap<String,Object>());
+		container.put("Curve", new ConcurrentHashMap<String,Object>());
+		container.put("Surface", new ConcurrentHashMap<String,Object>());
+		container.put("Solid", new ConcurrentHashMap<String,Object>());
+		container.put("State", new ConcurrentHashMap<String,Object>());
+		container.put("Reference", new ConcurrentHashMap<String,Object>());
 		container.put("Envelope", new ConcurrentHashMap<String,Object>());
 		container.put("Geometry", new ConcurrentHashMap<String,Object>());
+		
 	}
 
 	public boolean hasID(String id) {
@@ -79,13 +58,13 @@ public class IndoorGMLMap {
 		return flag;
 	}
 	
-	public void setID(String id, String featureName) {
+	private void setID(String id, String featureName) {
 		if(!hasID(id)){
 			getFeatureContainer("ID").put(id, featureName);
 		}
 	}
 	
-	public void removeID(String id){
+	private void removeID(String id){
 		getFeatureContainer("ID").remove(id);
 	}
 	
@@ -155,13 +134,6 @@ public class IndoorGMLMap {
 		else{
 			System.out.println("Already Exist Id");
 			container.get(featureName).put(id, featureValue);
-		}
-	}
-	
-	public void deleteFeature(String id, String featureName){
-		if(hasID(id)){
-			getFeatureContainer(featureName).remove(id);
-			removeID(id);
 		}
 	}
 	
