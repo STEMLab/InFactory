@@ -10,11 +10,6 @@
 	<artifactId>api</artifactId>
 	<packaging>war</packaging>
 
-	<properties>
-		<spring.version>5.0.2.RELEASE</spring.version>
-		<jetty.version>9.4.8.v20171121</jetty.version>
-	</properties>
-
 	<!-- =========================================================== -->
 	<!-- Developers and Contributors -->
 	<!-- =========================================================== -->
@@ -48,7 +43,14 @@
 			<artifactId>feature</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>org.jvnet.ogc</groupId>
+			<artifactId>indoorgml-v_1_0</artifactId>
+			<version>${ogc-schemas.version}</version>
+			<scope>system</scope>
+    		<systemPath>${project.basedir}/../lib/indoorgml-v_1_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
 		<!-- ======================================================= -->
 		<!-- Test -->
 		<!-- ======================================================= -->

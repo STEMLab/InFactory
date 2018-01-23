@@ -385,18 +385,15 @@ public class Convert2FeatureClass {
 		SpaceLayer parent = (SpaceLayer) savedMap.getFeature(parentId);
 		newFeature.setParent(parent);
 		
-		List<TransitionMemberType> tm = feature.getTransitionMember();
+		List<TransitionMemberType> tms = feature.getTransitionMember();
 		List<Transition> transitionMemberReference = new ArrayList<Transition>();
-
-		for (int i = 0; i < tm.size(); i++) {
-			TransitionType tempTM = tm.get(i).getTransition();
-			Transition temp = change2FeatureClass(savedMap, tempTM, newFeature.getId());
-			savedMap.setFeature(tempTM.getId(), "Transition", temp);
-			// transitionMemberReference.add(change2FeatureClass(tempTM,
-			// newFeature.setId()));
-			transitionMemberReference.add(temp);
+		
+		for(TransitionMemberType tmType : tms) {
+			TransitionType tType = tmType.getTransition();
+			Transition t = change2FeatureClass(savedMap, tType, newFeature.getId());
+			newFeature.addTransitionMember(t);
 		}
-		newFeature.setTransitionMembers(transitionMemberReference);
+
 		return newFeature;
 	}
 
@@ -618,7 +615,6 @@ public class Convert2FeatureClass {
 		Transition newFeature = (Transition) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
 			newFeature = new Transition(savedMap, feature.getId());
-			savedMap.setFeature(feature.getId(), "Transition", newFeature);
 		}
 		
 		// Setting parent

@@ -87,37 +87,40 @@ public class DocumentController {
 		//if(type != null && type.equalsIgnoreCase("xml")) {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(id);
-			map.Marshall("temp/" + id + ".igml");
-
-			try {
-				response.setContentType("text/xml;charset=UTF-8");
-				PrintWriter out = response.getWriter();
-				
-				File file = new File("temp/" + id + ".igml");
-				
-				BufferedReader reader;
-				
-				reader = new BufferedReader(new FileReader (file));
-			    String         line = null;
-			    StringBuilder  stringBuilder = new StringBuilder();
-			    String         ls = System.getProperty("line.separator");
-
-		        while((line = reader.readLine()) != null) {
-		            stringBuilder.append(line);
-		            stringBuilder.append(ls);
-		        }
-		        
-			    reader.close();
-
-			    String content = stringBuilder.toString();
-
-				out.write(content);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
+			if(map != null) {
+				map.Marshall("temp/" + id + ".igml");
+	
+				try {
+					response.setContentType("text/xml;charset=UTF-8");
+					PrintWriter out = response.getWriter();
+					
+					File file = new File("temp/" + id + ".igml");
+					
+					BufferedReader reader;
+					
+					reader = new BufferedReader(new FileReader (file));
+				    String         line = null;
+				    StringBuilder  stringBuilder = new StringBuilder();
+				    String         ls = System.getProperty("line.separator");
+	
+			        while((line = reader.readLine()) != null) {
+			            stringBuilder.append(line);
+			            stringBuilder.append(ls);
+			        }
+			        
+				    reader.close();
+	
+				    String content = stringBuilder.toString();
+	
+					out.write(content);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		//}
 
