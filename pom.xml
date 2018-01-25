@@ -208,7 +208,7 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>API</module>
-		<module>FeatureClass</module>
+		<module>igml-api</module>
+		<module>igml-feature</module>
 	</modules>
 </project>
