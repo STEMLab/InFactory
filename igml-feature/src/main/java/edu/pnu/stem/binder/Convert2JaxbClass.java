@@ -71,13 +71,14 @@ public class Convert2JaxbClass {
 		//JAXBContextImpl jc = (JAXBContextImpl) JAXBContextImpl.newInstance(CellSpaceType.class);
 		CellSpaceType newFeature = indoorgmlcoreOF.createCellSpaceType();
 		StatePropertyType duality = new StatePropertyType();
+
 		if(feature.getDuality() != null){
 			String href = feature.getDuality().getId();
 			href = "#" + href;
 			duality.setHref(href);
 			newFeature.setDuality(duality);
 		}
-		
+
 		//StateType referredState = new StateType();
 		//referredState.setId(feature.getDuality().getId());
 		//duality.setState(referredState);

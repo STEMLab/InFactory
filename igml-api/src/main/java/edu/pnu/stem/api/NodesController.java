@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +36,11 @@ public class NodesController {
 	@Autowired
     private ApplicationContext applicationContext;
 	
-	@PostMapping(value = "/", produces = "application/json")
+	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
-		String id = json.get("id").asText().trim();
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
