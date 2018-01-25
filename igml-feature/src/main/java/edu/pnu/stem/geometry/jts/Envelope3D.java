@@ -329,6 +329,8 @@ public class Envelope3D extends Envelope {
 	 *            the value to lower the minimum x to or to raise the maximum x to
 	 * @param y
 	 *            the value to lower the minimum y to or to raise the maximum y to
+	 * @param z
+	 *            the value to lower the minimum z to or to raise the maximum z to
 	 */
 	public void expandToInclude(double x, double y, double z) {
 		super.expandToInclude(x, y);
@@ -378,6 +380,8 @@ public class Envelope3D extends Envelope {
 	 *            the amount to translate along the X axis
 	 * @param transY
 	 *            the amount to translate along the Y axis
+	 * @param transZ
+	 *            the amount to translate along the Z axis
 	 */
 	public void translate(double transX, double transY, double transZ) {
 		if (isNull()) {
@@ -491,7 +495,9 @@ public class Envelope3D extends Envelope {
 	 * @param x
 	 *            the x-ordinate of the point
 	 * @param y
-	 *            the y-ordinate of the point
+	 *            the y-ordinate of the point	 
+	 * @param z
+	 *            the z-ordinate of the point
 	 * @return <code>true</code> if the point overlaps this <code>Envelope</code>
 	 */
 	public boolean intersects(double x, double y, double z) {
@@ -534,7 +540,10 @@ public class Envelope3D extends Envelope {
 	 * @param y
 	 *            the y-coordinate of the point which this <code>Envelope</code> is
 	 *            being checked for containing
-	 * @return <code>true</code> if <code>(x, y)</code> lies in the interior or on
+	 * @param z
+	 *            the z-coordinate of the point which this <code>Envelope</code> is
+	 *            being checked for containing
+	 * @return <code>true</code> if <code>(x, y, z)</code> lies in the interior or on
 	 *         the boundary of this <code>Envelope</code>.
 	 * 
 	 * @see #covers(double, double)
@@ -552,7 +561,10 @@ public class Envelope3D extends Envelope {
 	 * @param y
 	 *            the y-coordinate of the point which this <code>Envelope</code> is
 	 *            being checked for containing
-	 * @return <code>true</code> if <code>(x, y)</code> lies in the interior or on
+	 * @param z
+	 *            the y-coordinate of the point which this <code>Envelope</code> is
+	 *            being checked for containing
+	 * @return <code>true</code> if <code>(x, y, z)</code> lies in the interior or on
 	 *         the boundary of this <code>Envelope</code>.
 	 */
 	public boolean covers(double x, double y, double z) {
@@ -579,8 +591,8 @@ public class Envelope3D extends Envelope {
 	 * <code>Envelope</code> (inclusive of the boundary).
 	 *
 	 * @param other
-	 *            the <code>Envelope</code> to check
-	 * @return true if this <code>Envelope</code> covers the <code>other</code>
+	 *            the <code>Envelope3D</code> to check
+	 * @return true if this <code>Envelope3D</code> covers the <code>other</code>
 	 */
 	public boolean covers(Envelope3D other) {
 		if (isNull() || other.isNull()) {

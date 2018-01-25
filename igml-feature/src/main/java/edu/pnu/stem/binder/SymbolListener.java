@@ -18,14 +18,11 @@ public class SymbolListener extends javax.xml.bind.Unmarshaller.Listener {
 	
 	/**
 	 * AbstractGML Type
-	 * @see net.opengis.gml.v_3_1_1.AbstractGML
-	 * @see net.opengis.gml.v_3_2_1.AbstractGML
 	 */
 	private final Class<?> _GMLType;
 	
 	/**
 	 * 
-	 * @param abstractGMLType
 	 */
 	public SymbolListener(Class<?> abstractGMLType) {
 		this.idRegistryMap = new HashMap<String, Object>();

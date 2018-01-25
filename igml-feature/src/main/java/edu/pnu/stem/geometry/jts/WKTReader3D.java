@@ -21,7 +21,6 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.PrecisionModel;
 import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 import com.vividsolutions.jts.util.Assert;
 import com.vividsolutions.jts.util.AssertionFailedException;
 
@@ -110,18 +109,6 @@ public class WKTReader3D {
 	    }
 	  }
 
-	  /**
-	   * Returns the next array of <code>Coordinate</code>s in the stream.
-	   *
-	   *@param  tokenizer        tokenizer over a stream of text in Well-known Text
-	   *      format. The next element returned by the stream should be L_PAREN (the
-	   *      beginning of "(x1 y1, x2 y2, ..., xn yn)") or EMPTY.
-	   *@return                  the next array of <code>Coordinate</code>s in the
-	   *      stream, or an empty array if EMPTY is the next element returned by
-	   *      the stream.
-	   *@throws  IOException     if an I/O error occurs
-	   *@throws  ParseException  if an unexpected token was encountered
-	   */
 	  private Coordinate[] getCoordinates() throws IOException, ParseException {
 			String nextToken = getNextEmptyOrOpener();
 			if (nextToken.equals(EMPTY)) {
@@ -170,18 +157,6 @@ public class WKTReader3D {
 	    return type == StreamTokenizer.TT_WORD;
 	  }
 
-	  /**
-	   * Parses the next number in the stream.
-	   * Numbers with exponents are handled.
-	   * <tt>NaN</tt> values are handled correctly, and
-	   * the case of the "NaN" symbol is not significant. 
-	   *
-	   *@param  tokenizer        tokenizer over a stream of text in Well-known Text
-	   *      format. The next token must be a number.
-	   *@return                  the next number in the stream
-	   *@throws  ParseException  if the next token is not a valid number
-	   *@throws  IOException     if an I/O error occurs
-	   */
 	  private double getNextNumber() throws IOException,
 	      ParseException {
 	    int type = tokenizer.nextToken();

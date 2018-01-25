@@ -1,8 +1,6 @@
 package edu.pnu.stem.dao;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import com.vividsolutions.jts.geom.Point;
@@ -10,12 +8,8 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
-import edu.pnu.stem.feature.SpaceLayer;
-import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
-import edu.pnu.stem.feature.Transition;
 
 public class StateDAO {
 	/*

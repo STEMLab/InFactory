@@ -34,7 +34,7 @@ public class GeometryFactory3D extends GeometryFactory {
 	  /**
 	   * Constructs a <code>Polygon</code> with the given exterior boundary.
 	   *
-	   * @param shell
+	   * @param shells
 	   *            the outer boundary of the new <code>Polygon</code>, or
 	   *            <code>null</code> or an empty <code>LinearRing</code> if
 	   *            the empty geometry is to be created.

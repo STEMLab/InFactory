@@ -14,6 +14,7 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 import edu.pnu.stem.geometry.jts.Solid;
+import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.gml.v_3_2_1.AbstractRingPropertyType;
 import net.opengis.gml.v_3_2_1.DirectPositionListType;
 import net.opengis.gml.v_3_2_1.DirectPositionType;
@@ -39,6 +40,7 @@ public class Convert2JaxbGeometry {
 		shellProp.setShell(shellType);
 		
 		newFeature.setExterior(shellProp);
+		newFeature.setId(GeometryUtil.getMetadata(feature, "id"));
 		
 		return newFeature;
 	}
@@ -55,7 +57,6 @@ public class Convert2JaxbGeometry {
 		}
 
 		newFeature.setSurfaceMember(surfaceProps);
-		
 		return newFeature;
 	}
 	
@@ -70,7 +71,7 @@ public class Convert2JaxbGeometry {
 		if(feature.getNumInteriorRing() > 0) {
 			//TODO
 		}
-
+		newFeature.setId(GeometryUtil.getMetadata(feature, "id"));
 		return newFeature;
 	}
 	
@@ -99,12 +100,14 @@ public class Convert2JaxbGeometry {
 		}
 		
 		newFeature.setPosOrPointPropertyOrPointRep(dpList);
+		newFeature.setId(GeometryUtil.getMetadata(feature, "id"));
 		return newFeature;
 	}
 	
 	public static PointType Convert2PointType(Point feature){
 		PointType newFeature = gmlFactory.createPointType();
 		newFeature.setPos(Convert2CoordinateType(feature.getCoordinateSequence().getCoordinate(0), feature.getDimension()));
+		newFeature.setId(GeometryUtil.getMetadata(feature, "id"));
 		return newFeature;
 	}
 	
