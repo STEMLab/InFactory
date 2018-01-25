@@ -60,6 +60,7 @@ public class DocumentController {
 		}
 		
 		if(request.getContentType().contains("xml")) {
+			// Importing IndoorGML Document
 			try {
 				InputStream xml = request.getInputStream();
 				IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML(id, xml);
@@ -68,7 +69,11 @@ public class DocumentController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if(request.getContentType().contains("json")) {
+			//TODO : indoorJSON
 		}
+		
+		// Empty Document is made.
 
 	    response.setHeader("Location", request.getRequestURL().append(map.getDocId()).toString());
 	}
