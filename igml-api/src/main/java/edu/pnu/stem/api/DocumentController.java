@@ -57,18 +57,21 @@ public class DocumentController {
 			map = container.createDocument(id);
 		}
 		
-		if(request.getContentType().contains("xml")) {
-			// Importing IndoorGML Document
-			try {
-				InputStream xml = request.getInputStream();
-				IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML(id, xml);
-				IndoorFeatures savedDoc = edu.pnu.stem.binder.Convert2FeatureClass.change2FeatureClass(map, id, doc);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		String contentType = request.getContentType();
+		if(contentType != null) {
+			if(request.getContentType().contains("xml")) {
+				// Importing IndoorGML Document
+				try {
+					InputStream xml = request.getInputStream();
+					IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML(id, xml);
+					IndoorFeatures savedDoc = edu.pnu.stem.binder.Convert2FeatureClass.change2FeatureClass(map, id, doc);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else if(request.getContentType().contains("json")) {
+				//TODO : indoorJSON
 			}
-		} else if(request.getContentType().contains("json")) {
-			//TODO : indoorJSON
 		}
 		
 		// Empty Document is made.

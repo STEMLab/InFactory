@@ -119,6 +119,7 @@ public class Convert2JTSGeometry {
 		
 		Coordinate[] newCoordinate = new Coordinate[coordList.size()];
 		coordList.toArray(newCoordinate);
+		
 		LinearRing newFeature = geometryFactory.createLinearRing(newCoordinate);
 		return newFeature;
 	}
