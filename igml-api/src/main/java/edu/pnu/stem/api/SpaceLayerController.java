@@ -42,7 +42,6 @@ public class SpaceLayerController {
 	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
-		String id = json.get("id").asText().trim();
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
