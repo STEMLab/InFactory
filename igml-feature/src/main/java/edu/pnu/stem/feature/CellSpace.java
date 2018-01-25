@@ -55,9 +55,9 @@ public class CellSpace extends AbstractFeature {
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature4Geometry(gId);
 		if(found == null) {
-			indoorGMLMap.setFeature(gId, "Geometry", geom);
+			indoorGMLMap.setFeature4Geometry(gId, geom);
 		}
 		this.geometry = gId;
 	}
