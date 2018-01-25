@@ -37,7 +37,7 @@ public class StateController {
 	
 	@PostMapping(value = "/", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createState(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		String id = json.get("id").asText().trim();
