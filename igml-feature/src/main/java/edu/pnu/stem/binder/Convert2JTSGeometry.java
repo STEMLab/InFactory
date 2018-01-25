@@ -3,6 +3,8 @@ package edu.pnu.stem.binder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
@@ -15,6 +17,7 @@ import edu.pnu.stem.geometry.jts.Solid;
 import net.opengis.gml.v_3_2_1.AbstractRingType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
+import net.opengis.gml.v_3_2_1.CoordinatesType;
 import net.opengis.gml.v_3_2_1.DirectPositionListType;
 import net.opengis.gml.v_3_2_1.DirectPositionType;
 import net.opengis.gml.v_3_2_1.LineStringType;
@@ -31,7 +34,7 @@ import net.opengis.gml.v_3_2_1.SurfaceType;
 public class Convert2JTSGeometry {
 	
 	private final static GeometryFactory geometryFactory = new GeometryFactory();
-	public Solid Convert2Solid(SolidType feature){
+	public static Solid Convert2Solid(SolidType feature){
 		Solid newFeature = null;
 		ShellType exterior = feature.getExterior().getShell();
 		MultiPolygon shell = convert2MultiPolygon(exterior);
@@ -39,7 +42,7 @@ public class Convert2JTSGeometry {
 		return newFeature;
 	}
 	
-	public MultiPolygon convert2MultiPolygon(ShellType feature){
+	public static MultiPolygon convert2MultiPolygon(ShellType feature){
 		MultiPolygon newFeature = null;
 		AbstractSurfaceType firstGeo = feature.getSurfaceMember().get(0).getAbstractSurface().getValue();
 		List<Polygon>multiPolygonList = new ArrayList<Polygon>();
@@ -60,7 +63,7 @@ public class Convert2JTSGeometry {
 			
 			for(int i = 0 ; i < polygonList.size() ; i++){	
 				multiPolygonList.add(convert2Polygon(polygonList.get(i)));
-				Polygon[]temp = null;
+				Polygon[]temp = new Polygon[multiPolygonList.size()];
 				shell = geometryFactory.createMultiPolygon(multiPolygonList.toArray(temp));
 			}
 		}
@@ -76,7 +79,7 @@ public class Convert2JTSGeometry {
 	}
 	 * */
 	
-	public Polygon convert2Polygon(PolygonType feature){
+	public static Polygon convert2Polygon(PolygonType feature){
 		AbstractRingType ring = feature.getExterior().getAbstractRing().getValue();
 		Polygon newFeature = null;
 		if(ring instanceof LinearRingType){
@@ -88,11 +91,34 @@ public class Convert2JTSGeometry {
 		return newFeature;
 	}
 
-	public LinearRing convert2LinearRing(LinearRingType feature){
+	public static LinearRing convert2LinearRing(LinearRingType feature){
 		DirectPositionListType directpositionList = feature.getPosList();
-		List<Coordinate>temp = convert2CoordinateList(directpositionList);
-		Coordinate[] newCoordinate = null;
-		temp.toArray(newCoordinate);
+		List<JAXBElement<?>> postList = feature.getPosOrPointPropertyOrPointRep();
+		CoordinatesType coord = feature.getCoordinates();
+		List<Coordinate> coordList = new ArrayList<Coordinate>();
+		
+		if(directpositionList != null){
+			 //coord = convert2Coordinate(directpositionList);
+		}
+		else{
+			if(postList.size() != 0){
+				for( JAXBElement<?> point : postList){
+					coordList.add(convert2Coordinate((DirectPositionType)point.getValue()));
+				}
+			}
+			else{
+				if(coord != null){
+					
+				}
+				else{
+					//TODO
+					//nogeometryexception
+				}
+			}
+		}
+		
+		Coordinate[] newCoordinate = new Coordinate[coordList.size()];
+		coordList.toArray(newCoordinate);
 		LinearRing newFeature = geometryFactory.createLinearRing(newCoordinate);
 		return newFeature;
 	}
