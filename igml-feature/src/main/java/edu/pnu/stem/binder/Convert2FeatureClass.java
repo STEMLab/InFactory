@@ -277,14 +277,14 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	ExternalObjectReference change2FeatureClass(ExternalObjectReferenceType feature) {
+	public static ExternalObjectReference change2FeatureClass(ExternalObjectReferenceType feature) {
 		ExternalObjectReference newFeature = new ExternalObjectReference();
 
 		newFeature.setUri(feature.getUri());
 		return newFeature;
 	}
 
-	ExternalReference change2FeatureClass(ExternalReferenceType feature) {
+	public static ExternalReference change2FeatureClass(ExternalReferenceType feature) {
 		ExternalReference newFeature = new ExternalReference();
 		ExternalObjectReference referredObject = new ExternalObjectReference();
 		referredObject.setUri(feature.getExternalObject().getUri());
@@ -372,7 +372,7 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	static Edges change2FeatureClass(IndoorGMLMap savedMap, EdgesType feature, String parentId) {
+	public static Edges change2FeatureClass(IndoorGMLMap savedMap, EdgesType feature, String parentId) {
 		// Creating this feature
 		Edges newFeature = (Edges) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
@@ -396,7 +396,7 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	static InterLayerConnection change2FeatureClass(IndoorGMLMap savedMap, InterLayerConnectionType feature, String parentId) {
+	public static InterLayerConnection change2FeatureClass(IndoorGMLMap savedMap, InterLayerConnectionType feature, String parentId) {
 		// Creating this feature
 		InterLayerConnection newFeature = (InterLayerConnection) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
@@ -492,7 +492,7 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	static Nodes change2FeatureClass(IndoorGMLMap savedMap, NodesType feature, String parentId) {
+	public static Nodes change2FeatureClass(IndoorGMLMap savedMap, NodesType feature, String parentId) {
 		// Creating this feature
 		Nodes newFeature = (Nodes) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
@@ -517,7 +517,7 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	static SpaceLayer change2FeatureClass(IndoorGMLMap savedMap, SpaceLayerType feature, String parentId) {
+	public static SpaceLayer change2FeatureClass(IndoorGMLMap savedMap, SpaceLayerType feature, String parentId) {
 		// Creating this feature
 		SpaceLayer newFeature = (SpaceLayer) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
@@ -546,11 +546,11 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	SpaceLayerClassType change2FeatureClass(SpaceLayerClassTypeType feature) {
+	public static SpaceLayerClassType change2FeatureClass(SpaceLayerClassTypeType feature) {
 		return null;
 	}
 
-	static State change2FeatureClass(IndoorGMLMap savedMap, StateType feature, String parentId) {
+	public static State change2FeatureClass(IndoorGMLMap savedMap, StateType feature, String parentId) {
 		// Creating this feature
 		State newFeature = (State) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
@@ -609,7 +609,7 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	static Transition change2FeatureClass(IndoorGMLMap savedMap, TransitionType feature, String parentId) {
+	public static Transition change2FeatureClass(IndoorGMLMap savedMap, TransitionType feature, String parentId) {
 		// Creating this feature
 		Transition newFeature = (Transition) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
@@ -671,7 +671,7 @@ public class Convert2FeatureClass {
 		return newFeature;
 	}
 
-	typeOfTopoExpressionCode change2FeatureClass(TypeOfTopoExpressionCodeEnumerationType feature) {
+	public static typeOfTopoExpressionCode change2FeatureClass(TypeOfTopoExpressionCodeEnumerationType feature) {
 		typeOfTopoExpressionCode newFeature = new typeOfTopoExpressionCode();
 
 		return null;

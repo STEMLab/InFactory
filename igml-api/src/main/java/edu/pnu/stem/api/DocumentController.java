@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.UUID;
 
@@ -26,6 +27,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.DuplicatedFeatureException;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.IndoorFeatures;
+import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
@@ -38,11 +41,10 @@ public class DocumentController {
 	@Autowired
     private ApplicationContext applicationContext;
 	
-	@PostMapping(value = "/", produces = "application/json")
+	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createDocument(@RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String id = json.get("id").asText().trim();
-		
+	public void createDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
@@ -55,6 +57,17 @@ public class DocumentController {
 			throw new DuplicatedFeatureException();
 		} else {
 			map = container.createDocument(id);
+		}
+		
+		if(request.getContentType().contains("xml")) {
+			try {
+				InputStream xml = request.getInputStream();
+				IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML(id, xml);
+				IndoorFeatures savedDoc = edu.pnu.stem.binder.Convert2FeatureClass.change2FeatureClass(map, id, doc);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	    response.setHeader("Location", request.getRequestURL().append(map.getDocId()).toString());
