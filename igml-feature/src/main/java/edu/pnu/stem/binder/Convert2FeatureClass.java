@@ -7,6 +7,7 @@ import javax.xml.bind.JAXBException;
 
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
@@ -25,6 +26,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.feature.typeOfTopoExpressionCode;
+import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
 import net.opengis.gml.v_3_2_1.AbstractSolidType;
@@ -205,7 +207,18 @@ public class Convert2FeatureClass {
 		// 2. geometry
 		CellSpaceGeometryType cellSpaceGeom = feature.getCellSpaceGeometry();
 		if (cellSpaceGeom != null) {
-			change2FeatureClass(savedMap, feature.getId(), cellSpaceGeom);
+			change2FeatureClass(savedMap, feature.getId(), cellSpaceGeom);			
+			if(cellSpaceGeom.isSetGeometry2D()){
+				Polygon geom = Convert2JTSGeometry.convert2Polygon((PolygonType)feature.getCellSpaceGeometry().getGeometry2D().getAbstractSurface().getValue());
+				GeometryUtil.setMetadata(geom, "id", feature.getCellSpaceGeometry().getGeometry2D().getAbstractSurface().getValue().getId());
+				newFeature.setGeometry(geom);
+			}
+			else if(cellSpaceGeom.isSetGeometry3D()){
+				Solid geom = Convert2JTSGeometry.Convert2Solid((SolidType)feature.getCellSpaceGeometry().getGeometry3D().getAbstractSolid().getValue());
+				GeometryUtil.setMetadata(geom, "id", feature.getCellSpaceGeometry().getGeometry3D().getAbstractSolid().getValue().getId());
+				newFeature.setGeometry(geom);
+			}
+			
 		} else {
 			//TODO : Exception
 			System.out.println("Converter : There is no Geometry Information");
