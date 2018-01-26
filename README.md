@@ -20,8 +20,11 @@ If you want to set this project, then you need to set:
 
 1) Project building : `mvn clean install`
 2) Spring server executing : `mvn build jetty:run`
+
    Also set parameter as
+
    -Parameter Name : `jetty.http.port`
+
    -Value : `9797(You can change port number as you want)`
    
  
