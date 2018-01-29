@@ -36,9 +36,11 @@ If you want to set this project, then you need to set:
 3) Set `base_url` at your rest client : `http://localhost:(port number that you used at the parameter)/`.
 4) You need to CRUD the element of IndoorGML from the top to the bottom of IndoorGML structure.
  
- `ex) IndoorFeatures -> PrimalSpaceFeatures -> CellSpace `
+ ```
+ ex) IndoorFeatures -> PrimalSpaceFeatures -> CellSpace
   
- `ex) IndoorFeatures -> MultiLayeredGraph -> SpaceLayers -> SpaceLayer -> Nodes -> State`
+ ex) IndoorFeatures -> MultiLayeredGraph -> SpaceLayers -> SpaceLayer -> Nodes -> State
+ ```
  
    You need to create the parent element firstly.
    If the level of elements are same, no order at creating. In this document, we will make the document which contains CellSpace element. And request format is JSON.
@@ -47,35 +49,42 @@ If you want to set this project, then you need to set:
 
 6) Create the document first as posting below request to this url : `{base_url}/Document`.
    The url address of post request will be this : `{base_url}/indoorfeatures|primalspacefeatures|cellspace...`
-
-`{
+```
+{
 	"id":"doc1"
-}`
+}
+```
 
 7) Create the IndoorFeatures element. Send post request as below to this url : `{base_url}/indoorfeatures`. 
 
-`{
+```
+{
 	"docId":"doc1",
 	"id":"lf1"
-}`
+}
+```
 
 8) Create the PrimalSpaceFeatures element. Send post request as below to this url : `{base_url}/primalspacefeatures`.
 
-`{
+```
+{
 	"docId":"doc1",
 	"parentId":"lf1",
 	"id":"psf1"
-}`
+}
+```
 
 9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/cellspace`.
 
-`{
+```
+{
 	"docId":"doc1",
 	"parentId":"psf1",
 	"id":"c1",
 	"geometry":"SOLID (( ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 0 1 0, 0 1 1, 0 0 1, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 1, 1 0 1, 0 0 1, 0 1 1, 1 1 1)), ((1 1 1, 1 0 1, 1 0 0, 1 1 0, 1 1 1)), ((1 1 1, 1 1 0, 0 1 0, 0 1 1, 1 1 1)) ))",
 	"duality":"s1"
-}`
+}
+```
 
 10) Send get request to this url : `{base_url}/document/{document id}`. In this example we create the document which has the id `doc1`.
 So the url will be this : `{base_url}/document/doc1`. Then you can get the document.
