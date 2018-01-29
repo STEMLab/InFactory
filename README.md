@@ -2,10 +2,15 @@
 
 ## Introduction
 
-This project is for creating OGC IndoorGML 1.0.3 formated data. This is based on ogc-schemas https://github.com/highsource/ogc-schemas, so later I will add License about this. 
+This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This is based on ogc-schemas https://github.com/highsource/ogc-schemas, so later I will add License about this. 
 
 **Warning : This project is now under being implemented. After 2018 FEB 1.0 version will be released. Sorry for delaying.**
 If is there any issue or question please contact to 'hyemi.jeong@pnu.edu'.
+
+## Authors
+
+* Hyemi Jeong - IndoorGML CRUD DAO developer hyemi.jeong@pnu.edu
+* Hyung-Gyu Ryoo - IndoorGML Restful API developer hgryoo@pnu.edu
 
 ## Project Setting
 
@@ -23,9 +28,9 @@ If you want to set this project, then you need to set:
 
    Also set parameter as
 
-   -Parameter Name : `jetty.http.port`
+   - Parameter Name : `jetty.http.port`
 
-   -Value : `9797(You can change port number as you want)`
+   - Value : `9797(You can change port number as you want)`
    
  
 ### How to use
