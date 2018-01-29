@@ -50,6 +50,13 @@ public class Solid extends Geometry {
 	public MultiPolygon getShell() {
 		return shell;
 	}
+	/**
+	 * @return the shell
+	 */
+	public MultiPolygon[] getHoles() {
+		return holes;
+	}
+
 
 	/**
 	 * @param shell the shell to set
