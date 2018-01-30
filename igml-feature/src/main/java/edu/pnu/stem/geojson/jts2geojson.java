@@ -37,10 +37,8 @@ public class jts2geojson {
 		GeoJSON json = writer.write(solid);
 		String jsonstring = json.toString();
 		System.out.println(jsonstring);
-		jsonstring = "dss";
-		System.out.println(jsonstring);
 		GeoJSON3DReader reader = new GeoJSON3DReader();
-		Geometry geometry = reader.read(json);
+		Geometry geometry = reader.read("{\"type\":\"Solid\",\"coordinates\":[[[[[40.0,40.0],[20.0,45.0],[45.0,30.0],[40.0,40.0]]],[[[20.0,35.0],[10.0,30.0],[10.0,10.0],[30.0,5.0],[45.0,20.0],[20.0,35.0]],[[30.0,20.0],[20.0,15.0],[20.0,25.0],[30.0,20.0]]]],[[[[35.0,10.0],[45.0,45.0],[15.0,40.0],[10.0,20.0],[35.0,10.0]],[[20.0,30.0],[35.0,35.0],[30.0,20.0],[20.0,30.0]]]]]}");
 		GeoJSON3DWriter writer2 = new GeoJSON3DWriter();
 		json = writer2.write(geometry);
 		jsonstring = json.toString();

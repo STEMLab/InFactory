@@ -32,7 +32,7 @@ public class GeoJSONFactory {
 
     private static Geometry readGeometry(JsonNode node, String type)
             throws JsonParseException, JsonMappingException, IOException, ClassNotFoundException {
-        return (Geometry) mapper.readValue(node.traverse(), Class.forName("edu.pnu.stem." + type));
+        return (Geometry) mapper.readValue(node.traverse(), Class.forName("edu.pnu.stem.geojson." + type));
     }
 
 }

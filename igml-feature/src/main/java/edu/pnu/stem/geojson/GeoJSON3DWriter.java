@@ -1,7 +1,5 @@
 package edu.pnu.stem.geojson;
 
-import org.wololo.jts2geojson.GeoJSONReader;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
@@ -13,7 +11,6 @@ import com.vividsolutions.jts.geom.Polygon;
 
 public class GeoJSON3DWriter {
 
-    final static GeoJSONReader reader = new GeoJSONReader();
         
     public edu.pnu.stem.geojson.Geometry write(Geometry geometry) {
         Class<? extends Geometry> c = geometry.getClass();
