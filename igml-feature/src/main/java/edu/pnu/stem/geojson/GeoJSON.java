@@ -16,19 +16,17 @@ public abstract class GeoJSON {
     
     @JsonCreator
     public GeoJSON() {
-        setType(getClass().getSimpleName());
+    	Class<? extends GeoJSON> c = getClass();
+    	String className= c.getSimpleName();
+        setType(className);
     }
     
     public String toString() {
-        try {
+    	try {
             return mapper.writeValueAsString(this);
-        } catch (JsonGenerationException e) {
-            return "Unhandled exception occured when serializing this instance";
-        } catch (JsonMappingException e) {
-            return "Unhandled exception occured when serializing this instance";
-        } catch (IOException e) {
-            return "Unhandled exception occured when serializing this instance";
-        }
+    	} catch (Exception e) {
+            return "Unhandled exception occurred when serializing this instance";     
+    	}
     }
 
     public String getType() {

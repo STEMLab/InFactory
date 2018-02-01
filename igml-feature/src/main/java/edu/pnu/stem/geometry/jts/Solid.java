@@ -51,7 +51,7 @@ public class Solid extends Geometry {
 		return shell;
 	}
 	/**
-	 * @return the shell
+	 * @return the holes
 	 */
 	public MultiPolygon[] getHoles() {
 		return holes;

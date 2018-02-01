@@ -11,38 +11,42 @@ import com.vividsolutions.jts.geom.Polygon;
 
 public class GeoJSON3DWriter {
 
-        
     public edu.pnu.stem.geojson.Geometry write(Geometry geometry) {
         Class<? extends Geometry> c = geometry.getClass();
         if (c.equals(edu.pnu.stem.geometry.jts.Solid.class)) {
-            return convert((edu.pnu.stem.geometry.jts.Solid) geometry);
-        
+            return convert((edu.pnu.stem.geometry.jts.Solid) geometry);      
         } else {
             throw new UnsupportedOperationException();
         }
     }
     
     org.wololo.geojson.Point convert(Point point) {
-        org.wololo.geojson.Point json = new org.wololo.geojson.Point(
-                convert(point.getCoordinate()));
-        return json;
+    	Coordinate coordinates = point.getCoordinate();
+    	double[] convertedCoordinates = convert(coordinates);
+        return new org.wololo.geojson.Point(convertedCoordinates);
     }
 
     org.wololo.geojson.MultiPoint convert(MultiPoint multiPoint) {
-        return new org.wololo.geojson.MultiPoint(
-                convert(multiPoint.getCoordinates()));
+    	Coordinate[] coordinates = multiPoint.getCoordinates();
+    	double[][] convertedCoordinates = convert(coordinates);
+        return new org.wololo.geojson.MultiPoint(convertedCoordinates);
     }
 
     org.wololo.geojson.LineString convert(LineString lineString) {
-        return new org.wololo.geojson.LineString(
-                convert(lineString.getCoordinates()));
+    	Coordinate[] coordinates = lineString.getCoordinates();
+    	double[][] convertedCoordinates = convert(coordinates);
+        return new org.wololo.geojson.LineString(convertedCoordinates);
     }
 
     org.wololo.geojson.MultiLineString convert(MultiLineString multiLineString) {
-        int size = multiLineString.getNumGeometries();
+        Geometry tempGeometry;
+        Coordinate[] coordinates;
+    	int size = multiLineString.getNumGeometries();
         double[][][] lineStrings = new double[size][][];
         for (int i = 0; i < size; i++) {
-            lineStrings[i] = convert(multiLineString.getGeometryN(i).getCoordinates());
+        	tempGeometry = multiLineString.getGeometryN(i);
+        	coordinates = tempGeometry.getCoordinates();
+            lineStrings[i] = convert(coordinates);
         }
         return new org.wololo.geojson.MultiLineString(lineStrings);
     }
@@ -50,9 +54,13 @@ public class GeoJSON3DWriter {
     org.wololo.geojson.Polygon convert(Polygon polygon) {
         int size = polygon.getNumInteriorRing() + 1;
         double[][][] rings = new double[size][][];
-        rings[0] = convert(polygon.getExteriorRing().getCoordinates());
+        LineString ring = polygon.getExteriorRing();
+        Coordinate[] coordinates = ring.getCoordinates();
+        rings[0] = convert(coordinates);
         for (int i = 0; i < size - 1; i++) {
-            rings[i + 1] = convert(polygon.getInteriorRingN(i).getCoordinates());
+        	ring = polygon.getInteriorRingN(i);
+        	coordinates = ring.getCoordinates();
+            rings[i + 1] = convert(coordinates);
         }
         return new org.wololo.geojson.Polygon(rings);
     }
@@ -60,18 +68,29 @@ public class GeoJSON3DWriter {
     org.wololo.geojson.MultiPolygon convert(MultiPolygon multiPolygon) {
         int size = multiPolygon.getNumGeometries();
         double[][][][] polygons = new double[size][][][];
+        Polygon polygon;
+        org.wololo.geojson.Polygon geojsonPolygon;
         for (int i = 0; i < size; i++) {
-            polygons[i] = convert((Polygon) multiPolygon.getGeometryN(i)).getCoordinates();
+        	polygon = (Polygon)multiPolygon.getGeometryN(i);
+        	geojsonPolygon = convert(polygon);
+            polygons[i] = geojsonPolygon.getCoordinates();
         }
         return new org.wololo.geojson.MultiPolygon(polygons);
     }
     
-    edu.pnu.stem.geojson.Solid convert(edu.pnu.stem.geometry.jts.Solid solid) {
-        int size = solid.getHoles().length;
-        double[][][][][] multipolygons = new double[size+1][][][][];
-        multipolygons[0] = convert((MultiPolygon) solid.getShell()).getCoordinates();
+    edu.pnu.stem.geojson.Solid convert(edu.pnu.stem.geometry.jts.Solid solid) {   	
+        int size = 0;
+        if (solid.getHoles()!= null) {
+        	size = solid.getHoles().length;
+        }
+        double[][][][][] multipolygons = new double[size + 1][][][][];
+        MultiPolygon mpg = (MultiPolygon) solid.getShell();
+        org.wololo.geojson.MultiPolygon multipolygon = convert(mpg);
+        multipolygons[0] = multipolygon.getCoordinates();
         for (int i = 1; i <= size; i++) {
-        	multipolygons[i] = convert((MultiPolygon) solid.getHoles()[i-1]).getCoordinates();
+        	mpg = (MultiPolygon) solid.getHoles()[i-1];
+        	multipolygon = convert(mpg);
+        	multipolygons[i] = multipolygon.getCoordinates();
         }
         return new edu.pnu.stem.geojson.Solid(multipolygons);
     }
@@ -85,9 +104,13 @@ public class GeoJSON3DWriter {
         }
     }
 
-    double[][] convert(Coordinate[] coordinates) {
-        double[][] array = new double[coordinates.length][];
-        for (int i = 0; i < coordinates.length; i++) {
+    double[][] convert(Coordinate[] coordinates){
+    	if (coordinates == null) {
+    		throw new NullPointerException("Coordinate array is not initialized");
+    	}
+    	int size = coordinates.length;
+        double[][] array = new double[size][];
+        for (int i = 0; i < size; i++) {
             array[i] = convert(coordinates[i]);
         }
         return array;

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,13 +27,12 @@ public class GeoJSONFactory {
             throw new RuntimeException(e);
         }
     }
-    
-
-    
 
     private static Geometry readGeometry(JsonNode node, String type)
             throws JsonParseException, JsonMappingException, IOException, ClassNotFoundException {
-        return (Geometry) mapper.readValue(node.traverse(), Class.forName("edu.pnu.stem.geojson." + type));
+    	JsonParser p = node.traverse();
+    	Class<?> valueType = Class.forName("edu.pnu.stem.geojson." + type);
+        return (Geometry) mapper.readValue(p, valueType);
     }
 
 }
