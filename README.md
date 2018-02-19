@@ -1,4 +1,4 @@
-# IndoorGML_Factory
+# InFactory
 
 ## Introduction
 
@@ -24,8 +24,8 @@ If you want to set this project, then you need to set:
 ### Command
 
 1) Project building : `mvn clean install`
-2) Spring server executing : `mvn build jetty:run`
-
+2) Spring server executing : `mvn jetty:run`
+	
    Also set parameter as
 
    - Parameter Name : `jetty.http.port`
