@@ -40,7 +40,7 @@ public class PrimalSpaceFeaturesController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createMultiLayeredGraph(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createPrimalSpaceFeatures(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		
