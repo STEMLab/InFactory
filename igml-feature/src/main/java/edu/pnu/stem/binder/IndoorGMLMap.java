@@ -148,12 +148,15 @@ public class IndoorGMLMap {
 	
 	public void setFeature(String id,String featureName, Object featureValue){
 		if(!hasID(id)){
+			if(hasFutureID(id)){
+				container.get("FutureID").remove(id);
+			}
 			setID(id,featureName);
 			container.get(featureName).put(id, featureValue);
 		}
 		else{
-			System.out.println("Already Exist Id");
-			container.get(featureName).put(id, featureValue);
+			System.out.println("Already Exist Id : " + featureName);
+			//container.get(featureName).put(id, featureValue);
 		}
 	}
 	
