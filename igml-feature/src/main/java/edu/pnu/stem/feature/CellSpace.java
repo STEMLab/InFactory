@@ -81,7 +81,9 @@ public class CellSpace extends AbstractFeature {
 	public void setDuality(State s) {
 		State found = (State) indoorGMLMap.getFeature(s.getId());
 		if(found == null) {
-			indoorGMLMap.setFeature(s.getId(), "State", s);
+			if(!indoorGMLMap.hasFutureID(s.getId())){
+				indoorGMLMap.setFutureFeature(s.getId(), "State");
+			}
 		}
 		this.duality = s.getId();
 	}
