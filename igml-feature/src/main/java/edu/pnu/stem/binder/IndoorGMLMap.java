@@ -24,6 +24,7 @@ public class IndoorGMLMap {
 	private void setFeatureClassContainer() {
 		
 		container.put("ID", new ConcurrentHashMap<String,Object>());
+		container.put("FutureID", new ConcurrentHashMap<String,Object>());
 		container.put("IndoorFeatures", new ConcurrentHashMap<String,Object>());
 		container.put("MultiLayeredGraph", new ConcurrentHashMap<String,Object>());
 		container.put("PrimalSpaceFeatures", new ConcurrentHashMap<String,Object>());
@@ -58,10 +59,29 @@ public class IndoorGMLMap {
 		return flag;
 	}
 	
+	public boolean hasFutureID(String id){
+		boolean flag = false;
+		ConcurrentHashMap<String, Object> idContainer = getFeatureContainer("FutureID");
+		if (idContainer.containsKey(id)) {
+			flag = true;
+		}
+		return flag;
+	}
+	
+	public void setFutureFeature(String id, String featureName){
+		if(!hasID(id)){
+			container.get("FutureFeature").put(id, featureName);
+		}
+	}
+	
 	private void setID(String id, String featureName) {
 		if(!hasID(id)){
 			getFeatureContainer("ID").put(id, featureName);
 		}
+	}
+	
+	public void removeFutureID(String id){
+		getFeatureContainer("FutureID").remove(id);
 	}
 	
 	private void removeID(String id){
