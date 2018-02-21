@@ -509,8 +509,11 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		Nodes newFeature = (Nodes) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
 			newFeature = new Nodes(savedMap, feature.getId());
-			savedMap.setFeature(feature.getId(), "Nodes", newFeature);
+			
 		}
 		
 		// Setting parent
@@ -523,10 +526,11 @@ public class Convert2FeatureClass {
 		for (int i = 0; i < tempML.size(); i++) {
 			StateType tempState = tempML.get(i).getState();
 			State temp = change2FeatureClass(savedMap, tempState, newFeature.getId());
-			savedMap.setFeature(tempState.getId(), "State", temp);
 			stateList.add(temp);
 		}
 		newFeature.setStateMember(stateList);
+		
+		savedMap.setFeature(feature.getId(), "Nodes", newFeature);
 		return newFeature;
 	}
 
