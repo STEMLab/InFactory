@@ -44,11 +44,9 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jvnet.ogc</groupId>
-			<artifactId>gml-v_3_2_1</artifactId>
-			<version>${ogc-schemas.version}</version>
-			<scope>system</scope>
-    		<systemPath>${project.basedir}/../lib/gml-v_3_2_1-2.6.2-SNAPSHOT.jar</systemPath>
+			<groupId>org.jvnet.ogc</groupId>	 			
+ 			<artifactId>gml-v_3_2_1</artifactId>	 			
+ 			<version>${ogc-schemas.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.ogc</groupId>
