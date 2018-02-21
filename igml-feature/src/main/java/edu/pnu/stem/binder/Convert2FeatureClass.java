@@ -567,8 +567,10 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		State newFeature = (State) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
 			newFeature = new State(savedMap, feature.getId());
-			savedMap.setFeature(feature.getId(), "State", newFeature);
 		}
 		
 		// Setting parent
@@ -618,7 +620,8 @@ public class Convert2FeatureClass {
 				//TODO
 			};
 		}
-
+		
+		savedMap.setFeature(feature.getId(), "State", newFeature);
 		return newFeature;
 	}
 
