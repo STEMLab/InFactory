@@ -174,8 +174,12 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		CellSpace newFeature = (CellSpace) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
 			newFeature = new CellSpace(savedMap, feature.getId());
-			savedMap.setFeature(feature.getId(), "CellSpace", newFeature);
+			
 		}
 		
 		// Setting parent 
@@ -197,7 +201,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "State", new State(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "State");
 				}
 			} else {
 				//TODO
@@ -241,6 +245,7 @@ public class Convert2FeatureClass {
 			};
 		}
 
+		savedMap.setFeature(feature.getId(), "CellSpace", newFeature);
 		return newFeature;
 	}
 
