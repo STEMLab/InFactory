@@ -253,6 +253,11 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		CellSpaceBoundary newFeature = (CellSpaceBoundary) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
+			
 			newFeature = new CellSpaceBoundary(savedMap, feature.getId());
 			savedMap.setFeature(feature.getId(), "CellSpaceBoundary", newFeature);
 		}
