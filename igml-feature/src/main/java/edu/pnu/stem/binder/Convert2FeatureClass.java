@@ -599,7 +599,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "CellSpace", new CellSpace(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "CellSpace");
 				}
 			} else {
 				//TODO
