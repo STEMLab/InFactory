@@ -1,6 +1,7 @@
 package edu.pnu.stem.binder;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,41 +13,41 @@ import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
-public class IndoorGMLMap {
-	private ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> container;
+public class IndoorGMLMap implements Serializable {
+	private ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> collection;
 	private String docId;
 	
 	public IndoorGMLMap() {
-		this.container = new ConcurrentHashMap<String, ConcurrentHashMap<String, Object>>();
+		this.collection = new ConcurrentHashMap<String, ConcurrentHashMap<String, Object>>();
 		setFeatureClassContainer();
 	}
 
 	private void setFeatureClassContainer() {
 		
-		container.put("ID", new ConcurrentHashMap<String,Object>());
-		container.put("FutureID", new ConcurrentHashMap<String,Object>());
-		container.put("IndoorFeatures", new ConcurrentHashMap<String,Object>());
-		container.put("MultiLayeredGraph", new ConcurrentHashMap<String,Object>());
-		container.put("PrimalSpaceFeatures", new ConcurrentHashMap<String,Object>());
-		container.put("CellSpace", new ConcurrentHashMap<String,Object>());
-		container.put("CellSpaceBoundary", new ConcurrentHashMap<String,Object>());
-		container.put("SpaceLayers", new ConcurrentHashMap<String,Object>());
-		container.put("SpaceLayer", new ConcurrentHashMap<String,Object>());
-		container.put("Nodes", new ConcurrentHashMap<String,Object>());
-		container.put("Edges", new ConcurrentHashMap<String,Object>());
-		container.put("Transition", new ConcurrentHashMap<String,Object>());
-		container.put("InterLayerConnection", new ConcurrentHashMap<String,Object>());
-		container.put("InterEdges", new ConcurrentHashMap<String,Object>());
-		container.put("CellSpaceGeometry", new ConcurrentHashMap<String,Object>());
-		container.put("CellSpaceBoundaryGeometry", new ConcurrentHashMap<String,Object>());
-		container.put("Point", new ConcurrentHashMap<String,Object>());
-		container.put("Curve", new ConcurrentHashMap<String,Object>());
-		container.put("Surface", new ConcurrentHashMap<String,Object>());
-		container.put("Solid", new ConcurrentHashMap<String,Object>());
-		container.put("State", new ConcurrentHashMap<String,Object>());
-		container.put("Reference", new ConcurrentHashMap<String,Object>());
-		container.put("Envelope", new ConcurrentHashMap<String,Object>());
-		container.put("Geometry", new ConcurrentHashMap<String,Object>());
+		collection.put("ID", new ConcurrentHashMap<String,Object>());
+		collection.put("FutureID", new ConcurrentHashMap<String,Object>());
+		collection.put("IndoorFeatures", new ConcurrentHashMap<String,Object>());
+		collection.put("MultiLayeredGraph", new ConcurrentHashMap<String,Object>());
+		collection.put("PrimalSpaceFeatures", new ConcurrentHashMap<String,Object>());
+		collection.put("CellSpace", new ConcurrentHashMap<String,Object>());
+		collection.put("CellSpaceBoundary", new ConcurrentHashMap<String,Object>());
+		collection.put("SpaceLayers", new ConcurrentHashMap<String,Object>());
+		collection.put("SpaceLayer", new ConcurrentHashMap<String,Object>());
+		collection.put("Nodes", new ConcurrentHashMap<String,Object>());
+		collection.put("Edges", new ConcurrentHashMap<String,Object>());
+		collection.put("Transition", new ConcurrentHashMap<String,Object>());
+		collection.put("InterLayerConnection", new ConcurrentHashMap<String,Object>());
+		collection.put("InterEdges", new ConcurrentHashMap<String,Object>());
+		collection.put("CellSpaceGeometry", new ConcurrentHashMap<String,Object>());
+		collection.put("CellSpaceBoundaryGeometry", new ConcurrentHashMap<String,Object>());
+		collection.put("Point", new ConcurrentHashMap<String,Object>());
+		collection.put("Curve", new ConcurrentHashMap<String,Object>());
+		collection.put("Surface", new ConcurrentHashMap<String,Object>());
+		collection.put("Solid", new ConcurrentHashMap<String,Object>());
+		collection.put("State", new ConcurrentHashMap<String,Object>());
+		collection.put("Reference", new ConcurrentHashMap<String,Object>());
+		collection.put("Envelope", new ConcurrentHashMap<String,Object>());
+		collection.put("Geometry", new ConcurrentHashMap<String,Object>());
 		
 	}
 
@@ -70,7 +71,7 @@ public class IndoorGMLMap {
 	
 	public void setFutureFeature(String id, String featureName){
 		if(!hasID(id)){
-			container.get("FutureFeature").put(id, featureName);
+			collection.get("FutureID").put(id, featureName);
 		}
 	}
 	
@@ -97,8 +98,8 @@ public class IndoorGMLMap {
 	public ConcurrentHashMap<String, Object> getFeatureContainer(String featureName) {
 		ConcurrentHashMap<String, Object> newFeatureContainer = null;
 
-		if (container.containsKey(featureName)) {
-			newFeatureContainer = container.get(featureName);
+		if (collection.containsKey(featureName)) {
+			newFeatureContainer = collection.get(featureName);
 		}
 
 		return newFeatureContainer;
@@ -114,7 +115,7 @@ public class IndoorGMLMap {
 		Object newFeature = null;
 		if(hasID(id)){
 			String typeName = (String) getFeatureContainer("ID").get(id);
-			newFeature = container.get(typeName).get(id);
+			newFeature = collection.get(typeName).get(id);
 		} else {
 			//TODO
 			//Excpetion
@@ -123,7 +124,7 @@ public class IndoorGMLMap {
 	}
 	
 	public Geometry getFeature4Geometry(String id){
-		ConcurrentHashMap<String,Object> geomContainer = container.get("Geometry");
+		ConcurrentHashMap<String,Object> geomContainer = collection.get("Geometry");
 		Geometry geom = null;
 		if(geomContainer.containsKey(id)){
 			geom = (Geometry)geomContainer.get(id);
@@ -136,7 +137,7 @@ public class IndoorGMLMap {
 	}
 	public void setFeature4Geometry(String id, Geometry geom){
 		GeometryUtil.setMetadata(geom, "id", id);
-		ConcurrentHashMap<String,Object> geomContainer = container.get("Geometry");
+		ConcurrentHashMap<String,Object> geomContainer = collection.get("Geometry");
 		if(!geomContainer.containsKey(id)){
 			geomContainer.put(id, geom);
 		}
@@ -149,10 +150,10 @@ public class IndoorGMLMap {
 	public void setFeature(String id,String featureName, Object featureValue){
 		if(!hasID(id)){
 			if(hasFutureID(id)){
-				container.get("FutureID").remove(id);
+				collection.get("FutureID").remove(id);
 			}
 			setID(id,featureName);
-			container.get(featureName).put(id, featureValue);
+			collection.get(featureName).put(id, featureValue);
 		}
 		else{
 			System.out.println("Already Exist Id : " + featureName);
@@ -184,7 +185,7 @@ public class IndoorGMLMap {
 	
 	public void Marshall(String path) {
 		
-		Enumeration<Object> fe = container.get("IndoorFeatures").elements();
+		Enumeration<Object> fe = collection.get("IndoorFeatures").elements();
 		IndoorFeatures features = null;
 		if(fe.hasMoreElements()) {
 			features = (IndoorFeatures) fe.nextElement();
