@@ -238,7 +238,7 @@ public class Convert2FeatureClass {
 					newFeature.addPartialBoundedBy(connects);
 				} else {
 					//TODO
-					savedMap.setFeature(connectsId, "CellSpaceBoundary", new CellSpaceBoundary(savedMap, connectsId));
+					savedMap.setFutureFeature(connectsId, "CellSpaceBoundary");
 				}
 			} else {
 				//TODO
