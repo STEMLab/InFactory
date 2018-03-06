@@ -105,7 +105,7 @@ public class CellSpace extends AbstractFeature {
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cb.getId());
 			if(found == null){
-				indoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
+				indoorGMLMap.setFutureFeature(cb.getId(), "CellSpaceBoundary");
 			}
 			if(!this.partialboundedBy.contains(cb.getId())){
 				this.partialboundedBy.add(cb.getId());
