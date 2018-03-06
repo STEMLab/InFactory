@@ -1,5 +1,7 @@
 package edu.pnu.stem.feature;
 
+import java.io.Serializable;
+
 import com.vividsolutions.jts.geom.Envelope;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
@@ -8,7 +10,7 @@ import edu.pnu.stem.binder.IndoorGMLMap;
  * @author jungh
  * Implements AbstractFeaturesType of GML 3.2.1
  */
-public abstract class AbstractFeature {
+public abstract class AbstractFeature implements Serializable{
 	
 	protected IndoorGMLMap indoorGMLMap;
 	
