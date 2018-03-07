@@ -42,7 +42,7 @@ public class Edges extends AbstractFeature{
 			Transition found = null;
 			found = (Transition) indoorGMLMap.getFeature(transitionMember.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFeature(transitionMember.get(i).getId(), "Transition", transitionMember.get(i));
+				indoorGMLMap.setFutureFeature(transitionMember.get(i).getId(), "Transition");
 			}
 			if(this.transitionMember == null){
 				this.transitionMember = new ArrayList<String>();
