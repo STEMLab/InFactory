@@ -23,7 +23,7 @@ public class Nodes extends AbstractFeature {
 		SpaceLayer found = null;
 		found = (SpaceLayer)indoorGMLMap.getFeature(parent.getId());
 		if( found == null ){
-			indoorGMLMap.setFeature(parent.getId(), "SpaceLayer", parent );
+			indoorGMLMap.setFutureFeature(parent.getId(), "SpaceLayer");
 		}
 		this.parentId = parent.getId();
 	}
