@@ -61,7 +61,7 @@ public class State extends AbstractFeature {
 		Nodes found = null;
 		found = (Nodes)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFeature(parent.getId(), "Nodes", parent);
+			indoorGMLMap.setFutureFeature(parent.getId(), "Nodes");
 		}		
 		this.parentId = parent.getId();
 	}
