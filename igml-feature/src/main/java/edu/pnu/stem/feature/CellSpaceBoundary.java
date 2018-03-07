@@ -83,7 +83,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 		Transition found = null;
 		found = (Transition)indoorGMLMap.getFeature(duality.getId());
 		if(found == null){
-			indoorGMLMap.setFeature(duality.getId(), "Transition", duality);
+			indoorGMLMap.setFutureFeature(duality.getId(), "Transition");
 		}
 		this.duality = duality.getId();
 	}
