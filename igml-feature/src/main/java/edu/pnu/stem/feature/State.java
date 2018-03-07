@@ -95,7 +95,7 @@ public class State extends AbstractFeature {
 			Transition found = null;
 			found = (Transition)indoorGMLMap.getFeature(connects.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFeature(connects.get(i).getId(), "Transition", connects.get(i));
+				indoorGMLMap.setFutureFeature(connects.get(i).getId(), "Transition");
 			}
 			if(!this.connects.contains(connects.get(i).getId())){
 				this.connects.add(connects.get(i).getId());
