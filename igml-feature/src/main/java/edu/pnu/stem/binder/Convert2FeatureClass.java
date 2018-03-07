@@ -281,7 +281,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "Transition", new Transition(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "Transition");
 				}
 			} else {
 				//TODO
@@ -413,9 +413,11 @@ public class Convert2FeatureClass {
 		for(TransitionMemberType tmType : tms) {
 			TransitionType tType = tmType.getTransition();
 			Transition t = change2FeatureClass(savedMap, tType, newFeature.getId());
-			newFeature.addTransitionMember(t);
+			transitionMemberReference.add(t);
+			//newFeature.addTransitionMember(t);
 		}
-
+		
+		newFeature.setTransitionMembers(transitionMemberReference);
 		return newFeature;
 	}
 
@@ -589,6 +591,9 @@ public class Convert2FeatureClass {
 		
 		// Setting parent
 		Nodes parent = (Nodes) savedMap.getFeature(parentId);
+		if(parent == null){
+			parent = new Nodes(savedMap, parentId);
+		}
 		newFeature.setParent(parent);
 		
 		// 1. duality
@@ -628,7 +633,7 @@ public class Convert2FeatureClass {
 					newFeature.addConnects(connects);
 				} else {
 					//TODO
-					savedMap.setFeature(connectsId, "Transition", new Transition(savedMap, connectsId));
+					savedMap.setFutureFeature(connectsId, "Transition");
 				}
 			} else {
 				//TODO
@@ -643,6 +648,9 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		Transition newFeature = (Transition) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
 			newFeature = new Transition(savedMap, feature.getId());
 		}
 		
@@ -698,6 +706,7 @@ public class Convert2FeatureClass {
 
 		newFeature.setWeight(feature.getWeight());
 		newFeature.setName(feature.getRole());
+		savedMap.setFeature(feature.getId(), "Transition", newFeature);
 		return newFeature;
 	}
 
