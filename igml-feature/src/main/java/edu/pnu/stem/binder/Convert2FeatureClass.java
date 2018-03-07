@@ -330,15 +330,19 @@ public class Convert2FeatureClass {
 		newFeature.setParent(parent);
 
 		// Creating containing features
+		ArrayList<SpaceLayers> spaceLayers = new ArrayList<SpaceLayers>();
 		for (SpaceLayersType slsType : feature.getSpaceLayers()) {
 			SpaceLayers sls = change2FeatureClass(savedMap, slsType, newFeature.getId());
-			newFeature.addSpaceLayers(sls);
+			spaceLayers.add(sls);
 		}
+		newFeature.setSpaceLayers(spaceLayers);
 		
+		ArrayList<InterEdges> interEdges = new ArrayList<InterEdges>();
 		for (InterEdgesType iet : feature.getInterEdges()) {
 			InterEdges ie = change2FeatureClass(savedMap, iet, newFeature.getId());
-			newFeature.addInterEdges(ie);
+			interEdges.add(ie);
 		}
+		newFeature.setInterEdges(interEdges);
 
 		return newFeature;
 	}
@@ -356,11 +360,13 @@ public class Convert2FeatureClass {
 		newFeature.setParent(parent);
 		
 		// Creating containing features
+		ArrayList<SpaceLayer>spaceLayerMember = new ArrayList<SpaceLayer>();
 		for (SpaceLayerMemberType slmType : feature.getSpaceLayerMember()) {
 			SpaceLayerType slType = slmType.getSpaceLayer();
 			SpaceLayer sl = change2FeatureClass(savedMap, slType, newFeature.getId());
-			newFeature.addSpaceLayer(sl);
+			spaceLayerMember.add(sl);
 		}
+		newFeature.setSpaceLayerMember(spaceLayerMember);
 
 		return newFeature;
 	}
@@ -697,7 +703,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "CellSpaceBoundary", new CellSpaceBoundary(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "CellSpaceBoundary");
 				}
 			} else {
 				//TODO
