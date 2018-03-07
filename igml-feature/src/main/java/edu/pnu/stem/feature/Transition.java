@@ -75,7 +75,7 @@ public class Transition extends AbstractFeature {
 		CellSpaceBoundary found = null;
 		found = (CellSpaceBoundary)indoorGMLMap.getFeature(duality.getId());
 		if(found == null){
-			indoorGMLMap.setFeature(duality.getId(), "CellSpaceBoundary",duality);
+			indoorGMLMap.setFutureFeature(duality.getId(), "CellSpaceBoundary");
 		}
 		this.duality = duality.getId();
 	}
