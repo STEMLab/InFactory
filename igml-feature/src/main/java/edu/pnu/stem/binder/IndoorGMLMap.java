@@ -72,6 +72,14 @@ public class IndoorGMLMap implements Serializable {
 	public void setFutureFeature(String id, String featureName){
 		if(!hasID(id)){
 			collection.get("FutureID").put(id, featureName);
+			System.out.println("Do not forget to create the feature id : "+id+" later : " + featureName);
+		}
+	}
+	
+	public void setFutureFeature(String id, Object feature){
+		if(!hasID(id)){
+			collection.get("FutureID").put(id, feature);
+			System.out.println("Do not forget to create the feature id : "+id+" later");
 		}
 	}
 	
@@ -157,6 +165,7 @@ public class IndoorGMLMap implements Serializable {
 		}
 		else{
 			System.out.println("Already Exist Id : " + featureName);
+			System.out.println(getFeatureContainer("FutureID"));
 			//container.get(featureName).put(id, featureValue);
 		}
 	}
