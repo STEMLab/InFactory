@@ -68,7 +68,7 @@ public class CellSpaceDAO {
 			parent = new PrimalSpaceFeatures(map,parentId);
 		}
 		
-		//parent.addCellSpaceMember(newFeature);
+		parent.addCellSpaceMember(newFeature);
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
