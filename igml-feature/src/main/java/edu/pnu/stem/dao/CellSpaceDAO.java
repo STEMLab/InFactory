@@ -60,7 +60,13 @@ public class CellSpaceDAO {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
+		
+
 		CellSpace newFeature = new CellSpace(map, id);
+		if(map.hasFutureID(id)){
+			newFeature = (CellSpace)map.getFutureFeature(id);
+			map.removeFutureID(id);
+		}
 
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		
