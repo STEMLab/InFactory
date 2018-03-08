@@ -1,16 +1,10 @@
 package edu.pnu.stem.dao;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.geometry.jts.Solid;
@@ -69,7 +63,12 @@ public class CellSpaceDAO {
 		CellSpace newFeature = new CellSpace(map, id);
 
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
-		parent.addCellSpaceMember(newFeature);
+		
+		if(parent == null){
+			parent = new PrimalSpaceFeatures(map,parentId);
+		}
+		
+		//parent.addCellSpaceMember(newFeature);
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
@@ -84,9 +83,17 @@ public class CellSpaceDAO {
 			}
 		}
 		
-		State dualityFeature = (State) map.getFeature(duality);
-		dualityFeature.setDuality(newFeature);
-		newFeature.setDuality(dualityFeature);
+		if(duality != null){
+			State dualityFeature = (State) map.getFeature(duality);
+			
+			if(dualityFeature == null){
+				dualityFeature = new State(map, duality);
+			}
+			
+			dualityFeature.setDuality(newFeature);
+			newFeature.setDuality(dualityFeature);
+
+		}
 
 		map.setFeature(id, "CellSpace", newFeature);
 		return newFeature;
