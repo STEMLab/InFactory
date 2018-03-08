@@ -6,9 +6,7 @@ import com.vividsolutions.jts.io.ParseException;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.ExternalReference;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
-import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 
@@ -77,7 +75,16 @@ public class CellSpaceBoundaryDAO {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		CellSpaceBoundary newFeature = new CellSpaceBoundary(map, id);
+		
+		CellSpaceBoundary newFeature = null;
+		
+		if(map.hasFutureID(id)){
+			newFeature = (CellSpaceBoundary)map.getFutureFeature(id);
+			map.removeFutureID(id);
+		}
+		else{
+			newFeature = new CellSpaceBoundary(map, id);
+		}
 
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		parent.addCellSpaceBoundaryMember(newFeature);
@@ -93,10 +100,20 @@ public class CellSpaceBoundaryDAO {
 				e.printStackTrace();
 			}
 		}
+
 		
-		Transition dualityFeature = (Transition) map.getFeature(duality);
-		dualityFeature.setDuality(newFeature);
-		newFeature.setDuality(dualityFeature);
+		if(duality != null){
+			Transition dualityFeature = (Transition) map.getFeature(duality);
+			if(dualityFeature == null){
+				dualityFeature = new Transition(map,duality);
+				dualityFeature.setDuality(newFeature);
+				map.setFutureFeature(duality, dualityFeature);
+			}
+			else{
+				dualityFeature.setDuality(newFeature);
+			}
+			newFeature.setDuality(dualityFeature);
+		}
 
 		map.setFeature(id, "CellSpaceBoundary", newFeature);
 		return newFeature;
