@@ -131,6 +131,17 @@ public class IndoorGMLMap implements Serializable {
 		return newFeature;
 	}
 	
+	public Object getFutureFeature(String id){
+		Object newFeature = null;
+		if(hasFutureID(id)){
+			newFeature = getFeatureContainer("FutureID").get(id);
+		}
+		else{
+			//TODO : Exception
+		}
+		return newFeature;
+	}
+	
 	public Geometry getFeature4Geometry(String id){
 		ConcurrentHashMap<String,Object> geomContainer = collection.get("Geometry");
 		Geometry geom = null;
