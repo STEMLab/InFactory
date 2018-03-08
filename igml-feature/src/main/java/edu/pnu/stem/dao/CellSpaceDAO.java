@@ -65,7 +65,13 @@ public class CellSpaceDAO {
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		
 		if(parent == null){
-			parent = new PrimalSpaceFeatures(map,parentId);
+			if(map.hasFutureID(parentId)){
+				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
+				map.removeFutureID(parentId);
+			}
+			else{
+				parent = new PrimalSpaceFeatures(map,parentId);
+			}			
 		}
 		
 		parent.addCellSpaceMember(newFeature);
