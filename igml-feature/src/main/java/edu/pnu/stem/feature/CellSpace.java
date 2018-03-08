@@ -82,7 +82,7 @@ public class CellSpace extends AbstractFeature {
 		State found = (State) indoorGMLMap.getFeature(s.getId());
 		if(found == null) {
 			if(!indoorGMLMap.hasFutureID(s.getId())){
-				indoorGMLMap.setFutureFeature(s.getId(), "State");
+				indoorGMLMap.setFutureFeature(s.getId(), duality);
 			}
 		}
 		this.duality = s.getId();
@@ -105,7 +105,7 @@ public class CellSpace extends AbstractFeature {
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cb.getId());
 			if(found == null){
-				indoorGMLMap.setFutureFeature(cb.getId(), "CellSpaceBoundary");
+				indoorGMLMap.setFutureFeature(cb.getId(), csbList.get(i));
 			}
 			if(!this.partialboundedBy.contains(cb.getId())){
 				this.partialboundedBy.add(cb.getId());
@@ -132,7 +132,7 @@ public class CellSpace extends AbstractFeature {
 		PrimalSpaceFeatures found = null;
 		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(parent.getId(), "PrimalSpaceFeatures");
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 		

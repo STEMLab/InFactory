@@ -48,7 +48,7 @@ public class SpaceLayer extends AbstractFeature {
 		SpaceLayers found = null;
 		found = (SpaceLayers) indoorGMLMap.getFeature(parent.getId());
 		if (found == null) {
-			indoorGMLMap.setFutureFeature(parent.getId(), "SpaceLayers");
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -140,7 +140,7 @@ public class SpaceLayer extends AbstractFeature {
 			Nodes found = null;
 			found = (Nodes) indoorGMLMap.getFeature(nodes.get(i).getId());
 			if (found == null) {
-				indoorGMLMap.setFutureFeature(nodes.get(i).getId(), "Nodes");
+				indoorGMLMap.setFutureFeature(nodes.get(i).getId(), nodes.get(i));
 			}
 			if (!this.nodes.contains(nodes.get(i).getId())) {
 				this.nodes.add(nodes.get(i).getId());
@@ -152,7 +152,7 @@ public class SpaceLayer extends AbstractFeature {
 		Nodes found = null;
 		found = (Nodes) indoorGMLMap.getFeature(ns.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(ns.getId(), "Nodes");
+			indoorGMLMap.setFutureFeature(ns.getId(), ns);
 		}
 		if(!this.nodes.contains(ns.getId())){
 			this.nodes.add(ns.getId());
@@ -183,7 +183,7 @@ public class SpaceLayer extends AbstractFeature {
 			Edges found = null;
 			found = (Edges) indoorGMLMap.getFeature(edges.get(i).getId());
 			if (found == null) {
-				indoorGMLMap.setFutureFeature(edges.get(i).getId(), "Edges");
+				indoorGMLMap.setFutureFeature(edges.get(i).getId(), edges.get(i));
 			}
 			if (!this.edges.contains(edges.get(i).getId())) {
 				this.edges.add(edges.get(i).getId());
@@ -195,7 +195,7 @@ public class SpaceLayer extends AbstractFeature {
 		Edges found = null;
 		found = (Edges)indoorGMLMap.getFeature(es.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(es.getId(), "Edges");
+			indoorGMLMap.setFutureFeature(es.getId(), es);
 		}
 		if(!this.edges.contains(es.getId())){
 			this.edges.add(es.getId());

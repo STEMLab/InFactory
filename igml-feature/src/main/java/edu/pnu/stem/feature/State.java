@@ -61,7 +61,7 @@ public class State extends AbstractFeature {
 		Nodes found = null;
 		found = (Nodes)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(parent.getId(), "Nodes");
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}		
 		this.parentId = parent.getId();
 	}
@@ -84,7 +84,7 @@ public class State extends AbstractFeature {
 		found = (CellSpace)indoorGMLMap.getFeature(duality.getId());
 		if(found == null){
 			if(!indoorGMLMap.hasFutureID(duality.getId())){
-				indoorGMLMap.setFutureFeature(duality.getId(), "CellSpace");
+				indoorGMLMap.setFutureFeature(duality.getId(), duality);
 			}
 		}
 		this.duality = duality.getId();
@@ -95,7 +95,7 @@ public class State extends AbstractFeature {
 			Transition found = null;
 			found = (Transition)indoorGMLMap.getFeature(connects.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFutureFeature(connects.get(i).getId(), "Transition");
+				indoorGMLMap.setFutureFeature(connects.get(i).getId(), connects.get(i));
 			}
 			if(!this.connects.contains(connects.get(i).getId())){
 				this.connects.add(connects.get(i).getId());

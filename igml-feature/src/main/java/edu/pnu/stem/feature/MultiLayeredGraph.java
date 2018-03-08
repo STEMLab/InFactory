@@ -50,7 +50,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 			SpaceLayers found = null;
 			found = (SpaceLayers)indoorGMLMap.getFeature(spaceLayers.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFutureFeature(spaceLayers.get(i).getId(), "SpaceLayers");
+				indoorGMLMap.setFutureFeature(spaceLayers.get(i).getId(), spaceLayers.get(i));
 			}
 			if(!this.spaceLayers.contains(spaceLayers.get(i).getId())){
 				this.spaceLayers.add(spaceLayers.get(i).getId());
@@ -88,7 +88,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 			InterEdges found = null;
 			found = (InterEdges)indoorGMLMap.getFeature(interEdges.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFutureFeature(interEdges.get(i).getId(), "InterEdges");
+				indoorGMLMap.setFutureFeature(interEdges.get(i).getId(), interEdges.get(i));
 			}
 			if(!this.interEdges.contains(interEdges.get(i).getId())){
 				this.interEdges.add(interEdges.get(i).getId());
@@ -100,7 +100,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 		InterEdges found = null;
 		found = (InterEdges)indoorGMLMap.getFeature(ie.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(ie.getId(), "InterEdges");
+			indoorGMLMap.setFutureFeature(ie.getId(), ie);
 		}
 		if(!this.interEdges.contains(ie.getId())){
 			this.interEdges.add(ie.getId());
@@ -118,7 +118,7 @@ public class MultiLayeredGraph extends AbstractFeature {
 		IndoorFeatures found = null;
 		found = (IndoorFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(parent.getId(), "IndoorFeatures");			
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);			
 		}
 		this.parentId = parent.getId();
 	}

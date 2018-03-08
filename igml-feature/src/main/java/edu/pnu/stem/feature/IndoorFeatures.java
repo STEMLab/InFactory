@@ -39,7 +39,7 @@ public class IndoorFeatures extends AbstractFeature {
 		PrimalSpaceFeatures found = null;
 		found = (PrimalSpaceFeatures) indoorGMLMap.getFeature(primalSpaceFeatures.getId());
 		if( found == null ){
-			indoorGMLMap.setFutureFeature(primalSpaceFeatures.getId(), "PrimalSpaceFeatures");
+			indoorGMLMap.setFutureFeature(primalSpaceFeatures.getId(), primalSpaceFeatures);
 		}		
 		this.primalSpaceFeatures = primalSpaceFeatures.getId();
 	}

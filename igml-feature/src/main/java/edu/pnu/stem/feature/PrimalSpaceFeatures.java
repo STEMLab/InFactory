@@ -32,7 +32,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 		IndoorFeatures found = null;
 		found = (IndoorFeatures) indoorGMLMap.getFeature(parent.getId());
 		if (found == null) {
-			indoorGMLMap.setFutureFeature(parent.getId(), "IndoorFeatures");
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -67,7 +67,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			CellSpace found = null;
 			found = (CellSpace)indoorGMLMap.getFeature(cellSpaceMember.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFutureFeature(cellSpaceMember.get(i).getId(), "CellSpace");
+				indoorGMLMap.setFutureFeature(cellSpaceMember.get(i).getId(), cellSpaceMember.get(i));
 			}
 			if(!this.cellSpaceMember.contains(cellSpaceMember.get(i).getId())){
 				this.cellSpaceMember.add(cellSpaceMember.get(i).getId());
@@ -103,7 +103,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cellSpaceBoundaryMember.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFutureFeature(cellSpaceBoundaryMember.get(i).getId(), "CellSpaceBoundary");
+				indoorGMLMap.setFutureFeature(cellSpaceBoundaryMember.get(i).getId(), cellSpaceBoundaryMember.get(i));
 			}
 			if(!this.cellSpaceBoundaryMember.contains(cellSpaceBoundaryMember.get(i).getId())){
 				this.cellSpaceBoundaryMember.add(cellSpaceBoundaryMember.get(i).getId());
