@@ -87,6 +87,16 @@ public class CellSpaceBoundaryDAO {
 		}
 
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
+				map.removeFutureID(parentId);
+			}
+			else{
+				parent = new PrimalSpaceFeatures(map,parentId);
+			}
+		}
+		
 		parent.addCellSpaceBoundaryMember(newFeature);
 		newFeature.setParent(parent);
 		
