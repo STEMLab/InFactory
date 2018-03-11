@@ -64,6 +64,14 @@ public class StateDAO {
 		State newFeature = new State(map, id);
 
 		Nodes parent = (Nodes) map.getFeature(parentId);
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (Nodes)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new Nodes(map,parentId);
+			}
+		}
 		parent.addStateMember(newFeature);
 		newFeature.setParent(parent);
 		
