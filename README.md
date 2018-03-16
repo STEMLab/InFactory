@@ -52,7 +52,7 @@ If you want to set this project, then you need to set:
    
 5) Turn on the jetty server of IndoorGML-Factory as the second command.
 
-6) Create the document first as posting below request to this url : `{base_url}/Document`.
+6) Create the document first as posting below request to this url : `{base_url}/Document/(id of the document)`.
    The url address of post request will be this : `{base_url}/indoorfeatures|primalspacefeatures|cellspace...`
 ```
 {
@@ -60,7 +60,7 @@ If you want to set this project, then you need to set:
 }
 ```
 
-7) Create the IndoorFeatures element. Send post request as below to this url : `{base_url}/indoorfeatures`. 
+7) Create the IndoorFeatures element. Send post request as below to this url : `{base_url}/indoorfeatures/(id of the element)`. 
 
 ```
 {
@@ -69,7 +69,7 @@ If you want to set this project, then you need to set:
 }
 ```
 
-8) Create the PrimalSpaceFeatures element. Send post request as below to this url : `{base_url}/primalspacefeatures`.
+8) Create the PrimalSpaceFeatures element. Send post request as below to this url : `{base_url}/primalspacefeatures/(id of the element)`.
 
 ```
 {
@@ -79,17 +79,58 @@ If you want to set this project, then you need to set:
 }
 ```
 
-9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/cellspace`.
+9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/cellspace/(id of the element)`.
 
 ```
 {
-	"docId":"doc1",
-	"parentId":"psf1",
-	"id":"c1",
-	"geometry":"SOLID (( ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 0 1 0, 0 1 1, 0 0 1, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 1, 1 0 1, 0 0 1, 0 1 1, 1 1 1)), ((1 1 1, 1 0 1, 1 0 0, 1 1 0, 1 1 1)), ((1 1 1, 1 1 0, 0 1 0, 0 1 1, 1 1 1)) ))",
-	"duality":"s1"
-}
+			"id": "C1",
+			"parentId": "efc34ce5-acbc-402d-99fe-943362a37f21",
+			"docId": "0064f868-24dd-3ed7-3ad3-6fb42579eb7e",
+			"type": "CellSpace",
+			"geometry": {
+				"type": "Surface",
+				"coordinates": [
+					[
+						9.090909090909092,
+						17.742978566149297,
+						0
+					],
+					[
+						27.71618625277162,
+						15.67350332594235,
+						0
+					],
+					[
+						27.71618625277162,
+						48.785107169253514,
+						0
+					],
+					[
+						9.977827050997783,
+						48.48946784922395,
+						0
+					],
+					[
+						9.090909090909092,
+						17.742978566149297,
+						0
+					]
+				],
+				"properties": {
+					"id": "CG-C1",
+					"height": "20",
+					"extrude": "true"
+				}
+			},
+			"properties": {
+				"name": "첫번째 방",
+				"description": "1111111111111111",
+				"partialboundedBy": [],
+				"externalReference": [],
+				"duality": ""
+			}
+		}
 ```
 
-10) Send get request to this url : `{base_url}/document/{document id}`. In this example we create the document which has the id `doc1`.
+10) Send get request to this url : `{base_url}/document/(id of the document)`. In this example we create the document which has the id `doc1`.
 So the url will be this : `{base_url}/document/doc1`. Then you can get the document.
