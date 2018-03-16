@@ -1,4 +1,5 @@
 package edu.pnu.stem.dao;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.vividsolutions.jts.io.ParseException;
@@ -65,27 +66,35 @@ public class CellSpaceDAO {
 		CellSpace newFeature = new CellSpace(map, id);
 		if(map.hasFutureID(id)){
 			newFeature = (CellSpace)map.getFutureFeature(id);
-			map.removeFutureID(id);
+			//map.removeFutureID(id);
 		}
-
+		else{
+			map.setFutureFeature(id, newFeature);
+		}
+		map.setFeature(id, "CellSpace", newFeature);
+		
+		
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		
 		if(parent == null){
 			if(map.hasFutureID(parentId)){
 				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
-				map.removeFutureID(parentId);
 			}
 			else{
 				parent = new PrimalSpaceFeatures(map,parentId);
 			}			
 		}
 		
-		parent.addCellSpaceMember(newFeature);
+		//parent.addCellSpaceMember(newFeature);
+		ArrayList<CellSpace>cellSpaceMember = new ArrayList<CellSpace>();
+		cellSpaceMember.add(newFeature);
+		parent.setCellSpaceMember(cellSpaceMember);
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
 			WKTReader3D wkt = new WKTReader3D();
 			try {
+				
 				Solid s = (Solid) wkt.read(geometry);
 				map.setFeature4Geometry(UUID.randomUUID().toString(), s);
 				newFeature.setGeometry(s);
@@ -106,8 +115,8 @@ public class CellSpaceDAO {
 			newFeature.setDuality(dualityFeature);
 
 		}
+		map.removeFutureID(id);
 
-		map.setFeature(id, "CellSpace", newFeature);
 		return newFeature;
 	}
 
