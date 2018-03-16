@@ -80,7 +80,7 @@ public class CellSpaceBoundaryDAO {
 		
 		if(map.hasFutureID(id)){
 			newFeature = (CellSpaceBoundary)map.getFutureFeature(id);
-			map.removeFutureID(id);
+			//map.removeFutureID(id);
 		}
 		else{
 			newFeature = new CellSpaceBoundary(map, id);
