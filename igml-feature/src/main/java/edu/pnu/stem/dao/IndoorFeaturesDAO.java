@@ -34,7 +34,7 @@ public class IndoorFeaturesDAO {
 		
 		if(map.hasFutureID(id)){
 			newFeature = (IndoorFeatures)map.getFutureFeature(id);
-			map.removeFutureID(id);
+			//map.removeFutureID(id);
 		}
 		else{
 			newFeature = new IndoorFeatures(map, id);
