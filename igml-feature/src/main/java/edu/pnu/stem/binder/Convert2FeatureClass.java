@@ -173,13 +173,14 @@ public class Convert2FeatureClass {
 	public static CellSpace change2FeatureClass(IndoorGMLMap savedMap, CellSpaceType feature, String parentId) {
 		// Creating this feature
 		CellSpace newFeature = (CellSpace) savedMap.getFeature(feature.getId());
-		if(newFeature == null) {
-			
+		if(newFeature == null) {	
 			if(savedMap.hasFutureID(feature.getId())){
-				savedMap.removeFutureID(feature.getId());
+				newFeature = (CellSpace)savedMap.getFutureFeature(feature.getId());
 			}
+			else{
 			newFeature = new CellSpace(savedMap, feature.getId());
-			
+			}
+			savedMap.setFeature(feature.getId(), "CellSpace", newFeature);
 		}
 		
 		// Setting parent 
@@ -244,8 +245,9 @@ public class Convert2FeatureClass {
 				//TODO
 			};
 		}
-
-		savedMap.setFeature(feature.getId(), "CellSpace", newFeature);
+		
+		savedMap.removeFutureID(feature.getId());
+		
 		return newFeature;
 	}
 
@@ -598,6 +600,10 @@ public class Convert2FeatureClass {
 		// Setting parent
 		Nodes parent = (Nodes) savedMap.getFeature(parentId);
 		if(parent == null){
+			if(savedMap.hasFutureID(parentId)){
+				parent = (Nodes)savedMap.getFutureFeature(parentId);
+				//savedMap.removeFutureID(parentId);
+			}
 			parent = new Nodes(savedMap, parentId);
 		}
 		newFeature.setParent(parent);
