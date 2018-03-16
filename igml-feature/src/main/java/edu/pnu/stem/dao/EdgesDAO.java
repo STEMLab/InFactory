@@ -52,7 +52,7 @@ public class EdgesDAO {
 		
 		if(map.hasFutureID(parentId)){
 			parent = (SpaceLayer)map.getFutureFeature(parentId);
-			map.removeFutureID(parentId);
+			//map.removeFutureID(parentId);
 		}
 		else{
 			parent = (SpaceLayer) map.getFeature(parentId);
