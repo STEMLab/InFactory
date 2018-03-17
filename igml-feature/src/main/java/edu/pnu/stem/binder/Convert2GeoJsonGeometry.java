@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Convert2GeoJsonGeometry {
 
-	public JsonNode convert2GeoJson(JsonNode geometry, String featureType){
+	public static JsonNode convert2GeoJson(JsonNode geometry, String featureType){
 		JsonNode result = null;
 		String geometryType = geometry.get("type").asText().trim();
-		if(geometryType.equals("Solid")){
+		if(geometryType.equals("Solid")||(geometryType.equals("Surface") && geometry.get("properties").get("extrude").asText().trim().equals("true"))){
 			result = convert2Solid3D(geometry);
 		}
 		else if(geometryType.equals("Surface")){
@@ -47,41 +48,57 @@ public class Convert2GeoJsonGeometry {
 		
 		return result;
 	}
-	public JsonNode convert2Solid3D(JsonNode geometry){
+	public static List<List> makeDoubleCoordinates(JsonNode coordinates){
+		List<List>coordinatesToArray = new ArrayList<List>();
+		
+		for(int i = 0 ; i < coordinates.size() ; i++){
+			List<Double> coordinate = new ArrayList<Double>();
+			coordinate.add(coordinates.get(i).get(0).asDouble());
+			coordinate.add(coordinates.get(i).get(1).asDouble());
+			coordinate.add(coordinates.get(i).get(2).asDouble());
+			coordinatesToArray.add(coordinate);
+		}
+		
+		return coordinatesToArray;
+	};
+	public static JsonNode convert2Solid3D(JsonNode geometry){
 		JsonNode result = null;
 		JsonNode coordinates = geometry.get("coordinates");
+		ObjectMapper mapper = new ObjectMapper();
+		List<List> coordInDouble = makeDoubleCoordinates(coordinates);
+		List<List> solid = makeSolid(coordInDouble, geometry.get("properties").get("height").asDouble());
+		result = mapper.valueToTree(solid);
+		return result;
+	}
+	public static JsonNode convert2Surface3D(JsonNode geometry){
+		JsonNode result = null;
+		return result;
+	}
+	public static JsonNode convert2Surface2D(JsonNode geometry){
+		JsonNode result = null;
+		return result;
+	}
+	public static JsonNode convert2Curve2D(JsonNode geometry){
+		JsonNode result = null;
+		return result;
+	}
+	public static JsonNode convert2Point2D(JsonNode geometry){
+		JsonNode result = null;
+		return result;
+	}
+	public static JsonNode convert2ExtrudedCurve3D(JsonNode geometry){
+		JsonNode result = null;
+		return result;
 		
-		return result;
 	}
-	public JsonNode convert2Surface3D(JsonNode geometry){
-		JsonNode result = null;
-		return result;
-	}
-	public JsonNode convert2Surface2D(JsonNode geometry){
-		JsonNode result = null;
-		return result;
-	}
-	public JsonNode convert2Curve2D(JsonNode geometry){
-		JsonNode result = null;
-		return result;
-	}
-	public JsonNode convert2Point2D(JsonNode geometry){
-		JsonNode result = null;
-		return result;
-	}
-	public JsonNode convert2ExtrudedCurve3D(JsonNode geometry){
-		JsonNode result = null;
-		return result;
-		
-	}
-	public List<List> makeSolid(List<List> coordinates, Double height){
+	public static List<List> makeSolid(List<List> coordinates, Double height){
 		
 		List<List> result = new ArrayList<List>();
 		List<List> exterior = new ArrayList<List>();
 		List<List> interior = new ArrayList<List>();
 
 		//make 3d surfaces of the side
-		for(int i = 0 ; i < coordinates.size(); i++){
+		for(int i = 0 ; i < coordinates.size()-1; i++){
 			List<List> surface = new ArrayList<List>();
 			List<Double> extrudedPoint = new ArrayList<Double>();
 			Double ground = 0.0;
@@ -134,7 +151,7 @@ public class Convert2GeoJsonGeometry {
 		
 		return result;
 	}
-	public List<List> makeSurface3D(List<List> coordinates, Double height){
+	public static List<List> makeSurface3D(List<List> coordinates, Double height){
 		//List<List> result = new ArrayList<List>();
 		
 		for(List coord : coordinates){
@@ -153,7 +170,7 @@ public class Convert2GeoJsonGeometry {
 		
 	}
 	
-	public List<List> makeExtrudedCurve(List<List> coordinates, Double height){
+	public static List<List> makeExtrudedCurve(List<List> coordinates, Double height){
 		List<List>result = new ArrayList<List>();
 		//TODO : need to support linesting which has several points
 		List<Double> upperRight = new ArrayList<Double>();
