@@ -49,7 +49,9 @@ public class CellSpace extends AbstractFeature {
 
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
+		if(this.geometry != null){
+			feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
+		}
 		return feature;
 	}
 	

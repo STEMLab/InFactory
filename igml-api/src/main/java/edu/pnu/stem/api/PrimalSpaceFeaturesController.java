@@ -22,9 +22,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.dao.MultiLayeredGraphDAO;
 import edu.pnu.stem.dao.PrimalSpaceFeaturesDAO;
-import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 /**
@@ -32,7 +30,7 @@ import edu.pnu.stem.feature.PrimalSpaceFeatures;
  *
  */
 @RestController
-@RequestMapping("/primalspacefeaures")
+@RequestMapping("/primalspacefeatures")
 public class PrimalSpaceFeaturesController {
 	
 	@Autowired
@@ -58,6 +56,7 @@ public class PrimalSpaceFeaturesController {
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(psf.getId()).toString());
+		System.out.println("PrimalSpaceFeatures is created : "+id);
 	}
 	
 }

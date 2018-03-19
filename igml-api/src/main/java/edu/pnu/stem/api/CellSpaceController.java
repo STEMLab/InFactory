@@ -42,14 +42,17 @@ public class CellSpaceController {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		
-		String geom = json.get("geometry").asText().trim();
+		//JsonNode geometry = json.get("geometry");
 		
+				
+		String geom = json.get("geometry").asText().trim();
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
 		String duality = json.get("duality").asText().trim();
-		
+		//String properties = json.get("properties").asText().trim();
+		//String duality = null;
 		CellSpace c;
 		try {
 			Container container = applicationContext.getBean(Container.class);
@@ -60,6 +63,7 @@ public class CellSpaceController {
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(c.getId()).toString());
+		System.out.println("CellSpace is created : "+id);
 	}
 	
 }

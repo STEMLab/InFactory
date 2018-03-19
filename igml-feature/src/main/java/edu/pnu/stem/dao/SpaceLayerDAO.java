@@ -79,7 +79,7 @@ public class SpaceLayerDAO {
 		else{
 			map.setFutureFeature(id, newFeature);
 		}
-		
+		map.setFeature(id, "SpaceLayer", newFeature);
 		SpaceLayers parent = (SpaceLayers) map.getFeature(parentId);
 		
 		if(parent == null){

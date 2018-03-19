@@ -5,14 +5,20 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Convert2GeoJsonGeometry {
 
 	public static JsonNode convert2GeoJson(JsonNode geometry, String featureType){
 		JsonNode result = null;
 		String geometryType = geometry.get("type").asText().trim();
+		ObjectMapper mapper = new ObjectMapper();
+		ObjectNode jsonNode = mapper .createObjectNode();
+		
 		if(geometryType.equals("Solid")||(geometryType.equals("Surface") && geometry.get("properties").get("extrude").asText().trim().equals("true"))){
 			result = convert2Solid3D(geometry);
+			jsonNode.put("type", "Solid");
+			jsonNode.set("coordinates", result);
 		}
 		else if(geometryType.equals("Surface")){
 			if(geometry.get("properties").get("extrude").asText().trim().equals("true")){
@@ -46,7 +52,10 @@ public class Convert2GeoJsonGeometry {
 			System.out.println("GeoJson : Not defined Geometry");
 		}
 		
-		return result;
+		
+		
+		
+		return jsonNode;
 	}
 	public static List<List> makeDoubleCoordinates(JsonNode coordinates){
 		List<List>coordinatesToArray = new ArrayList<List>();
@@ -97,15 +106,27 @@ public class Convert2GeoJsonGeometry {
 		List<List> exterior = new ArrayList<List>();
 		List<List> interior = new ArrayList<List>();
 
+		List<List> upperSurface = new ArrayList<List>();
+		List<List> lowerSurface = new ArrayList<List>();
+		List<List> wholeSurface = new ArrayList<List>();
+		
+		for(int i = coordinates.size()-1 ; i > -1 ; i--){
+			
+			List<Double>tempList = new ArrayList<Double>(coordinates.get(i));
+			lowerSurface.add(tempList);
+		}
+		wholeSurface.add(lowerSurface);
+		exterior.add(new ArrayList<List>(wholeSurface));
 		//make 3d surfaces of the side
 		for(int i = 0 ; i < coordinates.size()-1; i++){
+			wholeSurface = new ArrayList<List>();
 			List<List> surface = new ArrayList<List>();
 			List<Double> extrudedPoint = new ArrayList<Double>();
 			Double ground = 0.0;
 			surface.add(coordinates.get(i));
 			surface.add(coordinates.get(i+1));
 			
-			extrudedPoint = coordinates.get(i+1);
+			extrudedPoint = new ArrayList<Double>(coordinates.get(i+1));
 			ground = extrudedPoint.get(2);
 			ground += height;
 			extrudedPoint.remove(2);
@@ -113,28 +134,22 @@ public class Convert2GeoJsonGeometry {
 			
 			surface.add(extrudedPoint);
 			
-			extrudedPoint = coordinates.get(i);
+			extrudedPoint = new ArrayList<Double>(coordinates.get(i));
 			ground = extrudedPoint.get(2);
 			ground += height;
 			extrudedPoint.remove(2);
 			extrudedPoint.add(height);
 			
 			surface.add(extrudedPoint);
-			
-			exterior.add(surface);
+			surface.add(new ArrayList<Double>(coordinates.get(i)));
+			wholeSurface.add(surface);
+			exterior.add(new ArrayList<List>(wholeSurface));
 		}
 		
 		//make 3d surface of the lid
-		
-		List<List> upperSurface = new ArrayList<List>();
-		List<List> lowerSurface = new ArrayList<List>();
-		
-		for(int i = coordinates.size()-1 ; i !=0; i--){
-			lowerSurface.add(coordinates.get(i));
-		}
-		
+	
 		for(int i = 0 ; i < coordinates.size(); i++){
-			List<Double>extrudedPoint = coordinates.get(i);
+			List<Double>extrudedPoint = new ArrayList<Double>(coordinates.get(i));
 			Double ground = 0.0;
 			
 			ground = extrudedPoint.get(2);
@@ -143,8 +158,10 @@ public class Convert2GeoJsonGeometry {
 			extrudedPoint.add(2, ground);
 			upperSurface.add(extrudedPoint);
 		}
-		exterior.add(upperSurface);
-		exterior.add(lowerSurface);
+		wholeSurface = new ArrayList<List>();
+		wholeSurface.add(upperSurface);
+		exterior.add(wholeSurface);
+	
 		
 		result.add(exterior);
 		result.add(interior);

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.pnu.stem.api.exception.DuplicatedFeatureException;
 import edu.pnu.stem.api.exception.DocumentNotFoundException;
+import edu.pnu.stem.api.exception.DuplicatedFeatureException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.IndoorFeatures;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
@@ -32,6 +33,7 @@ import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
  *
  */
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/document")
 public class DocumentController {
@@ -77,6 +79,7 @@ public class DocumentController {
 		// Empty Document is made.
 
 	    response.setHeader("Location", request.getRequestURL().append(map.getDocId()).toString());
+	    System.out.println("Document is created : "+id);
 	}
 	
 	@GetMapping(value = "/{id}")
@@ -111,6 +114,7 @@ public class DocumentController {
 				map.Marshall("temp/" + id + ".igml");
 	
 				try {
+					System.out.println(map);
 					response.setContentType("text/xml;charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					
