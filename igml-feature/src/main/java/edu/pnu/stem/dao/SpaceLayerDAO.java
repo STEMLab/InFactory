@@ -2,14 +2,9 @@ package edu.pnu.stem.dao;
 
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.Edges;
-import edu.pnu.stem.feature.IndoorFeatures;
-import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 
@@ -75,11 +70,33 @@ public class SpaceLayerDAO {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
+		
 		SpaceLayer newFeature = new SpaceLayer(map, id);
 		
+		if(map.hasFutureID(id)){
+			newFeature = (SpaceLayer)map.getFutureFeature(id);
+		}
+		else{
+			map.setFutureFeature(id, newFeature);
+		}
+		map.setFeature(id, "SpaceLayer", newFeature);
 		SpaceLayers parent = (SpaceLayers) map.getFeature(parentId);
-		parent.addSpaceLayer(newFeature);
 		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (SpaceLayers)map.getFutureFeature(parentId);
+				//map.removeFutureID(parentId);
+			}
+			else{
+				parent = new SpaceLayers(map, parentId);
+			}
+		}
+		ArrayList<SpaceLayer> spaceLayerMember = new ArrayList<SpaceLayer>();
+		spaceLayerMember.add(newFeature);
+		parent.setSpaceLayerMember(spaceLayerMember);
+		newFeature.setParent(parent);
+		
+		map.removeFutureID(id);
 		return newFeature;
 	}
 	

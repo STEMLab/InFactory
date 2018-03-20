@@ -173,8 +173,13 @@ public class Convert2FeatureClass {
 	public static CellSpace change2FeatureClass(IndoorGMLMap savedMap, CellSpaceType feature, String parentId) {
 		// Creating this feature
 		CellSpace newFeature = (CellSpace) savedMap.getFeature(feature.getId());
-		if(newFeature == null) {
+		if(newFeature == null) {	
+			if(savedMap.hasFutureID(feature.getId())){
+				newFeature = (CellSpace)savedMap.getFutureFeature(feature.getId());
+			}
+			else{
 			newFeature = new CellSpace(savedMap, feature.getId());
+			}
 			savedMap.setFeature(feature.getId(), "CellSpace", newFeature);
 		}
 		
@@ -197,7 +202,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "State", new State(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "State");
 				}
 			} else {
 				//TODO
@@ -234,13 +239,15 @@ public class Convert2FeatureClass {
 					newFeature.addPartialBoundedBy(connects);
 				} else {
 					//TODO
-					savedMap.setFeature(connectsId, "CellSpaceBoundary", new CellSpaceBoundary(savedMap, connectsId));
+					savedMap.setFutureFeature(connectsId, "CellSpaceBoundary");
 				}
 			} else {
 				//TODO
 			};
 		}
-
+		
+		savedMap.removeFutureID(feature.getId());
+		
 		return newFeature;
 	}
 
@@ -248,6 +255,11 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		CellSpaceBoundary newFeature = (CellSpaceBoundary) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
+			
 			newFeature = new CellSpaceBoundary(savedMap, feature.getId());
 			savedMap.setFeature(feature.getId(), "CellSpaceBoundary", newFeature);
 		}
@@ -271,7 +283,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "Transition", new Transition(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "Transition");
 				}
 			} else {
 				//TODO
@@ -320,15 +332,19 @@ public class Convert2FeatureClass {
 		newFeature.setParent(parent);
 
 		// Creating containing features
+		ArrayList<SpaceLayers> spaceLayers = new ArrayList<SpaceLayers>();
 		for (SpaceLayersType slsType : feature.getSpaceLayers()) {
 			SpaceLayers sls = change2FeatureClass(savedMap, slsType, newFeature.getId());
-			newFeature.addSpaceLayers(sls);
+			spaceLayers.add(sls);
 		}
+		newFeature.setSpaceLayers(spaceLayers);
 		
+		ArrayList<InterEdges> interEdges = new ArrayList<InterEdges>();
 		for (InterEdgesType iet : feature.getInterEdges()) {
 			InterEdges ie = change2FeatureClass(savedMap, iet, newFeature.getId());
-			newFeature.addInterEdges(ie);
+			interEdges.add(ie);
 		}
+		newFeature.setInterEdges(interEdges);
 
 		return newFeature;
 	}
@@ -346,11 +362,13 @@ public class Convert2FeatureClass {
 		newFeature.setParent(parent);
 		
 		// Creating containing features
+		ArrayList<SpaceLayer>spaceLayerMember = new ArrayList<SpaceLayer>();
 		for (SpaceLayerMemberType slmType : feature.getSpaceLayerMember()) {
 			SpaceLayerType slType = slmType.getSpaceLayer();
 			SpaceLayer sl = change2FeatureClass(savedMap, slType, newFeature.getId());
-			newFeature.addSpaceLayer(sl);
+			spaceLayerMember.add(sl);
 		}
+		newFeature.setSpaceLayerMember(spaceLayerMember);
 
 		return newFeature;
 	}
@@ -403,9 +421,11 @@ public class Convert2FeatureClass {
 		for(TransitionMemberType tmType : tms) {
 			TransitionType tType = tmType.getTransition();
 			Transition t = change2FeatureClass(savedMap, tType, newFeature.getId());
-			newFeature.addTransitionMember(t);
+			transitionMemberReference.add(t);
+			//newFeature.addTransitionMember(t);
 		}
-
+		
+		newFeature.setTransitionMembers(transitionMemberReference);
 		return newFeature;
 	}
 
@@ -509,8 +529,11 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		Nodes newFeature = (Nodes) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
 			newFeature = new Nodes(savedMap, feature.getId());
-			savedMap.setFeature(feature.getId(), "Nodes", newFeature);
+			
 		}
 		
 		// Setting parent
@@ -523,10 +546,11 @@ public class Convert2FeatureClass {
 		for (int i = 0; i < tempML.size(); i++) {
 			StateType tempState = tempML.get(i).getState();
 			State temp = change2FeatureClass(savedMap, tempState, newFeature.getId());
-			savedMap.setFeature(tempState.getId(), "State", temp);
 			stateList.add(temp);
 		}
 		newFeature.setStateMember(stateList);
+		
+		savedMap.setFeature(feature.getId(), "Nodes", newFeature);
 		return newFeature;
 	}
 
@@ -567,12 +591,21 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		State newFeature = (State) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
 			newFeature = new State(savedMap, feature.getId());
-			savedMap.setFeature(feature.getId(), "State", newFeature);
 		}
 		
 		// Setting parent
 		Nodes parent = (Nodes) savedMap.getFeature(parentId);
+		if(parent == null){
+			if(savedMap.hasFutureID(parentId)){
+				parent = (Nodes)savedMap.getFutureFeature(parentId);
+				//savedMap.removeFutureID(parentId);
+			}
+			parent = new Nodes(savedMap, parentId);
+		}
 		newFeature.setParent(parent);
 		
 		// 1. duality
@@ -588,7 +621,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "CellSpace", new CellSpace(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "CellSpace");
 				}
 			} else {
 				//TODO
@@ -612,13 +645,14 @@ public class Convert2FeatureClass {
 					newFeature.addConnects(connects);
 				} else {
 					//TODO
-					savedMap.setFeature(connectsId, "Transition", new Transition(savedMap, connectsId));
+					savedMap.setFutureFeature(connectsId, "Transition");
 				}
 			} else {
 				//TODO
 			};
 		}
-
+		
+		savedMap.setFeature(feature.getId(), "State", newFeature);
 		return newFeature;
 	}
 
@@ -626,6 +660,9 @@ public class Convert2FeatureClass {
 		// Creating this feature
 		Transition newFeature = (Transition) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
+			if(savedMap.hasFutureID(feature.getId())){
+				savedMap.removeFutureID(feature.getId());
+			}
 			newFeature = new Transition(savedMap, feature.getId());
 		}
 		
@@ -672,7 +709,7 @@ public class Convert2FeatureClass {
 					newFeature.setDuality(duality);
 				} else {
 					//TODO
-					savedMap.setFeature(dualityId, "CellSpaceBoundary", new CellSpaceBoundary(savedMap, dualityId));
+					savedMap.setFutureFeature(dualityId, "CellSpaceBoundary");
 				}
 			} else {
 				//TODO
@@ -681,6 +718,7 @@ public class Convert2FeatureClass {
 
 		newFeature.setWeight(feature.getWeight());
 		newFeature.setName(feature.getRole());
+		savedMap.setFeature(feature.getId(), "Transition", newFeature);
 		return newFeature;
 	}
 

@@ -13,7 +13,7 @@ public class testApp extends TestCase {
  public void testConverter(){
 	 try {
 		IndoorGMLMap map = Container.createDocument("test");
-		IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML("test","src/test/resources/converted.gml");
+		IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML("test","src/test/resources/FJK_1_0_3.gml");
 		IndoorFeatures savedDoc = edu.pnu.stem.binder.Convert2FeatureClass.change2FeatureClass(map,"test", doc);		
 		edu.pnu.stem.binder.Mashaller.marshalIndoorFeatures(null, Convert2JaxbClass.change2JaxbClass(map,savedDoc));
 	} catch (JAXBException e) {

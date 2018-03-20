@@ -29,7 +29,17 @@ public class IndoorFeaturesDAO {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		IndoorFeatures newFeature = new IndoorFeatures(map, id);
+		
+		IndoorFeatures newFeature = null;
+		
+		if(map.hasFutureID(id)){
+			newFeature = (IndoorFeatures)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			newFeature = new IndoorFeatures(map, id);
+		}
+		
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}
