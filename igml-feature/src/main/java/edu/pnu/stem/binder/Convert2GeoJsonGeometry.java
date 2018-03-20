@@ -31,10 +31,13 @@ public class Convert2GeoJsonGeometry {
 				System.out.println("GeoJson : there is no extrude information");
 			}
 		}
-		else if(geometryType.equals("Curve")){
+		//else if(geometryType.equals("Curve")){
+		else if(geometryType.equals("LineString")){
 			if(featureType.equals("CellSpaceBoundary")){
 				if(geometry.get("properties").get("extrude").asText().trim().equals("true")){
 					result = convert2ExtrudedCurve3D(geometry);
+					jsonNode.put("type", "Polygon");
+					jsonNode.set("coordinates", result);
 				}
 				else if(geometry.get("properties").get("extrude").asText().trim().equals("false")){
 					result = convert2Curve2D(geometry);
@@ -64,7 +67,9 @@ public class Convert2GeoJsonGeometry {
 			List<Double> coordinate = new ArrayList<Double>();
 			coordinate.add(coordinates.get(i).get(0).asDouble());
 			coordinate.add(coordinates.get(i).get(1).asDouble());
-			coordinate.add(coordinates.get(i).get(2).asDouble());
+			if(coordinates.get(i).get(2) != null){
+				coordinate.add(coordinates.get(i).get(2).asDouble());
+			}
 			coordinatesToArray.add(coordinate);
 		}
 		
@@ -97,8 +102,41 @@ public class Convert2GeoJsonGeometry {
 	}
 	public static JsonNode convert2ExtrudedCurve3D(JsonNode geometry){
 		JsonNode result = null;
+		JsonNode coordinates = geometry.get("coordinates");
+		Double height = geometry.get("properties").get("height").asDouble();
+		ObjectMapper mapper = new ObjectMapper();
+		List<List> coordInDouble = makeDoubleCoordinates(coordinates);
+		List<List> container = new ArrayList<List>();
+		List<List> polygon = new ArrayList<List>();
+		polygon.add(makeExtrudedCurve3D(coordInDouble, height));	
+		//container.add(polygon);
+		result = mapper.valueToTree(polygon);
 		return result;
 		
+	}
+	public static List<List> makeExtrudedCurve3D(List<List>coordinates, Double height){
+	
+		
+		List<List> polygon = new ArrayList<List>();
+		List<Double> extrudedPoint = new ArrayList<Double>();
+		
+		polygon.add(new ArrayList<Double>(coordinates.get(0)));
+		polygon.add(new ArrayList<Double>(coordinates.get(1)));
+		
+		extrudedPoint = new ArrayList<Double>(coordinates.get(1));
+		Double ground = extrudedPoint.get(2);
+		extrudedPoint.remove(2);
+		extrudedPoint.add(ground + height);
+		polygon.add(new ArrayList<Double>(extrudedPoint));
+		
+		extrudedPoint = new ArrayList<Double>(coordinates.get(0));
+		ground = extrudedPoint.get(2);
+		extrudedPoint.remove(2);
+		extrudedPoint.add(ground + height);
+		polygon.add(new ArrayList<Double>(extrudedPoint));
+		
+		polygon.add(new ArrayList<Double>(coordinates.get(0)));
+		return polygon;
 	}
 	public static List<List> makeSolid(List<List> coordinates, Double height){
 		
