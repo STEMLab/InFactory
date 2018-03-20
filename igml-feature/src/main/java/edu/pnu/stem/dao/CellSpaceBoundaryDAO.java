@@ -125,15 +125,16 @@ public class CellSpaceBoundaryDAO {
 			id = UUID.randomUUID().toString();
 		}
 
-		CellSpaceBoundary newFeature = null;
+		CellSpaceBoundary newFeature = new CellSpaceBoundary(map, id);;
 
 		if (map.hasFutureID(id)) {
 			newFeature = (CellSpaceBoundary) map.getFutureFeature(id);
 			// map.removeFutureID(id);
 		} else {
-			newFeature = new CellSpaceBoundary(map, id);
+			map.setFutureFeature(id, newFeature);
 		}
 
+		map.setFeature(id, "CellSpaceBoundary", newFeature);
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		if (parent == null) {
 			if (map.hasFutureID(parentId)) {
@@ -208,7 +209,8 @@ public class CellSpaceBoundaryDAO {
 			newFeature.setDuality(dualityFeature);
 		}
 
-		map.setFeature(id, "CellSpaceBoundary", newFeature);
+		map.removeFutureID(id);
+		
 		return newFeature;
 	}
 
