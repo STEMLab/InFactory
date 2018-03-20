@@ -190,19 +190,28 @@ public class Convert2JaxbClass {
 		if(geom != null){
 			
 			if(geom instanceof Polygon) {
-				Polygon s = (Polygon) geom;
-				PolygonType solid = Convert2JaxbGeometry.Convert2SurfaceType(s);
-				JAXBElement<PolygonType> jaxbSolid = gmlOF.createPolygon(solid);
-				SurfacePropertyType solidProp = gmlOF.createSurfacePropertyType();
-				solidProp.setAbstractSurface(jaxbSolid);
+				Polygon p = (Polygon) geom;
+				PolygonType polygon = Convert2JaxbGeometry.Convert2SurfaceType(p);
+				JAXBElement<PolygonType> jaxbPolygon = gmlOF.createPolygon(polygon);
+				SurfacePropertyType polygonProp = gmlOF.createSurfacePropertyType();
+				polygonProp.setAbstractSurface(jaxbPolygon);
 				
 				CellSpaceBoundaryGeometryType cellSpaceBoundaryGeometryType = indoorgmlcoreOF.createCellSpaceBoundaryGeometryType();
-				cellSpaceBoundaryGeometryType.setGeometry3D(solidProp);
+				cellSpaceBoundaryGeometryType.setGeometry3D(polygonProp);
 
 				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometryType);
 			}
-			else {
-				// TODO
+			else if(geom instanceof LineString){
+				LineString l = (LineString)geom;
+				LineStringType linestring = Convert2JaxbGeometry.Convert2LineStringType(l);
+				JAXBElement<LineStringType>jaxbLineString = gmlOF.createLineString(linestring);
+				CurvePropertyType lineProp = gmlOF.createCurvePropertyType();
+				lineProp.setAbstractCurve(jaxbLineString);
+				
+				CellSpaceBoundaryGeometryType cellSpaceBoundaryGeometryType = indoorgmlcoreOF.createCellSpaceBoundaryGeometryType();
+				cellSpaceBoundaryGeometryType.setGeometry2D(lineProp);
+				
+				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometryType);
 			}
 		}
 		
