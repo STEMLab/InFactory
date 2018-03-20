@@ -3,14 +3,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 
-import edu.pnu.stem.binder.Convert2GeoJsonGeometry;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
-import edu.pnu.stem.geojson.GeoJSON3DReader;
 import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 
@@ -94,12 +94,49 @@ public class CellSpaceDAO {
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
-			String geometryType = geometry.get("properties").get("type").asText().trim();
-			JsonNode solid = Convert2GeoJsonGeometry.convert2GeoJson(geometry, geometryType);
-			GeoJSON3DReader reader = new GeoJSON3DReader();
-			Solid resultSolid = (Solid)reader.read(solid.toString());
-			map.setFeature4Geometry(geometry.get("properties").get("id").asText().trim(), resultSolid);
-			newFeature.setGeometry(resultSolid);			
+			/*
+			 * String geometryType = geometry.get("properties").get("type").asText().trim();				
+				JsonNode solid = Convert2GeoJsonGeometry.convert2GeoJson(geometry, geometryType);
+				GeoJSON3DReader reader = new GeoJSON3DReader();
+				Solid resultSolid = (Solid)reader.read(solid.toString());
+				map.setFeature4Geometry(geometry.get("properties").get("id").asText().trim(), resultSolid);
+				newFeature.setGeometry(resultSolid);
+			 * */
+			WKTReader3D wkt = new WKTReader3D();
+			Geometry wktG = null;
+			if(geometry.has("coordinates")){			
+				try {					
+					wktG = wkt.read(geometry.get("coordinates").asText().trim());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else{
+				//WKT directly
+				try{
+					wktG = wkt.read(geometry.asText().trim());
+				}catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(wktG != null){
+				if(wktG instanceof Solid){
+					Solid s = (Solid)wktG;
+					map.setFeature4Geometry(UUID.randomUUID().toString(), s);
+					newFeature.setGeometry(s);
+				}
+				else if(wktG instanceof Polygon){
+					Polygon s = (Polygon)wktG;
+					map.setFeature4Geometry(UUID.randomUUID().toString(), s);
+					newFeature.setGeometry(s);
+				}
+				else{
+					//TODO : Exception
+				}
+			}
+						
 		}
 		
 		if(duality != null){
@@ -154,6 +191,7 @@ public class CellSpaceDAO {
 		if (geometry != null) {
 			WKTReader3D wkt = new WKTReader3D();
 			try {
+				
 				Solid s = (Solid) wkt.read(geometry);
 				map.setFeature4Geometry(UUID.randomUUID().toString(), s);
 				newFeature.setGeometry(s);

@@ -118,8 +118,17 @@ public class Convert2JaxbClass {
 
 				newFeature.setCellSpaceGeometry(cellSpaceGeometryType);
 			}
-			else {
-				// TODO
+			else if(geom instanceof Polygon){
+				Polygon p = (Polygon) geom;
+				PolygonType polygon = Convert2JaxbGeometry.Convert2SurfaceType(p);
+				JAXBElement<PolygonType> jaxbPolygon = gmlOF.createPolygon(polygon);
+				SurfacePropertyType polygonProp = gmlOF.createSurfacePropertyType();
+				polygonProp.setAbstractSurface(jaxbPolygon);
+				
+				CellSpaceGeometryType cellSpaceGeometryType = indoorgmlcoreOF.createCellSpaceGeometryType();
+				cellSpaceGeometryType.setGeometry2D(polygonProp);
+				
+				newFeature.setCellSpaceGeometry(cellSpaceGeometryType);
 			}
 		}
 		//newFeature.setPartialboundedBy(feature.getPartialBoundedBy());

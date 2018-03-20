@@ -64,20 +64,23 @@ public class CellSpaceController {
 		if(json.has("duality")){
 			duality = json.get("duality").asText().trim();
 		}
-		 
+		geometry = json.get("geometry");
+		//TODO : 나중에 고치기!!
 		//String properties = json.get("properties").asText().trim();
 		//String duality = null;
 		CellSpace c = null;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			if(geomFormatType.equals("GEOJSON")){
+			/*
+			 * if(geomFormatType.equals("GEOJSON")){
 				c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality);
 			}
 			else if(geomFormatType.equals("WKT")){
 				c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
 			}
-			
+			 * */
+			c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality);
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();
