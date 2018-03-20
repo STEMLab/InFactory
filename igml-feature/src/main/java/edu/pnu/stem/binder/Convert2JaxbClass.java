@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
@@ -29,8 +30,11 @@ import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
 import net.opengis.gml.v_3_2_1.PointType;
+import net.opengis.gml.v_3_2_1.PolygonType;
 import net.opengis.gml.v_3_2_1.SolidPropertyType;
 import net.opengis.gml.v_3_2_1.SolidType;
+import net.opengis.gml.v_3_2_1.SurfacePropertyType;
+import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryGeometryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
@@ -152,11 +156,7 @@ public class Convert2JaxbClass {
 	public static CellSpaceBoundaryType change2JaxbClass(IndoorGMLMap savedMap, CellSpaceBoundary feature){
 		CellSpaceBoundaryType newFeature = indoorgmlcoreOF.createCellSpaceBoundaryType();
 		TransitionPropertyType duality = new TransitionPropertyType();
-		String href = feature.getDuality().getId();
-		href = "#" + href;
-		duality.setHref(href);
-		newFeature.setDuality(duality);
-		newFeature.setId(feature.getId());
+		
 		/*
 		 * if(feature.cellSpaceBoundaryGeometry != null){
 			if(feature.cellSpaceBoundaryGeometry instanceof CurveType){
@@ -178,6 +178,33 @@ public class Convert2JaxbClass {
 		
 		//if(feature.)
 		
+		if(feature.getDuality() != null){
+			String href = feature.getDuality().getId();
+			href = "#" + href;
+			duality.setHref(href);
+			newFeature.setDuality(duality);
+			newFeature.setId(feature.getId());
+		}
+		
+		Geometry geom = (Geometry) feature.getGeometry();
+		if(geom != null){
+			
+			if(geom instanceof Polygon) {
+				Polygon s = (Polygon) geom;
+				PolygonType solid = Convert2JaxbGeometry.Convert2SurfaceType(s);
+				JAXBElement<PolygonType> jaxbSolid = gmlOF.createPolygon(solid);
+				SurfacePropertyType solidProp = gmlOF.createSurfacePropertyType();
+				solidProp.setAbstractSurface(jaxbSolid);
+				
+				CellSpaceBoundaryGeometryType cellSpaceBoundaryGeometryType = indoorgmlcoreOF.createCellSpaceBoundaryGeometryType();
+				cellSpaceBoundaryGeometryType.setGeometry3D(solidProp);
+
+				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometryType);
+			}
+			else {
+				// TODO
+			}
+		}
 		
 		return newFeature;
 	}

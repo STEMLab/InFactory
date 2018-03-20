@@ -42,15 +42,15 @@ public class CellSpaceBoundary extends AbstractFeature {
 	}
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
+		feature = (Geometry) indoorGMLMap.getFeature4Geometry(this.geometry);
 		return feature;
 	}
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature4Geometry(gId);
 		if(found == null) {
-			indoorGMLMap.setFeature(gId, "Geometry", geom);
+			indoorGMLMap.setFeature4Geometry(gId, geom);
 		}
 		this.geometry = gId;
 	}

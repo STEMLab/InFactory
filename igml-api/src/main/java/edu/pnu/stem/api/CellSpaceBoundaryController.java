@@ -61,7 +61,8 @@ public class CellSpaceBoundaryController {
 		catch (IOException e){
 			geomFormatType = "WKT";
 		}
-		
+		geometry = json.get("geometry");
+		//TODO : 나중에 고칠 것. 임시로.
 		if(json.has("duality")){
 			duality = json.get("duality").asText().trim();
 		}
@@ -69,12 +70,17 @@ public class CellSpaceBoundaryController {
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			if(geomFormatType.equals("GEOJSON")){
+			/*
+			 * 
+			 if(geomFormatType.equals("GEOJSON")){
 				c = CellSpaceBoundaryDAO.createCellSpaceBoundary(map, parentId, id, geometry, duality);
 			}
 			else if(geomFormatType.equals("WKT")){
 				c = CellSpaceBoundaryDAO.createCellSpaceBoundary(map, parentId, id, geom, duality);
 			}
+			 * */
+			
+			c = CellSpaceBoundaryDAO.createCellSpaceBoundary(map, parentId, id, geometry, duality); 
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();

@@ -1,16 +1,18 @@
 package edu.pnu.stem.dao;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 
-import edu.pnu.stem.binder.Convert2GeoJsonGeometry;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.Transition;
-import edu.pnu.stem.geojson.GeoJSON3DReader;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 
 
@@ -79,28 +81,30 @@ public class CellSpaceBoundaryDAO {
 			id = UUID.randomUUID().toString();
 		}
 		
-		CellSpaceBoundary newFeature = null;
+		CellSpaceBoundary newFeature = new CellSpaceBoundary(map,id);
 		
 		if(map.hasFutureID(id)){
 			newFeature = (CellSpaceBoundary)map.getFutureFeature(id);
 			//map.removeFutureID(id);
 		}
 		else{
-			newFeature = new CellSpaceBoundary(map, id);
+			map.setFutureFeature(id, newFeature);
 		}
-
+		map.setFeature(id, "CellSpaceBoundary", newFeature);
+		
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		if(parent == null){
 			if(map.hasFutureID(parentId)){
 				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
-				map.removeFutureID(parentId);
 			}
 			else{
 				parent = new PrimalSpaceFeatures(map,parentId);
 			}
 		}
 		
-		parent.addCellSpaceBoundaryMember(newFeature);
+		List<CellSpaceBoundary>cellSpaceBoundaryMember = new ArrayList<CellSpaceBoundary>();
+		cellSpaceBoundaryMember.add(newFeature);
+		parent.setCellSpaceBoundaryMember(cellSpaceBoundaryMember);
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
@@ -128,7 +132,7 @@ public class CellSpaceBoundaryDAO {
 			newFeature.setDuality(dualityFeature);
 		}
 
-		map.setFeature(id, "CellSpaceBoundary", newFeature);
+		map.removeFutureID(id);
 		return newFeature;
 	}
 	
@@ -162,12 +166,50 @@ public class CellSpaceBoundaryDAO {
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
-			String geometryType = geometry.get("properties").get("type").asText().trim();
-			JsonNode surface = Convert2GeoJsonGeometry.convert2GeoJson(geometry, "CellSpaceBoundary");
-			GeoJSON3DReader reader = new GeoJSON3DReader();
-			Polygon resultSolid = (Polygon)reader.read(surface.toString());
-			map.setFeature4Geometry(geometry.get("properties").get("id").asText().trim(), resultSolid);
-			newFeature.setGeometry(resultSolid);			
+			if(geometry.has("coordinates")){
+				/*
+				 * String geometryType = geometry.get("properties").get("type").asText().trim();
+				JsonNode surface = Convert2GeoJsonGeometry.convert2GeoJson(geometry, "CellSpaceBoundary");
+				GeoJSON3DReader reader = new GeoJSON3DReader();
+				Polygon resultSolid = (Polygon)reader.read(surface.toString());
+				map.setFeature4Geometry(geometry.get("properties").get("id").asText().trim(), resultSolid);
+				newFeature.setGeometry(resultSolid);
+				 * 
+				 * */
+				WKTReader3D wkt = new WKTReader3D();
+				try {
+					Polygon p = (Polygon) wkt.read(geometry.get("coordinates").asText().trim());
+					map.setFeature4Geometry(UUID.randomUUID().toString(), p);
+					newFeature.setGeometry(p);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			else{
+				if (geometry != null) {
+					WKTReader3D wkt = new WKTReader3D();
+					try {
+						
+						Geometry wktG = wkt.read(geometry.asText().trim());
+						if(wktG instanceof Polygon){
+							Polygon p = (Polygon)wktG;
+							map.setFeature4Geometry(UUID.randomUUID().toString(), p);
+							newFeature.setGeometry(p);
+						}
+						//
+						else{
+							LineString p = (LineString)wktG; 
+							map.setFeature4Geometry(UUID.randomUUID().toString(), p);
+							newFeature.setGeometry(p);
+						}				
+						
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+				
 		}
 
 		
