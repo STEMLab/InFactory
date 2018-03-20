@@ -3,6 +3,7 @@
  */
 package edu.pnu.stem.api;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
@@ -41,23 +44,41 @@ public class CellSpaceController {
 	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
-		
-		//JsonNode geometry = json.get("geometry");
-		
+		String geomFormatType = "GEOJSON";
+		final ObjectMapper mapper = new ObjectMapper();
 				
 		String geom = json.get("geometry").asText().trim();
+		String duality = null;
+		JsonNode geometry = null;
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
-		String duality = json.get("duality").asText().trim();
+		try{			
+			 mapper.readTree(geom);
+			 geometry = json.get("geometry");
+		}
+		catch (IOException e){
+			geomFormatType = "WKT";
+		}
+		if(json.has("duality")){
+			duality = json.get("duality").asText().trim();
+		}
+		 
 		//String properties = json.get("properties").asText().trim();
 		//String duality = null;
-		CellSpace c;
+		CellSpace c = null;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
+			if(geomFormatType.equals("GEOJSON")){
+				c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality);
+			}
+			else if(geomFormatType.equals("WKT")){
+				c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
+			}
+			
+			
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
