@@ -3,6 +3,8 @@
  */
 package edu.pnu.stem.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
@@ -43,16 +46,28 @@ public class StateController {
 		String parentId = json.get("parentId").asText().trim();
 		
 		String geom = json.get("geometry").asText().trim();
+		List<String> connected = null;
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
 		State s;
+		
+		if(json.has("properties")){
+			if(json.get("properties").has("connected")){
+				connected = new ArrayList<String>();
+				JsonNode test = json.get("properties").get("connected");
+				for(int i = 0 ; i < test.size() ; i++){
+					connected.add(test.get(i).asText().trim());
+				}
+			}
+		}
+		
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			s = StateDAO.createState(map, parentId, id, geom);
+			s = StateDAO.createState(map, parentId, id, json.get("geometry"), connected);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
