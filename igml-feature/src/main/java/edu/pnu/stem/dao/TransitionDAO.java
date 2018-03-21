@@ -9,6 +9,7 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
@@ -64,7 +65,7 @@ public class TransitionDAO {
 	*/
 	
 	public static Transition createTransition(IndoorGMLMap map, String parentId,
-			String id, String geometry, String[] connects) {
+			String id, String geometry, String duality, String[] connects) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -106,6 +107,18 @@ public class TransitionDAO {
 			}
 		}
 		
+		if (duality != null) {
+			CellSpaceBoundary dualityFeature = (CellSpaceBoundary) map.getFeature(duality);
+			if (dualityFeature == null) {
+				dualityFeature = new CellSpaceBoundary(map, duality);
+				dualityFeature.setDuality(newFeature);
+				map.setFutureFeature(duality, dualityFeature);
+			} else {
+				dualityFeature.setDuality(newFeature);
+			}
+			newFeature.setDuality(dualityFeature);
+		}
+		
 		if(connects!= null && connects.length == 2) {
 			State[] tempConnects = new State[2];
 			tempConnects[0] = (State) map.getFeature(connects[0]);
@@ -120,11 +133,20 @@ public class TransitionDAO {
 		return newFeature;
 	}
 	public static Transition createTransition(IndoorGMLMap map, String parentId,
-			String id, JsonNode geometry, String[] connects) {
+			String id, JsonNode geometry, String duality, String[] connects) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
 		Transition newFeature = new Transition(map, id);
+		
+		if (map.hasFutureID(id)) {
+			newFeature = (Transition) map.getFutureFeature(id);
+			// map.removeFutureID(id);
+		} else {
+			map.setFutureFeature(id, newFeature);
+		}
+		
+		map.setFeature(id, "Transition", newFeature);
 		
 		Edges parent = (Edges) map.getFeature(parentId);
 		parent.addTransitionMember(newFeature);
@@ -183,6 +205,19 @@ public class TransitionDAO {
 			newFeature.setGeometry(l);
 		}
 		
+		
+		if (duality != null) {
+			CellSpaceBoundary dualityFeature = (CellSpaceBoundary) map.getFeature(duality);
+			if (dualityFeature == null) {
+				dualityFeature = new CellSpaceBoundary(map, duality);
+				dualityFeature.setDuality(newFeature);
+				map.setFutureFeature(duality, dualityFeature);
+			} else {
+				dualityFeature.setDuality(newFeature);
+			}
+			newFeature.setDuality(dualityFeature);
+		}
+		
 		if(connects!= null && connects.length == 2) {
 			State[] tempConnects = new State[2];
 			tempConnects[0] = (State) map.getFeature(connects[0]);
@@ -193,7 +228,7 @@ public class TransitionDAO {
 		else{
 			System.out.println("createTransition : there is no enough number of connections for this transition");
 		}
-		map.setFeature(id, "Transition", newFeature);
+		map.removeFutureID(id);
 		return newFeature;
 	}
 	/**

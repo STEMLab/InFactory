@@ -47,12 +47,18 @@ public class StateController {
 		
 		String geom = json.get("geometry").asText().trim();
 		List<String> connected = null;
-		
+		String duality = null;
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
 		State s;
+		
+		if(json.has("properties")){
+			if(json.get("properties").has("duality")){
+				duality = json.get("properties").get("duality").asText().trim();
+			}
+		}
 		
 		if(json.has("properties")){
 			if(json.get("properties").has("connected")){
@@ -67,7 +73,7 @@ public class StateController {
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			s = StateDAO.createState(map, parentId, id, json.get("geometry"), connected);
+			s = StateDAO.createState(map, parentId, id, json.get("geometry"), duality, connected);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

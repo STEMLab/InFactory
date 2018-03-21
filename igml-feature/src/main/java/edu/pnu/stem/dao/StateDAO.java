@@ -11,6 +11,7 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
@@ -60,7 +61,7 @@ public class StateDAO {
 		return newFeature;
 	}
 	*/
-	public static State createState(IndoorGMLMap map, String parentId, String id, JsonNode geometry, List<String> connected) {
+	public static State createState(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality, List<String> connected) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -68,8 +69,12 @@ public class StateDAO {
 		State newFeature = new State(map, id);
 		if(map.hasFutureID(id)){
 			newFeature = (State)map.getFutureFeature(id);
+			//map.removeFutureID(id);
 		}
-		
+		else{
+			map.setFutureFeature(id, newFeature);
+		}		
+		map.setFeature(id, "State", newFeature);
 		
 		Nodes parent = (Nodes) map.getFeature(parentId);
 		if(parent == null){
@@ -128,8 +133,20 @@ public class StateDAO {
 			}
 			newFeature.setConnects(realConnected);
 		}
+		
+		if(duality != null){
+			CellSpace dualityFeature = (CellSpace) map.getFeature(duality);
+			
+			if(dualityFeature == null){
+				dualityFeature = new CellSpace(map, duality);
+			}
+			
+			dualityFeature.setDuality(newFeature);
+			newFeature.setDuality(dualityFeature);
 
-		map.setFeature(id, "State", newFeature);
+		}
+
+		map.removeFutureID(id);
 		return newFeature;
 	}	
 	public static State createState(IndoorGMLMap map, String parentId, String id, String geometry, List<String> connected) {

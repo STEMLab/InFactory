@@ -68,6 +68,11 @@ public class CellSpaceController {
 		if(json.has("duality")){
 			duality = json.get("duality").asText().trim();
 		}
+		if(json.has("properties")){
+			if(json.get("properties").has("duality")){
+				duality = json.get("properties").get("duality").asText().trim();
+			}
+		}
 		geometry = json.get("geometry");
 		//TODO : 나중에 고치기!!
 		//String properties = json.get("properties").asText().trim();

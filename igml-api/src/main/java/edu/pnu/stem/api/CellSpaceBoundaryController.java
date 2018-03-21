@@ -66,6 +66,11 @@ public class CellSpaceBoundaryController {
 		if(json.has("duality")){
 			duality = json.get("duality").asText().trim();
 		}
+		if(json.has("properties")){
+			if(json.get("properties").has("duality")){
+				duality = json.get("properties").get("duality").asText().trim();
+			}
+		}
 		CellSpaceBoundary c = null;
 		try {
 			Container container = applicationContext.getBean(Container.class);

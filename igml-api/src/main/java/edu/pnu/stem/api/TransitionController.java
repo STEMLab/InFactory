@@ -45,7 +45,7 @@ public class TransitionController {
 		
 		String[] connects = new String[2];
 		
-		
+		String duality = null;
 		String geom = json.get("geometry").asText().trim();
 		
 		if(id == null || id.isEmpty()) {
@@ -67,11 +67,17 @@ public class TransitionController {
 			}
 		}
 		
+		if(json.has("properties")){
+			if(json.get("properties").has("duality")){
+				duality = json.get("properties").get("duality").asText().trim();
+			}
+		}
+		
 		Transition t;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			t = TransitionDAO.createTransition(map, parentId, id, json.get("geometry"), connects);
+			t = TransitionDAO.createTransition(map, parentId, id, json.get("geometry"), duality, connects);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
