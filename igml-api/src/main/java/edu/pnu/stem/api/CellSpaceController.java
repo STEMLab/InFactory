@@ -4,6 +4,8 @@
 package edu.pnu.stem.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +43,7 @@ public class CellSpaceController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		String geomFormatType = "GEOJSON";
@@ -50,6 +52,8 @@ public class CellSpaceController {
 		String geom = json.get("geometry").asText().trim();
 		String duality = null;
 		JsonNode geometry = null;
+		List<String> partialBoundedBy = null;
+		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
@@ -68,6 +72,17 @@ public class CellSpaceController {
 		//TODO : 나중에 고치기!!
 		//String properties = json.get("properties").asText().trim();
 		//String duality = null;
+		
+		if(json.has("properties")){
+			if(json.get("properties").has("partialboundedBy")){
+				partialBoundedBy = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("partialboundedBy");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					partialBoundedBy.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
+		}
+		
 		CellSpace c = null;
 		try {
 			Container container = applicationContext.getBean(Container.class);
@@ -80,7 +95,7 @@ public class CellSpaceController {
 				c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
 			}
 			 * */
-			c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality);
+			c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality, partialBoundedBy);
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();

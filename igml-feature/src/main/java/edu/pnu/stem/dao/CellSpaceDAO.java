@@ -1,5 +1,6 @@
 package edu.pnu.stem.dao;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,6 +10,7 @@ import com.vividsolutions.jts.io.ParseException;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
+import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.geometry.jts.Solid;
@@ -59,7 +61,7 @@ public class CellSpaceDAO {
 		return newFeature;
 	}
 	*/
-	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality) {
+	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality, List<String> partialBoundedBy) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -120,16 +122,24 @@ public class CellSpaceDAO {
 					e.printStackTrace();
 				}
 			}
-			
+			String geometryId = null;
+			if(geometry.has("properties")){
+				if(geometry.get("properties").has("id")){
+					geometryId = geometry.get("properties").get("id").asText().trim();
+				}
+			}
+			if(geometryId == null){
+				geometryId = UUID.randomUUID().toString();
+			}
 			if(wktG != null){
 				if(wktG instanceof Solid){
 					Solid s = (Solid)wktG;
-					map.setFeature4Geometry(UUID.randomUUID().toString(), s);
+					map.setFeature4Geometry(geometryId, s);
 					newFeature.setGeometry(s);
 				}
 				else if(wktG instanceof Polygon){
 					Polygon s = (Polygon)wktG;
-					map.setFeature4Geometry(UUID.randomUUID().toString(), s);
+					map.setFeature4Geometry(geometryId, s);
 					newFeature.setGeometry(s);
 				}
 				else{
@@ -149,6 +159,18 @@ public class CellSpaceDAO {
 			dualityFeature.setDuality(newFeature);
 			newFeature.setDuality(dualityFeature);
 
+		}
+		
+		if(partialBoundedBy != null){
+			List<CellSpaceBoundary> realPartialBoundedBy = new ArrayList<CellSpaceBoundary>();
+			for(String b : partialBoundedBy){
+				CellSpaceBoundary pb = (CellSpaceBoundary) map.getFeature(b);
+				if(pb == null){
+					pb = new CellSpaceBoundary(map,b);
+				}
+				realPartialBoundedBy.add(pb);
+			}
+			newFeature.setPartialboundedBy(realPartialBoundedBy);
 		}
 		map.removeFutureID(id);
 
