@@ -69,7 +69,6 @@ import net.opengis.indoorgml.core.v_1_0.TransitionType;
 public class Convert2JaxbClass {
 	static net.opengis.indoorgml.core.v_1_0.ObjectFactory indoorgmlcoreOF = new net.opengis.indoorgml.core.v_1_0.ObjectFactory();
 	static net.opengis.gml.v_3_2_1.ObjectFactory gmlOF = new net.opengis.gml.v_3_2_1.ObjectFactory();
-	private static IndoorGMLMap savedMap;
 	@SuppressWarnings("unchecked")
 	public static CellSpaceType change2JaxbClass(IndoorGMLMap savedMap, CellSpace feature) throws JAXBException {
 		//JAXBContextImpl jc = (JAXBContextImpl) JAXBContextImpl.newInstance(CellSpaceType.class);
@@ -165,7 +164,7 @@ public class Convert2JaxbClass {
 	public static CellSpaceBoundaryType change2JaxbClass(IndoorGMLMap savedMap, CellSpaceBoundary feature){
 		CellSpaceBoundaryType newFeature = indoorgmlcoreOF.createCellSpaceBoundaryType();
 		TransitionPropertyType duality = new TransitionPropertyType();
-		
+		newFeature.setId(feature.getId());
 		/*
 		 * if(feature.cellSpaceBoundaryGeometry != null){
 			if(feature.cellSpaceBoundaryGeometry instanceof CurveType){
