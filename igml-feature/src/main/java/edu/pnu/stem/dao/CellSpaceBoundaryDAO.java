@@ -149,6 +149,15 @@ public class CellSpaceBoundaryDAO {
 		newFeature.setParent(parent);
 
 		if (geometry != null) {
+			String geometryId = null;
+			if(geometry.has("properties")){
+				if(geometry.get("properties").has("id")){
+					geometryId = geometry.get("properties").get("id").asText().trim();
+				}
+			}
+			if(geometryId == null){
+				geometryId = UUID.randomUUID().toString();
+			}
 			if (geometry.has("coordinates")) {
 				/*
 				 * String geometryType =
@@ -166,7 +175,7 @@ public class CellSpaceBoundaryDAO {
 				WKTReader3D wkt = new WKTReader3D();
 				try {
 					Polygon p = (Polygon) wkt.read(geometry.get("coordinates").asText().trim());
-					map.setFeature4Geometry(UUID.randomUUID().toString(), p);
+					map.setFeature4Geometry(geometryId, p);
 					newFeature.setGeometry(p);
 				} catch (ParseException e) {
 					e.printStackTrace();
@@ -178,14 +187,14 @@ public class CellSpaceBoundaryDAO {
 					Geometry wktG = wkt.read(geometry.asText().trim());
 					if (wktG instanceof Polygon) {
 						Polygon p = (Polygon) wktG;
-						map.setFeature4Geometry(UUID.randomUUID().toString(), p);
+						map.setFeature4Geometry(geometryId, p);
 						newFeature.setGeometry(p);
 					}
 					//
 					else {
 						WKTReader wkt2D = new WKTReader();
 						LineString p = (LineString) wkt2D.read(geometry.asText().trim());
-						map.setFeature4Geometry(UUID.randomUUID().toString(), p);
+						map.setFeature4Geometry(geometryId, p);
 						newFeature.setGeometry(p);
 					}
 
@@ -209,7 +218,7 @@ public class CellSpaceBoundaryDAO {
 			newFeature.setDuality(dualityFeature);
 		}
 
-		map.removeFutureID(id);
+		
 		
 		return newFeature;
 	}
