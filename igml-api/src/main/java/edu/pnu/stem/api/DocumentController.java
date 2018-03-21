@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.pnu.stem.api.exception.DocumentNotFoundException;
-import edu.pnu.stem.api.exception.DuplicatedFeatureException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.IndoorFeatures;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
@@ -54,7 +53,8 @@ public class DocumentController {
 		IndoorGMLMap map = container.getDocument(id);
 		if(map != null) {
 			//Exception
-			throw new DuplicatedFeatureException();
+			//throw new DuplicatedFeatureException();
+			//TODO : later treat duplicatedFeatureException();
 		} else {
 			map = container.createDocument(id);
 		}
