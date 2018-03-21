@@ -103,6 +103,18 @@ public class Transition extends AbstractFeature {
 		if (connects.length != 2) {
 			System.out.println("FeatureClass.Transition.setConnects : The size of input is not 2");
 		} else {
+			State found1 = null;
+			State found2 = null;
+			found1 = (State)indoorGMLMap.getFeature(connects[0].getId());
+			found2 = (State)indoorGMLMap.getFeature(connects[1].getId());
+			
+			if(found1 == null){
+				indoorGMLMap.setFutureFeature(connects[0].getId(), connects[0]);
+			}
+			if(found2 == null){
+				indoorGMLMap.setFutureFeature(connects[1].getId(), connects[1]);
+			} 
+			
 			this.connects[0] = connects[0].getId();
 			this.connects[1] = connects[1].getId();
 		}

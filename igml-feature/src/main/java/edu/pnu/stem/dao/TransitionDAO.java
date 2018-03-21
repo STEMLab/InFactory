@@ -3,14 +3,13 @@ package edu.pnu.stem.dao;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
-import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
@@ -107,7 +106,7 @@ public class TransitionDAO {
 			}
 		}
 		
-		if(connects.length == 2) {
+		if(connects!= null && connects.length == 2) {
 			State[] tempConnects = new State[2];
 			tempConnects[0] = (State) map.getFeature(connects[0]);
 			tempConnects[1] = (State) map.getFeature(connects[1]);
@@ -120,7 +119,83 @@ public class TransitionDAO {
 		map.setFeature(id, "Transition", newFeature);
 		return newFeature;
 	}
-
+	public static Transition createTransition(IndoorGMLMap map, String parentId,
+			String id, JsonNode geometry, String[] connects) {
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		Transition newFeature = new Transition(map, id);
+		
+		Edges parent = (Edges) map.getFeature(parentId);
+		parent.addTransitionMember(newFeature);
+		newFeature.setParent(parent);
+		
+		/*
+		if (duality != null) {
+			CellSpaceBoundary tempDuality = new CellSpaceBoundary(map);
+			tempDuality.setId(duality);
+			newFeature.setDuality(tempDuality);
+			if(map.getFeatureContainer("Reference").containsKey(duality)){
+				int count = (Integer)map.getFeatureContainer("Reference").get(duality);
+				count++;
+				map.setFeature(duality, "Reference", count);
+			}
+			else{
+				map.setFeature(duality, "Reference", 1);
+			}
+			map.setFeature(Id, "Reference", 1);
+		}
+		if (externalReference != null) {
+			//newFeature.setExternalReference(externalReference);
+		}
+		*/
+		
+		if (geometry != null) {
+			WKTReader wkt = new WKTReader();
+			LineString l = null;
+			String geometryId = null;
+			if(geometry.has("coordinates")){
+				try{
+					l = (LineString) wkt.read(geometry.get("coordinates").asText().trim());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else{
+				try {
+					l = (LineString) wkt.read(geometry.asText().trim());
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(geometry.has("properties")){
+				if(geometry.get("properties").has("id")){
+					geometryId = geometry.get("properties").get("id").asText().trim();
+				}
+			}
+			if(geometryId == null){
+				geometryId = UUID.randomUUID().toString();
+			}
+			map.setFeature4Geometry(geometryId, l);
+			newFeature.setGeometry(l);
+		}
+		
+		if(connects!= null && connects.length == 2) {
+			State[] tempConnects = new State[2];
+			tempConnects[0] = (State) map.getFeature(connects[0]);
+			tempConnects[1] = (State) map.getFeature(connects[1]);
+			newFeature.setConnects(tempConnects);
+		}
+		
+		else{
+			System.out.println("createTransition : there is no enough number of connections for this transition");
+		}
+		map.setFeature(id, "Transition", newFeature);
+		return newFeature;
+	}
 	/**
 	 * Search Transition feature in document
 	 * @param ID ID of target
