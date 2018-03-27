@@ -1,15 +1,20 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.State;
+import edu.pnu.stem.feature.Transition;
 
 public class StateDAO {
 	/*
@@ -56,14 +61,114 @@ public class StateDAO {
 		return newFeature;
 	}
 	*/
-	
-	public static State createState(IndoorGMLMap map, String parentId, String id, String geometry) {
+	public static State createState(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality, List<String> connected) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
+		
 		State newFeature = new State(map, id);
-
+		if(map.hasFutureID(id)){
+			newFeature = (State)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			map.setFutureFeature(id, newFeature);
+		}		
+		map.setFeature(id, "State", newFeature);
+		
 		Nodes parent = (Nodes) map.getFeature(parentId);
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (Nodes)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new Nodes(map,parentId);
+			}
+		}
+		parent.addStateMember(newFeature);
+		newFeature.setParent(parent);
+		
+		if (geometry != null) {
+			WKTReader wkt = new WKTReader();
+			Point p = null;
+			if(geometry.has("coordinates")){
+				try{
+					p = (Point)wkt.read(geometry.get("coordinates").asText().trim());
+				}catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				try{
+				p = (Point)wkt.read(geometry.asText().trim());
+				}catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			String geometryId = null;
+			if(geometry.has("properties")){
+				if(geometry.get("properties").has("id")){
+					geometryId = geometry.get("properties").get("id").asText().trim();
+				}
+			}
+			if(geometryId == null){
+				geometryId = UUID.randomUUID().toString();
+			}
+			
+			if(p != null){
+				map.setFeature4Geometry(geometryId, p);
+				newFeature.setGeometry(p);
+			}
+		}
+		
+		if(connected != null){
+			List<Transition> realConnected = new ArrayList<Transition>();
+			for(String t : connected){
+				Transition ct = (Transition)map.getFeature(t);
+				if(ct == null){
+					ct = new Transition(map, t);
+				}
+				realConnected.add(ct);
+			}
+			newFeature.setConnects(realConnected);
+		}
+		
+		if(duality != null){
+			CellSpace dualityFeature = (CellSpace) map.getFeature(duality);
+			
+			if(dualityFeature == null){
+				dualityFeature = new CellSpace(map, duality);
+			}
+			
+			dualityFeature.setDuality(newFeature);
+			newFeature.setDuality(dualityFeature);
+
+		}
+
+		map.removeFutureID(id);
+		return newFeature;
+	}	
+	public static State createState(IndoorGMLMap map, String parentId, String id, String geometry, List<String> connected) {
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		
+		State newFeature = new State(map, id);
+		if(map.hasFutureID(id)){
+			newFeature = (State)map.getFutureFeature(id);
+		}
+		
+		
+		Nodes parent = (Nodes) map.getFeature(parentId);
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (Nodes)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new Nodes(map,parentId);
+			}
+		}
 		parent.addStateMember(newFeature);
 		newFeature.setParent(parent);
 		
@@ -77,6 +182,17 @@ public class StateDAO {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		if(connected != null){
+			List<Transition> realConnected = new ArrayList<Transition>();
+			for(String t : connected){
+				Transition ct = (Transition)map.getFeature(t);
+				if(ct == null){
+					ct = new Transition(map, t);
+				}
+				realConnected.add(ct);
+			}
+			newFeature.setConnects(realConnected);
 		}
 
 		map.setFeature(id, "State", newFeature);

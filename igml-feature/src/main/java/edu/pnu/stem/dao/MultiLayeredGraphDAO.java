@@ -1,15 +1,11 @@
 package edu.pnu.stem.dao;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.IndoorFeatures;
-import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.SpaceLayers;
 
 
 
@@ -53,12 +49,27 @@ public class MultiLayeredGraphDAO {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		MultiLayeredGraph newFeature = new MultiLayeredGraph(map, id);
-
-		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
-		parent.setMultiLayeredGraph(newFeature);
-
+		
+		MultiLayeredGraph newFeature = (MultiLayeredGraph) map.getFutureFeature(id);
+		if(newFeature == null){
+			newFeature = new MultiLayeredGraph(map, id);
+		}
+		map.setFutureFeature(id, newFeature);
 		map.setFeature(id, "MultiLayeredGraph", newFeature);
+		
+		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (IndoorFeatures)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new IndoorFeatures(map,parentId);
+			}
+		}		
+		parent.setMultiLayeredGraph(newFeature);
+		newFeature.setParent(parent);
+		map.removeFutureID(id);
+
 		return newFeature;
 	}
 	

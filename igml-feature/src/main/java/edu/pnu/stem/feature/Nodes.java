@@ -23,7 +23,7 @@ public class Nodes extends AbstractFeature {
 		SpaceLayer found = null;
 		found = (SpaceLayer)indoorGMLMap.getFeature(parent.getId());
 		if( found == null ){
-			indoorGMLMap.setFeature(parent.getId(), "SpaceLayer", parent );
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -35,14 +35,16 @@ public class Nodes extends AbstractFeature {
 	}
 
 	public void setStateMember(List<State> stateMember) {
-		for (int i = 0; i < stateMember.size(); i++) {
+		for (State s : stateMember) {
 			State found = null;
-			found = (State) indoorGMLMap.getFeature(stateMember.get(i).getId());
+			found = (State) indoorGMLMap.getFeature(s.getId());
 			if (found == null) {
-				indoorGMLMap.setFeature(stateMember.get(i).getId(), "State", stateMember.get(i));
+				if(!indoorGMLMap.hasFutureID(s.getId())){
+					indoorGMLMap.setFutureFeature(s.getId(),s);
+				}
 			}
-			if (!this.stateMember.contains(stateMember.get(i).getId())) {
-				this.stateMember.add(stateMember.get(i).getId());
+			if (!this.stateMember.contains(s.getId())) {
+				this.stateMember.add(s.getId());
 			}
 		}
 

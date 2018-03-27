@@ -1,12 +1,9 @@
 package edu.pnu.stem.dao;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.SpaceLayers;
 
 public class SpaceLayersDAO {
@@ -43,8 +40,30 @@ public class SpaceLayersDAO {
 		}
 		SpaceLayers newFeature = new SpaceLayers(map, id);
 		
+		if(map.hasFutureID(id)){
+			newFeature = (SpaceLayers)map.getFutureFeature(id);
+		}
+		else{
+			map.setFutureFeature(id, newFeature);
+		}
+		map.setFeature(id, "SpaceLayers", newFeature);
+		
 		MultiLayeredGraph parent = (MultiLayeredGraph) map.getFeature(parentId);
-		parent.addSpaceLayers(newFeature);
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (MultiLayeredGraph)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new MultiLayeredGraph(map,parentId);
+			}
+		}
+		
+		ArrayList<SpaceLayers> spaceLayers = new ArrayList<SpaceLayers>();
+		spaceLayers.add(newFeature);
+		parent.setSpaceLayers(spaceLayers);
+		newFeature.setParent(parent);
+		
+		map.removeFutureID(id);
 		
 		return newFeature;
 	}

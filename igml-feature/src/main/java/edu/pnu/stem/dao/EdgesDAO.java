@@ -1,15 +1,11 @@
 package edu.pnu.stem.dao;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
-import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.SpaceLayer;
-import edu.pnu.stem.feature.Transition;
 
 
 public class EdgesDAO {
@@ -41,12 +37,31 @@ public class EdgesDAO {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		Edges newFeature = new Edges(map, id);
 		
-		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
+		Edges newFeature = null;
+		
+		if(map.hasFutureID(id)){
+			newFeature = (Edges)map.getFeature(id);
+			map.removeFutureID(id);
+		}
+		else{
+			newFeature = new Edges(map, id);
+		}
+		
+		SpaceLayer parent = null;
+		
+		if(map.hasFutureID(parentId)){
+			parent = (SpaceLayer)map.getFutureFeature(parentId);
+			//map.removeFutureID(parentId);
+		}
+		else{
+			parent = (SpaceLayer) map.getFeature(parentId);
+		}
+		
 		parent.addEdges(newFeature);
-		
+		newFeature.setParent(parent);		
 		map.setFeature(id, "Edges", newFeature);
+		
 		return newFeature;
 	}
 	

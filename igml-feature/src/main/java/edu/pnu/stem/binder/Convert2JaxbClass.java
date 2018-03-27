@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
@@ -29,8 +30,11 @@ import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
 import net.opengis.gml.v_3_2_1.PointType;
+import net.opengis.gml.v_3_2_1.PolygonType;
 import net.opengis.gml.v_3_2_1.SolidPropertyType;
 import net.opengis.gml.v_3_2_1.SolidType;
+import net.opengis.gml.v_3_2_1.SurfacePropertyType;
+import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryGeometryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType;
@@ -65,7 +69,6 @@ import net.opengis.indoorgml.core.v_1_0.TransitionType;
 public class Convert2JaxbClass {
 	static net.opengis.indoorgml.core.v_1_0.ObjectFactory indoorgmlcoreOF = new net.opengis.indoorgml.core.v_1_0.ObjectFactory();
 	static net.opengis.gml.v_3_2_1.ObjectFactory gmlOF = new net.opengis.gml.v_3_2_1.ObjectFactory();
-	private static IndoorGMLMap savedMap;
 	@SuppressWarnings("unchecked")
 	public static CellSpaceType change2JaxbClass(IndoorGMLMap savedMap, CellSpace feature) throws JAXBException {
 		//JAXBContextImpl jc = (JAXBContextImpl) JAXBContextImpl.newInstance(CellSpaceType.class);
@@ -114,8 +117,17 @@ public class Convert2JaxbClass {
 
 				newFeature.setCellSpaceGeometry(cellSpaceGeometryType);
 			}
-			else {
-				// TODO
+			else if(geom instanceof Polygon){
+				Polygon p = (Polygon) geom;
+				PolygonType polygon = Convert2JaxbGeometry.Convert2SurfaceType(p);
+				JAXBElement<PolygonType> jaxbPolygon = gmlOF.createPolygon(polygon);
+				SurfacePropertyType polygonProp = gmlOF.createSurfacePropertyType();
+				polygonProp.setAbstractSurface(jaxbPolygon);
+				
+				CellSpaceGeometryType cellSpaceGeometryType = indoorgmlcoreOF.createCellSpaceGeometryType();
+				cellSpaceGeometryType.setGeometry2D(polygonProp);
+				
+				newFeature.setCellSpaceGeometry(cellSpaceGeometryType);
 			}
 		}
 		//newFeature.setPartialboundedBy(feature.getPartialBoundedBy());
@@ -152,10 +164,6 @@ public class Convert2JaxbClass {
 	public static CellSpaceBoundaryType change2JaxbClass(IndoorGMLMap savedMap, CellSpaceBoundary feature){
 		CellSpaceBoundaryType newFeature = indoorgmlcoreOF.createCellSpaceBoundaryType();
 		TransitionPropertyType duality = new TransitionPropertyType();
-		String href = feature.getDuality().getId();
-		href = "#" + href;
-		duality.setHref(href);
-		newFeature.setDuality(duality);
 		newFeature.setId(feature.getId());
 		/*
 		 * if(feature.cellSpaceBoundaryGeometry != null){
@@ -178,6 +186,42 @@ public class Convert2JaxbClass {
 		
 		//if(feature.)
 		
+		if(feature.getDuality() != null){
+			String href = feature.getDuality().getId();
+			href = "#" + href;
+			duality.setHref(href);
+			newFeature.setDuality(duality);
+			newFeature.setId(feature.getId());
+		}
+		
+		Geometry geom = (Geometry) feature.getGeometry();
+		if(geom != null){
+			
+			if(geom instanceof Polygon) {
+				Polygon p = (Polygon) geom;
+				PolygonType polygon = Convert2JaxbGeometry.Convert2SurfaceType(p);
+				JAXBElement<PolygonType> jaxbPolygon = gmlOF.createPolygon(polygon);
+				SurfacePropertyType polygonProp = gmlOF.createSurfacePropertyType();
+				polygonProp.setAbstractSurface(jaxbPolygon);
+				
+				CellSpaceBoundaryGeometryType cellSpaceBoundaryGeometryType = indoorgmlcoreOF.createCellSpaceBoundaryGeometryType();
+				cellSpaceBoundaryGeometryType.setGeometry3D(polygonProp);
+
+				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometryType);
+			}
+			else if(geom instanceof LineString){
+				LineString l = (LineString)geom;
+				LineStringType linestring = Convert2JaxbGeometry.Convert2LineStringType(l);
+				JAXBElement<LineStringType>jaxbLineString = gmlOF.createLineString(linestring);
+				CurvePropertyType lineProp = gmlOF.createCurvePropertyType();
+				lineProp.setAbstractCurve(jaxbLineString);
+				
+				CellSpaceBoundaryGeometryType cellSpaceBoundaryGeometryType = indoorgmlcoreOF.createCellSpaceBoundaryGeometryType();
+				cellSpaceBoundaryGeometryType.setGeometry2D(lineProp);
+				
+				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometryType);
+			}
+		}
 		
 		return newFeature;
 	}

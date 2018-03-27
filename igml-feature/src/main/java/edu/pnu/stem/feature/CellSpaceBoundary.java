@@ -42,15 +42,15 @@ public class CellSpaceBoundary extends AbstractFeature {
 	}
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
+		feature = (Geometry) indoorGMLMap.getFeature4Geometry(this.geometry);
 		return feature;
 	}
 	
 	public void setGeometry(Geometry geom) {
 		String gId = GeometryUtil.getMetadata(geom, "id");
-		Geometry found = (Geometry) indoorGMLMap.getFeature(gId);
+		Geometry found = (Geometry) indoorGMLMap.getFeature4Geometry(gId);
 		if(found == null) {
-			indoorGMLMap.setFeature(gId, "Geometry", geom);
+			indoorGMLMap.setFeature4Geometry(gId, geom);
 		}
 		this.geometry = gId;
 	}
@@ -59,7 +59,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 		PrimalSpaceFeatures found = null;
 		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFeature(parentId, "PrimalSpaceFeatures", parent);
+			indoorGMLMap.setFutureFeature(parentId, parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -83,7 +83,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 		Transition found = null;
 		found = (Transition)indoorGMLMap.getFeature(duality.getId());
 		if(found == null){
-			indoorGMLMap.setFeature(duality.getId(), "Transition", duality);
+			indoorGMLMap.setFutureFeature(duality.getId(), duality);
 		}
 		this.duality = duality.getId();
 	}
