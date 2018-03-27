@@ -1,11 +1,15 @@
 package edu.pnu.stem.geojson;
 
-import org.wololo.geojson.*;
+import org.wololo.geojson.LineString;
+import org.wololo.geojson.MultiLineString;
+import org.wololo.geojson.MultiPoint;
+import org.wololo.geojson.MultiPolygon;
+import org.wololo.geojson.Point;
+import org.wololo.geojson.Polygon;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LinearRing;
-
 
 import edu.pnu.stem.geometry.jts.GeometryFactory3D;
 

@@ -3,14 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.vividsolutions.jts.geom.Point;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.geometry.jts.Solid;
@@ -61,20 +61,159 @@ public class CellSpaceDAO {
 		return newFeature;
 	}
 	*/
-	
+	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality, List<String> partialBoundedBy) {
+		if(id == null) {
+			id = UUID.randomUUID().toString();
+		}
+		
+		
+		CellSpace newFeature = new CellSpace(map, id);
+		if(map.hasFutureID(id)){
+			newFeature = (CellSpace)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			map.setFutureFeature(id, newFeature);
+		}
+		map.setFeature(id, "CellSpace", newFeature);
+		
+		
+		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
+		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new PrimalSpaceFeatures(map,parentId);
+			}			
+		}
+		
+		//parent.addCellSpaceMember(newFeature);
+		ArrayList<CellSpace>cellSpaceMember = new ArrayList<CellSpace>();
+		cellSpaceMember.add(newFeature);
+		parent.setCellSpaceMember(cellSpaceMember);
+		newFeature.setParent(parent);
+		
+		if (geometry != null) {
+			/*
+			 * String geometryType = geometry.get("properties").get("type").asText().trim();				
+				JsonNode solid = Convert2GeoJsonGeometry.convert2GeoJson(geometry, geometryType);
+				GeoJSON3DReader reader = new GeoJSON3DReader();
+				Solid resultSolid = (Solid)reader.read(solid.toString());
+				map.setFeature4Geometry(geometry.get("properties").get("id").asText().trim(), resultSolid);
+				newFeature.setGeometry(resultSolid);
+			 * */
+			WKTReader3D wkt = new WKTReader3D();
+			Geometry wktG = null;
+			if(geometry.has("coordinates")){			
+				try {					
+					wktG = wkt.read(geometry.get("coordinates").asText().trim());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else{
+				//WKT directly
+				try{
+					wktG = wkt.read(geometry.asText().trim());
+				}catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			String geometryId = null;
+			if(geometry.has("properties")){
+				if(geometry.get("properties").has("id")){
+					geometryId = geometry.get("properties").get("id").asText().trim();
+				}
+			}
+			if(geometryId == null){
+				geometryId = UUID.randomUUID().toString();
+			}
+			if(wktG != null){
+				if(wktG instanceof Solid){
+					Solid s = (Solid)wktG;
+					map.setFeature4Geometry(geometryId, s);
+					newFeature.setGeometry(s);
+				}
+				else if(wktG instanceof Polygon){
+					Polygon s = (Polygon)wktG;
+					map.setFeature4Geometry(geometryId, s);
+					newFeature.setGeometry(s);
+				}
+				else{
+					//TODO : Exception
+				}
+			}
+						
+		}
+		
+		if(duality != null){
+			State dualityFeature = (State) map.getFeature(duality);
+			
+			if(dualityFeature == null){
+				dualityFeature = new State(map, duality);
+			}
+			
+			dualityFeature.setDuality(newFeature);
+			newFeature.setDuality(dualityFeature);
+
+		}
+		
+		if(partialBoundedBy != null){
+			List<CellSpaceBoundary> realPartialBoundedBy = new ArrayList<CellSpaceBoundary>();
+			for(String b : partialBoundedBy){
+				CellSpaceBoundary pb = (CellSpaceBoundary) map.getFeature(b);
+				if(pb == null){
+					pb = new CellSpaceBoundary(map,b);
+				}
+				realPartialBoundedBy.add(pb);
+			}
+			newFeature.setPartialboundedBy(realPartialBoundedBy);
+		}
+		map.removeFutureID(id);
+
+		return newFeature;
+	}
 	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, String geometry, String duality) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
-		CellSpace newFeature = new CellSpace(map, id);
+		
 
+		CellSpace newFeature = new CellSpace(map, id);
+		if(map.hasFutureID(id)){
+			newFeature = (CellSpace)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			map.setFutureFeature(id, newFeature);
+		}
+		map.setFeature(id, "CellSpace", newFeature);
+		
+		
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
-		parent.addCellSpaceMember(newFeature);
+		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new PrimalSpaceFeatures(map,parentId);
+			}			
+		}
+		
+		//parent.addCellSpaceMember(newFeature);
+		ArrayList<CellSpace>cellSpaceMember = new ArrayList<CellSpace>();
+		cellSpaceMember.add(newFeature);
+		parent.setCellSpaceMember(cellSpaceMember);
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
 			WKTReader3D wkt = new WKTReader3D();
 			try {
+				
 				Solid s = (Solid) wkt.read(geometry);
 				map.setFeature4Geometry(UUID.randomUUID().toString(), s);
 				newFeature.setGeometry(s);
@@ -84,11 +223,19 @@ public class CellSpaceDAO {
 			}
 		}
 		
-		State dualityFeature = (State) map.getFeature(duality);
-		dualityFeature.setDuality(newFeature);
-		newFeature.setDuality(dualityFeature);
+		if(duality != null){
+			State dualityFeature = (State) map.getFeature(duality);
+			
+			if(dualityFeature == null){
+				dualityFeature = new State(map, duality);
+			}
+			
+			dualityFeature.setDuality(newFeature);
+			newFeature.setDuality(dualityFeature);
 
-		map.setFeature(id, "CellSpace", newFeature);
+		}
+		map.removeFutureID(id);
+
 		return newFeature;
 	}
 

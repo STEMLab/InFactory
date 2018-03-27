@@ -49,7 +49,9 @@ public class CellSpace extends AbstractFeature {
 
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature(this.geometry);
+		if(this.geometry != null){
+			feature = (Geometry) indoorGMLMap.getFeature4Geometry(this.geometry);
+		}
 		return feature;
 	}
 	
@@ -81,7 +83,9 @@ public class CellSpace extends AbstractFeature {
 	public void setDuality(State s) {
 		State found = (State) indoorGMLMap.getFeature(s.getId());
 		if(found == null) {
-			indoorGMLMap.setFeature(s.getId(), "State", s);
+			if(!indoorGMLMap.hasFutureID(s.getId())){
+				indoorGMLMap.setFutureFeature(s.getId(), s);
+			}
 		}
 		this.duality = s.getId();
 	}
@@ -103,7 +107,7 @@ public class CellSpace extends AbstractFeature {
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cb.getId());
 			if(found == null){
-				indoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
+				indoorGMLMap.setFutureFeature(cb.getId(), cb);
 			}
 			if(!this.partialboundedBy.contains(cb.getId())){
 				this.partialboundedBy.add(cb.getId());
@@ -130,7 +134,7 @@ public class CellSpace extends AbstractFeature {
 		PrimalSpaceFeatures found = null;
 		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFeature(parent.getId(), "PrimalSpaceFeatures", parent);
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 		

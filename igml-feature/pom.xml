@@ -50,24 +50,31 @@
 			<artifactId>jaxb-impl</artifactId>
 			<version>2.2.11</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jvnet.ogc/gml-v_3_2_1 -->
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb2-basics-runtime</artifactId>
+			<version>0.11.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.jvnet.ogc</groupId>
 			<artifactId>gml-v_3_2_1</artifactId>
-			<version>${ogc-schemas.version}</version>
+			<version>2.6.1</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jvnet.ogc</groupId>
 			<artifactId>indoorgml-v_1_0</artifactId>
 			<version>${ogc-schemas.version}</version>
 			<scope>system</scope>
-    		<systemPath>${project.basedir}/../lib/indoorgml-v_1_0-2.6.2-SNAPSHOT.jar</systemPath>
+			<systemPath>${project.basedir}/../lib/indoorgml-v_1_0-2.6.2-SNAPSHOT.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
 			<artifactId>jts</artifactId>
 			<version>1.13</version>
 		</dependency>
-		
+
 		<!-- ======================================================= -->
 		<!-- Spring and Jetty -->
 		<!-- ======================================================= -->
@@ -81,7 +88,7 @@
 			<artifactId>jetty-server</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
-		
+
 		<!-- ======================================================= -->
 		<!-- Test -->
 		<!-- ======================================================= -->
@@ -101,14 +108,14 @@
 		<!-- JTS to GeoJson -->
 		<!-- ======================================================= -->
 		<dependency>
-	   	 	<groupId>org.wololo</groupId>
-	    	<artifactId>jts2geojson</artifactId>
-	    	<version>0.11.0</version>
+			<groupId>org.wololo</groupId>
+			<artifactId>jts2geojson</artifactId>
+			<version>0.11.0</version>
 		</dependency>
 		<dependency>
-		   	<groupId>com.fasterxml.jackson.core</groupId>
-		   	<artifactId>jackson-annotations</artifactId>
-		   	<version>2.9.3</version>
-		</dependency> 
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.9.3</version>
+		</dependency>
 	</dependencies>
 </project>

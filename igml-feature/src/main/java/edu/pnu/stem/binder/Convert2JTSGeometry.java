@@ -120,7 +120,15 @@ public class Convert2JTSGeometry {
 		Coordinate[] newCoordinate = new Coordinate[coordList.size()];
 		coordList.toArray(newCoordinate);
 		
-		LinearRing newFeature = geometryFactory.createLinearRing(newCoordinate);
+		LinearRing newFeature = null;
+		
+		try{
+			newFeature = geometryFactory.createLinearRing(newCoordinate);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		return newFeature;
 	}
 

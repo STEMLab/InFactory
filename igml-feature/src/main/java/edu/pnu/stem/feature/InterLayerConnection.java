@@ -44,7 +44,7 @@ public class InterLayerConnection extends AbstractFeature {
 		InterEdges found = null;
 		found = (InterEdges)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFeature(parent.getId(), "InterEdges", parent);
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 	}

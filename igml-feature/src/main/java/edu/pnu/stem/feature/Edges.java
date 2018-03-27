@@ -26,7 +26,7 @@ public class Edges extends AbstractFeature{
 		SpaceLayer found = null;
 		found = (SpaceLayer)indoorGMLMap.getFeature(parent.getId());
 		if( found == null ){
-			indoorGMLMap.setFeature(parent.getId(), "SpaceLayer", parent );
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -42,7 +42,7 @@ public class Edges extends AbstractFeature{
 			Transition found = null;
 			found = (Transition) indoorGMLMap.getFeature(transitionMember.get(i).getId());
 			if(found == null){
-				indoorGMLMap.setFeature(transitionMember.get(i).getId(), "Transition", transitionMember.get(i));
+				indoorGMLMap.setFutureFeature(transitionMember.get(i).getId(), transitionMember.get(i));
 			}
 			if(this.transitionMember == null){
 				this.transitionMember = new ArrayList<String>();

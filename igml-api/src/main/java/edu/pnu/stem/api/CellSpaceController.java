@@ -3,6 +3,9 @@
  */
 package edu.pnu.stem.api;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
@@ -38,28 +43,71 @@ public class CellSpaceController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
-		
+		String geomFormatType = "GEOJSON";
+		final ObjectMapper mapper = new ObjectMapper();
+				
 		String geom = json.get("geometry").asText().trim();
+		String duality = null;
+		JsonNode geometry = null;
+		List<String> partialBoundedBy = null;
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
-		String duality = json.get("duality").asText().trim();
+		try{			
+			 mapper.readTree(geom);
+			 geometry = json.get("geometry");
+		}
+		catch (IOException e){
+			geomFormatType = "WKT";
+		}
+		if(json.has("duality")){
+			duality = json.get("duality").asText().trim();
+		}
+		if(json.has("properties")){
+			if(json.get("properties").has("duality")){
+				duality = json.get("properties").get("duality").asText().trim();
+			}
+		}
+		geometry = json.get("geometry");
+		//TODO : 나중에 고치기!!
+		//String properties = json.get("properties").asText().trim();
+		//String duality = null;
 		
-		CellSpace c;
+		if(json.has("properties")){
+			if(json.get("properties").has("partialboundedBy")){
+				partialBoundedBy = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("partialboundedBy");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					partialBoundedBy.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
+		}
+		
+		CellSpace c = null;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
+			/*
+			 * if(geomFormatType.equals("GEOJSON")){
+				c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality);
+			}
+			else if(geomFormatType.equals("WKT")){
+				c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
+			}
+			 * */
+			c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality, partialBoundedBy);
+			
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(c.getId()).toString());
+		System.out.println("CellSpace is created : "+id);
 	}
 	
 }
