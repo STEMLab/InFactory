@@ -61,9 +61,9 @@ public class StateController {
 		}
 		
 		if(json.has("properties")){
-			if(json.get("properties").has("connected")){
+			if(json.get("properties").has("connects")){
 				connected = new ArrayList<String>();
-				JsonNode test = json.get("properties").get("connected");
+				JsonNode test = json.get("properties").get("connects");
 				for(int i = 0 ; i < test.size() ; i++){
 					connected.add(test.get(i).asText().trim());
 				}
