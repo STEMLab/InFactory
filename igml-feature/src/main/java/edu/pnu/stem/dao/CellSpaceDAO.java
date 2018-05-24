@@ -169,6 +169,15 @@ public class CellSpaceDAO {
 			}		
 		}
 		
+		if(update.containsKey("partialboundedBy")) {
+			List<CellSpaceBoundary>partialboundedBy = new ArrayList<CellSpaceBoundary>();
+			for(String csbi : (List<String>)update.get("partialboundedBy")) {
+				CellSpaceBoundary temp = new CellSpaceBoundary(map, csbi);
+				partialboundedBy.add(temp);
+			}
+			result.setPartialboundedBy(partialboundedBy);
+		}
+		
 		return result;
 	}
 	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality, List<String> partialBoundedBy) {
