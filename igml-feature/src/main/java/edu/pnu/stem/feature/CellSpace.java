@@ -2,6 +2,8 @@ package edu.pnu.stem.feature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -74,11 +76,20 @@ public class CellSpace extends AbstractFeature {
 			return true;
 		}
 	}
-
+	
+	public void resetDuality() {
+		this.duality = null;
+	}
+	
 	public State getDuality() {
 		State feature = null;
 		if (hasDuality()) {
 			feature = (State) indoorGMLMap.getFeature(this.duality);
+		}
+		else {
+			if(indoorGMLMap.hasFutureID(this.duality)) {
+				feature = (State) indoorGMLMap.getFutureFeature(this.duality);
+			}
 		}
 		return feature;
 	}
@@ -142,6 +153,5 @@ public class CellSpace extends AbstractFeature {
 		this.parentId = parent.getId();
 		
 	}
-
 	
 }
