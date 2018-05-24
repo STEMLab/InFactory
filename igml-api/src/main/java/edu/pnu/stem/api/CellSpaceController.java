@@ -4,6 +4,7 @@
 package edu.pnu.stem.api;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,7 +37,7 @@ import edu.pnu.stem.feature.CellSpace;
  *
  */
 @RestController
-@RequestMapping("/cellspace")
+@RequestMapping("/documents/{docId}/cellspaces")
 public class CellSpaceController {
 	
 	@Autowired
@@ -110,9 +111,26 @@ public class CellSpaceController {
 		response.setHeader("Location", request.getRequestURL().append(c.getId()).toString());
 		System.out.println("CellSpace is created : "+id);
 	}
+	
 	@GetMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.FOUND)
-	public void readCellSpace(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		
+	public void getCellSpace(@PathVariable("docId") String docId,@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+			
+			ObjectNode target = CellSpaceDAO.readCellSpace(map, id);
+			
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print(target);
+			out.flush();
+			
+			
+			
+		}catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
 	}
 }
