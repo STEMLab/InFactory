@@ -30,7 +30,7 @@ import edu.pnu.stem.feature.Nodes;
  *
  */
 @RestController
-@RequestMapping("/nodes")
+@RequestMapping("/documents/{docId}/nodes")
 public class NodesController {
 	
 	@Autowired
@@ -38,8 +38,8 @@ public class NodesController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createSpaceLayer(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+
 		String parentId = json.get("parentId").asText().trim();
 		
 		if(id == null || id.isEmpty()) {

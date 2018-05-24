@@ -30,7 +30,7 @@ import edu.pnu.stem.feature.IndoorFeatures;
  *
  */
 @RestController
-@RequestMapping("/indoorfeatures")
+@RequestMapping("/documents/{docId}/indoorfeatures")
 public class IndoorFeaturesController {
 	
 	@Autowired
@@ -38,8 +38,8 @@ public class IndoorFeaturesController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createIndoorFeatures(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createIndoorFeatures(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+		
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();

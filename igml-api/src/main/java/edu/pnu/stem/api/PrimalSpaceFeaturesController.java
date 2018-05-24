@@ -30,7 +30,7 @@ import edu.pnu.stem.feature.PrimalSpaceFeatures;
  *
  */
 @RestController
-@RequestMapping("/primalspacefeatures")
+@RequestMapping("documents/{docId}/primalspacefeatures")
 public class PrimalSpaceFeaturesController {
 	
 	@Autowired
@@ -38,8 +38,8 @@ public class PrimalSpaceFeaturesController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createPrimalSpaceFeatures(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createPrimalSpaceFeatures(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+
 		String parentId = json.get("parentId").asText().trim();
 		
 		if(id == null || id.isEmpty()) {

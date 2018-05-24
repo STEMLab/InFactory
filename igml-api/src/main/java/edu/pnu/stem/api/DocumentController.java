@@ -34,7 +34,7 @@ import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
  */
 @CrossOrigin(origins="*")
 @RestController
-@RequestMapping("/document")
+@RequestMapping("/documents")
 public class DocumentController {
 	
 	@Autowired

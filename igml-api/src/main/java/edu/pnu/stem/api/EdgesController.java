@@ -30,7 +30,7 @@ import edu.pnu.stem.feature.Edges;
  *
  */
 @RestController
-@RequestMapping("/edges")
+@RequestMapping("documents/{docId}/edges")
 public class EdgesController {
 	
 	@Autowired
@@ -38,8 +38,7 @@ public class EdgesController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createSpaceLayer(@PathVariable("docId") String docId, @PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String parentId = json.get("parentId").asText().trim();
 		
 		if(id == null || id.isEmpty()) {

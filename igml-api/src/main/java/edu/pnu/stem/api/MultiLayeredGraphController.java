@@ -30,7 +30,7 @@ import edu.pnu.stem.feature.MultiLayeredGraph;
  *
  */
 @RestController
-@RequestMapping("/multilayeredgraph")
+@RequestMapping("/documents/{docId}/multilayeredgraph")
 public class MultiLayeredGraphController {
 	
 	@Autowired
@@ -38,8 +38,8 @@ public class MultiLayeredGraphController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createMultiLayeredGraph(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createMultiLayeredGraph(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+
 		String parentId = json.get("parentId").asText().trim();
 		
 		if(id == null || id.isEmpty()) {

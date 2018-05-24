@@ -33,7 +33,7 @@ import edu.pnu.stem.feature.State;
  *
  */
 @RestController
-@RequestMapping("/state")
+@RequestMapping("/documents/{docId}/state")
 public class StateController {
 	
 	@Autowired
@@ -41,8 +41,8 @@ public class StateController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createState(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createState(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+
 		String parentId = json.get("parentId").asText().trim();
 		
 		String geom = json.get("geometry").asText().trim();

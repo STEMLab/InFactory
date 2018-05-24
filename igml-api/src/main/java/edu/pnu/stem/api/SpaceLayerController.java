@@ -31,7 +31,7 @@ import edu.pnu.stem.feature.SpaceLayers;
  *
  */
 @RestController
-@RequestMapping("/spacelayer")
+@RequestMapping("/documents/{docId}/spacelayer")
 public class SpaceLayerController {
 	
 	@Autowired
@@ -39,8 +39,8 @@ public class SpaceLayerController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createSpaceLayer(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+
 		String parentId = json.get("parentId").asText().trim();
 		
 		if(id == null || id.isEmpty()) {

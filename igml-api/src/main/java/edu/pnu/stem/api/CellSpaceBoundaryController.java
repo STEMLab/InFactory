@@ -33,7 +33,7 @@ import edu.pnu.stem.feature.CellSpaceBoundary;
  *
  */
 @RestController
-@RequestMapping("/cellspaceboundary")
+@RequestMapping("documents/{docId}/cellspaceboundarys")
 public class CellSpaceBoundaryController {
 	
 	@Autowired
@@ -41,8 +41,7 @@ public class CellSpaceBoundaryController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
-		String docId = json.get("docId").asText().trim();
+	public void createSpaceLayer(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String parentId = json.get("parentId").asText().trim();
 		String geomFormatType = "GEOJSON";
 		String geom = json.get("geometry").asText().trim();
