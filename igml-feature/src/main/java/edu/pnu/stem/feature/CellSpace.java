@@ -44,6 +44,9 @@ public class CellSpace extends AbstractFeature {
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
 		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.parentId);
+		if(feature == null) {
+			feature = (PrimalSpaceFeatures)indoorGMLMap.getFutureFeature(this.parentId);
+		}
 		return feature;
 	}
 
