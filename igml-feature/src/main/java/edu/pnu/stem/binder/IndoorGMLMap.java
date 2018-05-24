@@ -87,6 +87,14 @@ public class IndoorGMLMap implements Serializable {
 		}
 	}
 	
+	public void remvoeFeature(String id) {
+		if(hasID(id)) {
+			String featurename = (String)collection.get("ID").get(id);
+			collection.get(featurename).remove(id);
+			removeID(id);
+		}
+	}
+	
 	public void removeFutureID(String id){
 		getFeatureContainer("FutureID").remove(id);
 		System.out.println("Remove Future ID : "+id);
