@@ -50,11 +50,7 @@
 			<version>2.6.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jvnet.ogc</groupId>	 			
- 			<artifactId>gml-v_3_2_1</artifactId>	 			
- 			<version>${ogc-schemas.version}</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.jvnet.ogc</groupId>
 			<artifactId>indoorgml-v_1_0</artifactId>
