@@ -1,6 +1,7 @@
 package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -65,6 +66,9 @@ public class CellSpaceDAO {
 		return newFeature;
 	}
 	*/
+	public static void deleteCellSpace(IndoorGMLMap map, String id) {
+		map.remvoeFeature(id);
+	}
 	public static ObjectNode readCellSpace(IndoorGMLMap map, String id) {
 		ObjectNode result = JsonNodeFactory.instance.objectNode();
 		CellSpace target = (CellSpace)map.getFeature(id);
@@ -124,6 +128,45 @@ public class CellSpaceDAO {
 		
 		if(properties != null) {
 			result.set("properties", properties);
+		}
+		
+		return result;
+	}
+	public static CellSpace updateCellSpace(IndoorGMLMap map, String id, Map<String,Object> update) {
+		CellSpace result = null;
+		result = (CellSpace)map.getFeature(id);
+		
+		
+		PrimalSpaceFeatures parent = result.getParent();
+		if(parent.getId() != update.get("parentId")) {
+			parent.deleteCellSpaceMember(id);
+			PrimalSpaceFeatures oldParent = result.getParent();
+			PrimalSpaceFeatures newParent = new PrimalSpaceFeatures(map, (String)update.get("parentId"));
+			oldParent.deleteCellSpaceMember(id);
+			result.setParent(newParent);
+		}
+		
+		if(update.containsKey("name")) {
+			result.setName((String)update.get("name"));
+		}
+		
+		if(update.containsKey("description")) {
+			result.setDescription((String)update.get("description"));
+		}
+		
+		if(update.containsKey("geometry")) {
+			result.setGeometry((Geometry)update.get("geometry"));
+		}
+		
+		if(update.containsKey("duality")) {
+			if(result.getDuality() != null) {
+				if(result.getDuality().getId() != update.get("duality")) {
+					State newDuality = new State(map,(String)update.get("duality"));
+					State oldDuality = result.getDuality();
+					oldDuality.resetDuality();
+					result.setDuality(newDuality);					
+				}
+			}		
 		}
 		
 		return result;
