@@ -199,8 +199,13 @@ public class StateDAO {
 		return newFeature;
 	}
 	
-	public State readState(String ID) {
-		return null;
+	public State readState(IndoorGMLMap map, String id) {
+		State target = null;
+		try {
+			target = (State)map.getFeature(id);
+		}
+		catch(NullPointerException e) {}
+		return target;
 	};
 
 	/**
