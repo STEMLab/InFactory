@@ -117,6 +117,7 @@ public class CellSpace extends AbstractFeature {
 	}
 
 	public void setPartialboundedBy(List<CellSpaceBoundary> csbList) {
+		this.partialboundedBy = new ArrayList<String>();
 		for(CellSpaceBoundary cb : csbList){
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cb.getId());
