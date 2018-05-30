@@ -13,6 +13,7 @@ import com.vividsolutions.jts.io.WKTReader;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
+import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
@@ -207,6 +208,18 @@ public class StateDAO {
 		catch(NullPointerException e) {}
 		return target;
 	};
+	
+	public static void deleteState(IndoorGMLMap map, String id) {
+		State target = (State)map.getFeature(id);
+		Nodes parent = target.getParent();
+		parent.deleteStateMember(id);
+		
+		if(target.hasDuality()) {
+			CellSpace duality = target.getDuality();
+			duality.resetDuality();
+		}
+		map.remvoeFeature(id);
+	}
 
 	/**
 	 * Search State feature and edit it as the parameters
