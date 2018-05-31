@@ -49,83 +49,32 @@ public class NodesDAO {
 		return newFeature;
 	}
 
-	/**
-	 * Search Nodes feature in document
-	 * @param ID ID of target
-	 * @return searched feature
-	 */
-	/*
-	public Nodes readNodes(String docId, String id) {
-		Nodes target = null;
-		target = (Nodes)Container.getInstance().getFeature(docId, id);
-		return target;
-	}
-	*/
-	
-	/**
-	 * Search Nodes feature and edit it as the parameters
-	 * @param ID ID of target
-	 * @param sl list of states which are related by this Nodes relationship 
-	 * @return edited Nodes feature
-	 */
-	/*
-	public Nodes updateNodes(String docId, String Id, String attributeType,
-			String updateType, List<String>object, Boolean deleteDuality) {
-		Nodes target = null;
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			target = (Nodes)map.getFeature(Id);
-			if(attributeType.equals("stateMember")){
-				List<State>stateMember = target.getStateMember();
-				if(updateType != null){
-					if(updateType.equals("add")){
-						for(int i = 0 ; i < object.size(); i++){
-							State temp = new State(map);
-							temp.setId(object.get(i));
-							stateMember.add(temp);
-						}
-						
-					}
-					else if(updateType.equals("remove")){
-						for(int i = 0 ; i < object.size();i++){
-							if(stateMember.contains(object.get(i))){
-								stateMember.remove(object.get(i));
-								StateDAO.deleteState(docId, object.get(i),deleteDuality);
-							}
-							
-						}
-						target.clearStateMember();
-					}
-				}
-				if(stateMember.size() != 0){
-					target.setStateMember(stateMember);
-				}
-				else
-					System.out.println("Error at updateNodes : empty stateMember cannot be submited");
-				
-			}
+	public static Nodes updateNodes(IndoorGMLMap map, String parentId, String id, String name, String description) {
+		Nodes result = new Nodes(map, id);
+		Nodes target = (Nodes)map.getFeature(id);
+		
+		SpaceLayer parent = target.getParent();
+		if(parent.getId() != parentId) {
+			SpaceLayer newParent = new SpaceLayer(map, parentId);
+			parent.deleteNodes(id);
+			result.setParent(newParent);
 		}
-		return target;
-	}
-	*/
-	
-	/**
-	 * Search Nodes feature and delete it
-	 * @param ID ID of target
-	 */
-	/*
-	public static void deleteNodes(String docId, String id, Boolean deleteDuality) {	
-		if (Container.getInstance().hasFeature(docId, id)) {
-			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			Nodes target = (Nodes) doc.getFeature(id);
-			// String duality = target.getd;
-			doc.deleteFeature(id, "Nodes");
-			for(int i = 0 ; i < target.getStateMember().size();i++){
-				StateDAO.deleteState(docId, target.getStateMember().get(i).getId(), deleteDuality);
-			}
-			
+		
+		
+		if(name != null) {
+			result.setName(name);
 		}
+	
+		
+		if(description != null) {
+			result.setDescription(description);
+		}
+		
+		map.getFeatureContainer("Nodes").remove(id);
+		map.getFeatureContainer("Nodes").put(id, result);
+		
+		return result;
+		
 	}
-	*/
 
 }
