@@ -67,116 +67,80 @@ public class CellSpaceDAO {
 	}
 	*/
 	public static void deleteCellSpace(IndoorGMLMap map, String id) {
+		CellSpace target = (CellSpace)map.getFeature(id);
+		PrimalSpaceFeatures parent = target.getParent();
+		parent.deleteCellSpaceMember(id);
+		
+		if(target.hasDuality()) {
+			State duality = target.getDuality();
+			duality.resetDuality();
+		}
 		map.remvoeFeature(id);
 	}
-	public static ObjectNode readCellSpace(IndoorGMLMap map, String id) {
-		ObjectNode result = JsonNodeFactory.instance.objectNode();
-		CellSpace target = (CellSpace)map.getFeature(id);
-		WKTWriter3D writer = new WKTWriter3D();
-		ObjectNode properties = null;
-		result.put("type","CellSpace");
-		Geometry targetGeometry = target.getGeometry();
-		
-		if(targetGeometry != null) {
-			ObjectNode geometryData = JsonNodeFactory.instance.objectNode();
-			ObjectNode geometryProperties = JsonNodeFactory.instance.objectNode();
-			
-			
-			geometryProperties.put("id", GeometryUtil.getMetadata(targetGeometry, "id"));
-			geometryProperties.put("type","wkt");
-			
-			if(targetGeometry instanceof Solid) {			
-				geometryData.put("type", "Solid");
-				
-			}
-			else if(targetGeometry instanceof Polygon) {
-				geometryData.put("type", "Polygon");
-			}
-			else {
-				//error
-			}
-			String wktGeometry = writer.write(targetGeometry);
-			geometryData.put("coordinate",wktGeometry);
-			geometryData.set("properties", geometryProperties);
-			result.set("geometry", geometryData);
-			//geometryData.put(fieldName, targetGeometry);
+	public static CellSpace readCellSpace(IndoorGMLMap map, String id) {
+		CellSpace target = null;
+		try {
+			target = (CellSpace)map.getFeature(id);
 		}
-		
-		result.put("parentId",target.getParent().getId());
-		result.put("id",id);
-		result.put("docId", map.getDocId());
-		
-		if(target.getDuality() != null) {
-			properties = JsonNodeFactory.instance.objectNode();
-			properties.put("duality", target.getDuality().getId());
-			
+		catch(NullPointerException e){
+			e.printStackTrace();
 		}
-		
-		if(target.getName() != null) {
-			if(properties == null) {
-				properties = JsonNodeFactory.instance.objectNode();
-			}
-			properties.put("name", target.getName());
-		}
-		
-		if(target.getDescription() != null) {
-			if(properties == null) {
-				properties = JsonNodeFactory.instance.objectNode();
-			}
-			properties.put("description", target.getDescription());
-		}
-		
-		if(properties != null) {
-			result.set("properties", properties);
-		}
-		
-		return result;
+		return target;
 	}
-	public static CellSpace updateCellSpace(IndoorGMLMap map, String id, Map<String,Object> update) {
-		CellSpace result = null;
-		result = (CellSpace)map.getFeature(id);
+	public static CellSpace updateCellSpace(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String>partialboundedBy) {
+		CellSpace result = new CellSpace(map,id);
+		CellSpace target = (CellSpace)map.getFeature(id);
 		
 		
-		PrimalSpaceFeatures parent = result.getParent();
-		if(parent.getId() != update.get("parentId")) {
+		PrimalSpaceFeatures parent = target.getParent();
+		if(parent.getId() != parentId) {
 			parent.deleteCellSpaceMember(id);
-			PrimalSpaceFeatures oldParent = result.getParent();
-			PrimalSpaceFeatures newParent = new PrimalSpaceFeatures(map, (String)update.get("parentId"));
+			PrimalSpaceFeatures oldParent = target.getParent();
+			PrimalSpaceFeatures newParent = new PrimalSpaceFeatures(map, parentId);
 			oldParent.deleteCellSpaceMember(id);
 			result.setParent(newParent);
 		}
 		
-		if(update.containsKey("name")) {
-			result.setName((String)update.get("name"));
+		if(name != null) {
+			result.setName(name);
 		}
 		
-		if(update.containsKey("description")) {
-			result.setDescription((String)update.get("description"));
+		if(description != null) {
+			result.setDescription(description);
 		}
 		
-		if(update.containsKey("geometry")) {
-			result.setGeometry((Geometry)update.get("geometry"));
+		if(geometry != null) {
+			result.setGeometry(geometry);
 		}
 		
-		if(update.containsKey("duality")) {
-			if(result.getDuality() != null) {
-				if(result.getDuality().getId() != update.get("duality")) {
-					State newDuality = new State(map,(String)update.get("duality"));
-					State oldDuality = result.getDuality();
-					oldDuality.resetDuality();
-					result.setDuality(newDuality);					
+		if(duality == null) {
+			State d = target.getDuality();
+			d.resetDuality();
+		}
+		else{
+			if(target.getDuality() != null) {
+				if(target.getDuality().getId() != duality) {
+					State oldDuality = target.getDuality();
+					oldDuality.resetDuality();				
 				}
-			}		
+			}
+			
+			State newDuality = new State(map,duality);
+			result.setDuality(newDuality);
+			
 		}
 		
-		if(update.containsKey("partialboundedBy")) {
-			List<CellSpaceBoundary>partialboundedBy = new ArrayList<CellSpaceBoundary>();
-			for(String csbi : (List<String>)update.get("partialboundedBy")) {
+		if(partialboundedBy != null) {
+			List<CellSpaceBoundary>pbb = new ArrayList<CellSpaceBoundary>();
+			for(String csbi : partialboundedBy) {
 				CellSpaceBoundary temp = new CellSpaceBoundary(map, csbi);
-				partialboundedBy.add(temp);
+				pbb.add(temp);
 			}
-			result.setPartialboundedBy(partialboundedBy);
+			result.setPartialboundedBy(pbb);
 		}
+		
+		map.getFeatureContainer("CellSpace").remove(id);
+		map.getFeatureContainer("CellSpace").put(id, result);
 		
 		return result;
 	}
@@ -214,58 +178,8 @@ public class CellSpaceDAO {
 		parent.setCellSpaceMember(cellSpaceMember);
 		newFeature.setParent(parent);
 		
-		if (geometry != null) {
-			/*
-			 * String geometryType = geometry.get("properties").get("type").asText().trim();				
-				JsonNode solid = Convert2GeoJsonGeometry.convert2GeoJson(geometry, geometryType);
-				GeoJSON3DReader reader = new GeoJSON3DReader();
-				Solid resultSolid = (Solid)reader.read(solid.toString());
-				map.setFeature4Geometry(geometry.get("properties").get("id").asText().trim(), resultSolid);
-				newFeature.setGeometry(resultSolid);
-			 * */
-			WKTReader3D wkt = new WKTReader3D();
-			Geometry wktG = null;
-			if(geometry.has("coordinates")){			
-				try {					
-					wktG = wkt.read(geometry.get("coordinates").asText().trim());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else{
-				//WKT directly
-				try{
-					wktG = wkt.read(geometry.asText().trim());
-				}catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
-			String geometryId = null;
-			if(geometry.has("properties")){
-				if(geometry.get("properties").has("id")){
-					geometryId = geometry.get("properties").get("id").asText().trim();
-				}
-			}
-			if(geometryId == null){
-				geometryId = UUID.randomUUID().toString();
-			}
-			if(wktG != null){
-				if(wktG instanceof Solid){
-					Solid s = (Solid)wktG;
-					map.setFeature4Geometry(geometryId, s);
-					newFeature.setGeometry(s);
-				}
-				else if(wktG instanceof Polygon){
-					Polygon s = (Polygon)wktG;
-					map.setFeature4Geometry(geometryId, s);
-					newFeature.setGeometry(s);
-				}
-				else{
-					//TODO : Exception
-				}
-			}
-						
+		if(geometry != null) {
+			
 		}
 		
 		if(duality != null){
@@ -357,6 +271,8 @@ public class CellSpaceDAO {
 
 		return newFeature;
 	}
+	
+	
 
 	/**
 	 * @param docId
@@ -486,4 +402,6 @@ public class CellSpaceDAO {
 
 	};
 	*/
+
+	
 }
