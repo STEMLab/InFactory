@@ -1,9 +1,12 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
@@ -231,89 +234,61 @@ public class TransitionDAO {
 		map.removeFutureID(id);
 		return newFeature;
 	}
-	/**
-	 * Search Transition feature in document
-	 * @param ID ID of target
-	 * @return searched Transition feature instance
-	 */
-/*	public Transition readTransition(String docId, String Id) {
-		Transition target = null;
-		target = (Transition) Container.getInstance().getFeature(docId, Id);
-		return target;
-	}*/
-
-	/**
-	 * Search Transition feature and edit it as the parameters
-	 * @param ID ID of target
-	 * @param gc Geometry of this Transition. Represented as CurveType of GML-3.2.1
-	 * @param sl list of States which are connected with this Transition. Always size need to be 2.
-	 * @param csBoundary Feature instance of CellSpaceBoundary which has duality relationship with this Transition
-	 * @param weight weight can be used for applications in order to deal with the impedance representing absolute barriers in transportation problems 
-	 * @return edited Transition feature instance 
-	 */
-/*	public Transition updateTransition(String docId, String id, String attributeType,
-			String attributeId, Object o) {
-		Transition target = null;
-		IndoorGMLMap map = Container.getInstance().getDocument(docId);
-		if (map.hasID(id)) {
-			target = (Transition) map.getFeature(id);
-			if (attributeType.equals("geometry") ) {
-				// TODO: need to implement geometry class at IndoorGMLAPI
-			}  else if (attributeType == "duality") {
-				if(map.hasID(attributeId)){
-					CellSpaceBoundary tempDuality = new CellSpaceBoundary(map);
-					tempDuality.setId(attributeId);
-					target.setDuality(tempDuality);
-					int count = (Integer)map.getFeatureContainer("Reference").get(attributeId);
-					map.setFeature(attributeId, "Reference", (count++));
-					
-				}
-			} else if(attributeType.equals("name")){
-				target.setName((String)o);
-			} else if(attributeType.equals("description")){
-				//TODO : add description at FeatureClassReference.transition
-			}			
-			else if (attributeType.equals("externalReference") ) {
-				//target.setExternalReference(attributeId);
-				map.setFeature(attributeId, "ExternaReference", o);
-			}else if(attributeType.equals("connects")){
-				List<String>connects = (List<String>) o;
-				Boolean isConnectsExist = true;
-				for(int i = 0 ; i < connects.size();i++){
-					if(!map.hasID(connects.get(i))){
-						isConnectsExist = false;
-					}
-				}
-				if(isConnectsExist){
-					//TODO : validation
-					//target.setConnects(connects);
-				}
-				
-			}else if(attributeType.equals("weight")){
-				target.setWeight((Double)o);
-			}
-			else {
-				System.out.println("update error in cellSpaceType : there is no such attribute name");
-			}
-		} else {
-			System.out.println("there is no name with Id :" + id + " in document Id : " + docId);
+	
+	public static Transition updateTransition(IndoorGMLMap map, String parentId,
+			String id, String name, String description, Geometry geometry, String duality, String[] connects) {
+		
+		Transition result = new Transition(map,id);
+		Transition target = (Transition)map.getFeature(id);
+		
+		Edges parent = target.getParent();
+		if(parent.getId() != parentId) {
+			parent.deleteTransitionMember(id);
+			Edges newParent = new Edges(map, parentId);
+			result.setParent(newParent);
 		}
-		return target;
-	}*/
-
-/*	public static void deleteTransition(String docId, String id, Boolean deleteDuality) {
-		if (Container.getInstance().hasFeature(docId, id)) {
-			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			Transition target = (Transition) doc.getFeature(id);
-			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());			
-			doc.getFeatureContainer("Transition").remove(id);
-			doc.getFeatureContainer("ID").remove(target.getExternalReference());
-			doc.getFeatureContainer("ID").remove(id);
-			if(deleteDuality == true){
-				CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, target.getDuality().getId(), false);
+		
+		if(name != null) {
+			result.setName(name);
+		}
+		
+		if(description != null) {
+			result.setDescription(description);
+		}
+		
+		if(geometry != null) {
+			result.setGeometry(geometry);
+		}
+		
+		if(duality == null) {
+			CellSpaceBoundary d = (CellSpaceBoundary) target.getDuality();
+			d.resetDuality();
+		}
+		else{
+			if(target.getDuality() != null) {
+				if(target.getDuality().getId() != duality) {
+					CellSpaceBoundary oldDuality = target.getDuality();
+					oldDuality.resetDuality();				
+				}
 			}
 			
+			CellSpaceBoundary newDuality = new CellSpaceBoundary(map,duality);
+			result.setDuality(newDuality);
+			
 		}
-	}*/
+		
+		if(connects != null) {
+			List<State>cnts = new ArrayList<State>();
+			
+			for(String s : connects) {
+				State temp = new State(map,s);
+				cnts.add(temp);
+			}
+			State[] newConnects = new State[2];
+			result.setConnects(cnts.toArray(newConnects));
+		}
+		
+		return result;
+	}
 
 }
