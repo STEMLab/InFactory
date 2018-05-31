@@ -288,6 +288,9 @@ public class TransitionDAO {
 			result.setConnects(cnts.toArray(newConnects));
 		}
 		
+		map.getFeatureContainer("Transition").remove(id);
+		map.getFeatureContainer("Transition").put(id, result);
+		
 		return result;
 	}
 
