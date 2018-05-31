@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
@@ -13,7 +14,6 @@ import com.vividsolutions.jts.io.WKTReader;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
@@ -220,7 +220,56 @@ public class StateDAO {
 		}
 		map.remvoeFeature(id);
 	}
-
+	
+	public static void updateState(IndoorGMLMap map,String parentId, String id, String name, String description, Geometry geometry, String duality, List<String>connects) {
+		State result = new State(map, id);
+		State target = (State)map.getFeature(id);
+		
+		Nodes parent = target.getParent();
+		if(parent.getId() != parentId) {
+			Nodes oldParent = target.getParent();
+			Nodes newParent = new Nodes(map, parentId);
+			oldParent.deleteStateMember(id);
+			result.setParent(newParent);
+		}
+		
+		
+		if(name != null) {
+			result.setName(name);
+		}
+	
+		
+		if(description != null) {
+			result.setDescription(description);
+		}
+		
+		if(geometry != null) {
+			result.setGeometry(geometry);
+		}
+		
+		
+		if(connects != null) {
+			List<Transition> cnts = new ArrayList<Transition>();
+			
+			for(String t : connects) {
+				Transition temp = new Transition(map,t);
+				cnts.add(temp);
+			}
+			result.setConnects(cnts);
+		}
+		
+		if(target.getDuality().getId() != id) {
+			CellSpace d = target.getDuality();
+			d.resetDuality();
+		}
+		
+		if(duality != null) {
+			result.setDuality(new CellSpace(map, duality));
+		}
+		
+		map.getFeatureContainer("State").remove(id);
+		map.getFeatureContainer("State").put(id, result);
+	}
 	/**
 	 * Search State feature and edit it as the parameters
 	 * @param ID ID of target 
