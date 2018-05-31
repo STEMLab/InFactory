@@ -221,7 +221,7 @@ public class StateDAO {
 		map.remvoeFeature(id);
 	}
 	
-	public static void updateState(IndoorGMLMap map,String parentId, String id, String name, String description, Geometry geometry, String duality, List<String>connects) {
+	public static State updateState(IndoorGMLMap map,String parentId, String id, String name, String description, Geometry geometry, String duality, List<String>connects) {
 		State result = new State(map, id);
 		State target = (State)map.getFeature(id);
 		
@@ -258,17 +258,26 @@ public class StateDAO {
 			result.setConnects(cnts);
 		}
 		
-		if(target.getDuality().getId() != id) {
+		if(duality == null) {
 			CellSpace d = target.getDuality();
 			d.resetDuality();
 		}
-		
-		if(duality != null) {
-			result.setDuality(new CellSpace(map, duality));
+		else {
+			if(target.getDuality() != null) {
+				if(target.getDuality().getId() != duality) {
+					CellSpace	oldDuality = new CellSpace(map,duality);
+					oldDuality.resetDuality();
+				}
+			}
+			
+			CellSpace newDuality = new CellSpace(map,duality);
+			result.setDuality(newDuality);
 		}
 		
 		map.getFeatureContainer("State").remove(id);
 		map.getFeatureContainer("State").put(id, result);
+		
+		return result;
 	}
 	/**
 	 * Search State feature and edit it as the parameters
