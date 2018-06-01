@@ -216,4 +216,16 @@ public class SpaceLayer extends AbstractFeature {
 	public void setClassType(SpaceLayerClassTypeType classType) {
 		this.classType = classType;
 	}
+
+	public void deleteNodes(Nodes n) {
+		// TODO Auto-generated method stub
+		if(this.nodes.contains(n.getId()))
+			this.nodes.remove(n.getId());
+	}
+
+	public void deleteEdges(Edges e) {
+		if(this.edges.contains(e.getId())) {
+			this.edges.remove(e.getId());
+		}
+	}
 }

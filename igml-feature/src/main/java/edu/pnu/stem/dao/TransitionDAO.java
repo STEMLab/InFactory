@@ -243,7 +243,7 @@ public class TransitionDAO {
 		
 		Edges parent = target.getParent();
 		if(parent.getId() != parentId) {
-			parent.deleteTransitionMember(id);
+			parent.deleteTransitionMember(target);
 			Edges newParent = new Edges(map, parentId);
 			result.setParent(newParent);
 		}

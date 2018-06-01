@@ -1,11 +1,15 @@
 package edu.pnu.stem.dao;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.Edges;
 import edu.pnu.stem.feature.SpaceLayer;
+import edu.pnu.stem.feature.State;
+import edu.pnu.stem.feature.Transition;
 
 
 public class EdgesDAO {
@@ -65,82 +69,65 @@ public class EdgesDAO {
 		return newFeature;
 	}
 	
-	/*
-	public Edges readEdges(String docId, String id) {
-		Edges target = null;
-		target = (Edges)Container.getInstance().getDocument(docId).getFeature(id);
-		return target;
-	};
-	
-	public Edges updateNodes(String docId, String id, String attributeType,
-			String updateType, List<String>object, Boolean deleteDuality) {
-		Edges target = null;
-		if (Container.getInstance().hasFeature(docId, id)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			target = (Edges)map.getFeature(id);
-			if(attributeType.equals("transitionMember")){
-				List<Transition>transitionMember = target.getTransitionMember();
-				List<Transition>newTransitionMember = new ArrayList<Transition>();
-				for(int i = 0 ; i < object.size() ; i++){
-					Transition temp = new Transition(map);
-					temp.setId(id);
-					newTransitionMember.add(temp);
-				}
-				if(updateType != null){				
-					if(updateType.equals("add")){						
-						transitionMember.addAll(newTransitionMember);
-					}
-					else if(updateType.equals("remove")){
-						for(int i = 0 ; i < object.size();i++){
-							if(transitionMember.contains(newTransitionMember.get(i))){
-								transitionMember.remove(newTransitionMember.get(i));
-								TransitionDAO.deleteTransition(docId, object.get(i),deleteDuality);
-							}
-							
-						}
-					}
-				}
-				target.cleanTransitionMember();
-				target.setTransitionMembers(transitionMember);
-			}
-		}
-		return target;
-	}
-	*/
-	
-	/**
-	 * Search the Edges feature and edit it as the parameters
-	 * @param ID ID of target
-	 * @param tl list of transitions which will be held by SpaceLayer(parent)
-	 * @return edited feature
-	 */
-	
-	/*
-	public Edges updateEdges(String ID, List<TransitionDAO> tl) {
-		return null;
-	};
-	*/
-	
-	/**
-	 * Search the Edges feature and delete it
-	 * @param ID ID of target
-	 */
-	/*
-	public static void deleteEdges(String docId, String Id, Boolean deleteDuality) {
+	public static Edges updateEdges(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>transitionMember) {
+		Edges result = new Edges(map, id);
+		Edges target = (Edges)map.getFeature(id);
 		
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			Edges target = (Edges) Container.getInstance().getFeature(docId,
-					Id);
-			// String duality = target.getd;
+		SpaceLayer parent = target.getParent();
+		if(parent.getId() != parentId) {
+			SpaceLayer newParent = new SpaceLayer(map, parentId);
+			parent.deleteEdges(target);
+			result.setParent(newParent);
+		}
+		
+		
+		if(name != null) {
+			result.setName(name);
+		}
+	
+		
+		if(description != null) {
+			result.setDescription(description);
+		}
+		
+		if(transitionMember != null) {
+			List<Transition> oldChild = target.getTransitionMember();
+			List<Transition> newChild = new ArrayList<Transition>();
 			
-			doc.getFeatureContainer("Nodes").remove(Id);	
-			doc.getFeatureContainer("ID").remove(Id);
-			for(int i = 0 ; i < target.getTransitionMember().size();i++){
-				StateDAO.deleteState(docId, target.getTransitionMember().get(i).getId(), deleteDuality);
+			List<Transition>	eraseChild = new ArrayList<Transition>();
+
+			
+			for(String si : transitionMember) {
+				newChild.add(new Transition(map, si));
+			}
+			
+			for(Transition s : oldChild) {
+				if(!newChild.contains(s)) {
+					eraseChild.add(s);
+					oldChild.remove(s);
+				}
+			}
+			
+			for(Transition s : newChild) {
+				if(!oldChild.contains(s)) {
+					oldChild.add(s);
+				}
+			}
+			
+			for(Transition s: eraseChild) {
+				target.deleteTransitionMember(s);
+			}
+			
+			for(Transition s : oldChild) {
+				target.setTransitionMembers(oldChild);
 			}
 			
 		}
-	};
-	*/
+		
+		map.getFeatureContainer("Nodes").remove(id);
+		map.getFeatureContainer("Nodes").put(id, result);
+		
+		return result;
+		
+	}
 }	

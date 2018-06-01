@@ -142,4 +142,9 @@ public class Transition extends AbstractFeature {
 		this.weight = weight;
 	}
 
+	public void resetDuality() {
+		this.duality = null;
+		
+	}
+
 }
