@@ -67,10 +67,19 @@ public class State extends AbstractFeature {
 		}		
 		this.parentId = parent.getId();
 	}
-
-	public Nodes getParentID() {
+	
+	public void resetDuality() {
+		this.duality = null;
+	}
+	public Nodes getParent() {
 		Nodes found = (Nodes)indoorGMLMap.getFeature(this.parentId);
 		return found;
+	}
+	
+	public boolean hasDuality() {
+		if(this.duality != null)
+			return true;
+		return false;
 	}
 
 	public CellSpace getDuality() {
@@ -91,8 +100,10 @@ public class State extends AbstractFeature {
 		}
 		this.duality = duality.getId();
 	}
+	
 
 	public void setConnects(List<Transition> connects) {
+		this.connects = new ArrayList<String>();
 		for (int i = 0; i < connects.size(); i++) {
 			Transition found = null;
 			found = (Transition)indoorGMLMap.getFeature(connects.get(i).getId());

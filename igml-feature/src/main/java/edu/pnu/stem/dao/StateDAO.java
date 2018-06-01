@@ -212,7 +212,7 @@ public class StateDAO {
 	public static void deleteState(IndoorGMLMap map, String id) {
 		State target = (State)map.getFeature(id);
 		Nodes parent = target.getParent();
-		parent.deleteStateMember(id);
+		parent.deleteStateMember(target);
 		
 		if(target.hasDuality()) {
 			CellSpace duality = target.getDuality();
@@ -227,9 +227,8 @@ public class StateDAO {
 		
 		Nodes parent = target.getParent();
 		if(parent.getId() != parentId) {
-			Nodes oldParent = target.getParent();
 			Nodes newParent = new Nodes(map, parentId);
-			oldParent.deleteStateMember(id);
+			parent.deleteStateMember(target);
 			result.setParent(newParent);
 		}
 		
