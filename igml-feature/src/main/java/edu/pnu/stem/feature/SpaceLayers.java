@@ -75,4 +75,9 @@ public class SpaceLayers extends AbstractFeature {
 		
 	}
 
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
+
 }

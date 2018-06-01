@@ -96,6 +96,9 @@ public class SpaceLayersDAO {
 			}
 		}
 		
+		map.getFeatureContainer("SpaceLayers").remove(id);
+		map.getFeatureContainer("SpaceLayers").put(id,result);
+		
 		return result;
 	}
 }
