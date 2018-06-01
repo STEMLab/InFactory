@@ -154,5 +154,10 @@ public class CellSpace extends AbstractFeature {
 		this.parentId = parent.getId();
 		
 	}
+
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
 	
 }

@@ -116,4 +116,9 @@ public class CellSpaceBoundary extends AbstractFeature {
 		
 	}
 
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
+
 }

@@ -101,6 +101,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	 *            the cellSpaceBoundaryMember to set
 	 */
 	public void setCellSpaceBoundaryMember(List<CellSpaceBoundary> cellSpaceBoundaryMember) {
+		this.cellSpaceBoundaryMember.clear();
 		for (int i = 0; i < cellSpaceBoundaryMember.size(); i++) {
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cellSpaceBoundaryMember.get(i).getId());
