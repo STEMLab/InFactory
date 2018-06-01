@@ -130,4 +130,11 @@ public class MultiLayeredGraph extends AbstractFeature {
 	public void clearSpaceLayers(){
 		this.spaceLayers.clear();
 	}
+
+	public void deleteSpaceLayers(SpaceLayers target) {
+		if(this.spaceLayers.contains(target.getId())) {
+			this.spaceLayers.remove(target.getId());
+		}
+		
+	}
 }

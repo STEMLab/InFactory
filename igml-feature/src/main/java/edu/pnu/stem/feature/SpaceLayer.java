@@ -228,4 +228,8 @@ public class SpaceLayer extends AbstractFeature {
 			this.edges.remove(e.getId());
 		}
 	}
+	
+	public void resetParent() {
+		this.parentId = null;
+	}
 }

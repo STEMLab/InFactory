@@ -38,6 +38,7 @@ public class SpaceLayers extends AbstractFeature {
 	}
 
 	public void setSpaceLayerMember(List<SpaceLayer> spaceLayerMember) {
+		this.spaceLayerMember = new ArrayList<String>();
 		for(int i = 0 ; i < spaceLayerMember.size(); i++){
 			SpaceLayer found = null;
 			if(found == null){
