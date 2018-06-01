@@ -35,6 +35,7 @@ public class Nodes extends AbstractFeature {
 	}
 
 	public void setStateMember(List<State> stateMember) {
+		this.stateMember = new ArrayList<String>();
 		for (State s : stateMember) {
 			State found = null;
 			found = (State) indoorGMLMap.getFeature(s.getId());
@@ -61,6 +62,11 @@ public class Nodes extends AbstractFeature {
 		return stateMember;
 	}
 	
+	public void deleteStateMember(State s) {
+		if(this.stateMember.contains(s.getId())) {
+			this.stateMember.remove(s.getId());
+		}
+	}
 	
 	public void addStateMember(State s) {
 		if(!this.stateMember.contains(s.getId())){

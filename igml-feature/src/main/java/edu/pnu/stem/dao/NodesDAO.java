@@ -49,7 +49,7 @@ public class NodesDAO {
 		return newFeature;
 	}
 
-	public static Nodes updateNodes(IndoorGMLMap map, String parentId, String id, String name, String description) {
+	public static Nodes updateNodes(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>nodes) {
 		Nodes result = new Nodes(map, id);
 		Nodes target = (Nodes)map.getFeature(id);
 		
@@ -68,6 +68,40 @@ public class NodesDAO {
 		
 		if(description != null) {
 			result.setDescription(description);
+		}
+		
+		if(nodes != null) {
+			List<State> oldChild = target.getStateMember();
+			List<State> newChild = new ArrayList<State>();
+			
+			List<State>	eraseChild = new ArrayList<State>();
+
+			
+			for(String si : nodes) {
+				newChild.add(new State(map, si));
+			}
+			
+			for(State s : oldChild) {
+				if(!newChild.contains(s)) {
+					eraseChild.add(s);
+					oldChild.remove(s);
+				}
+			}
+			
+			for(State s : newChild) {
+				if(!oldChild.contains(s)) {
+					oldChild.add(s);
+				}
+			}
+			
+			for(State s: eraseChild) {
+				target.deleteStateMember(s);
+			}
+			
+			for(State s : oldChild) {
+				target.setStateMember(oldChild);
+			}
+			
 		}
 		
 		map.getFeatureContainer("Nodes").remove(id);
