@@ -138,4 +138,9 @@ public class State extends AbstractFeature {
 	public void clearConnects(){
 		this.connects.clear();
 	}
+
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
 }

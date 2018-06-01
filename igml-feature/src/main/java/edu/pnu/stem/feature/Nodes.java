@@ -79,4 +79,9 @@ public class Nodes extends AbstractFeature {
 		this.stateMember.clear();
 	}
 
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
+
 }

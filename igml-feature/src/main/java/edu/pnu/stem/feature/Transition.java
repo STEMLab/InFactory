@@ -147,4 +147,9 @@ public class Transition extends AbstractFeature {
 		
 	}
 
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
+
 }

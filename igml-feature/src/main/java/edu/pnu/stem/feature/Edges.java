@@ -38,6 +38,7 @@ public class Edges extends AbstractFeature{
 	}
 
 	public void setTransitionMembers(List<Transition> transitionMember) {
+		this.transitionMember = new ArrayList<String>();
 		for(int i = 0 ; i < transitionMember.size(); i++){
 			Transition found = null;
 			found = (Transition) indoorGMLMap.getFeature(transitionMember.get(i).getId());
@@ -75,6 +76,17 @@ public class Edges extends AbstractFeature{
 			//TODO : check duplicated id
 			indoorGMLMap.setFeature(t.getId(), "Transition", t);
 		}
+	}
+
+	public void deleteTransitionMember(Transition t) {
+		if(this.transitionMember.contains(t.getId()))
+			this.transitionMember.remove(t.getId());
+		
+	}
+
+	public void resetParent() {
+		this.parentId = null;
+		
 	}
 
 

@@ -111,4 +111,9 @@ public class CellSpaceBoundary extends AbstractFeature {
 		this.cellSpaceBoundaryGeometry = cellSpaceBoundaryGeometry;
 	}
 
+	public void resetDuality() {
+		this.duality = null;
+		
+	}
+
 }

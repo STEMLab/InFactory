@@ -49,14 +49,14 @@ public class NodesDAO {
 		return newFeature;
 	}
 
-	public static Nodes updateNodes(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>nodes) {
+	public static Nodes updateNodes(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>stateMembers) {
 		Nodes result = new Nodes(map, id);
 		Nodes target = (Nodes)map.getFeature(id);
 		
 		SpaceLayer parent = target.getParent();
 		if(parent.getId() != parentId) {
 			SpaceLayer newParent = new SpaceLayer(map, parentId);
-			parent.deleteNodes(id);
+			parent.deleteNodes(target);
 			result.setParent(newParent);
 		}
 		
@@ -70,20 +70,17 @@ public class NodesDAO {
 			result.setDescription(description);
 		}
 		
-		if(nodes != null) {
+		if(stateMembers != null) {
 			List<State> oldChild = target.getStateMember();
 			List<State> newChild = new ArrayList<State>();
 			
-			List<State>	eraseChild = new ArrayList<State>();
-
-			
-			for(String si : nodes) {
+		
+			for(String si : stateMembers) {
 				newChild.add(new State(map, si));
 			}
 			
 			for(State s : oldChild) {
 				if(!newChild.contains(s)) {
-					eraseChild.add(s);
 					oldChild.remove(s);
 				}
 			}
@@ -93,15 +90,17 @@ public class NodesDAO {
 					oldChild.add(s);
 				}
 			}
-			
-			for(State s: eraseChild) {
-				target.deleteStateMember(s);
+							
+			result.setStateMember(oldChild);
+					
+		}
+		else {
+			if(target.getStateMember().size() != 0) {
+				List<State> oldChild = target.getStateMember();
+				for(State child : oldChild) {
+					child.resetParent();
+				}
 			}
-			
-			for(State s : oldChild) {
-				target.setStateMember(oldChild);
-			}
-			
 		}
 		
 		map.getFeatureContainer("Nodes").remove(id);

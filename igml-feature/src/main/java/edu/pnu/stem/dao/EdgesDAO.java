@@ -14,29 +14,6 @@ import edu.pnu.stem.feature.Transition;
 
 public class EdgesDAO {
 
-	/*
-	public Edges createEdges(IndoorGMLMap map, String parentId, String id, List<String>transitionMember){
-		Edges newFeature = null;
-		newFeature = new Edges(map);
-		newFeature.setId(id);
-		if(transitionMember != null){
-			List<Transition>transitionMembers = new ArrayList<Transition>();
-			for(int i = 0 ; i < transitionMember.size() ; i++){
-				Transition temp = new Transition(map);
-				temp.setId(transitionMember.get(i));
-				transitionMembers.add(temp);
-			}
-			newFeature.setTransitionMembers(transitionMembers);
-		}
-		else{
-			System.out.println("Error at createNodes : there is no StateMember");
-		}
-		
-		map.setFeature(id, "Edges", newFeature);
-		
-		return newFeature;
-	}
-	*/
 	public static Edges createEdges(IndoorGMLMap map, String parentId, String id){
 		if(id == null) {
 			id = UUID.randomUUID().toString();
@@ -94,16 +71,12 @@ public class EdgesDAO {
 			List<Transition> oldChild = target.getTransitionMember();
 			List<Transition> newChild = new ArrayList<Transition>();
 			
-			List<Transition>	eraseChild = new ArrayList<Transition>();
-
-			
 			for(String si : transitionMember) {
 				newChild.add(new Transition(map, si));
 			}
 			
 			for(Transition s : oldChild) {
 				if(!newChild.contains(s)) {
-					eraseChild.add(s);
 					oldChild.remove(s);
 				}
 			}
@@ -113,19 +86,22 @@ public class EdgesDAO {
 					oldChild.add(s);
 				}
 			}
-			
-			for(Transition s: eraseChild) {
-				target.deleteTransitionMember(s);
-			}
-			
+						
 			for(Transition s : oldChild) {
-				target.setTransitionMembers(oldChild);
+				result.setTransitionMembers(oldChild);
 			}
 			
 		}
+		else {
+			if(target.getTransitionMember().size() != 0) {
+				for(Transition child : target.getTransitionMember()) {
+					child.resetParent();
+				}
+			}
+		}
 		
-		map.getFeatureContainer("Nodes").remove(id);
-		map.getFeatureContainer("Nodes").put(id, result);
+		map.getFeatureContainer("Edges").remove(id);
+		map.getFeatureContainer("Edges").put(id, result);
 		
 		return result;
 		
