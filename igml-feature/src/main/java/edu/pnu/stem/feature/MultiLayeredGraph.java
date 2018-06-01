@@ -138,4 +138,9 @@ public class MultiLayeredGraph extends AbstractFeature {
 		}
 		
 	}
+
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
 }
