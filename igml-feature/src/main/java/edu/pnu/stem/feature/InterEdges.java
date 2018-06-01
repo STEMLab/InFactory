@@ -80,4 +80,8 @@ public class InterEdges extends AbstractFeature {
 		this.interLayerConnectionMember.clear();
 	}
 
+	public void resetParent() {
+		this.parentId = null;
+	}
+
 }

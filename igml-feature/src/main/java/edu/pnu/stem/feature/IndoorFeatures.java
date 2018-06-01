@@ -71,5 +71,9 @@ public class IndoorFeatures extends AbstractFeature {
 			this.multiLayeredGraph = multiLayeredGraph.getId();
 		}
 	}
+	public void resetMultiLayerdGraph() {
+		this.multiLayeredGraph = null;
+		
+	}
 	
 }
