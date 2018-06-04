@@ -48,6 +48,35 @@ public class InterLayerConnectionDAO {
 		return newFeature;
 		
 	}
+	
+	public static InterLayerConnection updateInterLayerConnection(IndoorGMLMap map, String parentId, String id, String typeOfTopoExpression, String comment, String[] interConnects, String[] connectedLayers ) {
+		InterLayerConnection target = (InterLayerConnection)map.getFeature(id);
+		InterLayerConnection result = new InterLayerConnection(map,id);
+		
+		InterEdges parent = target.getParent();
+		if(parent.getId() != parentId) {
+			InterEdges newParent = new InterEdges(map, parentId);
+			parent.deleteInterLayerConnectionMember(target);
+			result.setParent(newParent);
+		}
+		
+		if(interConnects != null) {
+			State[] newChild = new State[2];
+			newChild[0] = new State(map, interConnects[0]);
+			newChild[1] = new State(map, interConnects[1]);
+			result.setInterConnects(newChild);
+		}
+		
+		if(connectedLayers != null) {
+			SpaceLayer[] newChild = new SpaceLayer[2];
+			newChild[0] = new SpaceLayer(map, connectedLayers[0]);
+			newChild[1] = new SpaceLayer(map, connectedLayers[1]);
+			result.setConnectedLayers(newChild);
+		}
+		
+		return result;
+		
+	}
 
 
 }	

@@ -85,4 +85,10 @@ public class InterEdges extends AbstractFeature {
 		this.parentId = null;
 	}
 
+	public void deleteInterLayerConnectionMember(InterLayerConnection target) {
+		if(this.interLayerConnectionMember.contains(target.getId()))
+			this.interLayerConnectionMember.remove(target.getId());
+		
+	}
+
 }
