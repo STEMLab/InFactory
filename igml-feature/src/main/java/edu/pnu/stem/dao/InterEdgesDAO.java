@@ -3,11 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
 import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.SpaceLayer;
 
 public class InterEdgesDAO {
 	public static InterEdges createInterEdges(IndoorGMLMap map, String parentId, String id, List<String>interLayerConnectionMember){
@@ -33,62 +32,60 @@ public class InterEdgesDAO {
 		return newFeature;
 	}
 	
-	/*
-	public static InterEdges readInterEdges(String docId, String Id){
-		InterEdges target = null;
-		return target;
-	}
-	public static InterEdges updateInterEdges(String docId, String Id, String attributeType, String updateType, Object o){
-		InterEdges target = null;
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			target = (InterEdges)map.getFeature(Id);
-			if(attributeType.equals("interLayerConnectionMember")){
-				List<InterLayerConnection>interLayerConnectionMember = target.getInterLayerConnectionMember();
-				List<InterLayerConnection>newInterLayerConnectionMember = new ArrayList<InterLayerConnection>();
-				if(updateType != null){
-					List<String>object = (List<String>)o;
-					for(int i = 0 ; i < object.size(); i++){
-						InterLayerConnection temp = new InterLayerConnection(map);
-						temp.setId(object.get(i));
-					}
-					if(updateType.equals("add")){
-						target.setInterLayerConnectionMember(newInterLayerConnectionMember);
-					}					
-					
-					else if(updateType.equals("remove")){
-						for(int i = 0 ; i < object.size();i++){
-							if(interLayerConnectionMember.contains(object.get(i))){
-								interLayerConnectionMember.remove(object.get(i));
-								InterLayerConnectionDAO.deleteInterLayerConnection(docId,object.get(i));
-							}
-						}
-						target.clearInterLayerConnectionMember();
-					}
-					if(interLayerConnectionMember.size() != 0){
-						target.setInterLayerConnectionMember(interLayerConnectionMember);
-					}
-					else
-						System.out.println("Error at updateInterEdges : empty stateMember cannot be submited");
-				}				
-			}
-			map.setFeature(Id, "InterEdges", target);
+	public static InterEdges updateInterEdges(IndoorGMLMap map, String parentId, String id, String name, String description,List<String>interLayerConnectionMember) {
+		InterEdges result = new InterEdges(map, id);
+		InterEdges target = (InterEdges)map.getFeature(id);
+		
+		MultiLayeredGraph parent = target.getParent();
+		if(parent.getId() != parentId) {
+			MultiLayeredGraph newParent = new MultiLayeredGraph(map, parentId);
+			parent.deleteInterEdges(target);
+			result.setParent(newParent);
 		}
-		return target;
-	}
-	public static void deleteInterEdges(String docId, String Id){
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			InterEdges target = (InterEdges) Container.getInstance().getFeature(docId,
-					Id);
-			// String duality = target.getd;
-			doc.getFeatureContainer("InterEdges").remove(Id);
-			doc.getFeatureContainer("ID").remove(Id);
-			for(int i = 0 ; i < target.getInterLayerConnectionMember().size();i++){
-				InterLayerConnectionDAO.deleteInterLayerConnection(docId, target.getInterLayerConnectionMember().get(i).getId());
+		
+		
+		if(name != null) {
+			result.setName(name);
+		}
+	
+		
+		if(description != null) {
+			result.setDescription(description);
+		}
+		
+		if(interLayerConnectionMember != null) {
+			List<InterLayerConnection> oldChild = target.getInterLayerConnectionMember();
+			List<InterLayerConnection> newChild = new ArrayList<InterLayerConnection>();
+			
+			for(String ni : interLayerConnectionMember) {
+				newChild.add(new InterLayerConnection(map,ni));
 			}
 			
+			for(InterLayerConnection n : oldChild) {
+				if(!newChild.contains(n)) {
+					oldChild.remove(n);
+				}
+			}
+			
+			for(InterLayerConnection n : newChild) {
+				if(!oldChild.contains(n)) {
+					oldChild.add(n);
+				}
+			}
+			
+			result.setInterLayerConnectionMember(oldChild);;
 		}
+		else {
+			if(target.getInterLayerConnectionMember().size() != 0) {
+				for(InterLayerConnection s : target.getInterLayerConnectionMember()) {
+					s.resetParent();
+				}
+			}
+		}
+		
+		map.getFeatureContainer("InterLayerConnection").remove(id);
+		map.getFeatureContainer("InterLayerConnection").put(id,result);
+		
+		return result;
 	}
-	*/
 }

@@ -105,5 +105,10 @@ public class InterLayerConnection extends AbstractFeature {
 		return new String(this.comment);
 	}
 
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
+
 
 }

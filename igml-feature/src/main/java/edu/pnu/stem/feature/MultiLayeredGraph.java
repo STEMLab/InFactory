@@ -143,4 +143,10 @@ public class MultiLayeredGraph extends AbstractFeature {
 		this.parentId = null;
 		
 	}
+
+	public void deleteInterEdges(InterEdges target) {
+		if(this.interEdges.contains(target.getId()))
+			this.interEdges.remove(target.getId());
+		
+	}
 }

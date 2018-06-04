@@ -54,6 +54,7 @@ public class InterEdges extends AbstractFeature {
 	 *            the interLayerConnectionMember to set
 	 */
 	public void setInterLayerConnectionMember(List<InterLayerConnection> interLayerConnectionMember) {
+		this.interLayerConnectionMember = new ArrayList<String>();
 		for(int i = 0 ; i < interLayerConnectionMember.size(); i++){
 			InterLayerConnection found = null;
 			if(found == null){
