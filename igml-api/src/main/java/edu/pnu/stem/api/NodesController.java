@@ -3,6 +3,8 @@
  */
 package edu.pnu.stem.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
+import edu.pnu.stem.binder.Convert2Json;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.dao.CellSpaceBoundaryDAO;
 import edu.pnu.stem.dao.NodesDAO;
 import edu.pnu.stem.feature.Nodes;
 
@@ -58,4 +64,44 @@ public class NodesController {
 		response.setHeader("Location", request.getRequestURL().append(ns.getId()).toString());
 	}
 	
+	@PostMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void updateNodes(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+
+			String parentId = null;
+			String name = null;
+			String description = null;
+			List<String> stateMember = null;
+			
+			if(json.has("parentId")) {
+				parentId = json.get("parentId").asText().trim();
+			}
+						
+			if(json.has("properties")){
+				if(json.get("properties").has("name")) {
+					name = json.get("properties").get("name").asText().trim();
+				}
+				if(json.get("properties").has("description")) {
+					description = json.get("properties").get("description").asText().trim();
+				}
+				if(json.get("properties").has("stateMember")){
+					stateMember = new ArrayList<String>();
+					JsonNode partialBoundedByList = json.get("properties").get("stateMember");
+					for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+						stateMember.add(partialBoundedByList.get(i).asText().trim());
+					}
+				}
+				
+			}
+						
+			NodesDAO.updateNodes(map, parentId, id, name, description, stateMember);
+		}
+		catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
+	}
 }

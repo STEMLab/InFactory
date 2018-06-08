@@ -3,6 +3,8 @@
  */
 package edu.pnu.stem.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.dao.EdgesDAO;
 import edu.pnu.stem.dao.MultiLayeredGraphDAO;
 import edu.pnu.stem.dao.SpaceLayersDAO;
 import edu.pnu.stem.feature.MultiLayeredGraph;
@@ -58,6 +62,46 @@ public class SpaceLayeresController {
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(sls.getId()).toString());
+	}
+	@PostMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void updateSpaceLayers(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+
+			String parentId = null;
+			String name = null;
+			String description = null;
+			List<String> spaceLayerMember = null;
+			
+			if(json.has("parentId")) {
+				parentId = json.get("parentId").asText().trim();
+			}
+						
+			if(json.has("properties")){
+				if(json.get("properties").has("name")) {
+					name = json.get("properties").get("name").asText().trim();
+				}
+				if(json.get("properties").has("description")) {
+					description = json.get("properties").get("description").asText().trim();
+				}
+				if(json.get("properties").has("spaceLayerMember")){
+					spaceLayerMember = new ArrayList<String>();
+					JsonNode partialBoundedByList = json.get("properties").get("spaceLayerMember");
+					for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+						spaceLayerMember.add(partialBoundedByList.get(i).asText().trim());
+					}
+				}
+				
+			}
+			
+			SpaceLayersDAO.updateSpaceLayers(map, parentId, id, name, description, spaceLayerMember);
+		}
+		catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
 	}
 	
 }
