@@ -47,7 +47,16 @@ public class SpaceLayerDAO {
 		map.removeFutureID(id);
 		return newFeature;
 	}
-	
+	public static SpaceLayer readCellSpace(IndoorGMLMap map, String id) {
+		SpaceLayer target = null;
+		try {
+			target = (SpaceLayer)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
 	public static SpaceLayer updateSpaceLayer(IndoorGMLMap map, String parentId, String id, String name, String description, List<String> nodes, List<String> edges) {
 		SpaceLayer result = new SpaceLayer(map, id);
 		SpaceLayer target = (SpaceLayer)map.getFeature(id);

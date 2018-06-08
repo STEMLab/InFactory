@@ -1,5 +1,6 @@
 package edu.pnu.stem.dao;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
 import edu.pnu.stem.feature.MultiLayeredGraph;
@@ -47,6 +48,16 @@ public class InterLayerConnectionDAO {
 		
 		return newFeature;
 		
+	}
+	public static InterLayerConnection readInterLayerConnection(IndoorGMLMap map, String id) {
+		InterLayerConnection target = null;
+		try {
+			target = (InterLayerConnection)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
 	}
 	
 	public static InterLayerConnection updateInterLayerConnection(IndoorGMLMap map, String parentId, String id, String typeOfTopoExpression, String comment, String[] interConnects, String[] connectedLayers ) {

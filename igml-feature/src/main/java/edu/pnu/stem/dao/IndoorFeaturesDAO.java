@@ -2,6 +2,7 @@ package edu.pnu.stem.dao;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
@@ -44,14 +45,16 @@ public class IndoorFeaturesDAO {
 		return newFeature;
 	}
 	
-	public IndoorFeatures readIndoorFeatures(String docId, String id) {
-		/*
+	public static IndoorFeatures readIndoorFeatures(IndoorGMLMap map, String id) {
 		IndoorFeatures target = null;
-		target = (IndoorFeatures)Container.getDocument(docId).getFeature(id);
+		try {
+			target = (IndoorFeatures)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
 		return target;
-		*/
-		return null;
-	};
+	}
 
 	public static IndoorFeatures updateIndoorFeatures(IndoorGMLMap map, String id, String name, String description, String multilayeredgraph, String primalspacefeatures) {
 		IndoorFeatures result = new IndoorFeatures(map, id);

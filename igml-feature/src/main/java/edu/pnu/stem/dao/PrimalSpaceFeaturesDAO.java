@@ -49,7 +49,16 @@ public class PrimalSpaceFeaturesDAO {
 		map.setFeature(id, "PrimalSpaceFeatures", newFeature);
 		return newFeature;
 	}
-	
+	public static PrimalSpaceFeatures readPrimalSpaceFeatures(IndoorGMLMap map, String id) {
+		PrimalSpaceFeatures target = null;
+		try {
+			target = (PrimalSpaceFeatures)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
 	public static PrimalSpaceFeatures updatePrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>cellspacemembers, List<String>cellspaceboundarymembers) {
 		PrimalSpaceFeatures result = new PrimalSpaceFeatures(map, id);
 		PrimalSpaceFeatures target = (PrimalSpaceFeatures)map.getFeature(id);

@@ -62,6 +62,17 @@ public class StateDAO {
 		return newFeature;
 	}
 	*/
+	public static State readState(IndoorGMLMap map, String id) {
+		State target = null;
+		try {
+			target = (State)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
+	
 	public static State createState(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality, List<String> connected) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
@@ -200,14 +211,7 @@ public class StateDAO {
 		return newFeature;
 	}
 	
-	public State readState(IndoorGMLMap map, String id) {
-		State target = null;
-		try {
-			target = (State)map.getFeature(id);
-		}
-		catch(NullPointerException e) {}
-		return target;
-	};
+
 	
 	public static void deleteState(IndoorGMLMap map, String id) {
 		State target = (State)map.getFeature(id);

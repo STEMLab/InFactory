@@ -12,6 +12,7 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
@@ -119,7 +120,16 @@ public class CellSpaceBoundaryDAO {
 		map.removeFutureID(id);
 		return newFeature;
 	}
-
+	public static CellSpaceBoundary readCellSpaceBoundary(IndoorGMLMap map, String id) {
+		CellSpaceBoundary target = null;
+		try {
+			target = (CellSpaceBoundary)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
 			JsonNode geometry, String duality) {
 		if (id == null) {

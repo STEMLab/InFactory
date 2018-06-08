@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
 import edu.pnu.stem.feature.MultiLayeredGraph;
@@ -31,7 +32,16 @@ public class InterEdgesDAO {
 	
 		return newFeature;
 	}
-	
+	public static InterEdges readInterEdges(IndoorGMLMap map, String id) {
+		InterEdges target = null;
+		try {
+			target = (InterEdges)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
 	public static InterEdges updateInterEdges(IndoorGMLMap map, String parentId, String id, String name, String description,List<String>interLayerConnectionMember) {
 		InterEdges result = new InterEdges(map, id);
 		InterEdges target = (InterEdges)map.getFeature(id);

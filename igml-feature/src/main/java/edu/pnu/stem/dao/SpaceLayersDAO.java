@@ -44,7 +44,16 @@ public class SpaceLayersDAO {
 		
 		return newFeature;
 	}
-	
+	public static  SpaceLayers readSpaceLayers(IndoorGMLMap map, String id) {
+		 SpaceLayers target = null;
+		try {
+			target = ( SpaceLayers)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
 	public static SpaceLayers updateSpaceLayers(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>spacelayer) {
 		SpaceLayers result = new SpaceLayers(map, id);
 		SpaceLayers target = (SpaceLayers)map.getFeature(id);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Edges;
 import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.State;
@@ -44,6 +45,17 @@ public class EdgesDAO {
 		map.setFeature(id, "Edges", newFeature);
 		
 		return newFeature;
+	}
+	
+	public static Edges readEdges(IndoorGMLMap map, String id) {
+		Edges target = null;
+		try {
+			target = (Edges)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
 	}
 	
 	public static Edges updateEdges(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>transitionMember) {

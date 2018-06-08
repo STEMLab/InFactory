@@ -293,5 +293,14 @@ public class TransitionDAO {
 		
 		return result;
 	}
-
+	public static Transition readTransition(IndoorGMLMap map, String id) {
+		Transition target = null;
+		try {
+			target = (Transition)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
 }

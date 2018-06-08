@@ -13,28 +13,16 @@ import edu.pnu.stem.feature.State;
 
 public class NodesDAO {
 	
-	/*
-	public static Nodes createNodes(IndoorGMLMap map, String parentId, String Id, List<String>stateMember){
-		Nodes newFeature = null;
-		newFeature = new Nodes(map);
-		newFeature.setId(Id);
-		if(stateMember != null){
-			List<State>tempStateMember = new ArrayList<State>();
-			for(int i = 0 ; i < stateMember.size() ; i++){
-				State temp = new State(map);
-				temp.setId(stateMember.get(i));
-				tempStateMember.add(temp);
-			}
-			newFeature.setStateMember(tempStateMember);
+	public static Nodes readNodes(IndoorGMLMap map, String id) {
+		Nodes target = null;
+		try {
+			target = (Nodes)map.getFeature(id);
 		}
-		else{
-			System.out.println("Error at createNodes : there is no StateMember");
-		}		
-		map.setFeature(Id, "Nodes", newFeature);
-		
-		return newFeature;
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
 	}
-	*/
 	
 	public static Nodes createNodes(IndoorGMLMap map, String parentId, String id){
 		if(id == null) {

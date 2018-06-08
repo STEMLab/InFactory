@@ -44,6 +44,17 @@ public class MultiLayeredGraphDAO {
 		return newFeature;
 	}
 	
+	public static MultiLayeredGraph readMultiLayeredGraph(IndoorGMLMap map, String id) {
+		MultiLayeredGraph target = null;
+		try {
+			target = (MultiLayeredGraph)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
+	
 	public static MultiLayeredGraph updateMultiLayeredGraph(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>spacelayers, List<String>interedges) {
 		MultiLayeredGraph result = new MultiLayeredGraph(map, id);
 		MultiLayeredGraph target = (MultiLayeredGraph)map.getFeature(id);
