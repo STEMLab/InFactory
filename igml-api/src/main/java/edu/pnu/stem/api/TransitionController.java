@@ -3,6 +3,8 @@
  */
 package edu.pnu.stem.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
+import edu.pnu.stem.binder.Convert2Json;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.dao.StateDAO;
 import edu.pnu.stem.dao.TransitionDAO;
 import edu.pnu.stem.feature.Transition;
 
@@ -83,6 +88,68 @@ public class TransitionController {
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(t.getId()).toString());
+	}
+	
+	@PostMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void updateTransition(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+			String duality = null;
+			JsonNode geometry = null;
+			List<String> connects = null;
+			Geometry geom = null;
+			String parentId = null;
+			String name = null;
+			String description = null;
+			
+			if(json.has("parentId")) {
+				parentId = json.get("parentId").asText().trim();
+			}
+			
+			if(json.has("duality")){
+				
+				duality = json.get("duality").asText().trim();
+				
+			}
+			if(json.has("properties")){
+				if(json.get("properties").has("duality")){
+					duality = json.get("properties").get("duality").asText().trim();
+					
+				}
+				
+			}
+			if(json.has("geometry")) {
+				geometry = json.get("geometry");
+				geom = Convert2Json.json2Geometry(geometry);
+			
+			}
+			
+			//TODO : 나중에 고치기!!
+			//String properties = json.get("properties").asText().trim();
+			//String duality = null;
+			
+			if(json.has("properties")){
+				if(json.get("properties").has("connects")){
+					connects = new ArrayList<String>();
+					JsonNode partialBoundedByList = json.get("properties").get("connects");
+					for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+						connects.add(partialBoundedByList.get(i).asText().trim());
+					}
+				}
+			}
+			
+			String[] arrConnects = new String[2];
+			connects.toArray(arrConnects);
+			
+		TransitionDAO.updateTransition(map, parentId, id, name, description, geom, duality, arrConnects);
+			
+		}
+		catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
 	}
 	
 }

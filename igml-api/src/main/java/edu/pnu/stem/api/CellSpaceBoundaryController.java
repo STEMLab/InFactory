@@ -4,6 +4,7 @@
 package edu.pnu.stem.api;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
+import edu.pnu.stem.binder.Convert2Json;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.dao.CellSpaceBoundaryDAO;
+import edu.pnu.stem.dao.CellSpaceDAO;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 
 /**
@@ -41,7 +45,7 @@ public class CellSpaceBoundaryController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createSpaceLayer(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+	public void createCellSpaceBoundary(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		String parentId = json.get("parentId").asText().trim();
 		String geomFormatType = "GEOJSON";
 		String geom = json.get("geometry").asText().trim();
@@ -92,5 +96,62 @@ public class CellSpaceBoundaryController {
 		}
 		response.setHeader("Location", request.getRequestURL().append(c.getId()).toString());
 	}
+	
+	
+	@PostMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void updateCellSpaceBoundary(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+			String duality = null;
+			JsonNode geometry = null;
+			Geometry geom = null;
+			String parentId = null;
+			String name = null;
+			String description = null;
+
+			if(json.has("parentId")) {
+				parentId = json.get("parentId").asText().trim();
+			}
+			
+			if(json.has("duality")){
+				
+				duality = json.get("duality").asText().trim();
+				
+			}
+			if(json.has("properties")){
+				if(json.get("properties").has("duality")){
+					duality = json.get("properties").get("duality").asText().trim();
+					
+				}
+				
+			}
+			if(json.has("geometry")) {
+				geometry = json.get("geometry");
+				geom = Convert2Json.json2Geometry(geometry);
+			
+			}
+			
+			if(json.has("properties")){
+				if(json.get("properties").has("name")) {
+					name = json.get("properties").get("name").asText().trim();
+				}
+				if(json.get("properties").has("description")) {
+					description = json.get("properties").get("description").asText().trim();
+				}
+			}
+			
+			CellSpaceBoundaryDAO.updateCellSpaceBoundary(map, parentId, id, name, description, geom, duality);
+		}
+		catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
+	}
+	
+	public void getCellSpaceBoundary() {}
+	
+	public void getCellSpaceBoundarys() {}
 	
 }
