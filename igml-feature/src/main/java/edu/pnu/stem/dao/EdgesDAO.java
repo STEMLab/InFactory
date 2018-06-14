@@ -15,7 +15,7 @@ import edu.pnu.stem.feature.Transition;
 
 public class EdgesDAO {
 
-	public static Edges createEdges(IndoorGMLMap map, String parentId, String id){
+	public static Edges createEdges(IndoorGMLMap map, String parentId, String id, String name, String description){
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -38,6 +38,14 @@ public class EdgesDAO {
 		}
 		else{
 			parent = (SpaceLayer) map.getFeature(parentId);
+		}
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
 		}
 		
 		parent.addEdges(newFeature);

@@ -73,7 +73,6 @@ public class CellSpaceController {
 		
 		try{			
 			 mapper.readTree(geom);
-			 geometry = json.get("geometry");
 		}
 		catch (IOException e){
 			geomFormatType = "WKT";
@@ -139,9 +138,7 @@ public class CellSpaceController {
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print(target);
-			out.flush();
-			
-			
+			out.flush();			
 			
 		}catch(NullPointerException e) {
 			e.printStackTrace();

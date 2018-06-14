@@ -24,7 +24,7 @@ public class NodesDAO {
 		return target;
 	}
 	
-	public static Nodes createNodes(IndoorGMLMap map, String parentId, String id){
+	public static Nodes createNodes(IndoorGMLMap map, String parentId, String id, String name, String description){
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -32,6 +32,14 @@ public class NodesDAO {
 		
 		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
 		parent.addNodes(newFeature);
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
 		
 		map.setFeature(id, "Nodes", newFeature);
 		return newFeature;

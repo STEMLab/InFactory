@@ -27,45 +27,6 @@ import edu.pnu.stem.util.GeometryUtil;
  */
 public class CellSpaceDAO {
 
-	/*
-	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String ID,
-		String duality, List<String> partialboundedBy, String cellSpaceGeometry, String externalReference) {
-		CellSpace newFeature = null;
-		newFeature = new CellSpace(map);
-		newFeature.setId(ID);
-		PrimalSpaceFeatures parent = new PrimalSpaceFeatures(map);
-		parent.setId(parentId);
-		newFeature.setParent(parent);
-		if (duality != null) {
-			State tempDuality = new State(map);
-			tempDuality.setId(duality);
-			newFeature.setDuality(tempDuality);
-			if (map.getFeatureContainer("Reference").containsKey(duality)) {
-				int count = (Integer) map.getFeatureContainer("Reference").get(duality);
-				count++;
-				map.setFeature(ID, "Reference", count);
-			}
-		}
-
-		if (cellSpaceGeometry != null) {
-			// newFeature.set
-		}
-		if (partialboundedBy != null) {
-			List<CellSpaceBoundary>tempartialboundedBy = new ArrayList<CellSpaceBoundary>();
-			for(int i = 0 ; i < partialboundedBy.size(); i++){
-				CellSpaceBoundary temp = new CellSpaceBoundary(map);
-				temp.setId(partialboundedBy.get(i));
-				tempartialboundedBy.add(temp);
-			}
-			newFeature.setPartialboundedBy(tempartialboundedBy);
-		}
-		if (externalReference != null) {
-			//newFeature.setExternalReference(externalReference);
-		}
-		map.setFeature(ID, "CellSpace", newFeature);
-		return newFeature;
-	}
-	*/
 	public static void deleteCellSpace(IndoorGMLMap map, String id) {
 		CellSpace target = (CellSpace)map.getFeature(id);
 		PrimalSpaceFeatures parent = target.getParent();
@@ -144,7 +105,7 @@ public class CellSpaceDAO {
 		
 		return result;
 	}
-	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, Geometry geometry, String duality, List<String> partialBoundedBy) {
+	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String> partialBoundedBy) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -170,6 +131,14 @@ public class CellSpaceDAO {
 			else{
 				parent = new PrimalSpaceFeatures(map,parentId);
 			}			
+		}
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
 		}
 		
 		//parent.addCellSpaceMember(newFeature);

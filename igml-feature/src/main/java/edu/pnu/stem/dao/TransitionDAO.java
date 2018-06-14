@@ -20,7 +20,7 @@ import edu.pnu.stem.feature.Transition;
 public class TransitionDAO {
 
 	public static Transition createTransition(IndoorGMLMap map, String parentId,
-			String id, Geometry geometry, String duality, String[] connects) {
+			String id, String name, String description, Geometry geometry, String duality, String[] connects) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -49,6 +49,14 @@ public class TransitionDAO {
 			//newFeature.setExternalReference(externalReference);
 		}
 		*/
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
 		
 		if (geometry != null) {
 			newFeature.setGeometry(geometry);

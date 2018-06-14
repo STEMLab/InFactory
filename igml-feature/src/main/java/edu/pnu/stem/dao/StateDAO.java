@@ -31,7 +31,7 @@ public class StateDAO {
 		return target;
 	}
 	
-	public static State createState(IndoorGMLMap map, String parentId, String id, Geometry geometry, String duality, List<String> connected) {
+	public static State createState(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String> connected) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -57,6 +57,14 @@ public class StateDAO {
 		}
 		parent.addStateMember(newFeature);
 		newFeature.setParent(parent);
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
 		
 		if (geometry != null) {
 			

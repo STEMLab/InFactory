@@ -14,7 +14,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 public class SpaceLayerDAO {
 	
-	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentId, String id) {
+	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentId, String id, String name, String description) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -39,6 +39,15 @@ public class SpaceLayerDAO {
 				parent = new SpaceLayers(map, parentId);
 			}
 		}
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
+		
 		ArrayList<SpaceLayer> spaceLayerMember = new ArrayList<SpaceLayer>();
 		spaceLayerMember.add(newFeature);
 		parent.setSpaceLayerMember(spaceLayerMember);

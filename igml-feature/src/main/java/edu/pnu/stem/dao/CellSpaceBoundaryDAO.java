@@ -25,45 +25,6 @@ import edu.pnu.stem.geometry.jts.WKTReader3D;
  */
 public class CellSpaceBoundaryDAO {
 
-	/*
-	 * public static FeatureClassReference.CellSpaceBoundary
-	 * createCellSpaceBoundary(String docId, String ID, String parentID) {
-	 * FeatureClassReference.CellSpaceBoundary newFeature = null; if
-	 * (Container.getInstance().hasDoc(docId)) { newFeature = new
-	 * FeatureClassReference.CellSpaceBoundary(); newFeature.setID(ID);
-	 * newFeature.setParentID(ID); Container.getInstance().setFeature(docId, ID,
-	 * "CellSpaceBoundary", newFeature);
-	 * 
-	 * } return newFeature; }
-	 * 
-	 */
-
-	/*
-	 * public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map,
-	 * String parentId, String ID, String name, String description, String
-	 * duality, String cellSpaceBoundaryGeometry, ExternalReference
-	 * externalReference) { if(id == null) { id = UUID.randomUUID().toString();
-	 * }
-	 * 
-	 * CellSpaceBoundary newFeature = new CellSpaceBoundary(map, id);
-	 * PrimalSpaceFeatures parent = new PrimalSpaceFeatures(map);
-	 * parent.setId(parentId); newFeature.setParent(parent); if (name != null) {
-	 * newFeature.setName(name); } if (duality != null) { Transition
-	 * dualityTransition = new Transition(map);
-	 * dualityTransition.setId(duality);
-	 * newFeature.setDuality(dualityTransition);
-	 * if(map.getFeatureContainer("Reference").containsKey(duality)){ int count
-	 * = (int) map.getFeatureContainer("Reference").get(duality); count++;
-	 * map.setFeature(ID, "Reference", count); }
-	 * 
-	 * } if (externalReference != null) {
-	 * newFeature.setExternalReference(externalReference); } if
-	 * (cellSpaceBoundaryGeometry != null) {
-	 * newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometry); }
-	 * map.setFeature(ID, "CellSpaceBoundary", newFeature); map.setFeature(ID,
-	 * "ID", "CellSpaceBoundary"); return newFeature; }
-	 */
-
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
 			String geometry, String duality) {
 		if (id == null) {
@@ -131,7 +92,7 @@ public class CellSpaceBoundaryDAO {
 		return target;
 	}
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
-			Geometry geometry, String duality) {
+			String name, String description, Geometry geometry, String duality) {
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -158,7 +119,15 @@ public class CellSpaceBoundaryDAO {
 
 		parent.addCellSpaceBoundaryMember(newFeature);
 		newFeature.setParent(parent);
-
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
+		
 		if (geometry != null) {
 			newFeature.setGeometry(geometry);
 		}
@@ -224,6 +193,10 @@ public class CellSpaceBoundaryDAO {
 		}
 		
 		return result;
+		
+	}
+	public static void deleteCellSpaceBoundary(IndoorGMLMap map, String id) {
+		CellSpaceBoundary target = (CellSpaceBoundary)map.getFeature(id);
 		
 	}
 }
