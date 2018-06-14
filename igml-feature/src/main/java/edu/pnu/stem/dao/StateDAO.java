@@ -16,52 +16,10 @@ import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Nodes;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
+import edu.pnu.stem.util.GeometryUtil;
 
 public class StateDAO {
-	/*
-	public static State createState(IndoorGMLMap map, String parentId, String Id,
-			String duality, List<String> connects, String geometry, String externalReference) {
-		State newFeature = null;
-		newFeature = new State(map);
-		newFeature.setId(Id);
-		
-		Nodes parent = (Nodes) map.getFeature(parentId);
-		parent.addStateMember(newFeature);
-		newFeature.setParent(parent);
-		
-		if (duality != null) {
-			CellSpace tempDuality = new CellSpace(map);
-			tempDuality.setId(duality);
-			newFeature.setDuality(tempDuality);
-			if(map.getFeatureContainer("Reference").containsKey(duality)){
-				int count = (Integer)map.getFeatureContainer("Reference").get(duality);
-				count++;
-				map.setFeature(duality, "Reference", count);
-			}
-			else{
-				map.setFeature(duality, "Reference", 1);
-			}
-			map.setFeature(Id, "Reference", 1);
-		}
-		if (geometry != null) {
-			// newFeature.set
-		}
-		if (connects != null) {
-			List<Transition>tempConnects = new ArrayList<Transition>();	
-			for(int i = 0 ; i < connects.size() ; i++){
-				Transition temp = new Transition(map);
-				temp.setId(connects.get(i));
-				tempConnects.add(temp);
-			}
-			newFeature.setConnects(tempConnects);				
-		}
-		if (externalReference != null) {
-			newFeature.setExternalReference(externalReference);
-		}
-		map.setFeature(Id, "CellSpace", newFeature);
-		return newFeature;
-	}
-	*/
+	
 	public static State readState(IndoorGMLMap map, String id) {
 		State target = null;
 		try {
@@ -73,7 +31,7 @@ public class StateDAO {
 		return target;
 	}
 	
-	public static State createState(IndoorGMLMap map, String parentId, String id, JsonNode geometry, String duality, List<String> connected) {
+	public static State createState(IndoorGMLMap map, String parentId, String id, Geometry geometry, String duality, List<String> connected) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -101,37 +59,8 @@ public class StateDAO {
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {
-			WKTReader wkt = new WKTReader();
-			Point p = null;
-			if(geometry.has("coordinates")){
-				try{
-					p = (Point)wkt.read(geometry.get("coordinates").asText().trim());
-				}catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
-			else{
-				try{
-				p = (Point)wkt.read(geometry.asText().trim());
-				}catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
 			
-			String geometryId = null;
-			if(geometry.has("properties")){
-				if(geometry.get("properties").has("id")){
-					geometryId = geometry.get("properties").get("id").asText().trim();
-				}
-			}
-			if(geometryId == null){
-				geometryId = UUID.randomUUID().toString();
-			}
-			
-			if(p != null){
-				map.setFeature4Geometry(geometryId, p);
-				newFeature.setGeometry(p);
-			}
+			newFeature.setGeometry(geometry);
 		}
 		
 		if(connected != null){

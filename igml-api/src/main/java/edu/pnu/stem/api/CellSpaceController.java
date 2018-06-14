@@ -62,7 +62,9 @@ public class CellSpaceController {
 				
 		String geom = json.get("geometry").asText().trim();
 		String duality = null;
+		Geometry cellGeometry = null;
 		JsonNode geometry = null;
+		
 		List<String> partialBoundedBy = null;
 		
 		if(id == null || id.isEmpty()) {
@@ -84,7 +86,12 @@ public class CellSpaceController {
 				duality = json.get("properties").get("duality").asText().trim();
 			}
 		}
-		geometry = json.get("geometry");
+		
+		if(json.has("geometry")) {
+			geometry = json.get("geometry");
+			cellGeometry = Convert2Json.json2Geometry(geometry);
+		}
+		
 		//TODO : 나중에 고치기!!
 		//String properties = json.get("properties").asText().trim();
 		//String duality = null;
@@ -111,7 +118,7 @@ public class CellSpaceController {
 				c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
 			}
 			 * */
-			c = CellSpaceDAO.createCellSpace(map, parentId, id, geometry, duality, partialBoundedBy);
+			c = CellSpaceDAO.createCellSpace(map, parentId, id, cellGeometry, duality, partialBoundedBy);
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();

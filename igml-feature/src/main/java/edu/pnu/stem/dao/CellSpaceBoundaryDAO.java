@@ -131,7 +131,7 @@ public class CellSpaceBoundaryDAO {
 		return target;
 	}
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
-			JsonNode geometry, String duality) {
+			Geometry geometry, String duality) {
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -160,61 +160,7 @@ public class CellSpaceBoundaryDAO {
 		newFeature.setParent(parent);
 
 		if (geometry != null) {
-			String geometryId = null;
-			if(geometry.has("properties")){
-				if(geometry.get("properties").has("id")){
-					geometryId = geometry.get("properties").get("id").asText().trim();
-				}
-			}
-			if(geometryId == null){
-				geometryId = UUID.randomUUID().toString();
-			}
-			if (geometry.has("coordinates")) {
-				/*
-				 * String geometryType =
-				 * geometry.get("properties").get("type").asText().trim();
-				 * JsonNode surface =
-				 * Convert2GeoJsonGeometry.convert2GeoJson(geometry,
-				 * "CellSpaceBoundary"); GeoJSON3DReader reader = new
-				 * GeoJSON3DReader(); Polygon resultSolid =
-				 * (Polygon)reader.read(surface.toString());
-				 * map.setFeature4Geometry(geometry.get("properties").get("id").
-				 * asText().trim(), resultSolid);
-				 * newFeature.setGeometry(resultSolid);
-				 * 
-				 */
-				WKTReader3D wkt = new WKTReader3D();
-				try {
-					Polygon p = (Polygon) wkt.read(geometry.get("coordinates").asText().trim());
-					map.setFeature4Geometry(geometryId, p);
-					newFeature.setGeometry(p);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-			} else {
-				WKTReader3D wkt = new WKTReader3D();
-				try {
-					Geometry wktG = wkt.read(geometry.asText().trim());
-					if (wktG instanceof Polygon) {
-						Polygon p = (Polygon) wktG;
-						map.setFeature4Geometry(geometryId, p);
-						newFeature.setGeometry(p);
-					}
-					//
-					else {
-						WKTReader wkt2D = new WKTReader();
-						LineString p = (LineString) wkt2D.read(geometry.asText().trim());
-						map.setFeature4Geometry(geometryId, p);
-						newFeature.setGeometry(p);
-					}
-
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-			}
-
+			newFeature.setGeometry(geometry);
 		}
 
 		if (duality != null) {
