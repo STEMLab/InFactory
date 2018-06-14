@@ -47,7 +47,7 @@ public class NodesController {
 		String parentId = json.get("parentId").asText().trim();
 		String name = null;
 		String description = null;
-		
+		List<String> stateMember = null;
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
@@ -61,13 +61,20 @@ public class NodesController {
 			if(json.get("properties").has("description")) {
 				description = json.get("properties").get("description").asText().trim();
 			}
+			if(json.get("properties").has("stateMember")){
+				stateMember = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("transitionMember");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					stateMember.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
 		}
 		
 		Nodes ns;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			ns = NodesDAO.createNodes(map, parentId, id, name, description);
+			ns = NodesDAO.createNodes(map, parentId, id, name, description, stateMember);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

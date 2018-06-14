@@ -31,7 +31,7 @@ public class StateDAO {
 		return target;
 	}
 	
-	public static State createState(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String> connected) {
+	public static State createState(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String> connects) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -71,9 +71,9 @@ public class StateDAO {
 			newFeature.setGeometry(geometry);
 		}
 		
-		if(connected != null){
+		if(connects != null){
 			List<Transition> realConnected = new ArrayList<Transition>();
-			for(String t : connected){
+			for(String t : connects){
 				Transition ct = (Transition)map.getFeature(t);
 				if(ct == null){
 					ct = new Transition(map, t);

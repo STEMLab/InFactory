@@ -14,12 +14,14 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 public class SpaceLayerDAO {
 	
-	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentId, String id, String name, String description) {
+	public static SpaceLayer createSpaceLayer(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>nodes, List<String>edges) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
 		
 		SpaceLayer newFeature = new SpaceLayer(map, id);
+		List<Nodes> nl = new ArrayList<Nodes>();
+		List<Edges> el = new ArrayList<Edges>();
 		
 		if(map.hasFutureID(id)){
 			newFeature = (SpaceLayer)map.getFutureFeature(id);
@@ -46,6 +48,19 @@ public class SpaceLayerDAO {
 		
 		if(description != null) {
 			newFeature.setDescription(description);
+		}
+		
+		if(nodes != null) {
+			for(String ni : nodes) {
+				nl.add(new Nodes(map, ni));
+			}
+			newFeature.setNodes(nl);
+		}
+		if(edges != null) {
+			for(String ei : edges) {
+				el.add(new Edges(map, ei));
+			}
+			newFeature.setEdges(el);
 		}
 		
 		ArrayList<SpaceLayer> spaceLayerMember = new ArrayList<SpaceLayer>();

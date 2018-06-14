@@ -16,7 +16,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 
 public class MultiLayeredGraphDAO {
 
-	public static MultiLayeredGraph createMultiLayeredGraph(IndoorGMLMap map, String parentId, String id, String name, String description) {
+	public static MultiLayeredGraph createMultiLayeredGraph(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>spaceLayers, List<String> interEdges) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -29,6 +29,9 @@ public class MultiLayeredGraphDAO {
 		map.setFeature(id, "MultiLayeredGraph", newFeature);
 		
 		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
+		List<SpaceLayers> sls = new ArrayList<SpaceLayers>();
+		List<InterEdges> iel = new ArrayList<InterEdges>();
+		
 		if(parent == null){
 			if(map.hasFutureID(parentId)){
 				parent = (IndoorFeatures)map.getFutureFeature(parentId);
@@ -44,6 +47,20 @@ public class MultiLayeredGraphDAO {
 		
 		if(description != null) {
 			newFeature.setDescription(description);
+		}
+		
+		if(spaceLayers != null) {
+			for(String si : spaceLayers) {
+				sls.add(new SpaceLayers(map, si));
+			}
+			newFeature.setSpaceLayers(sls);
+		}
+		
+		if(interEdges != null) {
+			for(String ii : interEdges) {
+				iel.add(new InterEdges(map, ii));
+			}
+			newFeature.setInterEdges(iel);
 		}
 		
 		parent.setMultiLayeredGraph(newFeature);

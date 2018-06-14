@@ -48,6 +48,7 @@ public class EdgesController {
 		String parentId = json.get("parentId").asText().trim();
 		String name = null;
 		String description = null;
+		List<String> transitionMember = null;
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
@@ -60,13 +61,20 @@ public class EdgesController {
 			if(json.get("properties").has("description")) {
 				description = json.get("properties").get("description").asText().trim();
 			}
+			if(json.get("properties").has("transitionMember")){
+				transitionMember = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("transitionMember");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					transitionMember.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
 		}
 		
 		Edges es;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			es = EdgesDAO.createEdges(map, parentId, id, name, description);
+			es = EdgesDAO.createEdges(map, parentId, id, name, description, transitionMember);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

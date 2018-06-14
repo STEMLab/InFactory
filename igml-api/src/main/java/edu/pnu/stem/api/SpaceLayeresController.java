@@ -48,16 +48,37 @@ public class SpaceLayeresController {
 		
 		String name = null;
 		String description = null;
+		List<String> spaceLayerMember = null;
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
 		
+		if(json.has("properties")){
+			if(json.get("properties").has("name")) {
+				name = json.get("properties").get("name").asText().trim();
+			}
+			if(json.get("properties").has("description")) {
+				description = json.get("properties").get("description").asText().trim();
+			}
+			if(json.get("properties").has("spaceLayerMember")){
+				spaceLayerMember = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("spaceLayerMember");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					spaceLayerMember.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
+			
+		}
+		
+		
 		SpaceLayers sls;
+		
+		
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			sls = SpaceLayersDAO.createSpaceLayers(map, parentId, id, name, description);
+			sls = SpaceLayersDAO.createSpaceLayers(map, parentId, id, name, description, spaceLayerMember);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

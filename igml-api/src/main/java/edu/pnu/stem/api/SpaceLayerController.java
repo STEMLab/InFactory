@@ -48,9 +48,13 @@ public class SpaceLayerController {
 		String name = null;
 		String description = null;
 		
+		List<String> edges = null;
+		List<String> nodes = null;
+		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
+		
 		
 		
 		if(json.has("properties")) {
@@ -60,13 +64,27 @@ public class SpaceLayerController {
 			if(json.get("properties").has("description")) {
 				description = json.get("properties").get("description").asText().trim();
 			}
+			if(json.get("properties").has("edges")){
+				edges = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("edges");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					edges.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
+			if(json.get("properties").has("nodes")){
+				nodes = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("nodes");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					nodes.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
 		}
 		
 		SpaceLayer sl;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			sl = SpaceLayerDAO.createSpaceLayer(map, parentId, id, name, description);
+			sl = SpaceLayerDAO.createSpaceLayer(map, parentId, id, name, description, nodes, edges);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

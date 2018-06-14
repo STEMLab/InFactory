@@ -48,6 +48,9 @@ public class PrimalSpaceFeaturesController {
 		String name = null;
 		String description = null;
 		
+		List<String> cellspacemember = null;
+		List<String> cellspaceboundarymember = null;
+		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
@@ -59,6 +62,20 @@ public class PrimalSpaceFeaturesController {
 			}
 			if(json.get("properties").has("description")) {
 				description = json.get("properties").get("description").asText().trim();
+			}
+			if(json.get("properties").has("cellSpaceMember")){
+				cellspacemember = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("cellSpaceMember");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					cellspacemember.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
+			if(json.get("properties").has("cellSpaceBoundaryMember")){
+				cellspaceboundarymember = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("cellSpaceBoundaryMember");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					cellspaceboundarymember.add(partialBoundedByList.get(i).asText().trim());
+				}
 			}
 		}
 		

@@ -47,6 +47,8 @@ public class MultiLayeredGraphController {
 		String parentId = json.get("parentId").asText().trim();
 		String name = null;
 		String description = null;
+		List<String> spacelayers = null;
+		List<String> interedges = null;
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
@@ -59,6 +61,21 @@ public class MultiLayeredGraphController {
 			if(json.get("properties").has("description")) {
 				description = json.get("properties").get("description").asText().trim();
 			}
+			
+			if(json.get("properties").has("spaceLayers")){
+				spacelayers = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("spaceLayers");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					spacelayers.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
+			if(json.get("properties").has("interEdges")){
+				interedges = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("interEdges");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					interedges.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
 		}
 		
 		
@@ -69,7 +86,7 @@ public class MultiLayeredGraphController {
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			mg = MultiLayeredGraphDAO.createMultiLayeredGraph(map, parentId, id, name, description);
+			mg = MultiLayeredGraphDAO.createMultiLayeredGraph(map, parentId, id, name, description, spacelayers, interedges);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

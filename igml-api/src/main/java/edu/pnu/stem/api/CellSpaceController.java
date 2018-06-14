@@ -93,8 +93,14 @@ public class CellSpaceController {
 			if(json.get("properties").has("description")) {
 				description = json.get("properties").get("description").asText().trim();
 			}
+			if(json.get("properties").has("partialboundedBy")){
+				partialBoundedBy = new ArrayList<String>();
+				JsonNode partialBoundedByList = json.get("properties").get("partialboundedBy");
+				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+					partialBoundedBy.add(partialBoundedByList.get(i).asText().trim());
+				}
+			}
 		}
-
 		
 		if(json.has("geometry")) {
 			geometry = json.get("geometry");
@@ -105,16 +111,7 @@ public class CellSpaceController {
 		//TODO : 나중에 고치기!!
 		//String properties = json.get("properties").asText().trim();
 		//String duality = null;
-		
-		if(json.has("properties")){
-			if(json.get("properties").has("partialboundedBy")){
-				partialBoundedBy = new ArrayList<String>();
-				JsonNode partialBoundedByList = json.get("properties").get("partialboundedBy");
-				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
-					partialBoundedBy.add(partialBoundedByList.get(i).asText().trim());
-				}
-			}
-		}
+
 		
 		CellSpace c = null;
 		try {
