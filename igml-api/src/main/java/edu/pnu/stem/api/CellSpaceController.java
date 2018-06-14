@@ -57,6 +57,9 @@ public class CellSpaceController {
 	public void createCellSpace(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
+		String name = null; 
+		String description = null;
+		
 		String geomFormatType = "GEOJSON";
 		final ObjectMapper mapper = new ObjectMapper();
 				
@@ -83,6 +86,12 @@ public class CellSpaceController {
 		if(json.has("properties")){
 			if(json.get("properties").has("duality")){
 				duality = json.get("properties").get("duality").asText().trim();
+			}
+			if(json.get("properties").has("name")) {
+				name = json.get("properties").get("name").asText().trim();
+			}
+			if(json.get("properties").has("description")) {
+				description = json.get("properties").get("description").asText().trim();
 			}
 		}
 
@@ -119,7 +128,7 @@ public class CellSpaceController {
 				c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
 			}
 			 * */
-			c = CellSpaceDAO.createCellSpace(map, parentId, id, cellGeometry, duality, partialBoundedBy);
+			c = CellSpaceDAO.createCellSpace(map, parentId, id, name, description, cellGeometry, duality, partialBoundedBy);
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();

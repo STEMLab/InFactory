@@ -47,6 +47,9 @@ public class StateController {
 	public void createState(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 
 		String parentId = json.get("parentId").asText().trim();
+		String name = null;
+		String description = null;
+		
 		String geom = json.get("geometry").asText().trim();
 		Geometry geometry = null;
 		State s;
@@ -68,7 +71,15 @@ public class StateController {
 				for(int i = 0 ; i < test.size() ; i++){
 					connected.add(test.get(i).asText().trim());
 				}
+			}	
+			
+			if(json.get("properties").has("name")) {
+				name = json.get("properties").get("name").asText().trim();
 			}
+			if(json.get("properties").has("description")) {
+				description = json.get("properties").get("description").asText().trim();
+			}
+			
 		}
 		
 		if(json.has("geometry")) {
@@ -78,7 +89,7 @@ public class StateController {
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			s = StateDAO.createState(map, parentId, id, geometry, duality, connected);
+			s = StateDAO.createState(map, parentId, id, name, description, geometry, duality, connected);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
@@ -114,8 +125,23 @@ public class StateController {
 					duality = json.get("properties").get("duality").asText().trim();
 					
 				}
+				if(json.get("properties").has("name")) {
+					name = json.get("properties").get("name").asText().trim();
+				}
+				if(json.get("properties").has("description")) {
+					description = json.get("properties").get("description").asText().trim();
+				}
+				
+				if(json.get("properties").has("connects")){
+					connects = new ArrayList<String>();
+					JsonNode partialBoundedByList = json.get("properties").get("connects");
+					for(int i = 0 ; i < partialBoundedByList.size() ; i++){
+						connects.add(partialBoundedByList.get(i).asText().trim());
+					}
+				}
 				
 			}
+			
 			if(json.has("geometry")) {
 				geometry = json.get("geometry");
 				geom = Convert2Json.json2Geometry(geometry);
@@ -126,15 +152,6 @@ public class StateController {
 			//String properties = json.get("properties").asText().trim();
 			//String duality = null;
 			
-			if(json.has("properties")){
-				if(json.get("properties").has("connects")){
-					connects = new ArrayList<String>();
-					JsonNode partialBoundedByList = json.get("properties").get("connects");
-					for(int i = 0 ; i < partialBoundedByList.size() ; i++){
-						connects.add(partialBoundedByList.get(i).asText().trim());
-					}
-				}
-			}
 			
 		StateDAO.updateState(map, parentId, id, name, description, geom, duality, connects);
 			

@@ -45,16 +45,29 @@ public class NodesController {
 	public void createSpaceLayer(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 
 		String parentId = json.get("parentId").asText().trim();
+		String name = null;
+		String description = null;
+		
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
+		}
+		
+		
+		if(json.has("properties")) {
+			if(json.get("properties").has("name")) {
+				name = json.get("properties").get("name").asText().trim();
+			}
+			if(json.get("properties").has("description")) {
+				description = json.get("properties").get("description").asText().trim();
+			}
 		}
 		
 		Nodes ns;
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			ns = NodesDAO.createNodes(map, parentId, id);
+			ns = NodesDAO.createNodes(map, parentId, id, name, description);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

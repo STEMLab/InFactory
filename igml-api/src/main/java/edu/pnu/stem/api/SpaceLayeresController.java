@@ -46,6 +46,9 @@ public class SpaceLayeresController {
 
 		String parentId = json.get("parentId").asText().trim();
 		
+		String name = null;
+		String description = null;
+		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
@@ -54,7 +57,7 @@ public class SpaceLayeresController {
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			sls = SpaceLayersDAO.createSpaceLayers(map, parentId, id);
+			sls = SpaceLayersDAO.createSpaceLayers(map, parentId, id, name, description);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

@@ -47,11 +47,15 @@ public class CellSpaceBoundaryController {
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createCellSpaceBoundary(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+		
+		final ObjectMapper mapper = new ObjectMapper();
 		String parentId = json.get("parentId").asText().trim();
+		String duality = null;
+		String name = null; 
+		String description = null;
+		
 		String geomFormatType = "GEOJSON";
 		String geom = json.get("geometry").asText().trim();
-		final ObjectMapper mapper = new ObjectMapper();
-		String duality = null;
 		Geometry geometry = null;
 		
 		if(id == null || id.isEmpty()) {
@@ -78,7 +82,15 @@ public class CellSpaceBoundaryController {
 			if(json.get("properties").has("duality")){
 				duality = json.get("properties").get("duality").asText().trim();
 			}
+			if(json.get("properties").has("name")) {
+				name = json.get("properties").get("name").asText().trim();
+			}
+			if(json.get("properties").has("description")) {
+				description = json.get("properties").get("description").asText().trim();
+			}
 		}
+		
+		
 		CellSpaceBoundary c = null;
 		try {
 			Container container = applicationContext.getBean(Container.class);
@@ -93,7 +105,7 @@ public class CellSpaceBoundaryController {
 			}
 			 * */
 			
-			c = CellSpaceBoundaryDAO.createCellSpaceBoundary(map, parentId, id, geometry, duality); 
+			c = CellSpaceBoundaryDAO.createCellSpaceBoundary(map, parentId, id, name, description, geometry, duality); 
 			
 		} catch (NullPointerException e) {
 			e.printStackTrace();
