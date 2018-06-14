@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,10 +26,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.dao.EdgesDAO;
-import edu.pnu.stem.dao.MultiLayeredGraphDAO;
 import edu.pnu.stem.dao.SpaceLayersDAO;
-import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.SpaceLayers;
 
 /**
@@ -63,7 +61,7 @@ public class SpaceLayeresController {
 		}
 		response.setHeader("Location", request.getRequestURL().append(sls.getId()).toString());
 	}
-	@PostMapping(value = "/{id}", produces = "application/json")
+	@PutMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void updateSpaceLayers(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		try {

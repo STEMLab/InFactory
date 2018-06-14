@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,7 +27,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.dao.PrimalSpaceFeaturesDAO;
-import edu.pnu.stem.dao.SpaceLayerDAO;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 /**
@@ -62,7 +62,7 @@ public class PrimalSpaceFeaturesController {
 		response.setHeader("Location", request.getRequestURL().append(psf.getId()).toString());
 		System.out.println("PrimalSpaceFeatures is created : "+id);
 	}
-	@PostMapping(value = "/{id}", produces = "application/json")
+	@PutMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updatePrimalSpaceFeatures(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		try {

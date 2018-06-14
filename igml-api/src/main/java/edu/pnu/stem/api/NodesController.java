@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,12 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.vividsolutions.jts.geom.Geometry;
 
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
-import edu.pnu.stem.binder.Convert2Json;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.dao.CellSpaceBoundaryDAO;
 import edu.pnu.stem.dao.NodesDAO;
 import edu.pnu.stem.feature.Nodes;
 
@@ -64,7 +62,7 @@ public class NodesController {
 		response.setHeader("Location", request.getRequestURL().append(ns.getId()).toString());
 	}
 	
-	@PostMapping(value = "/{id}", produces = "application/json")
+	@PutMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void updateNodes(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		try {

@@ -52,7 +52,7 @@ public class CellSpaceController {
 	@Autowired
     private ApplicationContext applicationContext;
 	
-	@PutMapping(value = "/{id}", produces = "application/json")
+	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createCellSpace(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String docId = json.get("docId").asText().trim();
@@ -84,7 +84,9 @@ public class CellSpaceController {
 				duality = json.get("properties").get("duality").asText().trim();
 			}
 		}
-		geometry = json.get("geometry");
+		if(json.has("geometry")) {
+			geometry = json.get("geometry");
+		}
 		//TODO : 나중에 고치기!!
 		//String properties = json.get("properties").asText().trim();
 		//String duality = null;
@@ -142,7 +144,7 @@ public class CellSpaceController {
 		}
 	}
 	
-	@PostMapping(value = "/{id}", produces = "application/json")
+	@PutMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void updateCellSpace(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
 		try {
