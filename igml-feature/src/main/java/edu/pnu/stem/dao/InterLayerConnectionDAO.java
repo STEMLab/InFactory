@@ -8,7 +8,7 @@ import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.State;
 public class InterLayerConnectionDAO {
 
-	public static InterLayerConnection createInterLayerConnection(IndoorGMLMap map, String parentId, String id, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
+	public static InterLayerConnection createInterLayerConnection(IndoorGMLMap map, String parentId, String id, String name, String description, String typeOfTopoExpression, String comment, String[] interConnects, String[] ConnectedLayers){
 		InterLayerConnection newFeature = new InterLayerConnection(map, id);
 		InterEdges parent = new InterEdges(map, parentId);
 		newFeature.setParent(parent);
@@ -19,6 +19,14 @@ public class InterLayerConnectionDAO {
 		if(comment != null){
 			//TODO : comment is not defined
 			//newFeature.setComment(comment);
+		}
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
 		}
 		if(interConnects.length == 2 && ConnectedLayers.length == 2){
 			if(map.hasID(interConnects[0])&&map.hasID(interConnects[1])){

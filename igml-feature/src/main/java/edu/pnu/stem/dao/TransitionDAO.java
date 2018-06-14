@@ -18,57 +18,9 @@ import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
 public class TransitionDAO {
-	
-	/*
+
 	public static Transition createTransition(IndoorGMLMap map, String parentId,
-			String Id, String name, String description, String duality, String geometry,
-			String externalReference, String[]connects) {
-		Transition newFeature = null;
-		newFeature = new Transition(map);
-		Edges parent = new Edges(map);
-		parent.setId(parentId);
-		newFeature.setParent(parent);
-		if (name != null) {
-			newFeature.setName(name);
-		}
-		if (duality != null) {
-			CellSpaceBoundary tempDuality = new CellSpaceBoundary(map);
-			tempDuality.setId(duality);
-			newFeature.setDuality(tempDuality);
-			if(map.getFeatureContainer("Reference").containsKey(duality)){
-				int count = (Integer)map.getFeatureContainer("Reference").get(duality);
-				count++;
-				map.setFeature(duality, "Reference", count);
-			}
-			else{
-				map.setFeature(duality, "Reference", 1);
-			}
-			map.setFeature(Id, "Reference", 1);
-		}
-		if (externalReference != null) {
-			//newFeature.setExternalReference(externalReference);
-		}
-		if (geometry != null) {
-			//newFeature.setGeometry(g);
-		}
-		if(connects.length == 2){
-			State[] tempConnects = new State[2];
-			tempConnects[0] = new State(map);
-			tempConnects[1] = new State(map);
-			tempConnects[0].setId(connects[0]);
-			tempConnects[1].setId(connects[1]);
-			newFeature.setConnects(tempConnects);
-		}
-		else{
-			System.out.println("createTransition : there is no enough number of connections for this transition");
-		}
-		map.setFeature(Id, "Transition", newFeature);
-		return newFeature;
-	}
-	*/
-	
-	public static Transition createTransition(IndoorGMLMap map, String parentId,
-			String id, String geometry, String duality, String[] connects) {
+			String id, String name, String description, Geometry geometry, String duality, String[] connects) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -98,16 +50,16 @@ public class TransitionDAO {
 		}
 		*/
 		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
+		
 		if (geometry != null) {
-			WKTReader wkt = new WKTReader();
-			try {
-				LineString l = (LineString) wkt.read(geometry);
-				map.setFeature4Geometry(UUID.randomUUID().toString(), l);
-				newFeature.setGeometry(l);
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			newFeature.setGeometry(geometry);
 		}
 		
 		if (duality != null) {

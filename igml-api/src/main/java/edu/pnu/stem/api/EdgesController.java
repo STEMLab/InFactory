@@ -28,6 +28,7 @@ import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.dao.EdgesDAO;
 import edu.pnu.stem.dao.NodesDAO;
+import edu.pnu.stem.dao.TransitionDAO;
 import edu.pnu.stem.feature.Edges;
 
 /**
@@ -62,6 +63,7 @@ public class EdgesController {
 		response.setHeader("Location", request.getRequestURL().append(es.getId()).toString());
 	}
 	
+
 	@PutMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void updateEdges(@PathVariable("docId") String docId, @PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {

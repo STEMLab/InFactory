@@ -20,7 +20,7 @@ import edu.pnu.stem.feature.SpaceLayers;
  */
 public class PrimalSpaceFeaturesDAO {
 	
-	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id) {
+	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id, String name, String description) {
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -41,6 +41,14 @@ public class PrimalSpaceFeaturesDAO {
 			else{
 				parent = new IndoorFeatures(map,parentId);
 			}
+		}
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
 		}
 		
 		parent.setPrimalSpaceFeatures(newFeature);

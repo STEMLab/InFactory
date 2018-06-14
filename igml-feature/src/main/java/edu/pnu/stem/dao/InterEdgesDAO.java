@@ -10,12 +10,20 @@ import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.SpaceLayer;
 
 public class InterEdgesDAO {
-	public static InterEdges createInterEdges(IndoorGMLMap map, String parentId, String id, List<String>interLayerConnectionMember){
+	public static InterEdges createInterEdges(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>interLayerConnectionMember){
 		InterEdges newFeature = new InterEdges(map, id);
 		
 		MultiLayeredGraph parent = (MultiLayeredGraph) map.getFeature(parentId);
 		parent.addInterEdges(newFeature);
 		newFeature.setParent(parent);
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
 		
 		if(interLayerConnectionMember != null){
 			List<InterLayerConnection>tempList = new ArrayList<InterLayerConnection>();

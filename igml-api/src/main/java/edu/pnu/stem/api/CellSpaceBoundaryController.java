@@ -52,7 +52,7 @@ public class CellSpaceBoundaryController {
 		String geom = json.get("geometry").asText().trim();
 		final ObjectMapper mapper = new ObjectMapper();
 		String duality = null;
-		JsonNode geometry = null;
+		Geometry geometry = null;
 		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
@@ -60,12 +60,16 @@ public class CellSpaceBoundaryController {
 		
 		try{			
 			 mapper.readTree(geom);
-			 geometry = json.get("geometry");
+			 geometry = Convert2Json.json2Geometry(json.get("geometry"));
 		}
 		catch (IOException e){
 			geomFormatType = "WKT";
 		}
-		geometry = json.get("geometry");
+		
+		if(json.has("geometry")) {
+			geometry = Convert2Json.json2Geometry(json.get("geometry"));
+		}
+		
 		//TODO : 나중에 고칠 것. 임시로.
 		if(json.has("duality")){
 			duality = json.get("duality").asText().trim();
