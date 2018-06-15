@@ -119,11 +119,13 @@ public class CellSpace extends AbstractFeature {
 	public void setPartialboundedBy(List<CellSpaceBoundary> csbList) {
 		this.partialboundedBy = new ArrayList<String>();
 		for(CellSpaceBoundary cb : csbList){
+			cb.setCellSpace(this);
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cb.getId());
 			if(found == null){
 				indoorGMLMap.setFutureFeature(cb.getId(), cb);
 			}
+			
 			if(!this.partialboundedBy.contains(cb.getId())){
 				this.partialboundedBy.add(cb.getId());
 			}
@@ -158,6 +160,11 @@ public class CellSpace extends AbstractFeature {
 	public void resetParent() {
 		this.parentId = null;
 		
+	}
+	
+	public void deletePartialBoundedBy(CellSpaceBoundary cb) {
+		if(this.partialboundedBy.contains(cb.getId()))
+			this.partialboundedBy.remove(cb.getId());
 	}
 	
 }

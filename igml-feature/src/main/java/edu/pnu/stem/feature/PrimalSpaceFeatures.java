@@ -125,4 +125,10 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			cellSpaceMember.remove(id);
 		}
 	}
+
+	public void deleteCellSpaceBoundaryMember(String id) {
+		if(cellSpaceBoundaryMember.contains(id))
+			cellSpaceBoundaryMember.remove(id);
+		
+	}
 }

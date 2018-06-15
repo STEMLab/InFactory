@@ -36,7 +36,7 @@ public class CellSpaceDAO {
 			State duality = target.getDuality();
 			duality.resetDuality();
 		}
-		map.remvoeFeature(id);
+		map.removeFeature(id);
 	}
 	public static CellSpace readCellSpace(IndoorGMLMap map, String id) {
 		CellSpace target = null;

@@ -159,7 +159,7 @@ public class StateDAO {
 			CellSpace duality = target.getDuality();
 			duality.resetDuality();
 		}
-		map.remvoeFeature(id);
+		map.removeFeature(id);
 	}
 	
 	public static State updateState(IndoorGMLMap map,String parentId, String id, String name, String description, Geometry geometry, String duality, List<String>connects) {

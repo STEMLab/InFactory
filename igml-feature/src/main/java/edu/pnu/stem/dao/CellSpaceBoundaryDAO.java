@@ -197,6 +197,18 @@ public class CellSpaceBoundaryDAO {
 	}
 	public static void deleteCellSpaceBoundary(IndoorGMLMap map, String id) {
 		CellSpaceBoundary target = (CellSpaceBoundary)map.getFeature(id);
+		PrimalSpaceFeatures parent = target.getParent();
+		parent.deleteCellSpaceBoundaryMember(id);
 		
+		if(target.hasDuality()) {
+			Transition duality = target.getDuality();
+			duality.resetDuality();
+		}
+		
+		//cellspace 찾아가서 partialboundedby 해제
+		 CellSpace cellspaceForPartialBoundedBy = target.getCellSpace();
+		 cellspaceForPartialBoundedBy.deletePartialBoundedBy(target);
+		
+		map.removeFeature(id);
 	}
 }

@@ -28,6 +28,8 @@ public class CellSpaceBoundary extends AbstractFeature {
 	 */
 	private String parentId;
 	private String cellSpaceBoundaryGeometry;
+	
+	private String cellSpaceForPartialBoundedBy;
 
 	public CellSpaceBoundary(IndoorGMLMap doc, String id){
 		super(doc, id);
@@ -120,5 +122,19 @@ public class CellSpaceBoundary extends AbstractFeature {
 		this.parentId = null;
 		
 	}
-
+	
+	public void resetCellSpace() {
+		this.cellSpaceForPartialBoundedBy = null;
+	}
+	
+	public void setCellSpace(CellSpace c) {
+		this.cellSpaceForPartialBoundedBy = c.getId();
+	}
+	
+	public CellSpace getCellSpace() {
+		CellSpace found = null;
+		found = (CellSpace)indoorGMLMap.getFeature(this.cellSpaceForPartialBoundedBy);
+		return found;
+	}
 }
+
