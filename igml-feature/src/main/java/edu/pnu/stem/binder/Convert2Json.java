@@ -762,7 +762,7 @@ public class Convert2Json {
 				}
 			}
 			
-			
+			GeometryUtil.setMetadata(result, "id", geometryId);
 						
 		
 		

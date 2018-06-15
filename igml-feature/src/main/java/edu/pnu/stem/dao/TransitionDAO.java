@@ -14,6 +14,7 @@ import com.vividsolutions.jts.io.WKTReader;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
+import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
@@ -104,9 +105,19 @@ public class TransitionDAO {
 		map.setFeature(id, "Transition", newFeature);
 		
 		Edges parent = (Edges) map.getFeature(parentId);
+		
+		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (Edges)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new Edges(map,parentId);
+			}			
+		}
+		
 		parent.addTransitionMember(newFeature);
 		newFeature.setParent(parent);
-		
 		/*
 		if (duality != null) {
 			CellSpaceBoundary tempDuality = new CellSpaceBoundary(map);
