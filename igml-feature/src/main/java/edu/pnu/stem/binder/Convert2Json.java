@@ -17,6 +17,7 @@ import com.vividsolutions.jts.io.ParseException;
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;
+import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
 import edu.pnu.stem.feature.MultiLayeredGraph;
@@ -33,6 +34,52 @@ import edu.pnu.stem.util.GeometryUtil;
 
 public class Convert2Json {
 
+	public static ObjectNode convert2JSON(IndoorGMLMap map,IndoorFeatures target) {
+		ObjectNode result = JsonNodeFactory.instance.objectNode();
+		WKTWriter3D writer = new WKTWriter3D();
+		ObjectNode properties = null;
+		result.put("type","IndorFeatures");
+
+		result.put("id",target.getId());
+		result.put("docId", map.getDocId());
+
+		
+		if(target.getName() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("name", target.getName());
+		}
+		
+		if(target.getDescription() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("description", target.getDescription());
+		}
+		
+		if(target.getPrimalSpaceFeatures() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("primalSpaceFeatures", target.getPrimalSpaceFeatures().getId());
+		}
+		
+		if(target.getMultiLayeredGraph() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			
+			properties.put("multiLayeredGraph", target.getMultiLayeredGraph().getId());
+		}
+		
+		if(properties != null) {
+			result.set("properties", properties);
+		}
+		
+		return result;
+	}
+	
 	public static ObjectNode convert2JSON(IndoorGMLMap map,Edges target) {
 		ObjectNode result = JsonNodeFactory.instance.objectNode();
 		WKTWriter3D writer = new WKTWriter3D();
@@ -414,6 +461,62 @@ public class Convert2Json {
 		return result;
 	}
 
+	public static ObjectNode convert2JSON(IndoorGMLMap map, Transition target) {
+		ObjectNode result = JsonNodeFactory.instance.objectNode();
+		WKTWriter3D writer = new WKTWriter3D();
+		ObjectNode properties = null;
+		result.put("type","Transition");
+		Geometry targetGeometry = target.getGeometry();
+		
+		if(targetGeometry != null) {
+			ObjectNode geometryData = convert2GeometryJSON(targetGeometry);
+			result.set("geometry", geometryData);
+			//geometryData.put(fieldName, targetGeometry);
+		}
+		
+		result.put("parentId",target.getParent().getId());
+		result.put("id",target.getId());
+		result.put("docId", map.getDocId());
+		
+		if(target.getDuality() != null) {
+			if(properties == null)
+				properties = JsonNodeFactory.instance.objectNode();
+			properties.put("duality", target.getDuality().getId());
+			
+		}
+		
+		if(target.getName() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("name", target.getName());
+		}
+		
+		if(target.getDescription() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("description", target.getDescription());
+		}
+		
+		if(target.getConnects() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			List<String>csbl = new ArrayList<String>();
+			ArrayNode array = JsonNodeFactory.instance.arrayNode();
+			for(State b : target.getConnects())
+				array.add(b.getId());
+			properties.set("connects", array);
+		}
+		
+		if(properties != null) {
+			result.set("properties", properties);
+		}
+		
+		return result;
+	}
+	
 	
 	public static ObjectNode convert2JSON(IndoorGMLMap map, State target) {
 		ObjectNode result = JsonNodeFactory.instance.objectNode();
@@ -470,7 +573,7 @@ public class Convert2Json {
 		
 		return result;
 	}
-	public static ObjectNode convert2CellSpaceJSON(IndoorGMLMap map, CellSpace target) {
+	public static ObjectNode convert2JSON(IndoorGMLMap map, CellSpace target) {
 		ObjectNode result = JsonNodeFactory.instance.objectNode();
 		WKTWriter3D writer = new WKTWriter3D();
 		ObjectNode properties = null;
@@ -561,7 +664,7 @@ public class Convert2Json {
 	
 
 	
-	public static ObjectNode convert2CellSpaceBoundaryJSON(IndoorGMLMap map, CellSpaceBoundary target) {
+	public static ObjectNode convert2JSON(IndoorGMLMap map, CellSpaceBoundary target) {
 		ObjectNode result = JsonNodeFactory.instance.objectNode();
 		WKTWriter3D writer = new WKTWriter3D();
 		ObjectNode properties = null;

@@ -4,6 +4,7 @@
 package edu.pnu.stem.api;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -167,7 +169,24 @@ public class CellSpaceBoundaryController {
 		}
 	}
 	
-	public void getCellSpaceBoundary() {}
+	@GetMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.FOUND)
+	public void getCellSpaceBoundary(@PathVariable("docId") String docId,@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+			
+			ObjectNode target = Convert2Json.convert2JSON(map, CellSpaceBoundaryDAO.readCellSpaceBoundary(map, id));
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print(target);
+			out.flush();			
+			
+		}catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
+	}
 	
 	public void getCellSpaceBoundarys() {}
 	

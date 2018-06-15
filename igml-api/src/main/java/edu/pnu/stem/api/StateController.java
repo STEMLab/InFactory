@@ -3,6 +3,8 @@
  */
 package edu.pnu.stem.api;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,6 +31,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.Convert2Json;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.dao.CellSpaceBoundaryDAO;
 import edu.pnu.stem.dao.StateDAO;
 import edu.pnu.stem.feature.State;
 
@@ -157,6 +161,25 @@ public class StateController {
 			
 		}
 		catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
+	}
+	
+	@GetMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.FOUND)
+	public void getState(@PathVariable("docId") String docId,@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);
+			
+			ObjectNode target = Convert2Json.convert2JSON(map, StateDAO.readState(map, id));
+			response.setContentType("application/json;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.print(target);
+			out.flush();			
+			
+		}catch(NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
 		}

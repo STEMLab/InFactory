@@ -142,7 +142,7 @@ public class CellSpaceController {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
 			
-			ObjectNode target = Convert2Json.convert2CellSpaceJSON(map, CellSpaceDAO.readCellSpace(map, id));
+			ObjectNode target = Convert2Json.convert2JSON(map, CellSpaceDAO.readCellSpace(map, id));
 			response.setContentType("application/json;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.print(target);
