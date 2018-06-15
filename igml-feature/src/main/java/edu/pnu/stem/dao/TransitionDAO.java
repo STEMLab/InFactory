@@ -255,4 +255,21 @@ public class TransitionDAO {
 		}
 		return target;
 	}
+	
+	public static void deleteTransition(IndoorGMLMap map, String id) {
+		Transition target = (Transition)map.getFeature(id);
+		Edges parent = target.getParent();
+		parent.deleteTransitionMember(target);
+		
+		if(target.hasDuality()) {
+			CellSpaceBoundary duality = target.getDuality();
+			duality.resetDuality();
+		}
+		
+		for(State s : target.getConnects()) {
+			s.deleteConnects(target);
+		}
+
+		map.removeFeature(id);
+	}
 }

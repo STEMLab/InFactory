@@ -134,7 +134,11 @@ public class State extends AbstractFeature {
 		}
 		return connects;
 	}
-
+	
+	public void deleteConnects(Transition t) {
+		if(connects.contains(t.getId()))
+			connects.remove(t.getId());
+	}
 	public void clearConnects(){
 		this.connects.clear();
 	}
