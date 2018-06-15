@@ -113,7 +113,7 @@ public class NodesDAO {
 		return result;
 		
 	}
-	public void deleteNodes(IndoorGMLMap map, String id) {
+	public static void deleteNodes(IndoorGMLMap map, String id) {
 		Nodes target = (Nodes)map.getFeature(id);
 		SpaceLayer parent = target.getParent();
 		parent.deleteNodes(target);

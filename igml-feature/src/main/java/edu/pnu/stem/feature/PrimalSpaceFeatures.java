@@ -131,4 +131,8 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			cellSpaceBoundaryMember.remove(id);
 		
 	}
+	
+	public void resetParent() {
+		this.parentId = null;
+	}
 }

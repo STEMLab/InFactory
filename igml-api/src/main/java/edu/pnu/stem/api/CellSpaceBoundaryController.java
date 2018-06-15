@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -188,6 +189,18 @@ public class CellSpaceBoundaryController {
 		}
 	}
 	
-	public void getCellSpaceBoundarys() {}
+	@DeleteMapping(value = "/{id}", produces = "application/json")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteCellSpaceBoundary(@PathVariable("docId") String docId,@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) {
+		try {
+			Container container = applicationContext.getBean(Container.class);
+			IndoorGMLMap map = container.getDocument(docId);			
+			CellSpaceBoundaryDAO.deleteCellSpaceBoundary(map, id);
+		}
+		catch(NullPointerException e) {
+			e.printStackTrace();
+			throw new UndefinedDocumentException();
+		}
+	}
 	
 }

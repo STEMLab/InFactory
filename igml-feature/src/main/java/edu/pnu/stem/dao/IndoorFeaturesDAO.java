@@ -3,6 +3,7 @@ import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
+import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
@@ -102,6 +103,17 @@ public class IndoorFeaturesDAO {
 		
 		return result;
 		
+	}
+	
+	public static void deleteIndoorFeatures(IndoorGMLMap map, String id) {
+		IndoorFeatures target = (IndoorFeatures) map.getFeature(id);
+		
+		if(target.getMultiLayeredGraph() != null)
+			target.getMultiLayeredGraph().resetParent();
+		if(target.getPrimalSpaceFeatures() != null)
+			target.getPrimalSpaceFeatures().resetParent();
+		
+		map.removeFeature(id);
 	}
 
 }
