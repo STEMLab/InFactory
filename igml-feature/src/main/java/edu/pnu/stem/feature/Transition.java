@@ -126,6 +126,15 @@ public class Transition extends AbstractFeature {
 		connects[1] = (State)indoorGMLMap.getFeature(this.connects[1]);
 		return connects;
 	}
+	
+	public void deleteConnects(State s) {
+		if(connects[0].equals(s.getId())) {
+			connects[0] = null;
+		}
+		else if(connects[1].equals(s.getId())) {
+			connects[1] = null;
+		}
+	}
 
 	/**
 	 * @return the weight

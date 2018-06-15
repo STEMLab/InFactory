@@ -159,6 +159,12 @@ public class StateDAO {
 			CellSpace duality = target.getDuality();
 			duality.resetDuality();
 		}
+		
+		List<Transition> connects = target.getConnects();
+		
+		for(Transition t : connects) {
+			t.deleteConnects(target);
+		}
 		map.removeFeature(id);
 	}
 	
