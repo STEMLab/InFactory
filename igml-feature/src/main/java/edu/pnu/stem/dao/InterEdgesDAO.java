@@ -106,4 +106,16 @@ public class InterEdgesDAO {
 		
 		return result;
 	}
+	
+	public static void deleteInterEdges(IndoorGMLMap map, String id) {
+		InterEdges target = (InterEdges)map.getFeature(id);
+		MultiLayeredGraph parent = target.getParent();
+		
+		parent.deleteInterEdges(target);
+		
+		for(InterLayerConnection i : target.getInterLayerConnectionMember())
+			i.resetParent();
+		
+		map.removeFeature(id);
+	}
 }

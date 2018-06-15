@@ -75,5 +75,15 @@ public class IndoorFeatures extends AbstractFeature {
 		this.multiLayeredGraph = null;
 		
 	}
+	public void deleteMultiLayeredGraph(MultiLayeredGraph target) {
+		if(this.multiLayeredGraph.equals(target.getId()))
+			this.multiLayeredGraph = null;
+		
+	}
+	public void deletePrimalSpaceFeatures(PrimalSpaceFeatures target) {
+		if(this.primalSpaceFeatures.equals(target.getId()))
+			this.primalSpaceFeatures = null;
+		
+	}
 	
 }

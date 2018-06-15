@@ -126,4 +126,17 @@ public class SpaceLayersDAO {
 		
 		return result;
 	}
+	
+	public static void deleteSpaceLayers(IndoorGMLMap map, String id) {
+		SpaceLayers target = (SpaceLayers)map.getFeature(id);
+		MultiLayeredGraph parent = target.getParent();
+		
+		parent.deleteSpaceLayers(target);
+		
+		for(SpaceLayer s : target.getSpaceLayerMember()) {
+			s.resetParent();
+		}
+		
+		map.removeFeature(id);
+	}
 }

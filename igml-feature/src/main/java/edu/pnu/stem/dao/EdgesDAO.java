@@ -135,4 +135,18 @@ public class EdgesDAO {
 		return result;
 		
 	}
+	
+	public static void deleteEdges(IndoorGMLMap map, String id) {
+		Edges target = (Edges)map.getFeature(id);
+		SpaceLayer parent = target.getParent();
+		
+		parent.deleteEdges(target);
+		
+		for(Transition t : target.getTransitionMember()) {
+			t.resetParent();
+		}
+		
+		map.removeFeature(id);
+		
+	}
 }	

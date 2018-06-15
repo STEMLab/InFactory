@@ -174,4 +174,21 @@ public class MultiLayeredGraphDAO {
 		
 		return result;
 	}
+	
+	public static void deleteMultiLayeredGraph(IndoorGMLMap map, String id) {
+		MultiLayeredGraph target = (MultiLayeredGraph)map.getFeature(id);
+		IndoorFeatures parent = target.getParent();
+		
+		parent.deleteMultiLayeredGraph(target);
+
+		for(SpaceLayers s : target.getSpaceLayers()) {
+			s.resetParent();
+		}
+		
+		for(InterEdges i : target.getInterEdges())
+			i.resetParent();
+		
+		map.removeFeature(id);
+		
+	}
 }

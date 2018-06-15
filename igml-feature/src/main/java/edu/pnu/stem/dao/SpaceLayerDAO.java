@@ -175,5 +175,21 @@ public class SpaceLayerDAO {
 		return result;
 		
 	}
+	
+	public static void deleteSpaceLayer(IndoorGMLMap map, String id) {
+		SpaceLayer target = (SpaceLayer)map.getFeature(id);
+		SpaceLayers parent = target.getParent();
+		
+		parent.deleteSpaceLayer(target);
+		
+		for(Nodes n : target.getNodes()) {
+			n.resetParent();
+		}
+		for(Edges e : target.getEdges()) {
+			e.resetParent();
+		}
+		
+		map.removeFeature(id);
+	}
 
 }

@@ -113,5 +113,16 @@ public class NodesDAO {
 		return result;
 		
 	}
-
+	public void deleteNodes(IndoorGMLMap map, String id) {
+		Nodes target = (Nodes)map.getFeature(id);
+		SpaceLayer parent = target.getParent();
+		parent.deleteNodes(target);
+		
+		for(State s : target.getStateMember()) {
+			s.resetParent();
+		}
+		
+		map.removeFeature(id);
+		
+	}
 }

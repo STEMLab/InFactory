@@ -96,6 +96,19 @@ public class InterLayerConnectionDAO {
 		return result;
 		
 	}
+	
+	public static void deleteInterLayerConnection(IndoorGMLMap map, String id) {
+		InterLayerConnection target = (InterLayerConnection) map.getFeature(id);
+		InterEdges parent = target.getParent();
+		
+		parent.deleteInterLayerConnectionMember(target);
+		
+		//InterLayerConnection에서 state와 spacelayer를 참조하는데 반대로 참조할 필요가 있을까. 
+		
+		map.removeFeature(id);
+		
+		
+	}
 
 
 }	

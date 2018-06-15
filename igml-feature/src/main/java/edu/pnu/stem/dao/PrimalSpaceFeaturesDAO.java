@@ -160,4 +160,19 @@ public class PrimalSpaceFeaturesDAO {
 		
 		return result;
 	}
+	
+	public static void deletePrimalSpaceFeatures(IndoorGMLMap map, String id) {
+		PrimalSpaceFeatures target = (PrimalSpaceFeatures) map.getFeature(id);
+		IndoorFeatures parent = target.getParent();
+		
+		parent.deletePrimalSpaceFeatures(target);
+		
+		for(CellSpace c : target.getCellSpaceMember())
+			c.resetParent();
+		
+		for(CellSpaceBoundary cb : target.getCellSpaceBoundaryMember())
+			cb.resetParent();
+		
+		map.removeFeature(id);
+	}
 }
