@@ -32,6 +32,17 @@ public class NodesDAO {
 		
 		List<State>sm = new ArrayList<State>();
 		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
+		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (SpaceLayer)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new SpaceLayer(map,parentId);
+			}
+		}
+		
+		
 		parent.addNodes(newFeature);
 		
 		if(name != null) {

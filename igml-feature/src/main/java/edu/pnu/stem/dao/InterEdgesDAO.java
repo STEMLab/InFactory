@@ -14,6 +14,16 @@ public class InterEdgesDAO {
 		InterEdges newFeature = new InterEdges(map, id);
 		
 		MultiLayeredGraph parent = (MultiLayeredGraph) map.getFeature(parentId);
+		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (MultiLayeredGraph)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new MultiLayeredGraph(map,parentId);
+			}
+		}
+		
 		parent.addInterEdges(newFeature);
 		newFeature.setParent(parent);
 		

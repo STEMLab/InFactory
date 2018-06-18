@@ -32,7 +32,8 @@ public class EdgesDAO {
 			newFeature = new Edges(map, id);
 		}
 		
-		SpaceLayer parent = null;
+		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
+		
 		
 		if(map.hasFutureID(parentId)){
 			parent = (SpaceLayer)map.getFutureFeature(parentId);

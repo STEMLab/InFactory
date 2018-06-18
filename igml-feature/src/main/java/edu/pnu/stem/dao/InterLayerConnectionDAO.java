@@ -1,9 +1,10 @@
 package edu.pnu.stem.dao;
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
-import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.SpaceLayer;
 import edu.pnu.stem.feature.State;
 public class InterLayerConnectionDAO {
@@ -12,6 +13,20 @@ public class InterLayerConnectionDAO {
 		InterLayerConnection newFeature = new InterLayerConnection(map, id);
 		InterEdges parent = new InterEdges(map, parentId);
 		newFeature.setParent(parent);
+		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (InterEdges)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new InterEdges(map,parentId);
+			}
+		}
+		
+		List<InterLayerConnection> interlayerconnectionMember = new ArrayList<InterLayerConnection>();
+		interlayerconnectionMember.add(newFeature);
+		
+		parent.setInterLayerConnectionMember(interlayerconnectionMember);
 		
 		if(typeOfTopoExpression!= null){
 			//newFeature.setTypeOfTopoExpression(typeOfTopoExpression);
