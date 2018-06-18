@@ -30,6 +30,9 @@ public class PrimalSpaceFeaturesDAO {
 			newFeature = (PrimalSpaceFeatures)map.getFutureFeature(id);
 			//map.removeFutureID(id);
 		}
+		else {
+			map.setFutureFeature(id, newFeature);
+		}
 		
 		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
 		
@@ -53,7 +56,7 @@ public class PrimalSpaceFeaturesDAO {
 		
 		parent.setPrimalSpaceFeatures(newFeature);
 		newFeature.setParent(parent);
-		
+		map.removeFutureID(id);
 		map.setFeature(id, "PrimalSpaceFeatures", newFeature);
 		return newFeature;
 	}

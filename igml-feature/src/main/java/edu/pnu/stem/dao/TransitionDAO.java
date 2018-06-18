@@ -28,6 +28,15 @@ public class TransitionDAO {
 		}
 		Transition newFeature = new Transition(map, id);
 		
+		if (map.hasFutureID(id)) {
+			newFeature = (Transition) map.getFutureFeature(id);
+			// map.removeFutureID(id);
+		} else {
+			map.setFutureFeature(id, newFeature);
+		}
+		
+		map.setFeature(id, "Transition", newFeature);
+		
 		Edges parent = (Edges) map.getFeature(parentId);
 		
 		if(parent == null){
@@ -90,6 +99,26 @@ public class TransitionDAO {
 			State[] tempConnects = new State[2];
 			tempConnects[0] = (State) map.getFeature(connects[0]);
 			tempConnects[1] = (State) map.getFeature(connects[1]);
+			
+			if(tempConnects[0] == null) {
+				if(map.hasFutureID(connects[0])) {
+					tempConnects[0] = (State)map.getFutureFeature(connects[0]); 
+				}
+				else {
+					map.setFutureFeature(connects[0], new State(map,connects[0]));
+					tempConnects[0] = new State(map, connects[0]);
+				}
+			}
+			if(tempConnects[1] == null) {
+				if(map.hasFutureID(connects[1])) {
+					tempConnects[1] = (State)map.getFutureFeature(connects[1]); 
+				}
+				else {
+					map.setFutureFeature(connects[1], new State(map,connects[1]));
+					tempConnects[1] = new State(map, connects[1]);
+				}
+			}
+			
 			newFeature.setConnects(tempConnects);
 		}
 		
@@ -97,6 +126,7 @@ public class TransitionDAO {
 			System.out.println("createTransition : there is no enough number of connections for this transition");
 		}
 		map.setFeature(id, "Transition", newFeature);
+		map.removeFutureID(id);
 		return newFeature;
 	}
 	public static Transition createTransition(IndoorGMLMap map, String parentId,

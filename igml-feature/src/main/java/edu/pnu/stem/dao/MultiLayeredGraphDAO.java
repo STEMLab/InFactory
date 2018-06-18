@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.Edges;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.InterEdges;
@@ -23,8 +24,17 @@ public class MultiLayeredGraphDAO {
 		
 		MultiLayeredGraph newFeature = (MultiLayeredGraph) map.getFutureFeature(id);
 		if(newFeature == null){
-			newFeature = new MultiLayeredGraph(map, id);
+			//newFeature = new MultiLayeredGraph(map, id);
+			if(map.hasFutureID(id)){
+				newFeature = (MultiLayeredGraph)map.getFutureFeature(id);
+				//map.removeFutureID(id);
+			}
+			else{
+				newFeature = new MultiLayeredGraph(map,id);
+				map.setFutureFeature(id, newFeature);
+			}
 		}
+		
 		map.setFutureFeature(id, newFeature);
 		map.setFeature(id, "MultiLayeredGraph", newFeature);
 		

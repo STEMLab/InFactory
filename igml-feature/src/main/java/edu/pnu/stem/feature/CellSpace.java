@@ -85,10 +85,10 @@ public class CellSpace extends AbstractFeature {
 		State feature = null;
 		if (hasDuality()) {
 			feature = (State) indoorGMLMap.getFeature(this.duality);
-		}
-		else {
-			if(indoorGMLMap.hasFutureID(this.duality)) {
-				feature = (State) indoorGMLMap.getFutureFeature(this.duality);
+			if(feature == null) {
+				if(indoorGMLMap.hasFutureID(this.duality)) {
+					feature = (State) indoorGMLMap.getFutureFeature(this.duality);
+				}
 			}
 		}
 		return feature;

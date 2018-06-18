@@ -30,6 +30,15 @@ public class NodesDAO {
 		}
 		Nodes newFeature = new Nodes(map, id);
 		
+		if(map.hasFutureID(id)){
+			newFeature = (Nodes)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			map.setFutureFeature(id, newFeature);
+		}		
+		map.setFeature(id, "Nodes", newFeature);
+		
 		List<State>sm = new ArrayList<State>();
 		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
 		
@@ -59,7 +68,8 @@ public class NodesDAO {
 			}
 			newFeature.setStateMember(sm);
 		}
-		
+		newFeature.setParent(parent);
+		map.removeFutureID(id);
 		map.setFeature(id, "Nodes", newFeature);
 		return newFeature;
 	}

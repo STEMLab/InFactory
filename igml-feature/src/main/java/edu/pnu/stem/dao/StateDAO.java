@@ -77,6 +77,7 @@ public class StateDAO {
 				Transition ct = (Transition)map.getFeature(t);
 				if(ct == null){
 					ct = new Transition(map, t);
+					map.setFutureFeature(t, ct);
 				}
 				realConnected.add(ct);
 			}

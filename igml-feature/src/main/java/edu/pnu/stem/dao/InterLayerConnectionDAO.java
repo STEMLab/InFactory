@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.InterEdges;
 import edu.pnu.stem.feature.InterLayerConnection;
 import edu.pnu.stem.feature.SpaceLayer;
@@ -14,12 +15,20 @@ public class InterLayerConnectionDAO {
 		InterEdges parent = new InterEdges(map, parentId);
 		newFeature.setParent(parent);
 		
+		if(map.hasFutureID(id)){
+			newFeature = (InterLayerConnection)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			map.setFutureFeature(id, newFeature);
+		}
+		
 		if(parent == null){
 			if(map.hasFutureID(parentId)){
 				parent = (InterEdges)map.getFutureFeature(parentId);
 			}
-			else{
-				parent = new InterEdges(map,parentId);
+			else {
+				map.setFutureFeature(parentId, parent);
 			}
 		}
 		
@@ -67,6 +76,8 @@ public class InterLayerConnectionDAO {
 		else{
 			System.out.println("Error at createInterLayerConnection : There is no enough instance of interConnects or ConnectedLayers");
 		}
+		
+		map.removeFutureID(id);
 		map.setFeature(id, "interLayerConnection", newFeature);
 		
 		return newFeature;

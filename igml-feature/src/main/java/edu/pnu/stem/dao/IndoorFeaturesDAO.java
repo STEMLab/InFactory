@@ -14,6 +14,14 @@ public class IndoorFeaturesDAO {
 			String primalSpaceFeatures, String multiLayeredGraph) {
 		IndoorFeatures newFeature = new IndoorFeatures(map, id);
 		
+		if(map.hasFutureID(id)){
+			newFeature = (IndoorFeatures)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			newFeature = new IndoorFeatures(map, id);
+		}
+		map.setFutureFeature(id, newFeature);
 		if(name != null) {
 			newFeature.setName(name);
 		}
@@ -21,6 +29,8 @@ public class IndoorFeaturesDAO {
 		if(description != null) {
 			newFeature.setDescription(description);
 		}
+		
+		
 		
 		//newFeature.setParentID(parentID);
 		if (primalSpaceFeatures!= null) {
@@ -31,6 +41,7 @@ public class IndoorFeaturesDAO {
 			MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map, multiLayeredGraph);
 			newFeature.setMultiLayeredGraph(newMultiLayeredGraph);
 		}
+		map.removeFutureID(id);
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}

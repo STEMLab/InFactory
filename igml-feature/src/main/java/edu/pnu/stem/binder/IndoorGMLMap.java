@@ -50,6 +50,10 @@ public class IndoorGMLMap implements Serializable {
 		collection.put("Geometry", new ConcurrentHashMap<String,Object>());
 		
 	}
+	
+	public void clearMap() {
+		collection.clear();
+	}
 
 	public boolean hasID(String id) {
 		boolean flag = false;

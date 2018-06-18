@@ -23,7 +23,7 @@ public class InterEdgesDAO {
 				parent = new MultiLayeredGraph(map,parentId);
 			}
 		}
-		
+		map.setFutureFeature(id, newFeature);
 		parent.addInterEdges(newFeature);
 		newFeature.setParent(parent);
 		
@@ -46,6 +46,7 @@ public class InterEdgesDAO {
 		else{
 			System.out.println("Error at createInterEdges : there is no InterLayerConnectionMember");
 		}
+		map.removeFutureID(id);
 		map.setFeature(id, "InterEdges", newFeature);
 	
 		return newFeature;

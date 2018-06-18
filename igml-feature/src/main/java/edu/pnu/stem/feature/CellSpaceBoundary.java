@@ -61,7 +61,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 		PrimalSpaceFeatures found = null;
 		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(parentId, parent);
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -77,6 +77,9 @@ public class CellSpaceBoundary extends AbstractFeature {
 		Transition found = null;
 		if (hasDuality()) {
 			found = (Transition) indoorGMLMap.getFeature(this.duality);
+			if(found == null) {
+				found = (Transition)indoorGMLMap.getFutureFeature(this.duality);
+			}
 		}
 		return found;
 	}

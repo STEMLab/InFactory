@@ -22,26 +22,24 @@ public class EdgesDAO {
 			id = UUID.randomUUID().toString();
 		}
 		
-		Edges newFeature = null;
+		Edges newFeature = new Edges(map, id);
 		
 		if(map.hasFutureID(id)){
-			newFeature = (Edges)map.getFeature(id);
-			map.removeFutureID(id);
+			newFeature = (Edges)map.getFutureFeature(id);
 		}
-		else{
-			newFeature = new Edges(map, id);
-		}
+		
+		map.setFutureFeature(id, newFeature);
 		
 		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
-		
-		
-		if(map.hasFutureID(parentId)){
-			parent = (SpaceLayer)map.getFutureFeature(parentId);
-			//map.removeFutureID(parentId);
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (SpaceLayer)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new SpaceLayer(map,parentId);
+			}
 		}
-		else{
-			parent = (SpaceLayer) map.getFeature(parentId);
-		}
+		
 		
 		if(name != null) {
 			newFeature.setName(name);
@@ -60,6 +58,7 @@ public class EdgesDAO {
 		
 		parent.addEdges(newFeature);
 		newFeature.setParent(parent);		
+		map.removeFutureID(id);
 		map.setFeature(id, "Edges", newFeature);
 		
 		return newFeature;
