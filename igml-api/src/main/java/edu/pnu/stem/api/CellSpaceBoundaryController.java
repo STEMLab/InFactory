@@ -41,7 +41,7 @@ import edu.pnu.stem.feature.CellSpaceBoundary;
  *
  */
 @RestController
-@RequestMapping("documents/{docId}/cellspaceboundarys")
+@RequestMapping("documents/{docId}/cellspaceboundary")
 public class CellSpaceBoundaryController {
 	
 	@Autowired

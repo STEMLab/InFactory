@@ -41,7 +41,7 @@ import edu.pnu.stem.feature.CellSpace;
  *
  */
 @RestController
-@RequestMapping("/documents/{docId}/cellspaces")
+@RequestMapping("/documents/{docId}/cellspace")
 public class CellSpaceController {
 	
 	@Autowired
