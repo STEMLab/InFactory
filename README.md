@@ -79,7 +79,7 @@ If you want to set this project, then you need to set:
 }
 ```
 
-9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/documents/(id of documents)/cellspaces/(id of the element)`.
+9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/documents/(id of documents)/cellspace/(id of the element)`.
 
 ```
 {
@@ -132,8 +132,8 @@ If you want to set this project, then you need to set:
 		}
 ```
 
-10) Send get request to this url : `{base_url}/document/(id of the document)`. In this example we create the document which has the id `doc1`.
-So the url will be this : `{base_url}/document/doc1`. Then you can get the document.
+10) Send get request to this url : `{base_url}/documents/(id of the document)`. In this example we create the document which has the id `doc1`.
+So the url will be this : `{base_url}/documents/doc1`. Then you can get the document.
 
 ### Rule of URL form
-As suggested in several RESTful API guide, every IndoorGML elements are mentioned as the plural such as 'cellspaces' , 'cellspaceboundarys, 'states', etc, without any capital letters in the elements names. 
+As suggested in several RESTful API guide, every IndoorGML elements are mentioned as the singular such as 'cellspace' , 'cellspaceboundary, 'state', etc, without any capital letters in the elements names.
