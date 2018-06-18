@@ -52,15 +52,15 @@ If you want to set this project, then you need to set:
    
 5) Turn on the jetty server of IndoorGML-Factory as the second command.
 
-6) Create the document first as posting below request to this url : `{base_url}/Document/(id of the document)`.
-   The url address of post request will be this : `{base_url}/indoorfeatures|primalspacefeatures|cellspace...`
+6) Create the document first as posting below request to this url : `{base_url}/documents/(id of the document)`.
+   The url address of post request will be this : `{base_url}/documents/(id of documents)/indoorfeatures|primalspacefeatures|cellspace...`
 ```
 {
 	"id":"doc1"
 }
 ```
 
-7) Create the IndoorFeatures element. Send post request as below to this url : `{base_url}/indoorfeatures/(id of the element)`. 
+7) Create the IndoorFeatures element. Send post request as below to this url : `{base_url}/documents/(id of documents)/indoorfeatures/(id of the element)`. 
 
 ```
 {
@@ -69,7 +69,7 @@ If you want to set this project, then you need to set:
 }
 ```
 
-8) Create the PrimalSpaceFeatures element. Send post request as below to this url : `{base_url}/primalspacefeatures/(id of the element)`.
+8) Create the PrimalSpaceFeatures element. Send post request as below to this url : `{base_url}/documents/(id of documents)/primalspacefeatures/(id of the element)`.
 
 ```
 {
@@ -79,7 +79,7 @@ If you want to set this project, then you need to set:
 }
 ```
 
-9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/cellspace/(id of the element)`.
+9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/documents/(id of documents)/cellspaces/(id of the element)`.
 
 ```
 {
@@ -134,3 +134,6 @@ If you want to set this project, then you need to set:
 
 10) Send get request to this url : `{base_url}/document/(id of the document)`. In this example we create the document which has the id `doc1`.
 So the url will be this : `{base_url}/document/doc1`. Then you can get the document.
+
+### Rule of URL form
+As suggested in several RESTful API guide, every IndoorGML elements are mentioned as the plural such as 'cellspaces' , 'cellspaceboundarys, 'states', etc, without any capital letters in the elements names. 
