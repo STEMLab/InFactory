@@ -66,6 +66,14 @@ public class Transition extends AbstractFeature {
 	public Edges getParent() {
 		Edges feature = null;
 		feature = (Edges) indoorGMLMap.getFeature(this.parentId);
+		if(feature == null){
+			if(indoorGMLMap.hasFutureID(parentId)){
+				feature = (Edges)indoorGMLMap.getFutureFeature(parentId);
+			}
+			else{
+				feature = new Edges(indoorGMLMap,parentId);
+			}
+		}
 		return feature;
 	}
 

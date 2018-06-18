@@ -153,6 +153,8 @@ public class StateDAO {
 	public static void deleteState(IndoorGMLMap map, String id) {
 		State target = (State)map.getFeature(id);
 		Nodes parent = target.getParent();
+		
+		
 		parent.deleteStateMember(target);
 		
 		if(target.hasDuality()) {
@@ -173,6 +175,16 @@ public class StateDAO {
 		State target = (State)map.getFeature(id);
 		
 		Nodes parent = target.getParent();
+		
+		if(parent == null){
+			if(map.hasFutureID(parentId)){
+				parent = (Nodes)map.getFutureFeature(parentId);
+			}
+			else{
+				parent = new Nodes(map,parentId);
+			}
+		}
+		
 		if(parent.getId() != parentId) {
 			Nodes newParent = new Nodes(map, parentId);
 			parent.deleteStateMember(target);
@@ -225,123 +237,4 @@ public class StateDAO {
 		
 		return result;
 	}
-	/**
-	 * Search State feature and edit it as the parameters
-	 * @param ID ID of target 
-	 * @param d feature of CellSpace which has duality relationship with this state
-	 * @param t feature instance of Transition which is connected with this feature
-	 * @param geo Geometry instance of Point which represent this state
-	 * @return edited State feature instance
-	 */
-/*	public State updateState(String ID, CellSpaceDAO d, TransitionDAO t, PointType geo) {
-		return null;
-	}
-	public State updateState(String docId, String Id, String attributeType, String updateType, Object o) {
-		State target = null;
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			target = (State) Container.getInstance().getFeature(docId, Id);
-			if (attributeType.equals("geometry")) {
-				// TODO: need to implement geometry class at IndoorGMLAPI
-			} else if (attributeType.equals("connects")) {
-				List<String>connects = new ArrayList<String>();
-				List<Transition>tempConnects = target.getConnects();
-				List<Transition>newConnects = new ArrayList<Transition>();
-				if(o instanceof List<?>){
-					connects = (List<String>)o;
-				}
-				else if(o instanceof String){
-					connects.add((String)o);
-				}
-				for(int i = 0 ; i < connects.size() ; i++){
-					Transition temp = new Transition(map);
-					temp.setId(connects.get(i));
-					newConnects.add(temp);
-				}
-				
-				if(updateType.equals("add")){
-					for(int i = 0 ; i < newConnects.size(); i++){
-						if(!tempConnects.contains(newConnects.get(i))){
-							tempConnects.add(newConnects.get(i));
-						}
-					}
-				}
-				else if(updateType.equals("remove")){
-					for(int i = 0 ; i < newConnects.size(); i++){
-						if(tempConnects.contains(newConnects.get(i))){
-							tempConnects.remove(newConnects.get(i));
-						}
-					}
-					target.clearConnects();
-				}
-				target.setConnects(tempConnects);				
-			} else if (attributeType.equals("duality")) {
-				CellSpace tempDuality = new CellSpace(map);
-				tempDuality.setId((String)o);
-				target.setDuality(tempDuality);
-			} else if (attributeType.equals("externalReference")) {
-				//target.setExternalReference(attributeId);
-				//map.setFeature(attributeId, "ExternaReference", o);
-			} else {
-				System.out.println("update error in cellSpaceType : there is no such attribute name");
-			}
-		} else {
-			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
-		}
-		return target;
-	}
-	*/
-	/**
-	 * Search State feature and delete it
-	 * @param ID ID of target 
-	 */
-/*	public static void deleteState(String docId, String Id, Boolean deleteDuality) {
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			State target = (State) Container.getInstance().getFeature(docId,
-					Id);
-			// String duality = target.getd;
-			doc.getFeatureContainer("State").remove(Id);
-			doc.getFeatureContainer("ID").remove(Id);
-			
-			List<Transition> connects = target.getConnects();
-			if(deleteDuality){
-				//State.deleteState(target.getDuality());
-				if(doc.hasID(target.getDuality().getId())){
-					CellSpaceDAO.deleteCellSpace(docId,target.getDuality().getId(),false);
-				}
-				
-			}
-			
-			for(int i = 0 ; i < connects.size();i++){
-				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
-				if(count == 1){
-					TransitionDAO.deleteTransition(docId, connects.get(i).getId(),deleteDuality);
-					doc.getFeatureContainer("Reference").remove(connects.get(i));
-				}
-				else{
-					doc.setFeature(connects.get(i).getId(), "Reference", (count-1));
-				}
-				
-			}
-			
-			// ExdeleteExternalReference()
-
-			for (int i = 0; i < connects.size(); i++) {
-				int count = (Integer) doc.getFeatureContainer("Reference").get(connects.get(i));
-				if ( count == 1) {
-					CellSpaceBoundaryDAO.deleteCellSpaceBoundary(docId, connects.get(i).getId(), deleteDuality);
-				}
-				else{
-					doc.setFeature(connects.get(i).getId(), "Reference", (count-1));
-				}
-			}
-
-			doc.getFeatureContainer("ExternalReference").remove(target.getExternalReference());
-			doc.getFeatureContainer("ID").remove(target.getExternalReference());
-			
-		}
-
-	};
-*/
 }

@@ -34,6 +34,9 @@ public class SpaceLayers extends AbstractFeature {
 	public MultiLayeredGraph getParent() {
 		MultiLayeredGraph found = null;
 		found = (MultiLayeredGraph)indoorGMLMap.getFeature(this.parentId);
+		if(found == null) {
+			
+		}
 		return found;
 	}
 

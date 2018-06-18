@@ -73,6 +73,15 @@ public class State extends AbstractFeature {
 	}
 	public Nodes getParent() {
 		Nodes found = (Nodes)indoorGMLMap.getFeature(this.parentId);
+		if(found == null){
+			if(indoorGMLMap.hasFutureID(parentId)){
+				found = (Nodes)indoorGMLMap.getFutureFeature(parentId);
+			}
+			else{
+				found = new Nodes(indoorGMLMap,parentId);
+			}
+		}
+		
 		return found;
 	}
 	
