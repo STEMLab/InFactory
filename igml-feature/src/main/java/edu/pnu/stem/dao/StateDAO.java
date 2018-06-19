@@ -153,8 +153,13 @@ public class StateDAO {
 	
 	public static void deleteState(IndoorGMLMap map, String id) {
 		State target = (State)map.getFeature(id);
-		Nodes parent = target.getParent();
 		
+		if(target == null) {
+			if(map.hasFutureID(id))
+				target = (State)map.getFutureFeature(id);
+		}
+		
+		Nodes parent = target.getParent();
 		
 		parent.deleteStateMember(target);
 		
@@ -168,6 +173,7 @@ public class StateDAO {
 		for(Transition t : connects) {
 			t.deleteConnects(target);
 		}
+		
 		map.removeFeature(id);
 	}
 	
@@ -175,19 +181,19 @@ public class StateDAO {
 		State result = new State(map, id);
 		State target = (State)map.getFeature(id);
 		
-		Nodes parent = target.getParent();
-		
-		if(parent == null){
-			if(map.hasFutureID(parentId)){
-				parent = (Nodes)map.getFutureFeature(parentId);
-			}
-			else{
-				parent = new Nodes(map,parentId);
-			}
+		if(map.hasFutureID(id)){
+			//TODO : throw error because this feature has not yet been created
+			
+			//target = (State)map.getFutureFeature(id);
+			//map.removeFutureID(id);
 		}
+		Nodes parent = target.getParent();
+	
 		
 		if(parent.getId() != parentId) {
-			Nodes newParent = new Nodes(map, parentId);
+			Nodes newParent = (Nodes)map.getFeature(parentId);
+			if(newParent == null)
+				newParent = new Nodes(map, parentId);
 			parent.deleteStateMember(target);
 			result.setParent(newParent);
 		}

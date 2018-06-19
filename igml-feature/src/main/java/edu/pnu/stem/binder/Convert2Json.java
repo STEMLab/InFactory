@@ -158,7 +158,7 @@ public class Convert2Json {
 			properties.set("nodes", array);
 		}
 		
-		if(target.getEdges() != null) {
+		if(target.getEdges() != null ) {
 			if(properties == null) {
 				properties = JsonNodeFactory.instance.objectNode();
 			}
@@ -200,7 +200,7 @@ public class Convert2Json {
 			properties.put("description", target.getDescription());
 		}
 		
-		if(target.getSpaceLayerMember() != null) {
+		if(target.getSpaceLayerMember() != null || target.getSpaceLayerMember().size() != 0) {
 			if(properties == null) {
 				properties = JsonNodeFactory.instance.objectNode();
 			}
@@ -242,7 +242,7 @@ public class Convert2Json {
 			properties.put("description", target.getDescription());
 		}
 		
-		if(target.getInterLayerConnectionMember() != null) {
+		if(target.getInterLayerConnectionMember() != null | target.getInterLayerConnectionMember().size() != 0) {
 			if(properties == null) {
 				properties = JsonNodeFactory.instance.objectNode();
 			}
@@ -284,7 +284,7 @@ public class Convert2Json {
 			properties.put("description", target.getDescription());
 		}
 		
-		if(target.getInterConnects() != null) {
+		if(target.getInterConnects() != null || target.getInterConnects().length != 0) {
 			if(properties == null) {
 				properties = JsonNodeFactory.instance.objectNode();
 			}
@@ -611,7 +611,7 @@ public class Convert2Json {
 			properties.put("description", target.getDescription());
 		}
 		
-		if(target.getPartialboundedBy() != null) {
+		if(target.getPartialboundedBy() != null || target.getPartialboundedBy().size()!= 0) {
 			if(properties == null) {
 				properties = JsonNodeFactory.instance.objectNode();
 			}

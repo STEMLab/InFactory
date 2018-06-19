@@ -76,7 +76,10 @@ public class PrimalSpaceFeaturesDAO {
 		
 		IndoorFeatures parent = target.getParent();
 		if(parent.getId() != parentId) {
-			IndoorFeatures newParent = new IndoorFeatures(map, parentId);
+			IndoorFeatures newParent = (IndoorFeatures)map.getFeature(parentId);
+			if(newParent == null)
+				newParent = new IndoorFeatures(map, parentId);
+			
 			parent.resetMultiLayerdGraph();
 			result.setParent(newParent);
 		}

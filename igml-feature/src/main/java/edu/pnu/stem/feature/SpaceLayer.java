@@ -40,8 +40,7 @@ public class SpaceLayer extends AbstractFeature {
 
 	public SpaceLayer(IndoorGMLMap doc, String id) {
 		super(doc, id);
-		nodes = new ArrayList<String>();
-		edges = new ArrayList<String>();
+		
 	}
 
 	public void setParent(SpaceLayers parent) {
@@ -56,6 +55,10 @@ public class SpaceLayer extends AbstractFeature {
 	public SpaceLayers getParent() {
 		SpaceLayers found = null;
 		found = (SpaceLayers) indoorGMLMap.getFeature(this.parentId);
+		if(found == null) {
+			if(indoorGMLMap.hasFutureID(parentId))
+				found = (SpaceLayers)indoorGMLMap.getFutureFeature(parentId);
+		}
 		return found;
 	}
 
@@ -123,11 +126,17 @@ public class SpaceLayer extends AbstractFeature {
 	 * @return the nodes
 	 */
 	public List<Nodes> getNodes() {
-		List<Nodes> nodes = new ArrayList<Nodes>();
-		nodes = new ArrayList<Nodes>();
-		for (int i = 0; i < this.nodes.size(); i++) {
-			nodes.add((Nodes) indoorGMLMap.getFeature(this.nodes.get(i)));
-		}
+		List<Nodes> nodes = null;
+		if(this.nodes != null) {
+			nodes = new ArrayList<Nodes>();
+			for (int i = 0; i < this.nodes.size(); i++) {
+				Nodes found = (Nodes) indoorGMLMap.getFeature(this.nodes.get(i));
+				if(found == null) {
+					found = (Nodes)indoorGMLMap.getFutureFeature(this.nodes.get(i));
+				}
+				nodes.add(found);
+			}
+		}	 
 		return nodes;
 	}
 
@@ -136,6 +145,8 @@ public class SpaceLayer extends AbstractFeature {
 	 *            the nodes to set
 	 */
 	public void setNodes(List<Nodes> nodes) {
+
+		this.nodes = new ArrayList<String>();
 		for (int i = 0; i < nodes.size(); i++) {
 			Nodes found = null;
 			found = (Nodes) indoorGMLMap.getFeature(nodes.get(i).getId());
@@ -164,11 +175,13 @@ public class SpaceLayer extends AbstractFeature {
 	 */
 	public List<Edges> getEdges() {
 		List<Edges> edges = null;
-		if (this.edges.size() != 0) {
+		if (this.edges != null) {
 			edges = new ArrayList<Edges>();
 			for (int i = 0; i < this.edges.size(); i++) {
-				edges.add(
-						(Edges) indoorGMLMap.getFeature(this.edges.get(i)));
+				Edges found = (Edges) indoorGMLMap.getFeature(this.edges.get(i));
+				if(found == null)
+					found = (Edges)indoorGMLMap.getFutureFeature(this.edges.get(i));
+				edges.add(found);
 			}
 		}
 		return edges;
@@ -179,6 +192,8 @@ public class SpaceLayer extends AbstractFeature {
 	 *            the edges to set
 	 */
 	public void setEdges(List<Edges> edges) {
+		if(edges != null && edges.size() != 0)
+			this.edges = new ArrayList<String>();
 		for (int i = 0; i < edges.size(); i++) {
 			Edges found = null;
 			found = (Edges) indoorGMLMap.getFeature(edges.get(i).getId());

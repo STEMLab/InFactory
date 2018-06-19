@@ -27,8 +27,8 @@ public class InterLayerConnection extends AbstractFeature {
 	
 	public InterLayerConnection(IndoorGMLMap doc, String id){
 		super(doc, id);
-		connectedLayers = new String[2];
-		interConnects = new String[2];
+		
+		
 	}
 	
 	public Boolean checkInterConnectsNumber() {
@@ -52,10 +52,14 @@ public class InterLayerConnection extends AbstractFeature {
 	public InterEdges getParent(){
 		InterEdges found = null;
 		found = (InterEdges)indoorGMLMap.getFeature(this.parentId);
+		if(found == null)
+			if(indoorGMLMap.hasFutureID(parentId))
+				found = (InterEdges)indoorGMLMap.getFutureFeature(parentId);
 		return found;
 	}
 
 	public void setConnectedLayers(SpaceLayer[] connectedLayers){
+		this.connectedLayers = new String[2];
 		this.connectedLayers[0] = connectedLayers[0].getId();
 		this.connectedLayers[1] = connectedLayers[1].getId();
 	}
@@ -70,6 +74,7 @@ public class InterLayerConnection extends AbstractFeature {
 	}
 
 	public void setInterConnects(State[] interConnects) {
+		this.interConnects = new String[2];
 		this.interConnects[0] = interConnects[0].getId();
 		this.interConnects[1] = interConnects[1].getId();
 	}

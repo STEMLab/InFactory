@@ -77,9 +77,6 @@ public class State extends AbstractFeature {
 			if(indoorGMLMap.hasFutureID(parentId)){
 				found = (Nodes)indoorGMLMap.getFutureFeature(parentId);
 			}
-			else{
-				found = new Nodes(indoorGMLMap,parentId);
-			}
 		}
 		
 		return found;
@@ -141,6 +138,8 @@ public class State extends AbstractFeature {
 			connects = new ArrayList<Transition>();
 			for(int i = 0 ; i < this.connects.size() ; i++){
 				Transition found = (Transition)indoorGMLMap.getFeature(this.connects.get(i));
+				if(found == null)
+					found = (Transition)indoorGMLMap.getFutureFeature(this.connects.get(i));
 				connects.add(found);
 			}
 		}

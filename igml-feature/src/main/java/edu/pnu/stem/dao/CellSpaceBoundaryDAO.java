@@ -154,7 +154,14 @@ public class CellSpaceBoundaryDAO {
 		CellSpaceBoundary result = new CellSpaceBoundary(map, id);
 		CellSpaceBoundary target = (CellSpaceBoundary)map.getFeature(id);
 		
+		if (map.hasFutureID(id)) {
+			target= (CellSpaceBoundary) map.getFutureFeature(id);
+			map.removeFutureID(id);
+			// map.removeFutureID(id);
+		} 
+
 		PrimalSpaceFeatures parent = target.getParent();
+
 		if(parent.getId() != parentId) {
 			parent.deleteCellSpaceMember(id);
 			PrimalSpaceFeatures oldParent = target.getParent();
@@ -191,7 +198,8 @@ public class CellSpaceBoundaryDAO {
 			result.setDuality(newDuality);
 			
 		}
-		
+		map.removeFeature(id);
+		map.setFeature(id, "CellSpaceBoundary", result);
 		return result;
 		
 	}

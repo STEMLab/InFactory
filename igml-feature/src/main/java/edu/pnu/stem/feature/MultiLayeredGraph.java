@@ -35,7 +35,11 @@ public class MultiLayeredGraph extends AbstractFeature {
 		if(this.spaceLayers.size() != 0){
 			spaceLayers = new ArrayList<SpaceLayers>();
 			for(int i = 0 ; i < this.spaceLayers.size();i++){
-				spaceLayers.add((SpaceLayers)indoorGMLMap.getFeature(this.spaceLayers.get(i)));			
+				SpaceLayers found = (SpaceLayers)indoorGMLMap.getFeature(this.spaceLayers.get(i));
+				if(found == null) {
+					found = (SpaceLayers)indoorGMLMap.getFutureFeature(this.spaceLayers.get(i));
+				}
+				spaceLayers.add(found);			
 			}
 		}
 		
@@ -73,7 +77,10 @@ public class MultiLayeredGraph extends AbstractFeature {
 		List<InterEdges>interEdges = new ArrayList<InterEdges>();
 		if(this.interEdges != null){
 			for(int i = 0 ; i < this.interEdges.size() ; i++){
-				interEdges.add((InterEdges)indoorGMLMap.getFeature(this.interEdges.get(i)));
+				InterEdges found = (InterEdges)indoorGMLMap.getFeature(this.interEdges.get(i));
+				if(found == null)
+					found = (InterEdges)indoorGMLMap.getFutureFeature(this.interEdges.get(i));
+				interEdges.add(found);
 			}
 		}		
 		return interEdges;

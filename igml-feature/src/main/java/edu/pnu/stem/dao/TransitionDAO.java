@@ -244,11 +244,18 @@ public class TransitionDAO {
 		
 		Transition result = new Transition(map,id);
 		Transition target = (Transition)map.getFeature(id);
+
+		if(target == null) {
+			//TODO : throw error
+		}
 		
 		Edges parent = target.getParent();
 		if(parent.getId() != parentId) {
 			parent.deleteTransitionMember(target);
-			Edges newParent = new Edges(map, parentId);
+			Edges newParent = (Edges)map.getFeature(parentId);
+			if(newParent == null) {
+				newParent = new Edges(map, parentId);
+			}
 			result.setParent(newParent);
 		}
 		
@@ -310,7 +317,9 @@ public class TransitionDAO {
 	
 	public static void deleteTransition(IndoorGMLMap map, String id) {
 		Transition target = (Transition)map.getFeature(id);
+		
 		Edges parent = target.getParent();
+		
 		parent.deleteTransitionMember(target);
 		
 		if(target.hasDuality()) {

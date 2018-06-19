@@ -34,7 +34,7 @@ public class Transition extends AbstractFeature {
 
 	public Transition(IndoorGMLMap doc, String id){
 		super(doc, id);
-		connects = new String[2];
+		
 	}
 	
 	public boolean hasDuality() {
@@ -68,9 +68,6 @@ public class Transition extends AbstractFeature {
 		if(feature == null){
 			if(indoorGMLMap.hasFutureID(parentId)){
 				feature = (Edges)indoorGMLMap.getFutureFeature(parentId);
-			}
-			else{
-				feature = new Edges(indoorGMLMap,parentId);
 			}
 		}
 		return feature;
@@ -113,6 +110,7 @@ public class Transition extends AbstractFeature {
 		if (connects.length != 2) {
 			System.out.println("FeatureClass.Transition.setConnects : The size of input is not 2");
 		} else {
+			this.connects = new String[2];
 			State found1 = null;
 			State found2 = null;
 			found1 = (State)indoorGMLMap.getFeature(connects[0].getId());
@@ -131,9 +129,18 @@ public class Transition extends AbstractFeature {
 	}
 
 	public State[] getConnects() {	
-		State[] connects = new State[2];
-		connects[0] = (State)indoorGMLMap.getFeature(this.connects[0]);
-		connects[1] = (State)indoorGMLMap.getFeature(this.connects[1]);
+		State[] connects = null;
+		if(this.connects != null) {
+			connects = new State[2];
+			connects[0] = (State)indoorGMLMap.getFeature(this.connects[0]);
+			connects[1] = (State)indoorGMLMap.getFeature(this.connects[1]);
+			
+			if(connects[0] == null)
+				connects[0] = (State)indoorGMLMap.getFutureFeature(this.connects[0]);
+			if(connects[1] == null)
+				connects[1] = (State)indoorGMLMap.getFutureFeature(this.connects[1]);
+			
+		}
 		return connects;
 	}
 	

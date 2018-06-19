@@ -80,7 +80,9 @@ public class NodesDAO {
 		
 		SpaceLayer parent = target.getParent();
 		if(parent.getId() != parentId) {
-			SpaceLayer newParent = new SpaceLayer(map, parentId);
+			SpaceLayer newParent = (SpaceLayer)map.getFeature(parentId);
+			if(newParent == null)
+				newParent = new SpaceLayer(map, parentId);
 			parent.deleteNodes(target);
 			result.setParent(newParent);
 		}

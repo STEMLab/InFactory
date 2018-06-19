@@ -100,7 +100,9 @@ public class InterLayerConnectionDAO {
 		
 		InterEdges parent = target.getParent();
 		if(parent.getId() != parentId) {
-			InterEdges newParent = new InterEdges(map, parentId);
+			InterEdges newParent = (InterEdges)map.getFeature(parentId);
+			if(newParent == null)
+				newParent = new InterEdges(map, parentId);
 			parent.deleteInterLayerConnectionMember(target);
 			result.setParent(newParent);
 		}

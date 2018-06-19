@@ -67,7 +67,10 @@ public class InterEdgesDAO {
 		
 		MultiLayeredGraph parent = target.getParent();
 		if(parent.getId() != parentId) {
-			MultiLayeredGraph newParent = new MultiLayeredGraph(map, parentId);
+			MultiLayeredGraph newParent = (MultiLayeredGraph)map.getFeature(parentId);
+			if(newParent == null)
+				newParent = new MultiLayeredGraph(map, parentId);
+			
 			parent.deleteInterEdges(target);
 			result.setParent(newParent);
 		}

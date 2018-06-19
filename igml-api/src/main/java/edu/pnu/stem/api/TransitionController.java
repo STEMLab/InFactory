@@ -56,7 +56,7 @@ public class TransitionController {
 		String name = null;
 		String description = null;
 		
-		String[] connects = new String[2];
+		String[] connects = null;
 		
 		String duality = null;
 		String geom = json.get("geometry").asText().trim();
@@ -72,6 +72,7 @@ public class TransitionController {
 		
 		if(json.has("properties")){
 			if(json.get("properties").has("connects")){
+				connects = new String[2];
 				connects[0] = json.get("properties").get("connects").get(0).asText().trim();
 				connects[1] = json.get("properties").get("connects").get(1).asText().trim();
 			}
@@ -122,6 +123,7 @@ public class TransitionController {
 			String parentId = null;
 			String name = null;
 			String description = null;
+			String[] arrConnects = null;
 			
 			if(json.has("parentId")) {
 				parentId = json.get("parentId").asText().trim();
@@ -156,11 +158,13 @@ public class TransitionController {
 					for(int i = 0 ; i < partialBoundedByList.size() ; i++){
 						connects.add(partialBoundedByList.get(i).asText().trim());
 					}
+					arrConnects = new String[2];
+					connects.toArray(arrConnects);
 				}
+
+				
 			}
 			
-			String[] arrConnects = new String[2];
-			connects.toArray(arrConnects);
 			
 		TransitionDAO.updateTransition(map, parentId, id, name, description, geom, duality, arrConnects);
 			

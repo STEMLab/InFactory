@@ -34,6 +34,9 @@ public class InterEdges extends AbstractFeature {
 	public MultiLayeredGraph getParent() {
 		MultiLayeredGraph found = null;
 		found = (MultiLayeredGraph)indoorGMLMap.getFeature(this.parentId);
+		if(found == null)
+			if(indoorGMLMap.hasFutureID(parentId))
+				found = (MultiLayeredGraph)indoorGMLMap.getFutureFeature(parentId);
 		return found;
 	}
 
