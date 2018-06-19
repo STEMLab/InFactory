@@ -154,20 +154,17 @@ public class CellSpaceBoundaryDAO {
 		CellSpaceBoundary result = new CellSpaceBoundary(map, id);
 		CellSpaceBoundary target = (CellSpaceBoundary)map.getFeature(id);
 		
-		if (map.hasFutureID(id)) {
-			target= (CellSpaceBoundary) map.getFutureFeature(id);
-			map.removeFutureID(id);
-			// map.removeFutureID(id);
-		} 
 
 		PrimalSpaceFeatures parent = target.getParent();
 
-		if(parent.getId() != parentId) {
-			parent.deleteCellSpaceMember(id);
-			PrimalSpaceFeatures oldParent = target.getParent();
+		if(!parent.getId().equals(parentId)) {
+			parent.deleteCellSpaceBoundaryMember(id);
 			PrimalSpaceFeatures newParent = new PrimalSpaceFeatures(map, parentId);
-			oldParent.deleteCellSpaceMember(id);
 			result.setParent(newParent);
+			result.getParent().addCellSpaceBoundaryMember(result);
+		}
+		else {
+			result.setParent(parent);
 		}
 		
 		if(name != null) {
@@ -184,11 +181,12 @@ public class CellSpaceBoundaryDAO {
 		
 		if(duality == null) {
 			Transition d = (Transition) target.getDuality();
-			d.resetDuality();
+			if(d != null)
+				d.resetDuality();
 		}
 		else{
 			if(target.getDuality() != null) {
-				if(target.getDuality().getId() != duality) {
+				if(!target.getDuality().getId().equals(duality)) {
 					Transition oldDuality = target.getDuality();
 					oldDuality.resetDuality();				
 				}

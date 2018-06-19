@@ -101,7 +101,7 @@ public class MultiLayeredGraphDAO {
 		MultiLayeredGraph target = (MultiLayeredGraph)map.getFeature(id);
 		
 		IndoorFeatures parent = target.getParent();
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			IndoorFeatures newParent = (IndoorFeatures)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new IndoorFeatures(map, parentId);
@@ -109,7 +109,7 @@ public class MultiLayeredGraphDAO {
 			parent.resetMultiLayerdGraph();
 			result.setParent(newParent);
 		}
-		
+		result.setParent(parent);
 		
 		if(name != null) {
 			result.setName(name);
@@ -128,11 +128,17 @@ public class MultiLayeredGraphDAO {
 				newChild.add(new SpaceLayers(map,ni));
 			}
 			
-			for(SpaceLayers n : oldChild) {
-				if(!newChild.contains(n)) {
-					oldChild.remove(n);
+			if(oldChild != null) {
+				for(SpaceLayers n : oldChild) {
+					if(!newChild.contains(n)) {
+						oldChild.remove(n);
+					}
 				}
 			}
+			else {
+				oldChild = new ArrayList<SpaceLayers>();
+			}
+			
 			
 			for(SpaceLayers n : newChild) {
 				if(!oldChild.contains(n)) {
@@ -162,11 +168,17 @@ public class MultiLayeredGraphDAO {
 				newChild.add(new InterEdges(map,ei));
 			}
 			
-			for(InterEdges n : oldChild) {
-				if(!newChild.contains(n)) {
-					oldChild.remove(n);
+			if(oldChild != null) {
+				for(InterEdges n : oldChild) {
+					if(!newChild.contains(n)) {
+						oldChild.remove(n);
+					}
 				}
 			}
+			else {
+				oldChild = new ArrayList<InterEdges>();
+			}
+			
 			
 			for(InterEdges n : newChild) {
 				if(!oldChild.contains(n)) {
@@ -187,8 +199,8 @@ public class MultiLayeredGraphDAO {
 			}
 		}
 		
-		map.getFeatureContainer("SpaceLayer").remove(id);
-		map.getFeatureContainer("SpaceLayer").put(id, result);
+		map.removeFeature(id);
+		map.setFeature(id, "MultiLayeredGraph", result);
 		
 		return result;
 	}

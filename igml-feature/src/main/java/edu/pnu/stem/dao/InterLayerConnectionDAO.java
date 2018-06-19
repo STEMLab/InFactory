@@ -101,14 +101,14 @@ public class InterLayerConnectionDAO {
 		InterLayerConnection result = new InterLayerConnection(map,id);
 		
 		InterEdges parent = target.getParent();
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			InterEdges newParent = (InterEdges)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new InterEdges(map, parentId);
 			parent.deleteInterLayerConnectionMember(target);
 			result.setParent(newParent);
 		}
-		
+		result.setParent(parent);
 		if(interConnects != null) {
 			State[] newChild = new State[2];
 			newChild[0] = new State(map, interConnects[0]);
@@ -123,6 +123,8 @@ public class InterLayerConnectionDAO {
 			result.setConnectedLayers(newChild);
 		}
 		
+		map.removeFeature(id);
+		map.setFeature(id, "InterLayerConnection", result);
 		return result;
 		
 	}

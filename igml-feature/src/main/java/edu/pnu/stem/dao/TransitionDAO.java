@@ -260,7 +260,7 @@ public class TransitionDAO {
 		}
 		
 		Edges parent = target.getParent();
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			parent.deleteTransitionMember(target);
 			Edges newParent = (Edges)map.getFeature(parentId);
 			if(newParent == null) {
@@ -268,6 +268,7 @@ public class TransitionDAO {
 			}
 			result.setParent(newParent);
 		}
+		result.setParent(parent);
 		
 		if(name != null) {
 			result.setName(name);
@@ -283,11 +284,12 @@ public class TransitionDAO {
 		
 		if(duality == null) {
 			CellSpaceBoundary d = (CellSpaceBoundary) target.getDuality();
-			d.resetDuality();
+			if(d != null)
+				d.resetDuality();
 		}
 		else{
 			if(target.getDuality() != null) {
-				if(target.getDuality().getId() != duality) {
+				if(!target.getDuality().getId().equals(duality)) {
 					CellSpaceBoundary oldDuality = target.getDuality();
 					oldDuality.resetDuality();				
 				}
@@ -309,9 +311,8 @@ public class TransitionDAO {
 			result.setConnects(cnts.toArray(newConnects));
 		}
 		
-		map.getFeatureContainer("Transition").remove(id);
-		map.getFeatureContainer("Transition").put(id, result);
-		
+		map.removeFeature(id);
+		map.setFeature(id, "Transition", result);
 		return result;
 	}
 	public static Transition readTransition(IndoorGMLMap map, String id) {

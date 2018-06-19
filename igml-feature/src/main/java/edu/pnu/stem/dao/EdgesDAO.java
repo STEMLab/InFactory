@@ -88,7 +88,8 @@ public class EdgesDAO {
 		Edges target = (Edges)map.getFeature(id);
 		
 		SpaceLayer parent = target.getParent();
-		if(parent.getId() != parentId) {
+		
+		if(!parent.getId().equals(parentId)) {
 			SpaceLayer newParent = (SpaceLayer)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new SpaceLayer(map, parentId);
@@ -96,7 +97,7 @@ public class EdgesDAO {
 			result.setParent(newParent);
 		}
 		
-		
+		result.setParent(parent);
 		if(name != null) {
 			result.setName(name);
 		}
@@ -114,12 +115,17 @@ public class EdgesDAO {
 				newChild.add(new Transition(map, si));
 			}
 			
-			for(Transition s : oldChild) {
-				if(!newChild.contains(s)) {
-					oldChild.remove(s);
+			if(oldChild != null) {
+				for(Transition s : oldChild) {
+					if(!newChild.contains(s)) {
+						oldChild.remove(s);
+					}
 				}
 			}
+			else
+				oldChild = new ArrayList<Transition>();
 			
+						
 			for(Transition s : newChild) {
 				if(!oldChild.contains(s)) {
 					oldChild.add(s);
@@ -139,8 +145,8 @@ public class EdgesDAO {
 			}
 		}
 		
-		map.getFeatureContainer("Edges").remove(id);
-		map.getFeatureContainer("Edges").put(id, result);
+		map.removeFeature(id);
+		map.setFeature(id, "Edges", result);
 		
 		return result;
 		

@@ -64,7 +64,7 @@ public class InterEdgesDAO {
 		InterEdges target = (InterEdges)map.getFeature(id);
 		
 		MultiLayeredGraph parent = target.getParent();
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			MultiLayeredGraph newParent = (MultiLayeredGraph)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new MultiLayeredGraph(map, parentId);
@@ -73,7 +73,7 @@ public class InterEdgesDAO {
 			result.setParent(newParent);
 		}
 		
-		
+		result.setParent(parent);
 		if(name != null) {
 			result.setName(name);
 		}
@@ -112,9 +112,8 @@ public class InterEdgesDAO {
 				}
 			}
 		}
-		
-		map.getFeatureContainer("InterLayerConnection").remove(id);
-		map.getFeatureContainer("InterLayerConnection").put(id,result);
+		map.removeFeature(id);
+		map.setFeature(id, "InterEdges", result);
 		
 		return result;
 	}

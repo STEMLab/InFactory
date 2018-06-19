@@ -81,9 +81,10 @@ public class SpaceLayers extends AbstractFeature {
 	}
 
 	public void deleteSpaceLayer(SpaceLayer target) {
-		if(this.spaceLayerMember.contains(target.getId())){
-			this.spaceLayerMember.remove(target.getId());
-		}
+		if(this.spaceLayerMember != null)
+			if(this.spaceLayerMember.contains(target.getId())){
+				this.spaceLayerMember.remove(target.getId());
+			}
 		
 	}
 

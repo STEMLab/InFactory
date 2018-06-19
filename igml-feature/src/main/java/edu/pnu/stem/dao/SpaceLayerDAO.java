@@ -95,7 +95,7 @@ public class SpaceLayerDAO {
 		SpaceLayer target = (SpaceLayer)map.getFeature(id);
 		
 		SpaceLayers parent = target.getParent();
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			SpaceLayers newParent = (SpaceLayers)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new SpaceLayers(map, parentId);
@@ -104,7 +104,7 @@ public class SpaceLayerDAO {
 			result.setParent(newParent);
 		}
 		
-		
+		result.setParent(parent);
 		if(name != null) {
 			result.setName(name);
 		}
@@ -122,11 +122,17 @@ public class SpaceLayerDAO {
 				newChild.add(new Nodes(map,ni));
 			}
 			
-			for(Nodes n : oldChild) {
-				if(!newChild.contains(n)) {
-					oldChild.remove(n);
+			if(oldChild != null) {
+				for(Nodes n : oldChild) {
+					if(!newChild.contains(n)) {
+						oldChild.remove(n);
+					}
 				}
 			}
+			else {
+				oldChild = new ArrayList<Nodes>();
+			}
+			
 			
 			for(Nodes n : newChild) {
 				if(!oldChild.contains(n)) {
@@ -138,7 +144,7 @@ public class SpaceLayerDAO {
 			
 		}
 		else {
-			if(target.getNodes().size() != 0) {
+			if(target.getNodes() != null) {
 				List<Nodes> oldChild = target.getNodes();
 				
 				for(Nodes child : oldChild) {
@@ -156,12 +162,18 @@ public class SpaceLayerDAO {
 				newChild.add(new Edges(map,ei));
 			}
 			
-			for(Edges n : oldChild) {
-				if(!newChild.contains(n)) {
-					oldChild.remove(n);
+			if(oldChild != null) {
+				for(Edges n : oldChild) {
+					if(!newChild.contains(n)) {
+						oldChild.remove(n);
+					}
 				}
 			}
+			else {
+				oldChild = new ArrayList<Edges>();
+			}
 			
+						
 			for(Edges n : newChild) {
 				if(!oldChild.contains(n)) {
 					oldChild.add(n);
@@ -181,8 +193,8 @@ public class SpaceLayerDAO {
 			}
 		}
 		
-		map.getFeatureContainer("SpaceLayer").remove(id);
-		map.getFeatureContainer("SpaceLayer").put(id, result);
+		map.removeFeature(id);
+		map.setFeature(id, "SpaceLayer", result);
 		
 		return result;
 		

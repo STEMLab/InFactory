@@ -34,6 +34,10 @@ public class Edges extends AbstractFeature{
 	public SpaceLayer getParent() {
 		SpaceLayer feature = null;
 		feature = (SpaceLayer) indoorGMLMap.getFeature(this.parentId);
+		if(feature == null) {
+			if(indoorGMLMap.hasFutureID(parentId))
+				feature = (SpaceLayer) indoorGMLMap.getFutureFeature(parentId);
+		}
 		return feature;
 	}
 

@@ -51,32 +51,19 @@ public class CellSpaceDAO {
 	public static CellSpace updateCellSpace(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String>partialboundedBy) {
 		CellSpace result = new CellSpace(map,id);
 		CellSpace target = (CellSpace)map.getFeature(id);
+
 		
-		if(map.hasFutureID(id)){
-			target = (CellSpace)map.getFutureFeature(id);
-			//map.removeFutureID(id);
-		}
-		else{
-			map.setFutureFeature(id, target);
-		}
+		PrimalSpaceFeatures parent = target.getParent();
+
 		
-		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
-		
-		if(parent == null){
-			if(map.hasFutureID(parentId)){
-				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
-			}
-			else{
-				parent = new PrimalSpaceFeatures(map,parentId);
-			}			
-		}
-		
-		if(parent.getId() != parentId) {
-			parent.deleteCellSpaceMember(id);
-			PrimalSpaceFeatures oldParent = target.getParent();
+		if(!parent.getId().equals(parentId)) {
+			parent.deleteCellSpaceMember(id);			
 			PrimalSpaceFeatures newParent = new PrimalSpaceFeatures(map, parentId);
-			oldParent.deleteCellSpaceMember(id);
 			result.setParent(newParent);
+			result.getParent().addCellSpaceMember(result);
+		}
+		else {
+			result.setParent(parent);
 		}
 		
 		if(name != null) {
@@ -93,11 +80,12 @@ public class CellSpaceDAO {
 		
 		if(duality == null) {
 			State d = target.getDuality();
-			d.resetDuality();
+			if(d != null)
+				d.resetDuality();
 		}
 		else{
 			if(target.getDuality() != null) {
-				if(target.getDuality().getId() != duality) {
+				if(!target.getDuality().getId().equals(duality)) {
 					State oldDuality = target.getDuality();
 					oldDuality.resetDuality();				
 				}
@@ -117,8 +105,8 @@ public class CellSpaceDAO {
 			result.setPartialboundedBy(pbb);
 		}
 		
-		map.getFeatureContainer("CellSpace").remove(id);
-		map.getFeatureContainer("CellSpace").put(id, result);
+		map.removeFeature(id);
+		map.setFeature(id, "CellSpace", result);
 		
 		return result;
 	}

@@ -200,7 +200,7 @@ public class Convert2Json {
 			properties.put("description", target.getDescription());
 		}
 		
-		if(target.getSpaceLayerMember() != null || target.getSpaceLayerMember().size() != 0) {
+		if(target.getSpaceLayerMember() != null && target.getSpaceLayerMember().size() != 0) {
 			if(properties == null) {
 				properties = JsonNodeFactory.instance.objectNode();
 			}

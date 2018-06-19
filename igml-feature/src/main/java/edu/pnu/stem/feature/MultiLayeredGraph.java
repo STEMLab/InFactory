@@ -118,7 +118,9 @@ public class MultiLayeredGraph extends AbstractFeature {
 	
 	public IndoorFeatures getParent() {
 		IndoorFeatures parent = null;
-		parent = (IndoorFeatures)indoorGMLMap.getFeature(this.parentId);
+		parent = (IndoorFeatures) indoorGMLMap.getFeature(this.parentId);
+		if(parent == null)
+			parent = (IndoorFeatures)indoorGMLMap.getFutureFeature(this.parentId);
 		return parent;
 	}
 
@@ -131,12 +133,12 @@ public class MultiLayeredGraph extends AbstractFeature {
 		this.parentId = parent.getId();
 	}
 	
-	public void clearInterEdges(){
-		this.interEdges.clear();
+	public void resetInterEdges(){
+		this.interEdges = null;
 	}
 	
-	public void clearSpaceLayers(){
-		this.spaceLayers.clear();
+	public void resetSpaceLayers(){
+		this.spaceLayers = null;
 	}
 
 	public void deleteSpaceLayers(SpaceLayers target) {

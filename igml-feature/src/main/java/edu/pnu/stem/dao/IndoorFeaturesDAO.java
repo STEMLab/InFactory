@@ -91,7 +91,7 @@ public class IndoorFeaturesDAO {
 		}
 		
 		if(multilayeredgraph != null) {
-			if(target.getMultiLayeredGraph() != null && target.getMultiLayeredGraph().getId() != multilayeredgraph) {
+			if(target.getMultiLayeredGraph() != null && !target.getMultiLayeredGraph().getId().equals(multilayeredgraph)) {
 				result.setMultiLayeredGraph(new MultiLayeredGraph(map,multilayeredgraph));
 			}
 		}
@@ -102,7 +102,7 @@ public class IndoorFeaturesDAO {
 		}
 		
 		if(primalspacefeatures != null) {
-			if(target.getPrimalSpaceFeatures() != null && target.getPrimalSpaceFeatures().getId() != primalspacefeatures) {
+			if(target.getPrimalSpaceFeatures() != null && !target.getPrimalSpaceFeatures().getId().equals(primalspacefeatures)) {
 				result.setPrimalSpaceFeatures(new PrimalSpaceFeatures(map,primalspacefeatures));
 			}
 		}
@@ -111,7 +111,8 @@ public class IndoorFeaturesDAO {
 				target.getMultiLayeredGraph().resetParent();
 			}
 		}
-		
+		map.removeFeature(id);
+		map.setFeature(id, "IndoorFeatures", result);
 		return result;
 		
 	}

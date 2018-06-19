@@ -70,7 +70,7 @@ public class NodesController {
 			}
 			if(json.get("properties").has("stateMember")){
 				stateMember = new ArrayList<String>();
-				JsonNode partialBoundedByList = json.get("properties").get("transitionMember");
+				JsonNode partialBoundedByList = json.get("properties").get("stateMember");
 				for(int i = 0 ; i < partialBoundedByList.size() ; i++){
 					stateMember.add(partialBoundedByList.get(i).asText().trim());
 				}

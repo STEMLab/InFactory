@@ -40,6 +40,8 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	public IndoorFeatures getParent() {
 		IndoorFeatures parent = null;
 		parent = (IndoorFeatures) indoorGMLMap.getFeature(this.parentId);
+		if(parent == null)
+			parent = (IndoorFeatures)indoorGMLMap.getFutureFeature(this.parentId);
 		return parent;
 	}
 
@@ -80,6 +82,9 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	}
 	
 	public void addCellSpaceMember(CellSpace c) {
+		if(this.cellSpaceMember == null)
+			this.cellSpaceMember = new ArrayList<String>();
+		
 		if( !this.cellSpaceMember.contains(c.getId()) ){
 			this.cellSpaceMember.add(c.getId());
 		}
@@ -120,6 +125,8 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	}
 	
 	public void addCellSpaceBoundaryMember(CellSpaceBoundary c) {
+		if(this.cellSpaceBoundaryMember == null)
+			this.cellSpaceBoundaryMember = new ArrayList<String>();
 		if( !this.cellSpaceBoundaryMember.contains(c.getId()) ){
 			this.cellSpaceBoundaryMember.add(c.getId());
 		}

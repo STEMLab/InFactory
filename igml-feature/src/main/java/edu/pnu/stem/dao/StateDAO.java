@@ -201,15 +201,17 @@ public class StateDAO {
 		Nodes parent = target.getParent();
 	
 		
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			Nodes newParent = (Nodes)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new Nodes(map, parentId);
 			parent.deleteStateMember(target);
+
 			result.setParent(newParent);
 		}
 		
-		
+
+		result.setParent(parent);
 		if(name != null) {
 			result.setName(name);
 		}
@@ -236,11 +238,12 @@ public class StateDAO {
 		
 		if(duality == null) {
 			CellSpace d = target.getDuality();
-			d.resetDuality();
+			if(d != null)
+				d.resetDuality();
 		}
 		else {
 			if(target.getDuality() != null) {
-				if(target.getDuality().getId() != duality) {
+				if(!target.getDuality().getId().equals(duality)) {
 					CellSpace	oldDuality = new CellSpace(map,duality);
 					oldDuality.resetDuality();
 				}
@@ -250,8 +253,8 @@ public class StateDAO {
 			result.setDuality(newDuality);
 		}
 		
-		map.getFeatureContainer("State").remove(id);
-		map.getFeatureContainer("State").put(id, result);
+		map.removeFeature(id);
+		map.setFeature(id, "State", result);
 		
 		return result;
 	}

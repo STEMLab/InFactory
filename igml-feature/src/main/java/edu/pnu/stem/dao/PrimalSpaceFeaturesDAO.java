@@ -96,13 +96,16 @@ public class PrimalSpaceFeaturesDAO {
 		PrimalSpaceFeatures target = (PrimalSpaceFeatures)map.getFeature(id);
 		
 		IndoorFeatures parent = target.getParent();
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			IndoorFeatures newParent = (IndoorFeatures)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new IndoorFeatures(map, parentId);
 			
 			parent.resetMultiLayerdGraph();
 			result.setParent(newParent);
+		}
+		else {
+			result.setParent(parent);
 		}
 		
 		
@@ -122,11 +125,15 @@ public class PrimalSpaceFeaturesDAO {
 			for(String ni : cellspacemembers) {
 				newChild.add(new CellSpace(map,ni));
 			}
-			
-			for(CellSpace n : oldChild) {
-				if(!newChild.contains(n)) {
-					oldChild.remove(n);
+			if(oldChild != null) {
+				for(CellSpace n : oldChild) {
+					if(!newChild.contains(n)) {
+						oldChild.remove(n);
+					}
 				}
+			}
+			else {
+				oldChild = new ArrayList<CellSpace>();
 			}
 			
 			for(CellSpace n : newChild) {
@@ -157,11 +164,17 @@ public class PrimalSpaceFeaturesDAO {
 				newChild.add(new CellSpaceBoundary(map,ei));
 			}
 			
-			for(CellSpaceBoundary n : oldChild) {
-				if(!newChild.contains(n)) {
-					oldChild.remove(n);
+			if(oldChild != null) {
+				for(CellSpaceBoundary n : oldChild) {
+					if(!newChild.contains(n)) {
+						oldChild.remove(n);
+					}
 				}
 			}
+			else {
+				oldChild = new ArrayList<CellSpaceBoundary>();
+			}
+			
 			
 			for(CellSpaceBoundary n : newChild) {
 				if(!oldChild.contains(n)) {
@@ -182,9 +195,8 @@ public class PrimalSpaceFeaturesDAO {
 			}
 		}
 		
-		map.getFeatureContainer("PrimalSpaceFeatures").remove(id);
-		map.getFeatureContainer("PrimalSpaceFeatures").put(id, result);
-		
+		map.removeFeature(id);
+		map.setFeature(id, "PrimalSpaceFeatures", result);
 		return result;
 	}
 	

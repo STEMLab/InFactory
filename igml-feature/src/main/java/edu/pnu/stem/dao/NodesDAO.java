@@ -87,7 +87,7 @@ public class NodesDAO {
 		Nodes target = (Nodes)map.getFeature(id);
 		
 		SpaceLayer parent = target.getParent();
-		if(parent.getId() != parentId) {
+		if(!parent.getId().equals(parentId)) {
 			SpaceLayer newParent = (SpaceLayer)map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new SpaceLayer(map, parentId);
@@ -95,7 +95,7 @@ public class NodesDAO {
 			result.setParent(newParent);
 		}
 		
-		
+		result.setParent(parent);
 		if(name != null) {
 			result.setName(name);
 		}
@@ -114,11 +114,17 @@ public class NodesDAO {
 				newChild.add(new State(map, si));
 			}
 			
-			for(State s : oldChild) {
-				if(!newChild.contains(s)) {
-					oldChild.remove(s);
+			if(oldChild != null) {
+				for(State s : oldChild) {
+					if(!newChild.contains(s)) {
+						oldChild.remove(s);
+					}
 				}
 			}
+			else {
+				oldChild = new ArrayList<State>();
+			}
+			
 			
 			for(State s : newChild) {
 				if(!oldChild.contains(s)) {
@@ -138,9 +144,8 @@ public class NodesDAO {
 			}
 		}
 		
-		map.getFeatureContainer("Nodes").remove(id);
-		map.getFeatureContainer("Nodes").put(id, result);
-		
+		map.removeFeature(id);
+		map.setFeature(id, "Nodes", result);
 		return result;
 		
 	}

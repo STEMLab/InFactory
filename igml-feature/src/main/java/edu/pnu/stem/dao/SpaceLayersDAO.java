@@ -82,14 +82,16 @@ public class SpaceLayersDAO {
 		SpaceLayers target = (SpaceLayers)map.getFeature(id);
 		
 		MultiLayeredGraph parent = target.getParent();
-		if(parent.getId() != parentId) {
+		
+	
+		if(!parent.getId().equals(parentId)) {
 			MultiLayeredGraph newParent = (MultiLayeredGraph) map.getFeature(parentId);
 			if(newParent == null)
 				newParent = new MultiLayeredGraph(map, parentId);
 			parent.deleteSpaceLayers(target);
 			result.setParent(newParent);
 		}
-		
+		result.setParent(parent);
 		
 		if(name != null) {
 			result.setName(name);
@@ -108,11 +110,17 @@ public class SpaceLayersDAO {
 				newChild.add(new SpaceLayer(map,ni));
 			}
 			
-			for(SpaceLayer n : oldChild) {
-				if(!newChild.contains(n)) {
-					oldChild.remove(n);
+			if(oldChild != null) {
+				for(SpaceLayer n : oldChild) {
+					if(!newChild.contains(n)) {
+						oldChild.remove(n);
+					}
 				}
 			}
+			else {
+				oldChild = new ArrayList<SpaceLayer>();
+			}
+			
 			
 			for(SpaceLayer n : newChild) {
 				if(!oldChild.contains(n)) {
@@ -130,8 +138,8 @@ public class SpaceLayersDAO {
 			}
 		}
 		
-		map.getFeatureContainer("SpaceLayers").remove(id);
-		map.getFeatureContainer("SpaceLayers").put(id,result);
+		map.removeFeature(id);
+		map.setFeature(id, "SpaceLayers", result);
 		
 		return result;
 	}
