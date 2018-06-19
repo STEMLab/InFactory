@@ -20,8 +20,6 @@ public class SpaceLayerDAO {
 		}
 		
 		SpaceLayer newFeature = new SpaceLayer(map, id);
-		List<Nodes> nl = new ArrayList<Nodes>();
-		List<Edges> el = new ArrayList<Edges>();
 		
 		if(map.hasFutureID(id)){
 			newFeature = (SpaceLayer)map.getFutureFeature(id);
@@ -29,6 +27,15 @@ public class SpaceLayerDAO {
 		else{
 			map.setFutureFeature(id, newFeature);
 		}
+		
+		List<Nodes> nl = newFeature.getNodes();
+		if(nl == null)
+			nl = new ArrayList<Nodes>();
+		List<Edges> el = newFeature.getEdges();
+		if(el == null)
+			el = new ArrayList<Edges>();
+		
+		
 		map.setFeature(id, "SpaceLayer", newFeature);
 		SpaceLayers parent = (SpaceLayers) map.getFeature(parentId);
 		
@@ -63,7 +70,9 @@ public class SpaceLayerDAO {
 			newFeature.setEdges(el);
 		}
 		
-		ArrayList<SpaceLayer> spaceLayerMember = new ArrayList<SpaceLayer>();
+		List<SpaceLayer> spaceLayerMember = parent.getSpaceLayerMember();
+		if(spaceLayerMember == null)
+				spaceLayerMember = new ArrayList<SpaceLayer>();
 		spaceLayerMember.add(newFeature);
 		parent.setSpaceLayerMember(spaceLayerMember);
 		newFeature.setParent(parent);
@@ -163,7 +172,7 @@ public class SpaceLayerDAO {
 			result.setEdges(oldChild);
 		}
 		else {
-			if(target.getEdges().size() != 0) {
+			if(target.getEdges() != null & target.getEdges().size() != 0) {
 				List<Edges> oldChild = target.getEdges();
 				
 				for(Edges child : oldChild) {

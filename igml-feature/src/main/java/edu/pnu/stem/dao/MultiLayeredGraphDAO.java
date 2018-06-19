@@ -39,8 +39,13 @@ public class MultiLayeredGraphDAO {
 		map.setFeature(id, "MultiLayeredGraph", newFeature);
 		
 		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
-		List<SpaceLayers> sls = new ArrayList<SpaceLayers>();
-		List<InterEdges> iel = new ArrayList<InterEdges>();
+		
+		List<SpaceLayers> sls = newFeature.getSpaceLayers();
+		if(sls == null)
+			sls = new ArrayList<SpaceLayers>();
+		List<InterEdges> iel = newFeature.getInterEdges();
+		if(iel == null)
+			iel = new ArrayList<InterEdges>();
 		
 		if(parent == null){
 			if(map.hasFutureID(parentId)){
@@ -173,7 +178,7 @@ public class MultiLayeredGraphDAO {
 			result.setInterEdges(oldChild);
 		}
 		else {
-			if(target.getInterEdges().size() != 0) {
+			if(target.getInterEdges() != null & target.getInterEdges().size() != 0) {
 				List<InterEdges> oldChild = target.getInterEdges();
 				
 				for(InterEdges child : oldChild) {

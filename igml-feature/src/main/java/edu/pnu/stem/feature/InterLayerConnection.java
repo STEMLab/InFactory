@@ -80,9 +80,13 @@ public class InterLayerConnection extends AbstractFeature {
 	}
 
 	public State[] getInterConnects() {
-		State[] found = new State[2];
-		found[0] = (State)indoorGMLMap.getFeature(this.interConnects[0]);
-		found[1] = (State)indoorGMLMap.getFeature(this.interConnects[1]);
+
+		State[] found = null;
+		if(this.interConnects != null) {
+			found = new State[2];
+			found[0] = (State)indoorGMLMap.getFeature(this.interConnects[0]);
+			found[1] = (State)indoorGMLMap.getFeature(this.interConnects[1]);
+		}
 		return found;
 	}
 

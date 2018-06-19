@@ -159,7 +159,10 @@ public class CellSpaceDAO {
 		}
 		
 		//parent.addCellSpaceMember(newFeature);
-		ArrayList<CellSpace>cellSpaceMember = new ArrayList<CellSpace>();
+		List<CellSpace>cellSpaceMember = parent.getCellSpaceMember();
+		if(cellSpaceMember == null)
+			cellSpaceMember = new ArrayList<CellSpace>();
+		
 		cellSpaceMember.add(newFeature);
 		parent.setCellSpaceMember(cellSpaceMember);
 		newFeature.setParent(parent);

@@ -16,7 +16,7 @@ public class SpaceLayersDAO {
 			id = UUID.randomUUID().toString();
 		}
 		SpaceLayers newFeature = new SpaceLayers(map, id);
-		List<SpaceLayer> sl = new ArrayList<SpaceLayer>();
+		
 		
 		if(map.hasFutureID(id)){
 			newFeature = (SpaceLayers)map.getFutureFeature(id);
@@ -25,6 +25,10 @@ public class SpaceLayersDAO {
 			map.setFutureFeature(id, newFeature);
 		}
 		map.setFeature(id, "SpaceLayers", newFeature);
+		
+		List<SpaceLayer> sl = newFeature.getSpaceLayerMember();
+		if(sl == null)
+			sl = new ArrayList<SpaceLayer>();
 		
 		MultiLayeredGraph parent = (MultiLayeredGraph) map.getFeature(parentId);
 		if(parent == null){
@@ -51,7 +55,10 @@ public class SpaceLayersDAO {
 			newFeature.setSpaceLayerMember(sl);
 		}
 		
-		ArrayList<SpaceLayers> spaceLayers = new ArrayList<SpaceLayers>();
+		List<SpaceLayers> spaceLayers = parent.getSpaceLayers();
+		if(spaceLayers == null) {
+			spaceLayers = new ArrayList<SpaceLayers>();
+		}
 		spaceLayers.add(newFeature);
 		parent.setSpaceLayers(spaceLayers);
 		newFeature.setParent(parent);
@@ -116,7 +123,7 @@ public class SpaceLayersDAO {
 			result.setSpaceLayerMember(oldChild);
 		}
 		else {
-			if(target.getSpaceLayerMember().size() != 0) {
+			if(target.getSpaceLayerMember() != null && target.getSpaceLayerMember().size() != 0) {
 				for(SpaceLayer s : target.getSpaceLayerMember()) {
 					s.resetParent();
 				}

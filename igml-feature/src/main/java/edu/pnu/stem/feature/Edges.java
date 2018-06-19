@@ -57,16 +57,18 @@ public class Edges extends AbstractFeature{
 
 	public List<Transition> getTransitionMember() {
 		List<Transition> transitionMember = null;
-		if(this.transitionMember != null && this.transitionMember.size() != 0)
+		if(this.transitionMember != null && this.transitionMember.size() != 0) {
 			transitionMember = new ArrayList<Transition>();
-		if (this.transitionMember.size() != 0) {
-			for (int i = 0; i < this.transitionMember.size(); i++) {
-				Transition found = (Transition) indoorGMLMap.getFeature(this.transitionMember.get(i));
-				if(found == null)
-					found = (Transition)indoorGMLMap.getFutureFeature(this.transitionMember.get(i));
-				transitionMember.add(found);
+			if (this.transitionMember.size() != 0) {
+				for (int i = 0; i < this.transitionMember.size(); i++) {
+					Transition found = (Transition) indoorGMLMap.getFeature(this.transitionMember.get(i));
+					if(found == null)
+						found = (Transition)indoorGMLMap.getFutureFeature(this.transitionMember.get(i));
+					transitionMember.add(found);
+				}
 			}
 		}
+		
 		return transitionMember;
 	}
 	

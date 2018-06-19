@@ -39,7 +39,10 @@ public class NodesDAO {
 		}		
 		map.setFeature(id, "Nodes", newFeature);
 		
-		List<State>sm = new ArrayList<State>();
+		List<State>sm = newFeature.getStateMember();
+		if(sm == null)
+			sm = new ArrayList<State>();
+		
 		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
 		
 		if(parent == null){
@@ -51,8 +54,13 @@ public class NodesDAO {
 			}
 		}
 		
+		List<Nodes>nodes = parent.getNodes();
+		if(nodes == null)
+			nodes = new ArrayList<Nodes>();
 		
-		parent.addNodes(newFeature);
+		nodes.add(newFeature);
+		
+		parent.setNodes(nodes);
 		
 		if(name != null) {
 			newFeature.setName(name);
@@ -122,7 +130,7 @@ public class NodesDAO {
 					
 		}
 		else {
-			if(target.getStateMember().size() != 0) {
+			if(target.getStateMember() != null && target.getStateMember().size() != 0) {
 				List<State> oldChild = target.getStateMember();
 				for(State child : oldChild) {
 					child.resetParent();

@@ -55,7 +55,12 @@ public class StateDAO {
 				parent = new Nodes(map,parentId);
 			}
 		}
-		parent.addStateMember(newFeature);
+		
+		List<State> sm = parent.getStateMember();
+		if(sm == null)
+			sm = new ArrayList<State>();
+		sm.add(newFeature);
+		parent.setStateMember(sm);
 		newFeature.setParent(parent);
 		
 		if(name != null) {
@@ -119,7 +124,13 @@ public class StateDAO {
 				parent = new Nodes(map,parentId);
 			}
 		}
-		parent.addStateMember(newFeature);
+		
+		List<State>sm = parent.getStateMember();
+		if(sm == null)
+			sm = new ArrayList<State>();
+		
+		sm.add(newFeature);
+		parent.setStateMember(sm);
 		newFeature.setParent(parent);
 		
 		if (geometry != null) {

@@ -44,10 +44,13 @@ public class InterEdges extends AbstractFeature {
 	 * @return the interLayerConnectionMember
 	 */
 	public List<InterLayerConnection> getInterLayerConnectionMember() {
-		List<InterLayerConnection> interLayerConnectionMember = new ArrayList<InterLayerConnection>();
-		for(int i = 0 ; i < this.interLayerConnectionMember.size() ; i++){
-			InterLayerConnection found = (InterLayerConnection)indoorGMLMap.getFeature(this.interLayerConnectionMember.get(i));
-			interLayerConnectionMember.add(found);
+		List<InterLayerConnection> interLayerConnectionMember= null;
+		if(this.interLayerConnectionMember != null) {
+			 interLayerConnectionMember = new ArrayList<InterLayerConnection>();
+			for(int i = 0 ; i < this.interLayerConnectionMember.size() ; i++){
+				InterLayerConnection found = (InterLayerConnection)indoorGMLMap.getFeature(this.interLayerConnectionMember.get(i));
+				interLayerConnectionMember.add(found);
+			}
 		}
 		return interLayerConnectionMember;
 	}
@@ -80,8 +83,8 @@ public class InterEdges extends AbstractFeature {
 		}
 	}
 	
-	public void clearInterLayerConnectionMember(){
-		this.interLayerConnectionMember.clear();
+	public void resetInterLayerConnectionMember(){
+		this.interLayerConnectionMember = null;
 	}
 
 	public void resetParent() {
@@ -89,9 +92,10 @@ public class InterEdges extends AbstractFeature {
 	}
 
 	public void deleteInterLayerConnectionMember(InterLayerConnection target) {
-		if(this.interLayerConnectionMember.contains(target.getId()))
-			this.interLayerConnectionMember.remove(target.getId());
-		
+		if(this.interLayerConnectionMember != null)
+			if(this.interLayerConnectionMember.contains(target.getId()))
+				this.interLayerConnectionMember.remove(target.getId());
+			
 	}
 
 }

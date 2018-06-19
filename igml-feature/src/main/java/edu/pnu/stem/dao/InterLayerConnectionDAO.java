@@ -32,7 +32,9 @@ public class InterLayerConnectionDAO {
 			}
 		}
 		
-		List<InterLayerConnection> interlayerconnectionMember = new ArrayList<InterLayerConnection>();
+		List<InterLayerConnection> interlayerconnectionMember = parent.getInterLayerConnectionMember();
+		if(interlayerconnectionMember == null)
+			interlayerconnectionMember = new ArrayList<InterLayerConnection>();
 		interlayerconnectionMember.add(newFeature);
 		
 		parent.setInterLayerConnectionMember(interlayerconnectionMember);

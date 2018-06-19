@@ -43,9 +43,7 @@ public class InterEdgesDAO {
 			}
 			newFeature.setInterLayerConnectionMember(tempList);
 		}
-		else{
-			System.out.println("Error at createInterEdges : there is no InterLayerConnectionMember");
-		}
+
 		map.removeFutureID(id);
 		map.setFeature(id, "InterEdges", newFeature);
 	

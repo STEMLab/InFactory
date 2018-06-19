@@ -106,7 +106,7 @@ public class CellSpace extends AbstractFeature {
 
 	public List<CellSpaceBoundary> getPartialboundedBy() {
 		List<CellSpaceBoundary> cboundaries = new ArrayList<CellSpaceBoundary>();
-		if(this.partialboundedBy.size() != 0){
+		if(this.partialboundedBy != null & this.partialboundedBy.size() != 0){
 			for (String s : this.partialboundedBy) {
 				CellSpaceBoundary found = (CellSpaceBoundary)indoorGMLMap.getFeature(s);
 				if(found == null)
@@ -143,7 +143,7 @@ public class CellSpace extends AbstractFeature {
 	}
 	
 	public void resetPartialBoundedBy() {
-		this.partialboundedBy.clear();
+		this.partialboundedBy = null;
 	}
 
 	public ExternalReference getExternalReference() {
@@ -170,8 +170,9 @@ public class CellSpace extends AbstractFeature {
 	}
 	
 	public void deletePartialBoundedBy(CellSpaceBoundary cb) {
-		if(this.partialboundedBy.contains(cb.getId()))
-			this.partialboundedBy.remove(cb.getId());
+		if(this.partialboundedBy != null)
+			if(this.partialboundedBy.contains(cb.getId()))
+				this.partialboundedBy.remove(cb.getId());
 	}
 	
 }

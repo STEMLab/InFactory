@@ -28,6 +28,8 @@ public class IndoorFeatures extends AbstractFeature {
 		
 		if(this.primalSpaceFeatures != null) {
 			found = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.primalSpaceFeatures);
+			if(found == null)
+				found = (PrimalSpaceFeatures)indoorGMLMap.getFutureFeature(this.primalSpaceFeatures);
 		}
 		
 		return found;
@@ -51,8 +53,10 @@ public class IndoorFeatures extends AbstractFeature {
 		
 		if(this.multiLayeredGraph != null) {
 			found = (MultiLayeredGraph) indoorGMLMap.getFeature(this.multiLayeredGraph);
+			if(found == null)
+				found = (MultiLayeredGraph)indoorGMLMap.getFutureFeature(this.multiLayeredGraph); 
 		}
-		
+			
 		return found;
 	}
 	/**

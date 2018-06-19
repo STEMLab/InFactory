@@ -73,9 +73,10 @@ public class Nodes extends AbstractFeature {
 	}
 	
 	public void deleteStateMember(State s) {
-		if(this.stateMember.contains(s.getId())) {
-			this.stateMember.remove(s.getId());
-		}
+		if(this.stateMember != null)
+			if(this.stateMember.contains(s.getId())) {
+				this.stateMember.remove(s.getId());
+			}
 	}
 	
 	public void addStateMember(State s) {
@@ -85,8 +86,8 @@ public class Nodes extends AbstractFeature {
 		}
 	}
 	
-	public void clearStateMember(){
-		this.stateMember.clear();
+	public void resetStateMember(){
+		this.stateMember= null;
 	}
 
 	public void resetParent() {

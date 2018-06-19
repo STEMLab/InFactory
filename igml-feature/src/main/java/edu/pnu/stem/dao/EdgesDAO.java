@@ -16,7 +16,6 @@ import edu.pnu.stem.feature.Transition;
 public class EdgesDAO {
 
 	public static Edges createEdges(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>transitionMember){
-		List<Transition> tm = new ArrayList<Transition>();
 		
 		if(id == null) {
 			id = UUID.randomUUID().toString();
@@ -29,6 +28,10 @@ public class EdgesDAO {
 		}
 		
 		map.setFutureFeature(id, newFeature);
+		
+		List<Transition> tm = newFeature.getTransitionMember();
+		if(tm == null)
+			tm = new ArrayList<Transition>();
 		
 		SpaceLayer parent = (SpaceLayer) map.getFeature(parentId);
 		if(parent == null){
@@ -55,8 +58,13 @@ public class EdgesDAO {
 			}
 			newFeature.setTransitionMembers(tm);
 		}
+		List<Edges>edges = parent.getEdges();
+		if(edges == null)
+			edges = new ArrayList<Edges>();
 		
-		parent.addEdges(newFeature);
+		edges.add(newFeature);
+		
+		parent.setEdges(edges);
 		newFeature.setParent(parent);		
 		map.removeFutureID(id);
 		map.setFeature(id, "Edges", newFeature);
@@ -124,7 +132,7 @@ public class EdgesDAO {
 			
 		}
 		else {
-			if(target.getTransitionMember().size() != 0) {
+			if(target.getTransitionMember()!= null && target.getTransitionMember().size() != 0) {
 				for(Transition child : target.getTransitionMember()) {
 					child.resetParent();
 				}

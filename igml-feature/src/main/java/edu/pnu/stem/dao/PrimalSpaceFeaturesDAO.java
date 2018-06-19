@@ -20,12 +20,12 @@ import edu.pnu.stem.feature.SpaceLayers;
  */
 public class PrimalSpaceFeaturesDAO {
 	
-	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id, String name, String description) {
+	public static PrimalSpaceFeatures createPrimalSpaceFeatures(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>cellSpaceMember,List<String>cellSpaceBoundaryMember) {
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
 		PrimalSpaceFeatures newFeature = new PrimalSpaceFeatures(map, id);
-
+		
 		if(map.hasFutureID(id)){
 			newFeature = (PrimalSpaceFeatures)map.getFutureFeature(id);
 			//map.removeFutureID(id);
@@ -33,6 +33,15 @@ public class PrimalSpaceFeaturesDAO {
 		else {
 			map.setFutureFeature(id, newFeature);
 		}
+		
+		List<CellSpace>cm = newFeature.getCellSpaceMember();
+		if(cm == null)
+			cm = new ArrayList<CellSpace>();
+		
+		List<CellSpaceBoundary> cbm = newFeature.getCellSpaceBoundaryMember();
+		if(cbm == null)
+			cbm = new ArrayList<CellSpaceBoundary>();
+
 		
 		IndoorFeatures parent = (IndoorFeatures) map.getFeature(parentId);
 		
@@ -52,6 +61,18 @@ public class PrimalSpaceFeaturesDAO {
 		
 		if(description != null) {
 			newFeature.setDescription(description);
+		}
+		
+		if(cellSpaceMember != null) {
+			for(String c : cellSpaceMember)
+				cm.add(new CellSpace(map,c));
+			newFeature.setCellSpaceMember(cm);
+		}
+		
+		if(cellSpaceBoundaryMember != null) {
+			for(String cb : cellSpaceBoundaryMember)
+				cbm.add(new CellSpaceBoundary(map,cb));
+			newFeature.setCellSpaceBoundaryMember(cbm);
 		}
 		
 		parent.setPrimalSpaceFeatures(newFeature);
@@ -118,7 +139,7 @@ public class PrimalSpaceFeaturesDAO {
 			
 		}
 		else {
-			if(target.getCellSpaceMember().size() != 0) {
+			if(target.getCellSpaceMember() != null && target.getCellSpaceMember().size() != 0) {
 				List<CellSpace> oldChild = target.getCellSpaceMember();
 				
 				for(CellSpace child : oldChild) {
@@ -152,7 +173,7 @@ public class PrimalSpaceFeaturesDAO {
 			result.setCellSpaceBoundaryMember(oldChild);
 		}
 		else {
-			if(target.getCellSpaceBoundaryMember().size() != 0) {
+			if(target.getCellSpaceBoundaryMember() != null && target.getCellSpaceBoundaryMember().size() != 0) {
 				List<CellSpaceBoundary> oldChild = target.getCellSpaceBoundaryMember();
 				
 				for(CellSpaceBoundary child : oldChild) {

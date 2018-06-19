@@ -90,7 +90,7 @@ public class PrimalSpaceFeaturesController {
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
-			psf = PrimalSpaceFeaturesDAO.createPrimalSpaceFeatures(map, parentId, id, name, description);
+			psf = PrimalSpaceFeaturesDAO.createPrimalSpaceFeatures(map, parentId, id, name, description, cellspacemember,cellspaceboundarymember);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();

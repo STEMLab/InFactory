@@ -234,14 +234,16 @@ public class SpaceLayer extends AbstractFeature {
 
 	public void deleteNodes(Nodes n) {
 		// TODO Auto-generated method stub
-		if(this.nodes.contains(n.getId()))
-			this.nodes.remove(n.getId());
+		if(this.nodes != null)
+			if(this.nodes.contains(n.getId()))
+				this.nodes.remove(n.getId());
 	}
 
 	public void deleteEdges(Edges e) {
-		if(this.edges.contains(e.getId())) {
-			this.edges.remove(e.getId());
-		}
+		if(this.edges != null)	
+			if(this.edges.contains(e.getId())) {
+				this.edges.remove(e.getId());
+			}
 	}
 	
 	public void resetParent() {

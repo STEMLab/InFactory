@@ -48,7 +48,12 @@ public class TransitionDAO {
 			}
 		}
 		
-		parent.addTransitionMember(newFeature);
+		List<Transition>tm = parent.getTransitionMember();
+		if(tm == null)
+			tm = new ArrayList<Transition>();
+		
+		tm.add(newFeature);
+		parent.setTransitionMembers(tm);
 		newFeature.setParent(parent);
 		
 		/*
@@ -156,8 +161,13 @@ public class TransitionDAO {
 				parent = new Edges(map,parentId);
 			}			
 		}
+		List<Transition>tm = parent.getTransitionMember();
+		if(tm == null)
+			tm = new ArrayList<Transition>();
 		
-		parent.addTransitionMember(newFeature);
+		tm.add(newFeature);
+		parent.setTransitionMembers(tm);
+		
 		newFeature.setParent(parent);
 		/*
 		if (duality != null) {
