@@ -26,6 +26,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.geometry.jts.Solid;
+import net.opengis.gml.v_3_2_1.CodeType;
 import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
@@ -33,6 +34,7 @@ import net.opengis.gml.v_3_2_1.PointType;
 import net.opengis.gml.v_3_2_1.PolygonType;
 import net.opengis.gml.v_3_2_1.SolidPropertyType;
 import net.opengis.gml.v_3_2_1.SolidType;
+import net.opengis.gml.v_3_2_1.StringOrRefType;
 import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryGeometryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
@@ -82,9 +84,19 @@ public class Convert2JaxbClass {
 			newFeature.setDuality(duality);
 		}
 
-		//StateType referredState = new StateType();
-		//referredState.setId(feature.getDuality().getId());
-		//duality.setState(referredState);
+		if(feature.getName() != null) {
+			List<CodeType>name = new ArrayList<CodeType>();
+			CodeType e = new CodeType();
+			e.setValue(feature.getName());
+			name.add(e);
+			newFeature.setName(name);
+		}
+		
+		if(feature.getDescription() != null) {
+			StringOrRefType e = new StringOrRefType();
+			e.setValue(feature.getDescription());
+			newFeature.setDescription(e);
+		}
 		newFeature.setId(feature.getId());
 		
 		List<CellSpaceBoundaryPropertyType> partialboundedBy = new ArrayList<CellSpaceBoundaryPropertyType>();
