@@ -11,7 +11,7 @@ import edu.pnu.stem.feature.PrimalSpaceFeatures;
 public class IndoorFeaturesDAO {
 
 	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id, String name, String description,
-			String primalSpaceFeatures, String multiLayeredGraph) {
+			String multiLayeredGraph, String primalSpaceFeatures ) {
 		IndoorFeatures newFeature = new IndoorFeatures(map, id);
 		
 		if(map.hasFutureID(id)){
