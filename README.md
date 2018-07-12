@@ -1,139 +1,55 @@
 # InFactory
 
-## Introduction
-
 This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This is based on ogc-schemas https://github.com/highsource/ogc-schemas, so later I will add License about this. 
 
-**Warning : This project is now under being implemented. After 2018 FEB 1.0 version will be released. Sorry for delaying.**
-If is there any issue or question please contact to 'hyemi.jeong@pnu.edu'.
+
+## Getting Started
+
+### Prerequisites
+
+1) OS : regardless of OS.  
+2) Maven : over 3.5 version
+
+### Installing
+
+1) Project building
+
+`mvn clean install`
+
+2) Spring server executing
+
+`mvn jetty:run` 
+
+I would like to recommend to use the other port number with parameter 
+
+`"-Djetty.port=9797"`.
+   
+ 
+## Running
+
+1) Clone this project and import at Eclipse.
+2) Build the project with the first command.
+3) Run the server with the second command. 
+
+
+## Built With
+
+* [Maven](https://maven.apache.org/) - Dependency Management
+* [ogc-schemas](https://github.com/highsource/ogc-schemas) - JAXB Bindings for OGC xml schemas
+* [Spring Framework 4.0](https://spring.io/) - Java web framework
+* [h2gis](http://www.h2gis.org/) - Embedded Database
+
+## How to make http request
+
+I describe this to the wiki. Please refer that. 
+
 
 ## Authors
 
 * Hyemi Jeong - IndoorGML CRUD DAO developer hyemi.jeong@pnu.edu
 * Hyung-Gyu Ryoo - IndoorGML Restful API developer hgryoo@pnu.edu
 
-## Project Setting
+## License 
 
-### Environment
+This project is under the LGPL License - see the [LICENSE](https://github.com/STEMLab/InFactory/blob/master/LICENSE)
 
-If you want to set this project, then you need to set: 
-1) OS : regardless of OS.  
-2) Eclipse : This project currently doesn't support maven command line.
-3) Maven 3.5 version
-
-### Command
-
-1) Project building : `mvn clean install`
-2) Spring server executing : `mvn jetty:run`
-	
-   Also set parameter as
-
-   - Parameter Name : `jetty.http.port`
-
-   - Value : `9797(You can change port number as you want)`
-   
- 
-### How to use
-
-
-1) Clone this project and import at Eclipse.
-2) Set `Run Configurations` as upper two commands.
-3) Set `base_url` at your rest client : `http://localhost:(port number that you used at the parameter)/`.
-4) You need to CRUD the element of IndoorGML from the top to the bottom of IndoorGML structure.
- 
- ```
- ex) IndoorFeatures -> PrimalSpaceFeatures -> CellSpace
-  
- ex) IndoorFeatures -> MultiLayeredGraph -> SpaceLayers -> SpaceLayer -> Nodes -> State
- ```
- 
-   You need to create the parent element firstly.
-   If the level of elements are same, no order at creating. In this document, we will make the document which contains CellSpace element. And request format is JSON.
-   
-5) Turn on the jetty server of IndoorGML-Factory as the second command.
-
-6) Create the document first as posting below request to this url : `{base_url}/documents/(id of the document)`.
-   The url address of post request will be this : `{base_url}/documents/(id of documents)/indoorfeatures|primalspacefeatures|cellspace...`
-```
-{
-	"id":"doc1"
-}
-```
-
-7) Create the IndoorFeatures element. Send post request as below to this url : `{base_url}/documents/(id of documents)/indoorfeatures/(id of the element)`. 
-
-```
-{
-	"docId":"doc1",
-	"id":"lf1"
-}
-```
-
-8) Create the PrimalSpaceFeatures element. Send post request as below to this url : `{base_url}/documents/(id of documents)/primalspacefeatures/(id of the element)`.
-
-```
-{
-	"docId":"doc1",
-	"parentId":"lf1",
-	"id":"psf1"
-}
-```
-
-9) Create the CellSpace element like below. Send post request as below to this url : `{base_url}/documents/(id of documents)/cellspace/(id of the element)`.
-
-```
-{
-			"id": "C1",
-			"parentId": "efc34ce5-acbc-402d-99fe-943362a37f21",
-			"docId": "0064f868-24dd-3ed7-3ad3-6fb42579eb7e",
-			"type": "CellSpace",
-			"geometry": {
-				"type": "Surface",
-				"coordinates": [
-					[
-						9.090909090909092,
-						17.742978566149297,
-						0
-					],
-					[
-						27.71618625277162,
-						15.67350332594235,
-						0
-					],
-					[
-						27.71618625277162,
-						48.785107169253514,
-						0
-					],
-					[
-						9.977827050997783,
-						48.48946784922395,
-						0
-					],
-					[
-						9.090909090909092,
-						17.742978566149297,
-						0
-					]
-				],
-				"properties": {
-					"id": "CG-C1",
-					"height": "20",
-					"extrude": "true"
-				}
-			},
-			"properties": {
-				"name": "첫번째 방",
-				"description": "1111111111111111",
-				"partialboundedBy": [],
-				"externalReference": [],
-				"duality": ""
-			}
-		}
-```
-
-10) Send get request to this url : `{base_url}/documents/(id of the document)`. In this example we create the document which has the id `doc1`.
-So the url will be this : `{base_url}/documents/doc1`. Then you can get the document.
-
-### Rule of URL form
-As suggested in several RESTful API guide, every IndoorGML elements are mentioned as the singular such as 'cellspace' , 'cellspaceboundary, 'state', etc, without any capital letters in the elements names.
