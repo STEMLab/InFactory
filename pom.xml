@@ -127,10 +127,14 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<fork>true</fork>
+					<encoding>EUC-KR</encoding>
 					<maxmem>512M</maxmem>
 				</configuration>
 			</plugin>
-
+			
+			
+			
+			
 			<!-- ======================================================= -->
 			<!-- Resources. -->
 			<!-- ======================================================= -->
