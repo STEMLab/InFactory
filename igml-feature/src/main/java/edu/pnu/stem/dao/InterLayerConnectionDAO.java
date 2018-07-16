@@ -135,7 +135,7 @@ public class InterLayerConnectionDAO {
 		
 		parent.deleteInterLayerConnectionMember(target);
 		
-		//InterLayerConnection에서 state와 spacelayer를 참조하는데 반대로 참조할 필요가 있을까. 
+		//reference problem : state and spacelayer
 		
 		map.removeFeature(id);
 		
