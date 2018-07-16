@@ -26,6 +26,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.geometry.jts.Solid;
+import net.opengis.gml.v_3_2_1.CodeType;
 import net.opengis.gml.v_3_2_1.CurvePropertyType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
@@ -33,6 +34,7 @@ import net.opengis.gml.v_3_2_1.PointType;
 import net.opengis.gml.v_3_2_1.PolygonType;
 import net.opengis.gml.v_3_2_1.SolidPropertyType;
 import net.opengis.gml.v_3_2_1.SolidType;
+import net.opengis.gml.v_3_2_1.StringOrRefType;
 import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryGeometryType;
 import net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType;
@@ -82,25 +84,36 @@ public class Convert2JaxbClass {
 			newFeature.setDuality(duality);
 		}
 
-		//StateType referredState = new StateType();
-		//referredState.setId(feature.getDuality().getId());
-		//duality.setState(referredState);
+		if(feature.getName() != null) {
+			List<CodeType>name = new ArrayList<CodeType>();
+			CodeType e = new CodeType();
+			e.setValue(feature.getName());
+			name.add(e);
+			newFeature.setName(name);
+		}
+		
+		if(feature.getDescription() != null) {
+			StringOrRefType e = new StringOrRefType();
+			e.setValue(feature.getDescription());
+			newFeature.setDescription(e);
+		}
 		newFeature.setId(feature.getId());
 		
 		List<CellSpaceBoundaryPropertyType> partialboundedBy = new ArrayList<CellSpaceBoundaryPropertyType>();
 		
-		
-		for(int i = 0 ; i < feature.getPartialboundedBy().size() ; i++){
-			CellSpaceBoundaryPropertyType tempcsb = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
-			String partialboundedByHref = feature.getPartialboundedBy().get(i).getId();
-			partialboundedByHref = "#" + partialboundedByHref;
-			tempcsb.setHref(partialboundedByHref);
-			partialboundedBy.add(tempcsb);
+		if(feature.getPartialboundedBy() != null) {
+			for(int i = 0 ; i < feature.getPartialboundedBy().size() ; i++){
+				CellSpaceBoundaryPropertyType tempcsb = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
+				String partialboundedByHref = feature.getPartialboundedBy().get(i).getId();
+				partialboundedByHref = "#" + partialboundedByHref;
+				tempcsb.setHref(partialboundedByHref);
+				partialboundedBy.add(tempcsb);
+			}
+			
+			newFeature.setPartialboundedBy(partialboundedBy);
+			
 		}
 		
-		newFeature.setPartialboundedBy(partialboundedBy);
-		
-
 		//TODO setting Geometry 2D
 		Geometry geom = (Geometry) feature.getGeometry();
 		if(geom != null){
@@ -165,26 +178,6 @@ public class Convert2JaxbClass {
 		CellSpaceBoundaryType newFeature = indoorgmlcoreOF.createCellSpaceBoundaryType();
 		TransitionPropertyType duality = new TransitionPropertyType();
 		newFeature.setId(feature.getId());
-		/*
-		 * if(feature.cellSpaceBoundaryGeometry != null){
-			if(feature.cellSpaceBoundaryGeometry instanceof CurveType){
-				JAXBElement<? extends AbstractCurveType> tempGeometry = (JAXBElement<? extends AbstractCurveType>)feature.cellSpaceBoundaryGeometry;
-				CurvePropertyType tempGeometryProperty = new CurvePropertyType();
-				tempGeometryProperty.setAbstractCurve(tempGeometry);
-				//newFeature.setGeometry2D(tempGeometryProperty);
-			}
-			else if(feature.cellSpaceBoundaryGeometry instanceof SurfaceType){
-				JAXBElement<? extends AbstractSurfaceType> tempGeometry = (JAXBElement<? extends AbstractSurfaceType>)feature.cellSpaceBoundaryGeometry;
-				SurfacePropertyType tempGeometryProperty = new SurfacePropertyType();
-				tempGeometryProperty.setAbstractSurface(tempGeometry);
-				//newFeature.setGeometry3D(tempGeometryProperty);
-			}
-		}
-		 * */
-		
-		//newFeature.setBoundedBy(feature.);
-		
-		//if(feature.)
 		
 		if(feature.getDuality() != null){
 			String href = feature.getDuality().getId();
@@ -233,13 +226,17 @@ public class Convert2JaxbClass {
 		
 		
 		List<TransitionMemberType> transitionmember = new ArrayList<TransitionMemberType>();
-		for(int j = 0 ; j < p.getTransitionMember().size();j++){
-			TransitionType temptransition = change2JaxbClass(savedMap, (Transition)savedMap.getFeature(p.getTransitionMember().get(j).getId()));
-			TransitionMemberType temptm = indoorgmlcoreOF.createTransitionMemberType();
-			temptm.setTransition(temptransition);
-			transitionmember.add(temptm);
+		
+		if(p.getTransitionMember() != null) {
+			for(int j = 0 ; j < p.getTransitionMember().size();j++){
+				TransitionType temptransition = change2JaxbClass(savedMap, (Transition)savedMap.getFeature(p.getTransitionMember().get(j).getId()));
+				TransitionMemberType temptm = indoorgmlcoreOF.createTransitionMemberType();
+				temptm.setTransition(temptransition);
+				transitionmember.add(temptm);
+			}
+			newFeature.setTransitionMember(transitionmember); 
+			
 		}
-		newFeature.setTransitionMember(transitionmember); 
 		
 		//newFeature.setBoundedBy(feature.);
 		
@@ -314,14 +311,17 @@ public class Convert2JaxbClass {
 		newFeature.setId(feature.getId());
 		List<InterLayerConnectionMemberType>interlayerconnectionmember = new ArrayList<InterLayerConnectionMemberType>();
 		
-		for(int i = 0 ; i < feature.getInterLayerConnectionMember().size();i++){
-			InterLayerConnection tempilc = (InterLayerConnection) savedMap.getFeature(feature.getInterLayerConnectionMember().get(i).getId());
-			InterLayerConnectionType temp = change2JaxbClass(savedMap, tempilc);
-			InterLayerConnectionMemberType tempmember = indoorgmlcoreOF.createInterLayerConnectionMemberType();
-			tempmember.setInterLayerConnection(temp);
-			interlayerconnectionmember.add(tempmember);
+		if(feature.getInterLayerConnectionMember() != null) {
+			for(int i = 0 ; i < feature.getInterLayerConnectionMember().size();i++){
+				InterLayerConnection tempilc = (InterLayerConnection) savedMap.getFeature(feature.getInterLayerConnectionMember().get(i).getId());
+				InterLayerConnectionType temp = change2JaxbClass(savedMap, tempilc);
+				InterLayerConnectionMemberType tempmember = indoorgmlcoreOF.createInterLayerConnectionMemberType();
+				tempmember.setInterLayerConnection(temp);
+				interlayerconnectionmember.add(tempmember);
+			}
+			newFeature.setInterLayerConnectionMember(interlayerconnectionmember);
+			
 		}
-		newFeature.setInterLayerConnectionMember(interlayerconnectionmember);
 		
 		return newFeature;
 	}
@@ -333,17 +333,23 @@ public class Convert2JaxbClass {
 		newFeature.setId(feature.getId());
 		List<StatePropertyType>interConnects = new ArrayList<StatePropertyType>();
 		List<SpaceLayerPropertyType>connectedLayer = new ArrayList<SpaceLayerPropertyType>();
-		for(int i = 0 ; i < feature.getInterConnects().length; i++){
-			StatePropertyType temp = indoorgmlcoreOF.createStatePropertyType();
-			String href = feature.getInterConnects()[i].getId();
-			href = "#" + href;
-			temp.setHref(href);
-			interConnects.add(temp);
+		
+		if(feature.getInterConnects() != null) {
+			for(int i = 0 ; i < feature.getInterConnects().length; i++){
+				StatePropertyType temp = indoorgmlcoreOF.createStatePropertyType();
+				String href = feature.getInterConnects()[i].getId();
+				href = "#" + href;
+				temp.setHref(href);
+				interConnects.add(temp);
+			}
 		}
-		for(int i = 0 ; i < feature.getConnectedLayers().length;i++){
-			SpaceLayerPropertyType temp = indoorgmlcoreOF.createSpaceLayerPropertyType();
-			temp.setHref(feature.getConnectedLayers()[i].getId());
-			connectedLayer.add(temp);
+		
+		if(feature.getConnectedLayers() != null) {
+			for(int i = 0 ; i < feature.getConnectedLayers().length;i++){
+				SpaceLayerPropertyType temp = indoorgmlcoreOF.createSpaceLayerPropertyType();
+				temp.setHref(feature.getConnectedLayers()[i].getId());
+				connectedLayer.add(temp);
+			}
 		}
 		
 		newFeature.setConnectedLayers(connectedLayer);
@@ -357,17 +363,20 @@ public class Convert2JaxbClass {
 		
 		newFeature.setId(feature.getId());
 		List<SpaceLayerMemberType> spaceLayerMember = new ArrayList<SpaceLayerMemberType>(); 
-		for(int i = 0 ; i < feature.getSpaceLayerMember().size(); i++){
-			String tempId = feature.getSpaceLayerMember().get(i).getId();
-			SpaceLayer tempsl = (SpaceLayer) savedMap.getFeature(tempId);
-			SpaceLayerType temp = change2JaxbClass(savedMap, tempsl);
-			SpaceLayerMemberType tempsm = new SpaceLayerMemberType();
-			tempsm.setSpaceLayer(temp);
-			spaceLayerMember.add(tempsm);
+		
+		if(feature.getSpaceLayerMember() != null) {
+			for(int i = 0 ; i < feature.getSpaceLayerMember().size(); i++){
+				String tempId = feature.getSpaceLayerMember().get(i).getId();
+				SpaceLayer tempsl = (SpaceLayer) savedMap.getFeature(tempId);
+				SpaceLayerType temp = change2JaxbClass(savedMap, tempsl);
+				SpaceLayerMemberType tempsm = new SpaceLayerMemberType();
+				tempsm.setSpaceLayer(temp);
+				spaceLayerMember.add(tempsm);
+			}
+			newFeature.setSpaceLayerMember(spaceLayerMember);
+
 		}
-		
-		newFeature.setSpaceLayerMember(spaceLayerMember);
-		
+						
 		return newFeature;
 	}
 	private static SpaceLayerType change2JaxbClass(IndoorGMLMap savedMap, SpaceLayer feature) throws JAXBException {
@@ -398,7 +407,6 @@ public class Convert2JaxbClass {
 			newFeature.setEdges(edgesTypeList);
 		}
 		
-		
 		return newFeature;
 	}
 
@@ -408,15 +416,19 @@ public class Convert2JaxbClass {
 		newFeature.setId(feature.getId());
 		
 		List<StateMemberType>smTypeList = new ArrayList<StateMemberType>();
-		for(int i = 0 ; i < feature.getStateMember().size();i++){
-			State tempstate = (State)savedMap.getFeature(feature.getStateMember().get(i).getId());
-			StateType tempstatetype = change2JaxbClass(savedMap, tempstate);
-			StateMemberType tempstatemember = indoorgmlcoreOF.createStateMemberType();
-			tempstatemember.setState(tempstatetype);
-			smTypeList.add(tempstatemember);
-		}
 		
-		newFeature.setStateMember(smTypeList);
+		if(feature.getStateMember() != null) {
+			for(int i = 0 ; i < feature.getStateMember().size();i++){
+				State tempstate = (State)savedMap.getFeature(feature.getStateMember().get(i).getId());
+				StateType tempstatetype = change2JaxbClass(savedMap, tempstate);
+				StateMemberType tempstatemember = indoorgmlcoreOF.createStateMemberType();
+				tempstatemember.setState(tempstatetype);
+				smTypeList.add(tempstatemember);
+			}
+			
+			newFeature.setStateMember(smTypeList);
+			
+		}
 		
 	
 		
@@ -498,12 +510,15 @@ public class Convert2JaxbClass {
 		
 		List<StatePropertyType>connects = new ArrayList<StatePropertyType>();
 		
-		for(int i = 0 ; i < feature.getConnects().length;i++){
-			StatePropertyType temp = indoorgmlcoreOF.createStatePropertyType();
-			String href = feature.getConnects()[i].getId();
-			href = "#" + href;
-			temp.setHref(href);
-			connects.add(temp);
+		if(feature.getConnects() != null) {
+			for(int i = 0 ; i < feature.getConnects().length;i++){
+				StatePropertyType temp = indoorgmlcoreOF.createStatePropertyType();
+				String href = feature.getConnects()[i].getId();
+				href = "#" + href;
+				temp.setHref(href);
+				connects.add(temp);
+			}
+			newFeature.setConnects(connects);
 		}
 		
 		LineString geom = (LineString) feature.getGeometry();
@@ -514,7 +529,7 @@ public class Convert2JaxbClass {
 			newFeature.setGeometry(curveProperty);
 		}
 		
-		newFeature.setConnects(connects);
+		
 		if(feature.getDuality() != null){
 			CellSpaceBoundaryPropertyType duality = indoorgmlcoreOF.createCellSpaceBoundaryPropertyType();
 			String href = feature.getDuality().getId();

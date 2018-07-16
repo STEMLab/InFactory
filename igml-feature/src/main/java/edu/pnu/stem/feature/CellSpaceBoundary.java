@@ -28,6 +28,8 @@ public class CellSpaceBoundary extends AbstractFeature {
 	 */
 	private String parentId;
 	private String cellSpaceBoundaryGeometry;
+	
+	private String cellSpaceForPartialBoundedBy;
 
 	public CellSpaceBoundary(IndoorGMLMap doc, String id){
 		super(doc, id);
@@ -59,7 +61,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 		PrimalSpaceFeatures found = null;
 		found = (PrimalSpaceFeatures)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			indoorGMLMap.setFutureFeature(parentId, parent);
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
 		}
 		this.parentId = parent.getId();
 	}
@@ -68,6 +70,9 @@ public class CellSpaceBoundary extends AbstractFeature {
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
 		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.parentId);
+		if(feature == null) {
+			feature = (PrimalSpaceFeatures) indoorGMLMap.getFutureFeature(this.parentId);
+		}
 		return feature;
 	}
 
@@ -75,6 +80,9 @@ public class CellSpaceBoundary extends AbstractFeature {
 		Transition found = null;
 		if (hasDuality()) {
 			found = (Transition) indoorGMLMap.getFeature(this.duality);
+			if(found == null) {
+				found = (Transition)indoorGMLMap.getFutureFeature(this.duality);
+			}
 		}
 		return found;
 	}
@@ -111,4 +119,28 @@ public class CellSpaceBoundary extends AbstractFeature {
 		this.cellSpaceBoundaryGeometry = cellSpaceBoundaryGeometry;
 	}
 
+	public void resetDuality() {
+		this.duality = null;
+		
+	}
+
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
+	
+	public void resetCellSpace() {
+		this.cellSpaceForPartialBoundedBy = null;
+	}
+	
+	public void setCellSpace(CellSpace c) {
+		this.cellSpaceForPartialBoundedBy = c.getId();
+	}
+	
+	public CellSpace getCellSpace() {
+		CellSpace found = null;
+		found = (CellSpace)indoorGMLMap.getFeature(this.cellSpaceForPartialBoundedBy);
+		return found;
+	}
 }
+

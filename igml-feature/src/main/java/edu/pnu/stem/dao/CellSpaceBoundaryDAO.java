@@ -12,8 +12,10 @@ import com.vividsolutions.jts.io.ParseException;
 import com.vividsolutions.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 
@@ -22,45 +24,6 @@ import edu.pnu.stem.geometry.jts.WKTReader3D;
  * 
  */
 public class CellSpaceBoundaryDAO {
-
-	/*
-	 * public static FeatureClassReference.CellSpaceBoundary
-	 * createCellSpaceBoundary(String docId, String ID, String parentID) {
-	 * FeatureClassReference.CellSpaceBoundary newFeature = null; if
-	 * (Container.getInstance().hasDoc(docId)) { newFeature = new
-	 * FeatureClassReference.CellSpaceBoundary(); newFeature.setID(ID);
-	 * newFeature.setParentID(ID); Container.getInstance().setFeature(docId, ID,
-	 * "CellSpaceBoundary", newFeature);
-	 * 
-	 * } return newFeature; }
-	 * 
-	 */
-
-	/*
-	 * public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map,
-	 * String parentId, String ID, String name, String description, String
-	 * duality, String cellSpaceBoundaryGeometry, ExternalReference
-	 * externalReference) { if(id == null) { id = UUID.randomUUID().toString();
-	 * }
-	 * 
-	 * CellSpaceBoundary newFeature = new CellSpaceBoundary(map, id);
-	 * PrimalSpaceFeatures parent = new PrimalSpaceFeatures(map);
-	 * parent.setId(parentId); newFeature.setParent(parent); if (name != null) {
-	 * newFeature.setName(name); } if (duality != null) { Transition
-	 * dualityTransition = new Transition(map);
-	 * dualityTransition.setId(duality);
-	 * newFeature.setDuality(dualityTransition);
-	 * if(map.getFeatureContainer("Reference").containsKey(duality)){ int count
-	 * = (int) map.getFeatureContainer("Reference").get(duality); count++;
-	 * map.setFeature(ID, "Reference", count); }
-	 * 
-	 * } if (externalReference != null) {
-	 * newFeature.setExternalReference(externalReference); } if
-	 * (cellSpaceBoundaryGeometry != null) {
-	 * newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometry); }
-	 * map.setFeature(ID, "CellSpaceBoundary", newFeature); map.setFeature(ID,
-	 * "ID", "CellSpaceBoundary"); return newFeature; }
-	 */
 
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
 			String geometry, String duality) {
@@ -118,9 +81,18 @@ public class CellSpaceBoundaryDAO {
 		map.removeFutureID(id);
 		return newFeature;
 	}
-
+	public static CellSpaceBoundary readCellSpaceBoundary(IndoorGMLMap map, String id) {
+		CellSpaceBoundary target = null;
+		try {
+			target = (CellSpaceBoundary)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		return target;
+	}
 	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
-			JsonNode geometry, String duality) {
+			String name, String description, Geometry geometry, String duality) {
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -147,63 +119,17 @@ public class CellSpaceBoundaryDAO {
 
 		parent.addCellSpaceBoundaryMember(newFeature);
 		newFeature.setParent(parent);
-
+		
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
+		
 		if (geometry != null) {
-			String geometryId = null;
-			if(geometry.has("properties")){
-				if(geometry.get("properties").has("id")){
-					geometryId = geometry.get("properties").get("id").asText().trim();
-				}
-			}
-			if(geometryId == null){
-				geometryId = UUID.randomUUID().toString();
-			}
-			if (geometry.has("coordinates")) {
-				/*
-				 * String geometryType =
-				 * geometry.get("properties").get("type").asText().trim();
-				 * JsonNode surface =
-				 * Convert2GeoJsonGeometry.convert2GeoJson(geometry,
-				 * "CellSpaceBoundary"); GeoJSON3DReader reader = new
-				 * GeoJSON3DReader(); Polygon resultSolid =
-				 * (Polygon)reader.read(surface.toString());
-				 * map.setFeature4Geometry(geometry.get("properties").get("id").
-				 * asText().trim(), resultSolid);
-				 * newFeature.setGeometry(resultSolid);
-				 * 
-				 */
-				WKTReader3D wkt = new WKTReader3D();
-				try {
-					Polygon p = (Polygon) wkt.read(geometry.get("coordinates").asText().trim());
-					map.setFeature4Geometry(geometryId, p);
-					newFeature.setGeometry(p);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-			} else {
-				WKTReader3D wkt = new WKTReader3D();
-				try {
-					Geometry wktG = wkt.read(geometry.asText().trim());
-					if (wktG instanceof Polygon) {
-						Polygon p = (Polygon) wktG;
-						map.setFeature4Geometry(geometryId, p);
-						newFeature.setGeometry(p);
-					}
-					//
-					else {
-						WKTReader wkt2D = new WKTReader();
-						LineString p = (LineString) wkt2D.read(geometry.asText().trim());
-						map.setFeature4Geometry(geometryId, p);
-						newFeature.setGeometry(p);
-					}
-
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-
-			}
-
+			newFeature.setGeometry(geometry);
 		}
 
 		if (duality != null) {
@@ -223,99 +149,72 @@ public class CellSpaceBoundaryDAO {
 		return newFeature;
 	}
 
-	/**
-	 * Create CellSpaceBoundary feature instance
-	 * 
-	 * @param ID
-	 *            ID of CellSpaceBoundary
-	 * @param parentID
-	 * @param duality
-	 *            transition which has duality relationship with this
-	 *            CellSpaceBonudary
-	 * @param csbGeometry
-	 *            geometry of CellSpaceBoundary
-	 * @param er
-	 *            ExternalReference of this feature
-	 * @return created CellSpaceBoundary
-	 */
+	public static CellSpaceBoundary updateCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
+			String name, String description, Geometry geometry, String duality) {
+		CellSpaceBoundary result = new CellSpaceBoundary(map, id);
+		CellSpaceBoundary target = (CellSpaceBoundary)map.getFeature(id);
+		
 
-	/**
-	 * search CellSpaceBoundary feature instance in document
-	 * 
-	 * @param ID
-	 *            ID of target
-	 * @return searched feature
-	 */
-	/*
-	 * public static CellSpaceBoundary readCellSpaceBoundary(IndoorGMLMap map,
-	 * String ID) { return (CellSpaceBoundary) map.getFeature(ID); };
-	 */
+		PrimalSpaceFeatures parent = target.getParent();
 
-	/**
-	 * search the CellSpaceBoundaryfeature and edit it as parameters
-	 * 
-	 * @param id
-	 *            ID of target
-	 * @param duality
-	 * @param csbGeometry
-	 *            Geometry of CellSpaceBoundary
-	 * @param er
-	 *            ExternalReference of this feature
-	 * @return edited feature
-	 */
-
-	/*
-	 * public CellSpaceBoundary updateCellSpaceBoundary(IndoorGMLMap map, String
-	 * id, String attributeType, String attributeId, Object o) {
-	 * CellSpaceBoundary target = null; target = (CellSpaceBoundary)
-	 * map.getFeature(id); if (attributeType.equals("cellSpaceBoundaryGeometry")
-	 * ) { // TODO: need to implement geometry class at IndoorGMLAPI } else if
-	 * (attributeType == "duality") { Transition tempDuality =
-	 * target.getDuality(); target.setDuality((Transition)o); if
-	 * (map.getFeatureContainer("Reference").containsKey(attributeId)) { int
-	 * count = (Integer) map.getFeatureContainer("Reference").get(attributeId);
-	 * count++; map.setFeature(attributeId, "Reference", count); } if
-	 * (map.getFeatureContainer("Reference").containsKey(tempDuality.getId())) {
-	 * int count = (Integer)
-	 * map.getFeatureContainer("Reference").get(tempDuality); if(count > 0)
-	 * count--; map.setFeature(tempDuality.getId(), "Reference", count); }
-	 * target.setDuality((Transition)o); map.setFeature(attributeId,
-	 * "Transition", o); } else if(attributeType.equals("name")){
-	 * target.setName((String)o); } else
-	 * if(attributeType.equals("description")){ //TODO : add description at
-	 * FeatureClassReference.CellSpaceBoundary } else if
-	 * (attributeType.equals("externalReference") ) { //TODO
-	 * target.setExternalReference(attributeId);
-	 * Container.getInstance().setFeature(docId, attributeId,
-	 * "ExternaReference", o); } else { System.out.
-	 * println("update error in cellSpaceType : there is no such attribute name"
-	 * ); } return target; }
-	 */
-
-	/**
-	 * search the CellSpaceBoundary feature and delete it
-	 * 
-	 * @param id
-	 *            ID of target
-	 */
-	/*
-	 * public static void deleteCellSpaceBoundary(IndoorGMLMap map, String Id,
-	 * Boolean deleteDuality) { CellSpaceBoundary target = (CellSpaceBoundary)
-	 * map.getFeature(Id); // String duality = target.getd; if(deleteDuality){
-	 * int count = (int)
-	 * map.getFeatureContainer("Reference").get(target.getDuality()); if(count
-	 * == 1){ TransitionDAO.deleteTransition(map,
-	 * target.getDuality().getId(),false);
-	 * map.getFeatureContainer("Reference").remove(target.getDuality()); } else{
-	 * map.setFeature(target.getDuality().getId(), "Reference", (count-1)); }
-	 * 
-	 * }
-	 * 
-	 * // ExdeleteExternalReference()
-	 * 
-	 * map.getFeatureContainer("ExternalReference").remove(target.
-	 * getExternalReference());
-	 * map.getFeatureContainer("CellSpaceBoundary").remove(Id);
-	 * map.getFeatureContainer("ID").remove(target.getExternalReference()); };
-	 */
+		if(!parent.getId().equals(parentId)) {
+			parent.deleteCellSpaceBoundaryMember(id);
+			PrimalSpaceFeatures newParent = new PrimalSpaceFeatures(map, parentId);
+			result.setParent(newParent);
+			result.getParent().addCellSpaceBoundaryMember(result);
+		}
+		else {
+			result.setParent(parent);
+		}
+		
+		if(name != null) {
+			result.setName(name);
+		}
+		
+		if(description != null) {
+			result.setDescription(description);
+		}
+		
+		if(geometry != null) {
+			result.setGeometry(geometry);
+		}
+		
+		if(duality == null) {
+			Transition d = (Transition) target.getDuality();
+			if(d != null)
+				d.resetDuality();
+		}
+		else{
+			if(target.getDuality() != null) {
+				if(!target.getDuality().getId().equals(duality)) {
+					Transition oldDuality = target.getDuality();
+					oldDuality.resetDuality();				
+				}
+			}
+			
+			Transition newDuality = new Transition(map,duality);
+			result.setDuality(newDuality);
+			
+		}
+		map.removeFeature(id);
+		map.setFeature(id, "CellSpaceBoundary", result);
+		return result;
+		
+	}
+	public static void deleteCellSpaceBoundary(IndoorGMLMap map, String id) {
+		CellSpaceBoundary target = (CellSpaceBoundary)map.getFeature(id);
+		PrimalSpaceFeatures parent = target.getParent();
+		parent.deleteCellSpaceBoundaryMember(id);
+		
+		if(target.hasDuality()) {
+			Transition duality = target.getDuality();
+			duality.resetDuality();
+		}
+		
+		//cellspace 찾아가서 partialboundedby 해제
+		 CellSpace cellspaceForPartialBoundedBy = target.getCellSpace();
+		 cellspaceForPartialBoundedBy.deletePartialBoundedBy(target);
+		
+		map.removeFeature(id);
+	}
 }

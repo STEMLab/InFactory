@@ -34,6 +34,9 @@ public class InterEdges extends AbstractFeature {
 	public MultiLayeredGraph getParent() {
 		MultiLayeredGraph found = null;
 		found = (MultiLayeredGraph)indoorGMLMap.getFeature(this.parentId);
+		if(found == null)
+			if(indoorGMLMap.hasFutureID(parentId))
+				found = (MultiLayeredGraph)indoorGMLMap.getFutureFeature(parentId);
 		return found;
 	}
 
@@ -41,10 +44,13 @@ public class InterEdges extends AbstractFeature {
 	 * @return the interLayerConnectionMember
 	 */
 	public List<InterLayerConnection> getInterLayerConnectionMember() {
-		List<InterLayerConnection> interLayerConnectionMember = new ArrayList<InterLayerConnection>();
-		for(int i = 0 ; i < this.interLayerConnectionMember.size() ; i++){
-			InterLayerConnection found = (InterLayerConnection)indoorGMLMap.getFeature(this.interLayerConnectionMember.get(i));
-			interLayerConnectionMember.add(found);
+		List<InterLayerConnection> interLayerConnectionMember= null;
+		if(this.interLayerConnectionMember != null) {
+			 interLayerConnectionMember = new ArrayList<InterLayerConnection>();
+			for(int i = 0 ; i < this.interLayerConnectionMember.size() ; i++){
+				InterLayerConnection found = (InterLayerConnection)indoorGMLMap.getFeature(this.interLayerConnectionMember.get(i));
+				interLayerConnectionMember.add(found);
+			}
 		}
 		return interLayerConnectionMember;
 	}
@@ -54,6 +60,7 @@ public class InterEdges extends AbstractFeature {
 	 *            the interLayerConnectionMember to set
 	 */
 	public void setInterLayerConnectionMember(List<InterLayerConnection> interLayerConnectionMember) {
+		this.interLayerConnectionMember = new ArrayList<String>();
 		for(int i = 0 ; i < interLayerConnectionMember.size(); i++){
 			InterLayerConnection found = null;
 			if(found == null){
@@ -76,8 +83,19 @@ public class InterEdges extends AbstractFeature {
 		}
 	}
 	
-	public void clearInterLayerConnectionMember(){
-		this.interLayerConnectionMember.clear();
+	public void resetInterLayerConnectionMember(){
+		this.interLayerConnectionMember = null;
+	}
+
+	public void resetParent() {
+		this.parentId = null;
+	}
+
+	public void deleteInterLayerConnectionMember(InterLayerConnection target) {
+		if(this.interLayerConnectionMember != null)
+			if(this.interLayerConnectionMember.contains(target.getId()))
+				this.interLayerConnectionMember.remove(target.getId());
+			
 	}
 
 }

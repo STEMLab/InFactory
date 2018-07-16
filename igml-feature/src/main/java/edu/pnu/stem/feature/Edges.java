@@ -19,7 +19,7 @@ public class Edges extends AbstractFeature{
 	
 	public Edges(IndoorGMLMap doc, String id){
 		super(doc, id);
-		transitionMember = new ArrayList<String>();
+		
 	}
 	
 	public void setParent(SpaceLayer parent) {
@@ -34,10 +34,16 @@ public class Edges extends AbstractFeature{
 	public SpaceLayer getParent() {
 		SpaceLayer feature = null;
 		feature = (SpaceLayer) indoorGMLMap.getFeature(this.parentId);
+		if(feature == null) {
+			if(indoorGMLMap.hasFutureID(parentId))
+				feature = (SpaceLayer) indoorGMLMap.getFutureFeature(parentId);
+		}
 		return feature;
 	}
 
 	public void setTransitionMembers(List<Transition> transitionMember) {
+		if(transitionMember != null && transitionMember.size()!= 0)
+			this.transitionMember = new ArrayList<String>();
 		for(int i = 0 ; i < transitionMember.size(); i++){
 			Transition found = null;
 			found = (Transition) indoorGMLMap.getFeature(transitionMember.get(i).getId());
@@ -54,13 +60,19 @@ public class Edges extends AbstractFeature{
 	}
 
 	public List<Transition> getTransitionMember() {
-		List<Transition> transitionMember = new ArrayList<Transition>();
-		if (this.transitionMember.size() != 0) {
-			for (int i = 0; i < this.transitionMember.size(); i++) {
-				Transition found = (Transition) indoorGMLMap.getFeature(this.transitionMember.get(i));
-				transitionMember.add(found);
+		List<Transition> transitionMember = null;
+		if(this.transitionMember != null && this.transitionMember.size() != 0) {
+			transitionMember = new ArrayList<Transition>();
+			if (this.transitionMember.size() != 0) {
+				for (int i = 0; i < this.transitionMember.size(); i++) {
+					Transition found = (Transition) indoorGMLMap.getFeature(this.transitionMember.get(i));
+					if(found == null)
+						found = (Transition)indoorGMLMap.getFutureFeature(this.transitionMember.get(i));
+					transitionMember.add(found);
+				}
 			}
 		}
+		
 		return transitionMember;
 	}
 	
@@ -75,6 +87,17 @@ public class Edges extends AbstractFeature{
 			//TODO : check duplicated id
 			indoorGMLMap.setFeature(t.getId(), "Transition", t);
 		}
+	}
+
+	public void deleteTransitionMember(Transition t) {
+		if(this.transitionMember.contains(t.getId()))
+			this.transitionMember.remove(t.getId());
+		
+	}
+
+	public void resetParent() {
+		this.parentId = null;
+		
 	}
 
 

@@ -61,22 +61,40 @@ public class State extends AbstractFeature {
 		Nodes found = null;
 		found = (Nodes)indoorGMLMap.getFeature(parent.getId());
 		if(found == null){
-			if(!indoorGMLMap.hasFutureID(parent.getId())){
-				indoorGMLMap.setFutureFeature(parent.getId(), parent);
-			}
+			
+			indoorGMLMap.setFutureFeature(parent.getId(), parent);
+			
 		}		
 		this.parentId = parent.getId();
 	}
-
-	public Nodes getParentID() {
+	
+	public void resetDuality() {
+		this.duality = null;
+	}
+	public Nodes getParent() {
 		Nodes found = (Nodes)indoorGMLMap.getFeature(this.parentId);
+		if(found == null){
+			if(indoorGMLMap.hasFutureID(parentId)){
+				found = (Nodes)indoorGMLMap.getFutureFeature(parentId);
+			}
+		}
+		
 		return found;
+	}
+	
+	public boolean hasDuality() {
+		if(this.duality != null)
+			return true;
+		return false;
 	}
 
 	public CellSpace getDuality() {
 		CellSpace found = null;
 		if(this.duality != null) {
 			found = (CellSpace)indoorGMLMap.getFeature(this.duality);
+			if(found == null) {
+				found = (CellSpace)indoorGMLMap.getFutureFeature(this.duality);
+			}
 		}
 		return found;
 	}
@@ -91,8 +109,10 @@ public class State extends AbstractFeature {
 		}
 		this.duality = duality.getId();
 	}
+	
 
 	public void setConnects(List<Transition> connects) {
+		this.connects = new ArrayList<String>();
 		for (int i = 0; i < connects.size(); i++) {
 			Transition found = null;
 			found = (Transition)indoorGMLMap.getFeature(connects.get(i).getId());
@@ -118,13 +138,24 @@ public class State extends AbstractFeature {
 			connects = new ArrayList<Transition>();
 			for(int i = 0 ; i < this.connects.size() ; i++){
 				Transition found = (Transition)indoorGMLMap.getFeature(this.connects.get(i));
+				if(found == null)
+					found = (Transition)indoorGMLMap.getFutureFeature(this.connects.get(i));
 				connects.add(found);
 			}
 		}
 		return connects;
 	}
-
+	
+	public void deleteConnects(Transition t) {
+		if(connects.contains(t.getId()))
+			connects.remove(t.getId());
+	}
 	public void clearConnects(){
 		this.connects.clear();
+	}
+
+	public void resetParent() {
+		this.parentId = null;
+		
 	}
 }

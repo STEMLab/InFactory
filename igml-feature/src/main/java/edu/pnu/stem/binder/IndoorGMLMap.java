@@ -50,6 +50,10 @@ public class IndoorGMLMap implements Serializable {
 		collection.put("Geometry", new ConcurrentHashMap<String,Object>());
 		
 	}
+	
+	public void clearMap() {
+		collection.clear();
+	}
 
 	public boolean hasID(String id) {
 		boolean flag = false;
@@ -84,6 +88,14 @@ public class IndoorGMLMap implements Serializable {
 	private void setID(String id, String featureName) {
 		if(!hasID(id)){
 			getFeatureContainer("ID").put(id, featureName);
+		}
+	}
+	
+	public void removeFeature(String id) {
+		if(hasID(id)) {
+			String featurename = (String)collection.get("ID").get(id);
+			collection.get(featurename).remove(id);
+			removeID(id);
 		}
 	}
 	

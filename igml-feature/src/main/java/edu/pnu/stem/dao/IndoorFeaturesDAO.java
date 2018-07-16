@@ -2,15 +2,35 @@ package edu.pnu.stem.dao;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.CellSpace;
+import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.feature.MultiLayeredGraph;
 import edu.pnu.stem.feature.PrimalSpaceFeatures;
 
 public class IndoorFeaturesDAO {
 
-	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id,
-			String primalSpaceFeatures, String multiLayeredGraph) {
+	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id, String name, String description,
+			String multiLayeredGraph, String primalSpaceFeatures ) {
 		IndoorFeatures newFeature = new IndoorFeatures(map, id);
+		
+		if(map.hasFutureID(id)){
+			newFeature = (IndoorFeatures)map.getFutureFeature(id);
+			//map.removeFutureID(id);
+		}
+		else{
+			newFeature = new IndoorFeatures(map, id);
+		}
+		map.setFutureFeature(id, newFeature);
+		if(name != null) {
+			newFeature.setName(name);
+		}
+		
+		if(description != null) {
+			newFeature.setDescription(description);
+		}
+		
+		
 		
 		//newFeature.setParentID(parentID);
 		if (primalSpaceFeatures!= null) {
@@ -21,6 +41,7 @@ public class IndoorFeaturesDAO {
 			MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map, multiLayeredGraph);
 			newFeature.setMultiLayeredGraph(newMultiLayeredGraph);
 		}
+		map.removeFutureID(id);
 		map.setFeature(id, "IndoorFeatures", newFeature);
 		return newFeature;
 	}
@@ -44,56 +65,67 @@ public class IndoorFeaturesDAO {
 		return newFeature;
 	}
 	
-	public IndoorFeatures readIndoorFeatures(String docId, String id) {
-		/*
+	public static IndoorFeatures readIndoorFeatures(IndoorGMLMap map, String id) {
 		IndoorFeatures target = null;
-		target = (IndoorFeatures)Container.getDocument(docId).getFeature(id);
-		return target;
-		*/
-		return null;
-	};
-
-	public IndoorFeatures updateIndoorFeatures(String docId, String Id, String attributeType,
-			String object ) {
-		/*
-		IndoorFeatures target = null;
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap map = Container.getInstance().getDocument(docId);
-			target = (IndoorFeatures) map.getFeature(Id);
-			if (attributeType.equals("primalSpaceFeatures")) {
-				PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map);
-				newPrimalSpaceFeatures.setId(object);
-				target.setPrimalSpaceFeatures(newPrimalSpaceFeatures);
-				//TODO : add cellSpace to cellSpace container and ID container				
-			} else if (attributeType.equals("multiLayeredGraph")) {
-				MultiLayeredGraph newMultiLayeredGraph = new MultiLayeredGraph(map);
-				newMultiLayeredGraph.setId(object);
-				target.setMultiLayeredGraph(newMultiLayeredGraph);
-			}  else {
-				System.out.println("update error in cellSpaceType : there is no such attribute name");
-			}
-		} else {
-			System.out.println("there is no name with Id :" + Id + " in document Id : " + docId);
+		try {
+			target = (IndoorFeatures)map.getFeature(id);
+		}
+		catch(NullPointerException e){
+			e.printStackTrace();
 		}
 		return target;
-		*/
-		return null;
 	}
 
-	public void deleteIndoorFeatures(String docId, String Id, boolean deleteChild) {
-		/*
-		if (Container.getInstance().hasFeature(docId, Id)) {
-			IndoorGMLMap doc = Container.getInstance().getDocument(docId);
-			IndoorFeatures target = (IndoorFeatures) doc.getFeature(Id);
-			// String duality = target.getd;
-			doc.getFeatureContainer("IndoorFeatures").remove(Id);
-			doc.getFeatureContainer("ID").remove(Id);
-			if(deleteChild){
-				PrimalSpaceFeaturesDAO.deletePrimalSpaceFeatures(docId, target.getPrimalSpaceFeatures().getId());
-				MultiLayeredGraphDAO.deleteMultiLayeredGraph(docId, Id, true, true);
+	public static IndoorFeatures updateIndoorFeatures(IndoorGMLMap map, String id, String name, String description, String multilayeredgraph, String primalspacefeatures) {
+		IndoorFeatures result = new IndoorFeatures(map, id);
+		IndoorFeatures target = (IndoorFeatures)map.getFeature(id);
+		
+		
+		if(name != null) {
+			result.setName(name);
+		}
+	
+		
+		if(description != null) {
+			result.setDescription(description);
+		}
+		
+		if(multilayeredgraph != null) {
+			if(target.getMultiLayeredGraph() != null && !target.getMultiLayeredGraph().getId().equals(multilayeredgraph)) {
+				result.setMultiLayeredGraph(new MultiLayeredGraph(map,multilayeredgraph));
 			}
 		}
-		*/
-	};
+		else {
+			if(target.getMultiLayeredGraph() != null) {
+				target.getMultiLayeredGraph().resetParent();
+			}
+		}
+		
+		if(primalspacefeatures != null) {
+			if(target.getPrimalSpaceFeatures() != null && !target.getPrimalSpaceFeatures().getId().equals(primalspacefeatures)) {
+				result.setPrimalSpaceFeatures(new PrimalSpaceFeatures(map,primalspacefeatures));
+			}
+		}
+		else {
+			if(target.getPrimalSpaceFeatures() != null) {
+				target.getMultiLayeredGraph().resetParent();
+			}
+		}
+		map.removeFeature(id);
+		map.setFeature(id, "IndoorFeatures", result);
+		return result;
+		
+	}
+	
+	public static void deleteIndoorFeatures(IndoorGMLMap map, String id) {
+		IndoorFeatures target = (IndoorFeatures) map.getFeature(id);
+		
+		if(target.getMultiLayeredGraph() != null)
+			target.getMultiLayeredGraph().resetParent();
+		if(target.getPrimalSpaceFeatures() != null)
+			target.getPrimalSpaceFeatures().resetParent();
+		
+		map.removeFeature(id);
+	}
 
 }

@@ -2,6 +2,8 @@ package edu.pnu.stem.feature;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -44,6 +46,9 @@ public class CellSpace extends AbstractFeature {
 	public PrimalSpaceFeatures getParent() {
 		PrimalSpaceFeatures feature = null;
 		feature = (PrimalSpaceFeatures) indoorGMLMap.getFeature(this.parentId);
+		if(feature == null) {
+			feature = (PrimalSpaceFeatures)indoorGMLMap.getFutureFeature(this.parentId);
+		}
 		return feature;
 	}
 
@@ -71,11 +76,20 @@ public class CellSpace extends AbstractFeature {
 			return true;
 		}
 	}
-
+	
+	public void resetDuality() {
+		this.duality = null;
+	}
+	
 	public State getDuality() {
 		State feature = null;
 		if (hasDuality()) {
 			feature = (State) indoorGMLMap.getFeature(this.duality);
+			if(feature == null) {
+				if(indoorGMLMap.hasFutureID(this.duality)) {
+					feature = (State) indoorGMLMap.getFutureFeature(this.duality);
+				}
+			}
 		}
 		return feature;
 	}
@@ -92,10 +106,13 @@ public class CellSpace extends AbstractFeature {
 
 	public List<CellSpaceBoundary> getPartialboundedBy() {
 		List<CellSpaceBoundary> cboundaries = new ArrayList<CellSpaceBoundary>();
-		if(this.partialboundedBy.size() != 0){
+		if(this.partialboundedBy != null & this.partialboundedBy.size() != 0){
 			for (String s : this.partialboundedBy) {
-				cboundaries.add((CellSpaceBoundary) indoorGMLMap
-						.getFeature(s));
+				CellSpaceBoundary found = (CellSpaceBoundary)indoorGMLMap.getFeature(s);
+				if(found == null)
+					found = (CellSpaceBoundary)indoorGMLMap.getFutureFeature(s);
+
+				cboundaries.add(found);
 			}
 		}
 		
@@ -103,12 +120,15 @@ public class CellSpace extends AbstractFeature {
 	}
 
 	public void setPartialboundedBy(List<CellSpaceBoundary> csbList) {
+		this.partialboundedBy = new ArrayList<String>();
 		for(CellSpaceBoundary cb : csbList){
+			cb.setCellSpace(this);
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(cb.getId());
 			if(found == null){
 				indoorGMLMap.setFutureFeature(cb.getId(), cb);
 			}
+			
 			if(!this.partialboundedBy.contains(cb.getId())){
 				this.partialboundedBy.add(cb.getId());
 			}
@@ -120,6 +140,10 @@ public class CellSpace extends AbstractFeature {
 			this.partialboundedBy.add(cb.getId());
 			indoorGMLMap.setFeature(cb.getId(), "CellSpaceBoundary", cb);
 		}
+	}
+	
+	public void resetPartialBoundedBy() {
+		this.partialboundedBy = null;
 	}
 
 	public ExternalReference getExternalReference() {
@@ -140,5 +164,15 @@ public class CellSpace extends AbstractFeature {
 		
 	}
 
+	public void resetParent() {
+		this.parentId = null;
+		
+	}
+	
+	public void deletePartialBoundedBy(CellSpaceBoundary cb) {
+		if(this.partialboundedBy != null)
+			if(this.partialboundedBy.contains(cb.getId()))
+				this.partialboundedBy.remove(cb.getId());
+	}
 	
 }
