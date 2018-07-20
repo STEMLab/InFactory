@@ -45,9 +45,10 @@ public class testForCRUD extends TestCase{
 			
 			edu.pnu.stem.dao.CellSpaceBoundaryDAO.createCellSpaceBoundary(map, "pf1", "csb1", null , null, cbg1, null);
 			
-			IndoorFeatures savedDoc = (IndoorFeatures)map.getFeature("if1");
-			edu.pnu.stem.binder.Mashaller.marshalIndoorFeatures(null, Convert2JaxbClass.change2JaxbClass(map,savedDoc));
-		} catch (JAXBException e) {
+			//IndoorFeatures savedDoc = (IndoorFeatures)map.getFeature("if1");
+			//edu.pnu.stem.binder.Mashaller.marshalIndoorFeatures(null, Convert2JaxbClass.change2JaxbClass(map,savedDoc));
+			edu.pnu.stem.binder.Mashaller.marshalDocument(null, map);
+		 } catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
