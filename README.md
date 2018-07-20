@@ -11,7 +11,7 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 2) Maven : over 3.5 version. You need to install Maven and set MAVEN_HOME & PATH.
    * How to set MAVEN_HOME : [link for Window](https://www.mkyong.com/maven/how-to-install-maven-in-windows/) , [link for Linux](https://maven.apache.org/install.html)
 3) Java : JDK over 1.8 version. You need to install JDK and set JAVA_HOME & PATH.
-  * **JAVA 8; not worked at the upper version**
+  * **JAVA 8; not working at the upper version**
   
    * How to set JAVA_HOME : [link](https://docs.oracle.com/cd/E19182-01/820-7851/inst_cli_jdk_javahome_t/) 
    
@@ -26,7 +26,7 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 
 `mvn jetty:run` 
 
-I would like to recommend to use the other port number with parameter 
+It is recommended to use the other port number with parameter 
 
 `"-Djetty.port=9797"`.
    
@@ -47,7 +47,7 @@ I would like to recommend to use the other port number with parameter
 
 ## How to make http request
 
-I describe this to the wiki. Please refer that. 
+It is explained at the wiki.  
 
 
 ## Authors
