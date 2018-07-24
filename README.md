@@ -34,8 +34,8 @@ It is recommended to use the other port number with parameter
 ## Running
 
 1) Clone the project
-2) Go into the cloned project folder and build the project with the first command.
-3) Run the server with the second command. 
+2) Go into the cloned project folder and build the project with `mvn clean install`.
+3) Run the server with `mvn jetty:run` (Change the port as you want.). 
 
 
 ## Built With
