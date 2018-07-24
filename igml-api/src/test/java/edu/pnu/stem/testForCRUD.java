@@ -34,6 +34,11 @@ public class testForCRUD extends TestCase{
 			List<String>partialboundedby = new ArrayList<String>();
 			partialboundedby.add("csb1");
 			
+			/*
+			 * Create JTS geometry class instance and use it at creating CellSpace feature. 
+			 */
+			
+			// Define the WKT geometry in String.
 			String wktsolid = "SOLID (( ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 0 1 0, 0 1 1, 0 0 1, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 1, 1 0 1, 0 0 1, 0 1 1, 1 1 1)), ((1 1 1, 1 0 1, 1 0 0, 1 1 0, 1 1 1)), ((1 1 1, 1 1 0, 0 1 0, 0 1 1, 1 1 1)) ))";
 			Geometry cg1 = wkt.read(wktsolid);
 			edu.pnu.stem.util.GeometryUtil.setMetadata(cg1, "id", "cg1");
@@ -45,9 +50,17 @@ public class testForCRUD extends TestCase{
 			
 			edu.pnu.stem.dao.CellSpaceBoundaryDAO.createCellSpaceBoundary(map, "pf1", "csb1", null , null, cbg1, null);
 			
+			edu.pnu.stem.dao.CellSpaceDAO.updateCellSpace(map, "pf1", "c1", "room1", "bedroom", cg1, null, partialboundedby);
+			
+			edu.pnu.stem.binder.Mashaller.marshalDocument(null, Container.getDocument("test"));
+			
+			edu.pnu.stem.dao.CellSpaceDAO.readCellSpace(map, "c1");
+			edu.pnu.stem.dao.CellSpaceDAO.deleteCellSpace(map,"c1");
+			
 			//IndoorFeatures savedDoc = (IndoorFeatures)map.getFeature("if1");
 			//edu.pnu.stem.binder.Mashaller.marshalIndoorFeatures(null, Convert2JaxbClass.change2JaxbClass(map,savedDoc));
-			edu.pnu.stem.binder.Mashaller.marshalDocument(null, map);
+			
+
 		 } catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
