@@ -33,9 +33,8 @@ It is recommended to use the other port number with parameter
  
 ## Running
 
-1) Clone this project and import at Eclipse.
-2) Build the project with the first command.
-3) Run the server with the second command. 
+1) Build the project with the first command.
+2) Run the server with the second command. 
 
 
 ## Built With
