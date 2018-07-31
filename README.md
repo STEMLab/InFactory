@@ -58,3 +58,7 @@ It is explained at the wiki.
 
 This project is under the LGPL License - see the [LICENSE](https://github.com/STEMLab/InFactory/blob/master/LICENSE)
 
+## More Information
+
+More information is found at [Wiki](https://github.com/STEMLab/InFactory/wiki).
+
