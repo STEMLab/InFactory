@@ -41,7 +41,6 @@ It is recommended to use the other port number with parameter
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
-* [ogc-schemas](https://github.com/highsource/ogc-schemas) - JAXB Bindings for OGC xml schemas
 * [Spring Framework 4.0](https://spring.io/) - Java web framework
 * [h2gis](http://www.h2gis.org/) - Embedded Database
 
