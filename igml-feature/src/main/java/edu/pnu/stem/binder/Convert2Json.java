@@ -768,4 +768,64 @@ public class Convert2Json {
 		
 		return result;
 	}
+	public static Geometry json2Geometry(String id,String geometry) {
+		Geometry result = null;
+			/*
+			 * String geometryType = geometry.get("properties").get("type").asText().trim();				
+				JsonNode solid = Convert2GeoJsonGeometry.convert2GeoJson(geometry, geometryType);
+				GeoJSON3DReader reader = new GeoJSON3DReader();
+				Solid resultSolid = (Solid)reader.read(solid.toString());
+				map.setFeature4Geometry(geometry.get("properties").get("id").asText().trim(), resultSolid);
+				newFeature.setGeometry(resultSolid);
+			 * */
+			WKTReader3D wkt = new WKTReader3D();
+			Geometry wktG = null;
+			if(geometry != null){			
+				try {					
+					wktG = wkt.read(geometry);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else{
+				//WKT directly
+				try{
+					wktG = wkt.read(geometry);
+				}catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
+			String geometryId = null;
+			if(id != null){
+				geometryId = id;
+			}
+			if(id == null){
+				geometryId = UUID.randomUUID().toString();
+			}
+			if(wktG != null){
+				if(wktG instanceof Solid){
+					result = (Solid)wktG;
+				}
+				else if(wktG instanceof Polygon){
+					result = (Polygon)wktG;
+					
+				}
+				else if(wktG instanceof LineString) {
+					result = (LineString)wktG;
+				}
+				else if(wktG instanceof Point) {
+					result = (Point)wktG;
+				}
+				else{
+					//TODO : Exception
+				}
+			}
+			
+			GeometryUtil.setMetadata(result, "id", geometryId);
+						
+		
+		
+		return result;
+	}
 }
