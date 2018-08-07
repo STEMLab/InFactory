@@ -233,8 +233,10 @@
 						<version>5.1</version>
 					</docletArtifact>
 					<additionalparam>
-						-inferrel -attributes -types -visibility -inferdep -quiet -hide java.*
-						-collpackages java.util.* -qualify -postfixpackage
+						-inferrel -attributes -types -visibility -inferdep
+						-quiet -hide java.*
+						-collpackages java.util.* -qualify
+						-postfixpackage
 						-nodefontsize 9
 						-nodefontpackagesize 7
 					</additionalparam>
