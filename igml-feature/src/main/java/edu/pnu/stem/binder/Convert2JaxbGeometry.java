@@ -19,7 +19,6 @@ import net.opengis.gml.v_3_2_1.AbstractRingPropertyType;
 import net.opengis.gml.v_3_2_1.DirectPositionListType;
 import net.opengis.gml.v_3_2_1.DirectPositionType;
 import net.opengis.gml.v_3_2_1.LineStringType;
-import net.opengis.gml.v_3_2_1.LinearRingPropertyType;
 import net.opengis.gml.v_3_2_1.LinearRingType;
 import net.opengis.gml.v_3_2_1.PointType;
 import net.opengis.gml.v_3_2_1.PolygonType;
@@ -33,13 +32,29 @@ public class Convert2JaxbGeometry {
 	
 	public static SolidType Convert2SolidType(Solid feature){
 		MultiPolygon shell = feature.getShell();
+		MultiPolygon[] holes = feature.getHoles();
 		SolidType newFeature = gmlFactory.createSolidType();
 		
-		ShellType shellType = Convert2ShellType(shell);
+		ShellType exteriorShellType = Convert2ShellType(shell);
+		
 		ShellPropertyType shellProp = gmlFactory.createShellPropertyType();
-		shellProp.setShell(shellType);
+		shellProp.setShell(exteriorShellType);
 		
 		newFeature.setExterior(shellProp);
+		
+		if(holes!=null) {
+			List<ShellPropertyType> holesPropList = new ArrayList<ShellPropertyType>();
+			int index = 0;
+			for(MultiPolygon mp : holes) {
+				
+				ShellType interiorShellType = Convert2ShellType(mp);
+				ShellPropertyType inshellProp = gmlFactory.createShellPropertyType();
+				inshellProp.setShell(interiorShellType);
+				holesPropList.add(inshellProp);
+			}
+			newFeature.setInterior(holesPropList);
+		}
+		
 		newFeature.setId(GeometryUtil.getMetadata(feature, "id"));
 		
 		return newFeature;
@@ -67,6 +82,19 @@ public class Convert2JaxbGeometry {
 		AbstractRingPropertyType extProp = gmlFactory.createAbstractRingPropertyType();
 		extProp.setAbstractRing(gmlFactory.createLinearRing(extRing));
 		newFeature.setExterior(extProp);
+		
+		int numofIntRing = feature.getNumInteriorRing();
+		if(numofIntRing!= 0) {
+			List<AbstractRingPropertyType> intProp = new ArrayList<AbstractRingPropertyType>();
+			for(int i = 0 ; i < numofIntRing; i++) {
+				LinearRingType tempIntRing = Convert2LinearRingType((LinearRing)feature.getInteriorRingN(i));
+				AbstractRingPropertyType singleintProp = gmlFactory.createAbstractRingPropertyType();
+				singleintProp.setAbstractRing(gmlFactory.createLinearRing(tempIntRing));
+				intProp.add(singleintProp);
+			}
+			newFeature.setInterior(intProp);
+		}
+		
 		
 		if(feature.getNumInteriorRing() > 0) {
 			//TODO
