@@ -3,6 +3,7 @@ package edu.pnu.stem.binder;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JFileChooser;
 import javax.xml.bind.JAXBContext;
@@ -23,6 +24,15 @@ public class Mashaller {
 	public static void exportIndoorGMLCore(Properties props, String id, String filePath) throws Exception {
 		//IndoorFeaturesType indoorFeaturesType = Convert2JaxbClass.change2JaxbClass((IndoorFeatures)Convert2FeatureClass.docContainer.getFeature(id));
 		//marshalIndoorFeatures(filePath, indoorFeaturesType);
+	}
+	
+	public static void marshalDocument(String path, IndoorGMLMap map) throws JAXBException, IOException {
+		ConcurrentHashMap<String, Object> indoorfeatures = map.getFeatureContainer("IndoorFeatures");
+		String indoorfeaturesId = null;
+		for (ConcurrentHashMap.Entry<String, Object> entry : indoorfeatures.entrySet()) {
+			indoorfeaturesId = entry.getKey();
+		}
+		marshalIndoorFeatures(path,Convert2JaxbClass.change2JaxbClass(map, (IndoorFeatures)map.getFeature(indoorfeaturesId)));
 	}
 
 	private void marshalRoute(String path, RouteType routeType) throws JAXBException {
