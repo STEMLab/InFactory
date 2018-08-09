@@ -137,7 +137,7 @@ public class Connector {
 						"INSERT INTO PrimalSpaceFeatures VALUES ('psf1','primalspacefeatures', null, ('c1'),('csb1'))");
 				st.execute("INSERT INTO CellSpace VALUES ('c1','myroom',null,null,('csb1'),'cg1')");
 				String cg1 = "SOLID (( ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 0 1 0, 0 1 1, 0 0 1, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 1, 1 0 1, 0 0 1, 0 1 1, 1 1 1)), ((1 1 1, 1 0 1, 1 0 0, 1 1 0, 1 1 1)), ((1 1 1, 1 1 0, 0 1 0, 0 1 1, 1 1 1)) ))";
-				Geometry cg1g = Convert2Json.json2Geometry("cg1", cg1);
+				Geometry cg1g = Convert2Json.wkt2Geometry("cg1", cg1);
 
 				insertGeometry(connection, "cg1", cg1g);
 				cg1g = searchGeometry(connection, "cg1");

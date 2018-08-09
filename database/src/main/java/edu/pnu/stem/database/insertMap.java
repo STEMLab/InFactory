@@ -1,4 +1,4 @@
-package database;
+package edu.pnu.stem.database;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

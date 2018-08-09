@@ -768,7 +768,7 @@ public class Convert2Json {
 		
 		return result;
 	}
-	public static Geometry json2Geometry(String id,String geometry) {
+	public static Geometry wkt2Geometry(String id,String geometry) {
 		Geometry result = null;
 			/*
 			 * String geometryType = geometry.get("properties").get("type").asText().trim();				
