@@ -102,7 +102,7 @@ public class insertMap {
 	
 	public static void insertSql4Id(Connection connection, ConcurrentHashMap<String,Object> map) {
 		for (Entry<String, Object> elem : map.entrySet()) {
-				String sql =  "Insert into" + "id" + "values(" + elem.getKey() + "," + (String)elem.getValue() + ")";
+				String sql =  "Insert into" + "Feature" + "values(" + elem.getKey() + "," + (String)elem.getValue() + ")";
 				Statement st;
 				try {
 					st = connection.createStatement();
