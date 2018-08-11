@@ -43,6 +43,11 @@
 			<artifactId>feature</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>edu.pnu.stem.igml</groupId>
+			<artifactId>database</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jvnet.ogc/gml-v_3_2_1 -->
 		<dependency>
 			<groupId>org.jvnet.ogc</groupId>
