@@ -160,6 +160,8 @@ public class SpaceLayer extends AbstractFeature {
 	}
 
 	public void addNodes(Nodes ns) {
+		if(this.nodes == null)
+			this.nodes = new ArrayList<String>();
 		Nodes found = null;
 		found = (Nodes) indoorGMLMap.getFeature(ns.getId());
 		if(found == null){
@@ -208,6 +210,8 @@ public class SpaceLayer extends AbstractFeature {
 	
 	public void addEdges(Edges es) {
 		Edges found = null;
+		if(this.edges == null)
+			this.edges = new ArrayList<String>();
 		found = (Edges)indoorGMLMap.getFeature(es.getId());
 		if(found == null){
 			indoorGMLMap.setFutureFeature(es.getId(), es);

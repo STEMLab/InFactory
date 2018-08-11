@@ -81,8 +81,11 @@ public class Nodes extends AbstractFeature {
 	
 	public void addStateMember(State s) {
 		if(!this.stateMember.contains(s.getId())){
+			State found = null;
+			if(found != null)
+				indoorGMLMap.setFutureFeature(s.getId(), s);
 			this.stateMember.add(s.getId());
-			indoorGMLMap.setFeature(s.getId(), "State", s);
+			//indoorGMLMap.setFeature(s.getId(), "State", s);
 		}
 	}
 	

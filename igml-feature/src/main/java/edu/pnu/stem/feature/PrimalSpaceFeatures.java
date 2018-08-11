@@ -86,7 +86,13 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 			this.cellSpaceMember = new ArrayList<String>();
 		
 		if( !this.cellSpaceMember.contains(c.getId()) ){
+			CellSpace found = null;
+			found = (CellSpace)indoorGMLMap.getFeature(c.getId());
+			if(found == null)
+				indoorGMLMap.setFutureFeature(c.getId(), c);
+			
 			this.cellSpaceMember.add(c.getId());
+			
 		}
 	}
 	
@@ -128,6 +134,10 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 		if(this.cellSpaceBoundaryMember == null)
 			this.cellSpaceBoundaryMember = new ArrayList<String>();
 		if( !this.cellSpaceBoundaryMember.contains(c.getId()) ){
+			CellSpaceBoundary found = null;
+			found = (CellSpaceBoundary)indoorGMLMap.getFeature(c.getId());
+			if(found == null)
+				indoorGMLMap.setFutureFeature(c.getId(), c);
 			this.cellSpaceBoundaryMember.add(c.getId());
 		}
 	}
