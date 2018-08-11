@@ -640,13 +640,7 @@ public class Convert2FeatureClass {
 		for (TransitionPropertyType tProp : featureConnects) {
 			if(tProp.getHref() != null) {
 				String connectsId = tProp.getHref().substring(1);
-				Transition connects = (Transition) savedMap.getFeature(connectsId);
-				if(connects != null) {
-					newFeature.addConnects(connects);
-				} else {
-					//TODO
-					savedMap.setFutureFeature(connectsId, "Transition");
-				}
+				newFeature.addConnects(new Transition(savedMap,connectsId));
 			} else {
 				//TODO
 			};
@@ -682,17 +676,11 @@ public class Convert2FeatureClass {
 		State[] sArr = new State[2];
 		
 		String connects1Id = connects.get(0).getHref().substring(1);
-		State connects1 = (State) savedMap.getFeature(connects1Id);
-		if(connects1 == null) {
-			savedMap.setFeature(connects1Id, "State", new Transition(savedMap, connects1Id));
-		}
+		State connects1 = new State(savedMap,connects1Id);
 		sArr[0] = connects1;
 		
 		String connects2Id = connects.get(1).getHref().substring(1);
-		State connects2 = (State) savedMap.getFeature(connects2Id);
-		if(connects2 == null) {
-			savedMap.setFeature(connects2Id, "State", new Transition(savedMap, connects2Id));
-		}
+		State connects2 = new State(savedMap,connects2Id);
 		sArr[1] = connects2;
 		newFeature.setConnects(sArr);
 		
