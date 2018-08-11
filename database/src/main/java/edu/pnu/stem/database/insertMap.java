@@ -66,9 +66,8 @@ public class insertMap {
 
 			}
 		}
-		
-		insertSql4Id(connection,map.getFeatureContainer("ID"));
-	
+
+		insertSql4Id(connection, map.getFeatureContainer("ID"));
 
 	}
 
@@ -99,32 +98,38 @@ public class insertMap {
 
 		return sql;
 	}
-	
-	public static void insertSql4Id(Connection connection, ConcurrentHashMap<String,Object> map) {
+
+	public static void insertSql4Id(Connection connection, ConcurrentHashMap<String, Object> map) {
 		for (Entry<String, Object> elem : map.entrySet()) {
-				String sql =  "Insert into" + "Feature" + "values(" + elem.getKey() + "," + (String)elem.getValue() + ")";
-				Statement st;
-				try {
-					st = connection.createStatement();
-					st.execute(sql);
-				} catch (SQLException e) {
-					System.out.println("error at insert feature id");
-					e.printStackTrace();
-				}
+			String sql = "Insert into " + "Feature" + " values(" + change2SqlString(elem.getKey()) + "," + change2SqlString((String) elem.getValue()) + ")";
+			Statement st;
+			try {
+				st = connection.createStatement();
+				st.execute(sql);
+			} catch (SQLException e) {
+				System.out.println("error at insert feature id");
+				e.printStackTrace();
 			}
-		
+		}
+
+	}
+
+	public static String change2SqlString(String n) {
+		if (n != null)
+			n = "'" + n + "'";
+		return n;
 	}
 
 	public static String createInsertSql4IndoorFeatures(IndoorFeatures feature) {
 		String tableName = "IndoorFeatures";
 
-		String id = feature.getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
-		String primalspacefeatures = feature.getPrimalSpaceFeatures().getId();
-		String multilayeredgraph = feature.getMultiLayeredGraph().getId();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String primalspacefeatures = change2SqlString(feature.getPrimalSpaceFeatures().getId());
+		String multilayeredgraph = change2SqlString(feature.getMultiLayeredGraph().getId());
 
-		String sql = "Insert into" + tableName + "values(" + id + "," + name + "," + description + ","
+		String sql = "Insert into " + tableName + " values(" + id + "," + name + "," + description + ","
 				+ primalspacefeatures + "," + multilayeredgraph + ")";
 		return sql;
 
@@ -134,28 +139,36 @@ public class insertMap {
 		String sql = null;
 		String tableName = "PrimalSpaceFeatures";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
+		String csm = null;
+		String csbm = null;
+		
+		if (feature.getCellSpaceMember() != null && feature.getCellSpaceMember().size() != 0) {
+			csm = "(";
+			for (CellSpace c : feature.getCellSpaceMember()) {
+				csm += change2SqlString(c.getId());
+				csm += ',';
+			}
+			csm = csm.substring(0, csm.length() - 1);
+			csm += ")";
 
-		String csm = "(";
-		for (CellSpace c : feature.getCellSpaceMember()) {
-			csm += c.getId();
-			csm += ',';
 		}
-		csm = csm.substring(0, csm.length() - 1);
-		csm += ")";
 
-		String csbm = "(";
-		for (CellSpaceBoundary c : feature.getCellSpaceBoundaryMember()) {
-			csbm += c.getId();
-			csbm += ',';
+		if (feature.getCellSpaceBoundaryMember() != null && feature.getCellSpaceBoundaryMember().size() != 0) {
+			csbm = "(";
+			for (CellSpaceBoundary c : feature.getCellSpaceBoundaryMember()) {
+				csbm += change2SqlString(c.getId());
+				csbm += ',';
+			}
+			csbm = csbm.substring(0, csm.length() - 1);
+			csbm += ")";
+
 		}
-		csbm = csbm.substring(0, csm.length() - 1);
-		csbm += ")";
 
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ "," + csbm + ")";
 		return sql;
 
@@ -165,25 +178,31 @@ public class insertMap {
 		String sql = null;
 		String tableName = "CellSpace";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
-		String duality = feature.getDuality().getId();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
+		String duality = null;
+		if(feature.getDuality() != null)
+			duality = change2SqlString(feature.getDuality().getId());
 		String geom = null;
-		if (feature.getGeometry() != null)
-			geom = GeometryUtil.getMetadata(feature.getGeometry(), "id");
+		String partialboundedby = null;
 
-		String partiallboundedby = "(";
-		for (CellSpaceBoundary c : feature.getPartialboundedBy()) {
-			partiallboundedby += c.getId();
-			partiallboundedby += ',';
+		if (feature.getGeometry() != null) {
+			geom = change2SqlString(GeometryUtil.getMetadata(feature.getGeometry(), "id"));
 		}
-		partiallboundedby = partiallboundedby.substring(0, partiallboundedby.length() - 1);
-		partiallboundedby += ")";
 
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + ","
-				+ duality + "," + partiallboundedby + "," + geom + ")";
+		if (feature.getPartialboundedBy() != null && feature.getPartialboundedBy().size() != 0) {
+			partialboundedby = "(";
+			for (CellSpaceBoundary c : feature.getPartialboundedBy()) {
+				partialboundedby += change2SqlString(c.getId());
+				partialboundedby += ',';
+			}
+			partialboundedby = partialboundedby.substring(0, partialboundedby.length() - 1);
+			partialboundedby += ")";
+		}
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
+				+ duality + "," + partialboundedby + "," + geom + ")";
 		return sql;
 	}
 
@@ -191,16 +210,19 @@ public class insertMap {
 		String sql = null;
 		String tableName = "CellSpaceBoundary";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
-		String duality = feature.getDuality().getId();
-		String geom = null;
-		if (feature.getGeometry() != null)
-			geom = GeometryUtil.getMetadata(feature.getGeometry(), "id");
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
 
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + ","
+		String duality = null;
+		if(feature.getDuality() != null)
+			duality = change2SqlString(feature.getDuality().getId());
+		String geom = null;
+		if (feature.getGeometry() != null) {
+			geom = change2SqlString(GeometryUtil.getMetadata(feature.getGeometry(), "id"));
+		}
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
 				+ duality + "," + geom + ")";
 		return sql;
 	}
@@ -209,28 +231,35 @@ public class insertMap {
 		String sql = null;
 		String tableName = "MultiLayeredGraph";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
 
-		String csm = "(";
-		for (SpaceLayers c : feature.getSpaceLayers()) {
-			csm += c.getId();
-			csm += ',';
+		String csm = null;
+		String csbm = null;
+
+		if (feature.getSpaceLayers() != null && feature.getSpaceLayers().size() != 0) {
+			csm = "(";
+			for (SpaceLayers c : feature.getSpaceLayers()) {
+				csm += change2SqlString(c.getId());
+				csm += ',';
+			}
+			csm = csm.substring(0, csm.length() - 1);
+			csm += ")";
 		}
-		csm = csm.substring(0, csm.length() - 1);
-		csm += ")";
 
-		String csbm = "(";
-		for (InterEdges c : feature.getInterEdges()) {
-			csbm += c.getId();
-			csbm += ',';
+		if (feature.getInterEdges() != null && feature.getInterEdges().size() != 0) {
+			csbm = "(";
+			for (InterEdges c : feature.getInterEdges()) {
+				csbm += change2SqlString(c.getId());
+				csbm += ',';
+			}
+			csbm = csbm.substring(0, csm.length() - 1);
+			csbm += ")";
 		}
-		csbm = csbm.substring(0, csm.length() - 1);
-		csbm += ")";
 
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ "," + csbm + ")";
 		return sql;
 	}
@@ -239,20 +268,25 @@ public class insertMap {
 		String sql = null;
 		String tableName = "SpaceLayers";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
 
-		String csm = "(";
-		for (SpaceLayer c : feature.getSpaceLayerMember()) {
-			csm += c.getId();
-			csm += ',';
+		String csm = null;
+
+		if (feature.getSpaceLayerMember() != null && feature.getSpaceLayerMember().size() != 0) {
+			csm = "(";
+			for (SpaceLayer c : feature.getSpaceLayerMember()) {
+				csm += change2SqlString(c.getId());
+				csm += ',';
+			}
+			csm = csm.substring(0, csm.length() - 1);
+			csm += ")";
+
 		}
-		csm = csm.substring(0, csm.length() - 1);
-		csm += ")";
 
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ ")";
 		return sql;
 	}
@@ -261,28 +295,36 @@ public class insertMap {
 		String sql = null;
 		String tableName = "SpaceLayer";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
 
-		String csm = "(";
-		for (Nodes c : feature.getNodes()) {
-			csm += c.getId();
-			csm += ',';
+		String csm = null;
+		String csbm = null;
+
+		if (feature.getNodes() != null && feature.getNodes().size() != 0) {
+			csm = "(";
+			for (Nodes c : feature.getNodes()) {
+				csm += change2SqlString(c.getId());
+				csm += ',';
+			}
+			csm = csm.substring(0, csm.length() - 1);
+			csm += ")";
 		}
-		csm = csm.substring(0, csm.length() - 1);
-		csm += ")";
 
-		String csbm = "(";
-		for (Edges c : feature.getEdges()) {
-			csbm += c.getId();
-			csbm += ',';
+		if (feature.getEdges() != null && feature.getEdges().size() != 0) {
+			csbm = "(";
+			for (Edges c : feature.getEdges()) {
+				csbm += change2SqlString(c.getId());
+				csbm += ',';
+			}
+			csbm = csbm.substring(0, csm.length() - 1);
+			csbm += ")";
+
 		}
-		csbm = csbm.substring(0, csm.length() - 1);
-		csbm += ")";
 
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ "," + csbm + ")";
 		return sql;
 	}
@@ -291,20 +333,25 @@ public class insertMap {
 		String sql = null;
 		String tableName = "Nodes";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
 
-		String csm = "(";
-		for (State c : feature.getStateMember()) {
-			csm += c.getId();
-			csm += ',';
+		String csm = null;
+
+		if (feature.getStateMember() != null && feature.getStateMember().size() != 0) {
+			csm = "(";
+			for (State c : feature.getStateMember()) {
+				csm += change2SqlString(c.getId());
+				csm += ',';
+			}
+			csm = csm.substring(0, csm.length() - 1);
+			csm += ")";
+
 		}
-		csm = csm.substring(0, csm.length() - 1);
-		csm += ")";
 
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ ")";
 		return sql;
 	}
@@ -313,20 +360,24 @@ public class insertMap {
 		String sql = null;
 		String tableName = "Edges";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
 
-		String csm = "(";
-		for (Transition c : feature.getTransitionMember()) {
-			csm += c.getId();
-			csm += ',';
+		String csm = null;
+
+		if (feature.getTransitionMember() != null && feature.getTransitionMember().size() != 0) {
+			csm = "(";
+			for (Transition c : feature.getTransitionMember()) {
+				csm += change2SqlString(c.getId());
+				csm += ',';
+			}
+			csm = csm.substring(0, csm.length() - 1);
+			csm += ")";
+
 		}
-		csm = csm.substring(0, csm.length() - 1);
-		csm += ")";
-
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ ")";
 		return sql;
 	}
@@ -335,24 +386,31 @@ public class insertMap {
 		String sql = null;
 		String tableName = "State";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
-		String duality = feature.getDuality().getId();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
+
+		String duality = null;
+		if(feature.getDuality() != null)
+			change2SqlString(feature.getDuality().getId());
+
 		String geom = null;
 		if (feature.getGeometry() != null)
-			geom = GeometryUtil.getMetadata(feature.getGeometry(), "id");
+			geom = change2SqlString(GeometryUtil.getMetadata(feature.getGeometry(), "id"));
 
-		String connects = "(";
-		for (Transition c : feature.getConnects()) {
-			connects += c.getId();
-			connects += ',';
+		String connects = null;
+		if (feature.getConnects() != null && feature.getConnects().size() != 0) {
+			connects = "(";
+			for (Transition c : feature.getConnects()) {
+				connects += change2SqlString(c.getId());
+				connects += ',';
+			}
+			connects = connects.substring(0, connects.length() - 1);
+			connects += ")";
+
 		}
-		connects = connects.substring(0, connects.length() - 1);
-		connects += ")";
-
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + ","
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
 				+ duality + "," + connects + "," + geom + ")";
 		return sql;
 	}
@@ -361,24 +419,31 @@ public class insertMap {
 		String sql = null;
 		String tableName = "Transition";
 
-		String id = feature.getId();
-		String parentid = feature.getParent().getId();
-		String name = feature.getName();
-		String description = feature.getDescription();
-		String duality = feature.getDuality().getId();
+		String id = change2SqlString(feature.getId());
+		String name = change2SqlString(feature.getName());
+		String description = change2SqlString(feature.getDescription());
+		String parentId = change2SqlString(feature.getParent().getId());
+
+		String duality = null;
+		if(feature.getDuality() != null)
+			change2SqlString(feature.getDuality().getId());
 		String geom = null;
 		if (feature.getGeometry() != null)
-			geom = GeometryUtil.getMetadata(feature.getGeometry(), "id");
+			geom = change2SqlString(GeometryUtil.getMetadata(feature.getGeometry(), "id"));
 
-		String connects = "(";
-		for (State c : feature.getConnects()) {
-			connects += c.getId();
-			connects += ',';
+		String connects = null;
+
+		if (feature.getConnects() != null && feature.getConnects().length != 0) {
+			connects = "(";
+			for (State c : feature.getConnects()) {
+				connects += change2SqlString(c.getId());
+				connects += ',';
+			}
+			connects = connects.substring(0, connects.length() - 1);
+			connects += ")";
+
 		}
-		connects = connects.substring(0, connects.length() - 1);
-		connects += ")";
-
-		sql = "Insert into" + tableName + "values(" + id + "," + parentid + "," + name + "," + description + ","
+		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
 				+ duality + "," + connects + "," + geom + ")";
 		return sql;
 	}
@@ -396,7 +461,7 @@ public class insertMap {
 
 	public static void insertGeometry(Connection connection, String id, Geometry geom)
 			throws IOException, SQLException {
-		PreparedStatement pre = connection.prepareStatement("insert into geometry(id,geom)values(?,?)");
+		PreparedStatement pre = connection.prepareStatement("insert into geometry(id,geom) values(?,?)");
 		byte[] serializedmember = changeGeometry2Binary(geom);
 		pre.setString(1, id);
 		pre.setBytes(2, serializedmember);

@@ -49,7 +49,7 @@ public class Connector {
 		st.execute(
 				"CREATE TABLE PrimalSpaceFeatures (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), cellspacemember array, cellspaceboundarymember array)");
 		st.execute(
-				"CREATE TABLE MultiLayeredGraph (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interEdges array)");
+				"CREATE TABLE MultiLayeredGraph (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), spaceLayers array,interEdges array)");
 		st.execute(
 				"CREATE TABLE CellSpace (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), partialBoundedBy array, geom CHAR(50))");
 		st.execute(
@@ -61,9 +61,9 @@ public class Connector {
 		st.execute("CREATE TABLE Nodes (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), stateMember array)");
 		st.execute("CREATE TABLE Edges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), transitionMember array)");
 		st.execute(
-				"CREATE TABLE State (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50))");
+				"CREATE TABLE State (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), connects array, geom CHAR(50))");
 		st.execute(
-				"CREATE TABLE Transition (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50))");
+				"CREATE TABLE Transition (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), connects array,geom CHAR(50))");
 		st.execute(
 				"CREATE TABLE InterEdges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interLayerConnection array)");
 		st.execute(
@@ -115,6 +115,28 @@ public class Connector {
 		}
 
 		return result;
+	}
+	
+	public static Connection createConnection() throws SQLException {
+		Connection connection = null;
+		try {
+			Class.forName("org.h2.Driver");
+				connection = DriverManager.getConnection("jdbc:h2:mem:syntax", "sa", "sa");
+					Statement st = connection.createStatement();
+				// Import spatial functions, domains and drivers
+				// If you are using a file database, you have to do only that once.
+				H2GISExtension.load(connection);
+				// Create a table
+				// st.execute("CREATE TABLE ROADS (the_geom MULTILINESTRING, speed_limit INT)");
+
+				createTable(st);
+			
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return connection;
 	}
 
 	public static void main(String[] args) {
