@@ -45,6 +45,7 @@ public class insertMap {
 		containerNameList.add("State");
 		containerNameList.add("Transition");
 		containerNameList.add("Geometry");
+		Statement st = connection.createStatement();
 
 		for (String name : containerNameList) {
 			ConcurrentHashMap<String, Object> featureContainer = map.getFeatureContainer(name);
@@ -54,10 +55,11 @@ public class insertMap {
 							(Geometry) elem.getValue());
 				else {
 					String sql = createInsertSql(elem.getValue());
-					Statement st;
+					
 					try {
-						st = connection.createStatement();
-						st.execute(sql);
+						
+						System.out.println(sql);
+						st.executeUpdate(sql);
 					} catch (SQLException e) {
 						System.out.println("error at insert " + name);
 						e.printStackTrace();
@@ -66,8 +68,9 @@ public class insertMap {
 
 			}
 		}
-
+		
 		insertSql4Id(connection, map.getFeatureContainer("ID"));
+		connection.commit();
 
 	}
 
@@ -100,18 +103,20 @@ public class insertMap {
 	}
 
 	public static void insertSql4Id(Connection connection, ConcurrentHashMap<String, Object> map) {
-		for (Entry<String, Object> elem : map.entrySet()) {
-			String sql = "Insert into " + "Feature" + " values(" + change2SqlString(elem.getKey()) + "," + change2SqlString((String) elem.getValue()) + ")";
-			Statement st;
-			try {
-				st = connection.createStatement();
-				st.execute(sql);
-			} catch (SQLException e) {
-				System.out.println("error at insert feature id");
-				e.printStackTrace();
+		try {
+			Statement st = connection.createStatement();
+			for (Entry<String, Object> elem : map.entrySet()) {
+				String sql = "Insert into " + "Feature" + " values(" + change2SqlString(elem.getKey()) + "," + change2SqlString((String) elem.getValue()) + ")";
+				
+			
+					st = connection.createStatement();
+					st.execute(sql);
 			}
-		}
-
+			st.close();
+			}catch (SQLException e) {
+			System.out.println("error at insert feature id");
+			e.printStackTrace();
+			}
 	}
 
 	public static String change2SqlString(String n) {
