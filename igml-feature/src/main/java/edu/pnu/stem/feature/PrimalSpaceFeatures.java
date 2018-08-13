@@ -136,8 +136,9 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 		if( !this.cellSpaceBoundaryMember.contains(c.getId()) ){
 			CellSpaceBoundary found = null;
 			found = (CellSpaceBoundary)indoorGMLMap.getFeature(c.getId());
-			if(found == null)
+			if(found == null) {
 				indoorGMLMap.setFutureFeature(c.getId(), c);
+			}
 			this.cellSpaceBoundaryMember.add(c.getId());
 		}
 	}

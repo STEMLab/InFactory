@@ -97,7 +97,8 @@ public class MultiLayeredGraph extends AbstractFeature {
 	 *            the interEdges to set
 	 */
 	public void setInterEdges(List<InterEdges> interEdges) {	
-		this.spaceLayers.clear();
+		if(this.interEdges == null)
+			this.interEdges = new ArrayList<String>();
 		for(int i = 0 ; i < interEdges.size() ; i++ ){
 			InterEdges found = null;
 			found = (InterEdges)indoorGMLMap.getFeature(interEdges.get(i).getId());
