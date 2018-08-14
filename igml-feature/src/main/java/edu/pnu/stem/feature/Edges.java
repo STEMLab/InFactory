@@ -82,10 +82,16 @@ public class Edges extends AbstractFeature{
 
 	public void addTransitionMember(Transition t) {
 		if(!this.transitionMember.contains(t.getId())){
+			Transition found = null;
+			found = (Transition)indoorGMLMap.getFeature(t.getId());
+			if(found == null)
+				indoorGMLMap.setFutureFeature(t.getId(), t);
+			
+			
 			this.transitionMember.add(t.getId());
 			
 			//TODO : check duplicated id
-			indoorGMLMap.setFeature(t.getId(), "Transition", t);
+			//indoorGMLMap.setFeature(t.getId(), "Transition", t);
 		}
 	}
 

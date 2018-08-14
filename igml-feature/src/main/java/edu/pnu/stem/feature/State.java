@@ -126,9 +126,18 @@ public class State extends AbstractFeature {
 	}
 	
 	public void addConnects(Transition t) {
+		if(this.connects == null)
+			this.connects = new ArrayList<String>();
 		if(!this.connects.contains(t.getId())){
-			this.connects.add(t.getId());
-			indoorGMLMap.setFeature(t.getId(), "Transition", t);
+			Transition found = null;
+			found = (Transition)indoorGMLMap.getFeature(t.getId());
+			if(found == null){
+				indoorGMLMap.setFutureFeature(t.getId(), t);
+			}
+			if(!this.connects.contains(t.getId())){
+				this.connects.add(t.getId());
+			}
+			
 		}
 	}
 
