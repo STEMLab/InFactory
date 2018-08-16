@@ -20,7 +20,7 @@ public class DataSourceConfig {
 	    		dataSource.setUrl("jdbc:h2:file:~/test;AUTO_SERVER=TRUE;");
 	    		dataSource.setUsername("sa");
 	    		dataSource.setPassword("sa");
-	    		dataSource.setSchema(schema);
+	    		dataSource.setSchema("");
 	    DataSource ds = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
 	    return ds;
     }
