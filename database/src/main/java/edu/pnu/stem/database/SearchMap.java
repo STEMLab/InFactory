@@ -28,7 +28,7 @@ import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
-public class searchMap {
+public class SearchMap {
 
 	public static IndoorGMLMap search(Connection connection, String docId) throws ClassNotFoundException, IOException {
 		IndoorGMLMap result = new IndoorGMLMap();

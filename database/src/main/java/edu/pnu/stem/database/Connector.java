@@ -83,14 +83,18 @@ public class Connector {
 		st.execute("CREATE TABLE Feature (id CHAR(50), type CHAR(50))");
 		st.close();
 	}
-
+	public static Connection getConnection() throws SQLException {
+		Connection result = null;
+		result = DriverManager.getConnection("jdbc:h2:file:~/test;AUTO_SERVER=TRUE;","sa", "sa");
+		return result;
+	}
 	public static Connection createConnection() throws SQLException {
 		Connection connection = null;
 
 		try {
 
 			Class.forName("org.h2.Driver");
-			connection = DriverManager.getConnection("jdbc:h2:file:~/test;", "sa", "sa");
+			connection = DriverManager.getConnection("jdbc:h2:file:~/test;AUTO_SERVER=TRUE;", "sa", "sa");
 			
 			
 			System.out.println("Connection Established: " + connection.getMetaData().getDatabaseProductName() + "/"
@@ -121,7 +125,7 @@ public class Connector {
 	public static void main(String[] args) throws SQLException {			
 		Server server;
 			try {
-								Class.forName("org.h2.Driver");
+			Class.forName("org.h2.Driver");
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -137,14 +141,15 @@ public class Connector {
 				server = Server.createTcpServer("-tcpAllowOthers", "-tcpPort", "9092").start(); // (4b)
 
 				Server webServer = Server.createWebServer("-webAllowOthers", "-webPort", "8082").start(); // (4a)
-				
+				Connection connection2= getConnection();
+				Statement st2 = connection2.createStatement();
 				Statement st = connection.createStatement();
 				
 				st.execute("INSERT INTO Documents VALUES ('doc1', 'testdata')");
 				st.execute("Insert into IndoorFeatures values('IFs',null,null,'PS1',null)");
-				st.execute(
+				st2.execute(
 						"INSERT INTO PrimalSpaceFeatures VALUES ('psf1','IFs','primalspacefeatures', null, ('c1'),('csb1'))");
-				st.execute("INSERT INTO CellSpace VALUES ('c1','psf1','myroom',null,null,('csb1'),'cg1')");
+				st2.execute("INSERT INTO CellSpace VALUES ('c1','psf1','myroom',null,null,('csb1'),'cg1')");
 				String cg1 = "SOLID (( ((0 0 0, 0 1 0, 1 1 0, 1 0 0, 0 0 0)), ((0 0 0, 0 1 0, 0 1 1, 0 0 1, 0 0 0)), ((0 0 0, 1 0 0, 1 0 1, 0 0 1, 0 0 0)), ((1 1 1, 1 0 1, 0 0 1, 0 1 1, 1 1 1)), ((1 1 1, 1 0 1, 1 0 0, 1 1 0, 1 1 1)), ((1 1 1, 1 1 0, 0 1 0, 0 1 1, 1 1 1)) ))";
 				Geometry cg1g = Convert2Json.wkt2Geometry("cg1", cg1);
 

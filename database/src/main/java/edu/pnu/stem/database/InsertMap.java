@@ -29,7 +29,7 @@ import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.util.GeometryUtil;
 
-public class insertMap {
+public class InsertMap {
 	public static void insert(Connection connection, IndoorGMLMap map) throws IOException, SQLException {
 
 		List<String> containerNameList = new ArrayList<String>();
