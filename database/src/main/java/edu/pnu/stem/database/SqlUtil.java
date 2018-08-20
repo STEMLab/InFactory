@@ -34,6 +34,8 @@ public class SqlUtil {
 		ByteArrayInputStream in = new ByteArrayInputStream(blob.getBytes(1, (int) blob.length()));
 		ObjectInputStream is = new ObjectInputStream(in);
 		result = (Geometry) is.readObject();
+		in.close();
+		is.close();
 		return result;
 	}
 	
@@ -44,7 +46,10 @@ public class SqlUtil {
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
 		oos.writeObject(geom);
 		result = baos.toByteArray();
-
+		
+		baos.close();
+		oos.close();
+		
 		return result;
 	}
 }
