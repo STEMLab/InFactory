@@ -3,6 +3,8 @@
  */
 package edu.pnu.stem.api.config;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
@@ -35,14 +37,18 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		return new String[] { "/" };
 	}
 	
-	@Override
+	/*
+	 @Override
 	public void onStartup(ServletContext servletContext) 
 			throws ServletException {
 		super.onStartup(servletContext);
 		DataSourceConfig dsc = new DataSourceConfig();
 		DataSource ds = dsc.dataSource();
 		try {
-			ds.getConnection();
+			Connection c = ds.getConnection();
+			PreparedStatement ps = c.prepareStatement("");
+			ps.executeQuery();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,5 +58,6 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		servlet.setLoadOnStartup(2);
 		servlet.addMapping("/console/*");
 	}
+	 * */
 
 }
