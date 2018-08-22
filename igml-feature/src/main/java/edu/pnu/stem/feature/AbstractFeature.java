@@ -34,6 +34,10 @@ public abstract class AbstractFeature implements Serializable{
 	 */
 	protected String description;
 	
+	public String getDocId() {
+		return this.indoorGMLMap.getDocId();
+	}
+	
 	public AbstractFeature(IndoorGMLMap map, String id){
 		this.indoorGMLMap = map;
 		this.id = id;

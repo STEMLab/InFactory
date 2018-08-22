@@ -7,6 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,17 +25,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import edu.pnu.stem.api.exception.DocumentNotFoundException;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.dao.CellSpaceDAO;
+import edu.pnu.stem.database.Connector;
+import edu.pnu.stem.database.InsertMap;
+import edu.pnu.stem.database.SearchMap;
+import edu.pnu.stem.database.SqlUtil;
 import edu.pnu.stem.feature.IndoorFeatures;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
@@ -48,7 +53,7 @@ public class DocumentController {
 	
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+	public void createDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IOException {
 
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
@@ -56,41 +61,61 @@ public class DocumentController {
 		
 		Container container = applicationContext.getBean(Container.class);
 		
-		IndoorGMLMap map = container.getDocument(id);
-		if(map != null) {
-			//Exception
-			//throw new DuplicatedFeatureException();
-			//TODO : later treat duplicatedFeatureException();
-		} else {
-			map = container.createDocument(id);
-		}
 		
-		String contentType = request.getContentType();
-		if(contentType != null) {
-			if(request.getContentType().contains("xml")) {
-				// Importing IndoorGML Document
-				try {
-					InputStream xml = request.getInputStream();
-					IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML(id, xml);
-					IndoorFeatures savedDoc = edu.pnu.stem.binder.Convert2FeatureClass.change2FeatureClass(map, id, doc);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else if(request.getContentType().contains("json")) {
-				//TODO : indoorJSON
+		
+		try {
+			IndoorGMLMap map = container.getDocument(id);
+			Connection connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
+			
+			Statement st = connection.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM DOCUMENTS WHERE id="+SqlUtil.change2SqlString(id));
+			
+			if(rs.next()) {
+				map = SearchMap.search(connection, rs.getString("id"));
+				System.out.println("This document: "+id+" is already saved in Database!");
 			}
+			else{
+				
+				map = container.createDocument(id);
+				String contentType = request.getContentType();
+				if(contentType != null) {
+					if(request.getContentType().contains("xml")) {
+						// Importing IndoorGML Document
+						try {
+							InputStream xml = request.getInputStream();
+							IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML(id, xml);
+							IndoorFeatures savedDoc = edu.pnu.stem.binder.Convert2FeatureClass.change2FeatureClass(map, id, doc);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} else if(request.getContentType().contains("json")) {
+						//TODO : indoorJSON
+					}
+				}
+				
+				// Empty Document is made.
+
+			    response.setHeader("Location", request.getRequestURL().append(map.getDocId()).toString());
+			    System.out.println("Document is created : "+id);
+				
+			}
+			
+
+		    
+		   // connection.close();
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		
-		// Empty Document is made.
-
-	    response.setHeader("Location", request.getRequestURL().append(map.getDocId()).toString());
-	    System.out.println("Document is created : "+id);
+		
 	}
 	
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.FOUND)
-	public void getDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+	public void getDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException {
 		//String type = json.get("type").asText().trim();
 		
 		File theDir = new File("temp");
@@ -114,12 +139,36 @@ public class DocumentController {
 				
 		//if(type != null && type.equalsIgnoreCase("xml")) {
 			Container container = applicationContext.getBean(Container.class);
+			
+			
+			
 			IndoorGMLMap map = container.getDocument(id);
+			
+			if(map == null) {
+				Connection connection;
+				try {
+					connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
+					Statement st = connection.createStatement();
+					ResultSet rs = st.executeQuery("SELECT * FROM DOCUMENTS WHERE id="+SqlUtil.change2SqlString(id));
+					
+					if(rs.next()) {
+						map = SearchMap.search(connection, rs.getString("id"));
+						System.out.println("This document: "+id+" is already saved in Database!");
+					}
+					InsertMap.insert(connection, map);
+				} catch (SQLException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
 			
 			if(map != null) {
 				map.Marshall("temp/" + id + ".igml");
-	
+				
 				try {
+					
 					System.out.println(map);
 					response.setContentType("text/xml;charset=UTF-8");
 					PrintWriter out = response.getWriter();
@@ -149,7 +198,7 @@ public class DocumentController {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				} 
 			} else {
 				throw new DocumentNotFoundException();
 			}

@@ -28,7 +28,7 @@ public class DataSourceConfig {
 	    		dataSource.setPassword("sa");
 	    		
 	    		
-	    //DataSource ds = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScript("classpath:edu/pnu/stem/api/database/schema.sql").build();
+	    //DataSource ds = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).addScript("schema.sql").setName("test;DB_CLOSE_DELAY=-1;").build();
 	    //return ds;
 	    return dataSource;
 	}
@@ -39,7 +39,7 @@ public class DataSourceConfig {
 		return namedParamJdbcTemplate;
 	}
 	
-	
+
 	@Bean(initMethod = "start", destroyMethod = "stop")
 	public Server startDBserver() throws SQLException{
 		return Server.createTcpServer("-tcpAllowOthers", "-tcpPort", "9092");

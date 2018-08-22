@@ -28,7 +28,8 @@ import edu.pnu.stem.binder.Convert2Json;
 public class Connector {
 	private static void createTable(Connection connection) throws SQLException {
 		Statement st = connection.createStatement();
-		List<String> tableName = new ArrayList<String>();
+		/*
+		 List<String> tableName = new ArrayList<String>();
 		tableName.add("IndoorFeatures");
 		tableName.add("PrimalSpaceFeatures");
 		tableName.add("MultiLayeredGraph");
@@ -51,36 +52,37 @@ public class Connector {
 			System.out.println(clearDB);
 			st.executeUpdate(clearDB);
 		}
+		 * */
 
-		st.execute("CREATE TABLE Documents (id CHAR(50),name CHAR(50))");
+		st.execute("CREATE TABLE IF NOT EXISTS Documents (id CHAR(50),name CHAR(50))");
 		st.execute(
-				"CREATE TABLE IndoorFeatures (id CHAR(50), name CHAR(50), description CHAR(50), primalspacefeatures CHAR(50), multilayeredgraph CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS IndoorFeatures (documentId CHAR(50), id CHAR(50),  name CHAR(50), description CHAR(50), primalspacefeatures CHAR(50), multilayeredgraph CHAR(50))");
 		st.execute(
-				"CREATE TABLE PrimalSpaceFeatures (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), cellspacemember array, cellspaceboundarymember array)");
+				"CREATE TABLE IF NOT EXISTS PrimalSpaceFeatures (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), cellspacemember array, cellspaceboundarymember array)");
 		st.execute(
-				"CREATE TABLE MultiLayeredGraph (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), spaceLayers array,interEdges array)");
+				"CREATE TABLE IF NOT EXISTS MultiLayeredGraph (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), spaceLayers array,interEdges array)");
 		st.execute(
-				"CREATE TABLE CellSpace (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), partialBoundedBy array, geometry CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS CellSpace (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), partialBoundedBy array, geometry CHAR(50))");
 		st.execute(
-				"CREATE TABLE CellSpaceBoundary (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geometry CHAR(50) )");
+				"CREATE TABLE IF NOT EXISTS CellSpaceBoundary (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geometry CHAR(50) )");
 		st.execute(
-				"CREATE TABLE SpaceLayers (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), spaceLayerMember array) ");
+				"CREATE TABLE IF NOT EXISTS SpaceLayers (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), spaceLayerMember array) ");
 		st.execute(
-				"CREATE TABLE SpaceLayer (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), nodes array, edges array)");
+				"CREATE TABLE IF NOT EXISTS SpaceLayer (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), nodes array, edges array)");
 		st.execute(
-				"CREATE TABLE Nodes (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), stateMember array)");
+				"CREATE TABLE IF NOT EXISTS Nodes (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), stateMember array)");
 		st.execute(
-				"CREATE TABLE Edges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), transitionMember array)");
+				"CREATE TABLE IF NOT EXISTS Edges (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), transitionMember array)");
 		st.execute(
-				"CREATE TABLE State (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), connects array, geometry CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS State (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), connects array, geometry CHAR(50))");
 		st.execute(
-				"CREATE TABLE Transition (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), connects array,geometry CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS Transition (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), connects array,geometry CHAR(50))");
 		st.execute(
-				"CREATE TABLE InterEdges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interLayerConnection array)");
+				"CREATE TABLE IF NOT EXISTS InterEdges (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interLayerConnection array)");
 		st.execute(
-				"CREATE TABLE InterLayerConnection (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interConnects array, connectedLayers array)");
-		st.execute("CREATE TABLE Geometry (id CHAR(50), geom BLOB)");
-		st.execute("CREATE TABLE Feature (id CHAR(50), type CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS InterLayerConnection (documentId CHAR(50), id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interConnects array, connectedLayers array)");
+		st.execute("CREATE TABLE IF NOT EXISTS Geometry (documentId CHAR(50), id CHAR(50), geom BLOB)");
+		st.execute("CREATE TABLE IF NOT EXISTS Feature (documentId CHAR(50), id CHAR(50), type CHAR(50))");
 		st.close();
 	}
 	public static Connection getConnection() throws SQLException {
