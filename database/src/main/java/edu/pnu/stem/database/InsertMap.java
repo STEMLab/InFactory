@@ -29,7 +29,7 @@ import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 import edu.pnu.stem.util.GeometryUtil;
 
-public class insertMap {
+public class InsertMap {
 	public static void insert(Connection connection, IndoorGMLMap map) throws IOException, SQLException {
 
 		List<String> containerNameList = new ArrayList<String>();
@@ -45,13 +45,16 @@ public class insertMap {
 		containerNameList.add("State");
 		containerNameList.add("Transition");
 		containerNameList.add("Geometry");
+		//containerNameList.add("Documents");
 		Statement st = connection.createStatement();
-
+		
+		st.execute(createInsertSqlDocument(map));
+		
 		for (String name : containerNameList) {
 			ConcurrentHashMap<String, Object> featureContainer = map.getFeatureContainer(name);
 			for (Entry<String, Object> elem : featureContainer.entrySet()) {
 				if (name.equals("Geometry"))
-					insertGeometry(connection, GeometryUtil.getMetadata((Geometry) elem.getValue(), "id"),
+					insertGeometry(connection, map.getDocId(), GeometryUtil.getMetadata((Geometry) elem.getValue(), "id"),
 							(Geometry) elem.getValue());
 				else {
 					String sql = createInsertSql(elem.getValue());
@@ -69,9 +72,20 @@ public class insertMap {
 			}
 		}
 		
-		insertSql4Id(connection, map.getFeatureContainer("ID"));
+		insertSql4Id(connection, map.getDocId(), map.getFeatureContainer("ID"));
 		connection.commit();
 
+	}
+	
+	public static String createInsertSqlDocument(IndoorGMLMap map) {
+		String sql = null;
+		String id = change2SqlString(map.getDocId());
+		String name = null;
+		
+		sql = "Insert into " + "Documents" + " values(" + id + "," + name + ")";
+		
+		return sql;
+		
 	}
 
 	public static String createInsertSql(Object feature) {
@@ -102,11 +116,11 @@ public class insertMap {
 		return sql;
 	}
 
-	public static void insertSql4Id(Connection connection, ConcurrentHashMap<String, Object> map) {
+	public static void insertSql4Id(Connection connection, String docId, ConcurrentHashMap<String, Object> map) {
 		try {
 			Statement st = connection.createStatement();
 			for (Entry<String, Object> elem : map.entrySet()) {
-				String sql = "Insert into " + "Feature" + " values(" + change2SqlString(elem.getKey()) + "," + change2SqlString((String) elem.getValue()) + ")";
+				String sql = "Insert into " + "Feature" + " values(" + change2SqlString(docId)+","+change2SqlString(elem.getKey()) + "," + change2SqlString((String) elem.getValue()) + ")";
 				
 			
 					st = connection.createStatement();
@@ -129,12 +143,17 @@ public class insertMap {
 		String tableName = "IndoorFeatures";
 
 		String id = change2SqlString(feature.getId());
+		String docId = change2SqlString(feature.getDocId());
 		String name = change2SqlString(feature.getName());
 		String description = change2SqlString(feature.getDescription());
-		String primalspacefeatures = change2SqlString(feature.getPrimalSpaceFeatures().getId());
-		String multilayeredgraph = change2SqlString(feature.getMultiLayeredGraph().getId());
+		String primalspacefeatures = null;
+		if(feature.getPrimalSpaceFeatures() != null)
+			primalspacefeatures = change2SqlString(feature.getPrimalSpaceFeatures().getId());
+		String multilayeredgraph = null;
+		if(feature.getMultiLayeredGraph() != null)
+			multilayeredgraph = change2SqlString(feature.getMultiLayeredGraph().getId());
 
-		String sql = "Insert into " + tableName + " values(" + id + "," + name + "," + description + ","
+		String sql = "Insert into " + tableName + " values(" +docId+ ","+ id + ","+ name + "," + description + ","
 				+ primalspacefeatures + "," + multilayeredgraph + ")";
 		return sql;
 
@@ -146,6 +165,7 @@ public class insertMap {
 
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
+		String docId = change2SqlString(feature.getDocId());
 		String description = change2SqlString(feature.getDescription());
 		String parentId = change2SqlString(feature.getParent().getId());
 		String csm = null;
@@ -173,7 +193,7 @@ public class insertMap {
 
 		}
 
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" +docId+ ","+ id + "," + parentId + "," + name + "," + description + "," + csm
 				+ "," + csbm + ")";
 		return sql;
 
@@ -185,6 +205,7 @@ public class insertMap {
 
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
+		String docId = change2SqlString(feature.getDocId());
 		String description = change2SqlString(feature.getDescription());
 		String parentId = change2SqlString(feature.getParent().getId());
 		String duality = null;
@@ -206,7 +227,7 @@ public class insertMap {
 			partialboundedby = partialboundedby.substring(0, partialboundedby.length() - 1);
 			partialboundedby += ")";
 		}
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
+		sql = "Insert into " + tableName + " values(" +docId+ ","+ id + "," + parentId + "," + name + "," + description + ","
 				+ duality + "," + partialboundedby + "," + geom + ")";
 		return sql;
 	}
@@ -217,6 +238,7 @@ public class insertMap {
 
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
+		String docId = change2SqlString(feature.getDocId());
 		String description = change2SqlString(feature.getDescription());
 		String parentId = change2SqlString(feature.getParent().getId());
 
@@ -227,7 +249,7 @@ public class insertMap {
 		if (feature.getGeometry() != null) {
 			geom = change2SqlString(GeometryUtil.getMetadata(feature.getGeometry(), "id"));
 		}
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
+		sql = "Insert into " + tableName + " values("+docId+ "," + id + "," + parentId + "," + name + "," + description + ","
 				+ duality + "," + geom + ")";
 		return sql;
 	}
@@ -238,6 +260,7 @@ public class insertMap {
 
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
+		String docId = change2SqlString(feature.getDocId());
 		String description = change2SqlString(feature.getDescription());
 		String parentId = change2SqlString(feature.getParent().getId());
 
@@ -264,7 +287,7 @@ public class insertMap {
 			csbm += ")";
 		}
 
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" +docId+ "," + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ "," + csbm + ")";
 		return sql;
 	}
@@ -272,9 +295,10 @@ public class insertMap {
 	public static String createInsertSql4SpaceLayers(SpaceLayers feature) {
 		String sql = null;
 		String tableName = "SpaceLayers";
-
+		String docId = change2SqlString(feature.getDocId());
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
+		
 		String description = change2SqlString(feature.getDescription());
 		String parentId = change2SqlString(feature.getParent().getId());
 
@@ -291,7 +315,7 @@ public class insertMap {
 
 		}
 
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" +docId+ "," + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ ")";
 		return sql;
 	}
@@ -299,7 +323,7 @@ public class insertMap {
 	public static String createInsertSql4SpaceLayer(SpaceLayer feature) {
 		String sql = null;
 		String tableName = "SpaceLayer";
-
+		String docId = change2SqlString(feature.getDocId());
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
 		String description = change2SqlString(feature.getDescription());
@@ -329,7 +353,7 @@ public class insertMap {
 
 		}
 
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values("+docId+ "," + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ "," + csbm + ")";
 		return sql;
 	}
@@ -337,7 +361,7 @@ public class insertMap {
 	public static String createInsertSql4Nodes(Nodes feature) {
 		String sql = null;
 		String tableName = "Nodes";
-
+		String docId = change2SqlString(feature.getDocId());
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
 		String description = change2SqlString(feature.getDescription());
@@ -356,7 +380,7 @@ public class insertMap {
 
 		}
 
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values(" +docId+ ","+ id + "," + parentId + "," + name + "," + description + "," + csm
 				+ ")";
 		return sql;
 	}
@@ -364,7 +388,7 @@ public class insertMap {
 	public static String createInsertSql4Edges(Edges feature) {
 		String sql = null;
 		String tableName = "Edges";
-
+		String docId = change2SqlString(feature.getDocId());
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
 		String description = change2SqlString(feature.getDescription());
@@ -382,7 +406,7 @@ public class insertMap {
 			csm += ")";
 
 		}
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + "," + csm
+		sql = "Insert into " + tableName + " values("+docId+ "," + id + "," + parentId + "," + name + "," + description + "," + csm
 				+ ")";
 		return sql;
 	}
@@ -390,7 +414,7 @@ public class insertMap {
 	public static String createInsertSql4State(State feature) {
 		String sql = null;
 		String tableName = "State";
-
+		String docId = change2SqlString(feature.getDocId());
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
 		String description = change2SqlString(feature.getDescription());
@@ -415,7 +439,7 @@ public class insertMap {
 			connects += ")";
 
 		}
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
+		sql = "Insert into " + tableName + " values("+docId+ "," + id + "," + parentId + "," + name + "," + description + ","
 				+ duality + "," + connects + "," + geom + ")";
 		return sql;
 	}
@@ -423,7 +447,7 @@ public class insertMap {
 	public static String createInsertSql4Transition(Transition feature) {
 		String sql = null;
 		String tableName = "Transition";
-
+		String docId = change2SqlString(feature.getDocId());
 		String id = change2SqlString(feature.getId());
 		String name = change2SqlString(feature.getName());
 		String description = change2SqlString(feature.getDescription());
@@ -448,28 +472,20 @@ public class insertMap {
 			connects += ")";
 
 		}
-		sql = "Insert into " + tableName + " values(" + id + "," + parentId + "," + name + "," + description + ","
+		sql = "Insert into " + tableName + " values("+docId+ "," + id + "," + parentId + "," + name + "," + description + ","
 				+ duality + "," + connects + "," + geom + ")";
 		return sql;
 	}
 
-	public static byte[] changeGeometry2Binary(Geometry geom) throws IOException {
-		byte[] result;
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ObjectOutputStream oos = new ObjectOutputStream(baos);
-		oos.writeObject(geom);
-		result = baos.toByteArray();
 
-		return result;
-	}
-
-	public static void insertGeometry(Connection connection, String id, Geometry geom)
+	public static void insertGeometry(Connection connection,String docId, String id, Geometry geom)
 			throws IOException, SQLException {
-		PreparedStatement pre = connection.prepareStatement("insert into geometry(id,geom) values(?,?)");
-		byte[] serializedmember = changeGeometry2Binary(geom);
-		pre.setString(1, id);
-		pre.setBytes(2, serializedmember);
+		PreparedStatement pre = connection.prepareStatement("insert into geometry(documentId,id,geom) values(?,?,?)");
+		byte[] serializedmember = SqlUtil.changeGeometry2Binary(geom);
+		pre.setString(1, docId);
+		pre.setString(2, id);
+		pre.setBytes(3, serializedmember);
 		pre.executeUpdate();
 	}
 }

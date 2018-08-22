@@ -28,11 +28,11 @@ import edu.pnu.stem.feature.SpaceLayers;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.feature.Transition;
 
-public class searchMap {
+public class SearchMap {
 
 	public static IndoorGMLMap search(Connection connection, String docId) throws ClassNotFoundException, IOException {
 		IndoorGMLMap result = new IndoorGMLMap();
-
+		result.setDocId(docId);
 		try {
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery("Select * from Feature");
@@ -83,7 +83,7 @@ public class searchMap {
 			throws ClassNotFoundException, IOException {
 		Geometry feature = null;
 
-		String getgeomsql = "SELECT geom FROM Geometry WHERE id = '" + id + "'";
+		String getgeomsql = "SELECT geom FROM Geometry WHERE id = '" + id + "'" + " AND documentid = " + SqlUtil.change2SqlString(result.getDocId());
 
 		PreparedStatement pre;
 		try {
@@ -104,7 +104,7 @@ public class searchMap {
 
 	public static IndoorFeatures searchIndoorFeatures(Connection connection, IndoorGMLMap map, String id) {
 		IndoorFeatures feature = new IndoorFeatures(map, id);
-		String sql = "SELECT * from IndoorFeatures where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from IndoorFeatures where id =" + SqlUtil.change2SqlString(id) + " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -134,7 +134,7 @@ public class searchMap {
 
 	public static PrimalSpaceFeatures searchPrimalSpaceFeatures(Connection connection, IndoorGMLMap map, String id) {
 		PrimalSpaceFeatures feature = new PrimalSpaceFeatures(map, id);
-		String sql = "SELECT * from PrimalSpaceFeatures where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from PrimalSpaceFeatures where id =" + SqlUtil.change2SqlString(id) + " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -180,7 +180,7 @@ public class searchMap {
 
 	public static CellSpace searchCellSpace(Connection connection, IndoorGMLMap map, String id) throws ClassNotFoundException, IOException {
 		CellSpace feature = new CellSpace(map, id);
-		String sql = "SELECT * from CellSpace where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from CellSpace where id =" + SqlUtil.change2SqlString(id)+ " AND " + " documentId = " + SqlUtil.change2SqlString(map.getDocId());
 		// String sql = "SELECT * from CellSpace";
 		Statement st;
 		try {
@@ -228,7 +228,7 @@ public class searchMap {
 
 	public static CellSpaceBoundary searchCellSpaceBoundary(Connection connection, IndoorGMLMap map, String id) throws ClassNotFoundException, IOException {
 		CellSpaceBoundary feature = new CellSpaceBoundary(map, id);
-		String sql = "SELECT * from CellSpaceBoundary where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from CellSpaceBoundary where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -265,7 +265,7 @@ public class searchMap {
 
 	public static MultiLayeredGraph searchMultiLayeredGraph(Connection connection, IndoorGMLMap map, String id) {
 		MultiLayeredGraph feature = new MultiLayeredGraph(map, id);
-		String sql = "SELECT * from MultiLayeredGraph where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from MultiLayeredGraph where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -309,7 +309,7 @@ public class searchMap {
 
 	public static SpaceLayers searchSpaceLayers(Connection connection, IndoorGMLMap map, String id) {
 		SpaceLayers feature = new SpaceLayers(map, id);
-		String sql = "SELECT * from SpaceLayers where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from SpaceLayers where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -345,7 +345,7 @@ public class searchMap {
 
 	public static SpaceLayer searchSpaceLayer(Connection connection, IndoorGMLMap map, String id) {
 		SpaceLayer feature = new SpaceLayer(map, id);
-		String sql = "SELECT * from SpaceLayer where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from SpaceLayer where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -393,7 +393,7 @@ public class searchMap {
 
 	public static Nodes searchNodes(Connection connection, IndoorGMLMap map, String id) {
 		Nodes feature = new Nodes(map, id);
-		String sql = "SELECT * from IndoorFeatures where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from IndoorFeatures where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -431,7 +431,7 @@ public class searchMap {
 
 	public static Edges searchEdges(Connection connection, IndoorGMLMap map, String id) {
 		Edges feature = new Edges(map, id);
-		String sql = "SELECT * from Edges where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from Edges where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -469,7 +469,7 @@ public class searchMap {
 
 	public static State searchState(Connection connection, IndoorGMLMap map, String id) throws ClassNotFoundException, IOException {
 		State feature = new State(map, id);
-		String sql = "SELECT * from State where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from State where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -516,7 +516,7 @@ public class searchMap {
 
 	public static Transition searchTransition(Connection connection, IndoorGMLMap map, String id) throws ClassNotFoundException, IOException {
 		Transition feature = new Transition(map, id);
-		String sql = "SELECT * from Transition where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from Transition where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -561,7 +561,7 @@ public class searchMap {
 
 	public static InterEdges searchInterEdges(Connection connection, IndoorGMLMap map, String id) {
 		InterEdges feature = new InterEdges(map, id);
-		String sql = "SELECT * from InterEdges where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from InterEdges where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();
@@ -600,7 +600,7 @@ public class searchMap {
 
 	public static InterLayerConnection searchInterLayerConnection(Connection connection, IndoorGMLMap map, String id) {
 		InterLayerConnection feature = new InterLayerConnection(map, id);
-		String sql = "SELECT * from InterLayerConnection where id =" + SqlUtil.change2SqlString(id);
+		String sql = "SELECT * from InterLayerConnection where id =" + SqlUtil.change2SqlString(id)+ " AND " + "documentId = " + SqlUtil.change2SqlString(map.getDocId());;
 		Statement st;
 		try {
 			st = connection.createStatement();

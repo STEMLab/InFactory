@@ -34,6 +34,9 @@ public class IndoorFeatures extends AbstractFeature {
 		
 		return found;
 	}
+	
+
+	
 	/**
 	 * @param primalSpaceFeatures the primalSpaceFeatures to set
 	 */
