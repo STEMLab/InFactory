@@ -76,13 +76,13 @@ public class IndoorGMLMap implements Serializable {
 	public void setFutureFeature(String id, String featureName){
 		if(!hasID(id)){
 			collection.get("FutureID").put(id, featureName);
-			System.out.println("Do not forget to create the feature id : "+id+" later : " + featureName);
+			//System.out.println("Do not forget to create the feature id : "+id+" later : " + featureName);
 		}
 	}
 	
 	public void setFutureFeature(String id, Object feature){				
 		collection.get("FutureID").put(id, feature);
-		System.out.println("Do not forget to create the feature id : "+id+" later");
+		//System.out.println("Do not forget to create the feature id : "+id+" later");
 	}
 	
 	private void setID(String id, String featureName) {
@@ -101,7 +101,7 @@ public class IndoorGMLMap implements Serializable {
 	
 	public void removeFutureID(String id){
 		getFeatureContainer("FutureID").remove(id);
-		System.out.println("Remove Future ID : "+id);
+		//System.out.println("Remove Future ID : "+id);
 	}
 	
 	private void removeID(String id){
@@ -180,15 +180,16 @@ public class IndoorGMLMap implements Serializable {
 	public void setFeature(String id,String featureName, Object featureValue){
 		if(!hasID(id)){
 			if(hasFutureID(id)){
-				System.out.println("from Future feature list : "+id);
+				//System.out.println("Create feature from Future feature list : "+id);
 				collection.get("FutureID").remove(id);
 			}
 			setID(id,featureName);
 			collection.get(featureName).put(id, featureValue);
+			System.out.println("Create feature : "+id + " which type is :"+featureName);
 		}
 		else{
 			System.out.println("Already Exist Id : " + featureName);
-			System.out.println(getFeatureContainer("FutureID"));
+			
 			//container.get(featureName).put(id, featureValue);
 		}
 	}

@@ -127,7 +127,6 @@ public class CellSpaceController {
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(c.getId()).toString());
-		System.out.println("CellSpace is created : "+id);
 	}
 	
 	@GetMapping(value = "/{id}", produces = "application/json")
