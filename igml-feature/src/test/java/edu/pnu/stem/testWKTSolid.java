@@ -1,7 +1,9 @@
 package edu.pnu.stem;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.ParseException;
+
+
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
 
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 import edu.pnu.stem.geometry.jts.WKTWriter3D;

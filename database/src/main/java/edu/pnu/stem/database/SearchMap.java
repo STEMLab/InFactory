@@ -1,7 +1,6 @@
 package edu.pnu.stem.database;
 
 import java.io.IOException;
-import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;

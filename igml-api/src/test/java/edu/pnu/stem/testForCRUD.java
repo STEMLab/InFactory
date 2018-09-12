@@ -5,13 +5,11 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 
 import edu.pnu.stem.api.Container;
-import edu.pnu.stem.binder.Convert2JaxbClass;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 import junit.framework.TestCase;
 

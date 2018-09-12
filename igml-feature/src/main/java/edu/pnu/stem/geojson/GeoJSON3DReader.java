@@ -1,15 +1,14 @@
 package edu.pnu.stem.geojson;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.Geometry;
 import org.wololo.geojson.LineString;
 import org.wololo.geojson.MultiLineString;
 import org.wololo.geojson.MultiPoint;
 import org.wololo.geojson.MultiPolygon;
 import org.wololo.geojson.Point;
 import org.wololo.geojson.Polygon;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LinearRing;
 
 import edu.pnu.stem.geometry.jts.GeometryFactory3D;
 
@@ -52,7 +51,7 @@ public class GeoJSON3DReader {
     	Coordinate[] coordinates;
     	double[][][] mlCoordinates = multiLineString.getCoordinates();
         int size = mlCoordinates.length;
-        com.vividsolutions.jts.geom.LineString[] lineStrings = new com.vividsolutions.jts.geom.LineString[size];
+        org.locationtech.jts.geom.LineString[] lineStrings = new org.locationtech.jts.geom.LineString[size];
         for (int i = 0; i < size; i++) {
         	objectCoordinates = mlCoordinates[i];
         	coordinates = convert(objectCoordinates);
@@ -66,7 +65,7 @@ public class GeoJSON3DReader {
         return convertToPolygon(objectCoordinates);
     }
 
-    com.vividsolutions.jts.geom.Polygon convertToPolygon(double[][][] coordinates) {
+    org.locationtech.jts.geom.Polygon convertToPolygon(double[][][] coordinates) {
     	if (coordinates == null) {
     		throw new NullPointerException("Coordinates of Polygon are not initialized");
     	}
@@ -94,7 +93,7 @@ public class GeoJSON3DReader {
     		throw new NullPointerException("Coordinates of MultiPolygon are not initialized");
     	}
         int size = mpolygonCoordinates.length;
-        com.vividsolutions.jts.geom.Polygon[] polygons = new com.vividsolutions.jts.geom.Polygon[size];
+        org.locationtech.jts.geom.Polygon[] polygons = new org.locationtech.jts.geom.Polygon[size];
         for (int i = 0; i < size; i++) {
         	polygonCoordinates = mpolygonCoordinates[i];
             polygons[i] = convertToPolygon(polygonCoordinates);
@@ -107,7 +106,7 @@ public class GeoJSON3DReader {
     		throw new NullPointerException("Coordinates of MultiPolygon are not initialized");
     	}
         int size = coordinates.length;
-        com.vividsolutions.jts.geom.Polygon[] polygons = new com.vividsolutions.jts.geom.Polygon[size];
+        org.locationtech.jts.geom.Polygon[] polygons = new org.locationtech.jts.geom.Polygon[size];
         for (int i = 0; i < size; i++) {
             polygons[i] = convertToPolygon(coordinates[i]);
         }
@@ -127,12 +126,12 @@ public class GeoJSON3DReader {
     		throw new NullPointerException("Coordinates of shell are not initialized");
     	}
     	int size = coordinates.length;
-    	com.vividsolutions.jts.geom.MultiPolygon shell = (com.vividsolutions.jts.geom.MultiPolygon) convertToMultiPolygon(coordinates[0]);
+    	org.locationtech.jts.geom.MultiPolygon shell = (org.locationtech.jts.geom.MultiPolygon) convertToMultiPolygon(coordinates[0]);
         if (coordinates.length > 1) {
             size = coordinates.length - 1;
-            com.vividsolutions.jts.geom. MultiPolygon[] holes = new com.vividsolutions.jts.geom.MultiPolygon[size];
+            org.locationtech.jts.geom.MultiPolygon[] holes = new org.locationtech.jts.geom.MultiPolygon[size];
             for (int i = 0; i < size; i++) {
-                holes[i] = (com.vividsolutions.jts.geom.MultiPolygon) convertToMultiPolygon(coordinates[i + 1]);
+                holes[i] = (org.locationtech.jts.geom.MultiPolygon) convertToMultiPolygon(coordinates[i + 1]);
             }
             return factory3d.createSolid(shell, holes);
         } else {

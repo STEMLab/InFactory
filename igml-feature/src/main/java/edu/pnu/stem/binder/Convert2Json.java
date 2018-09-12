@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.io.ParseException;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.ParseException;
-
 import edu.pnu.stem.feature.CellSpace;
 import edu.pnu.stem.feature.CellSpaceBoundary;
 import edu.pnu.stem.feature.Edges;

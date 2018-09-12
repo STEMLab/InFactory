@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.pnu.stem.api.exception.DocumentNotFoundException;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.database.Connector;
+import edu.pnu.stem.database.DeleteMap;
 import edu.pnu.stem.database.InsertMap;
 import edu.pnu.stem.database.SearchMap;
 import edu.pnu.stem.database.SqlUtil;
@@ -210,11 +210,15 @@ public class DocumentController {
 	public void deleteDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
 		try {
 			Container container = applicationContext.getBean(Container.class);
-			IndoorGMLMap map = container.getDocument(id);			
-			map.clearMap();
-			container.removeDocument(id);
+			IndoorGMLMap map = container.getDocument(id);	
+			if(map != null) {
+				map.clearMap();
+				container.removeDocument(id);
+			}		
+			Connection connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
+			DeleteMap.dropMap(connection, id);
 		}
-		catch(NullPointerException e) {
+		catch(NullPointerException | SQLException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
 		}

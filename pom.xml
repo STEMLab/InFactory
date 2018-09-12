@@ -24,6 +24,7 @@
 		<spring.version>5.0.2.RELEASE</spring.version>
 		<jetty.version>9.4.8.v20171121</jetty.version>
 		<ogc-schemas.version>2.6.2-SNAPSHOT</ogc-schemas.version>
+		<jts.version>1.15.0</jts.version>
 	</properties>
 
 	<packaging>pom</packaging>
@@ -249,4 +250,4 @@
 		<module>igml-feature</module>
 		<module>database</module>
 	</modules>
-</project>
+	</project>

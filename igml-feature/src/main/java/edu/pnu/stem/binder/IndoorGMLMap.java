@@ -7,14 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.bind.JAXBException;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 import edu.pnu.stem.feature.IndoorFeatures;
 import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 public class IndoorGMLMap implements Serializable {
-	private ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> collection;
+	protected ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> collection;
 	private String docId;
 	
 	public IndoorGMLMap() {
@@ -39,11 +39,6 @@ public class IndoorGMLMap implements Serializable {
 		collection.put("InterLayerConnection", new ConcurrentHashMap<String,Object>());
 		collection.put("InterEdges", new ConcurrentHashMap<String,Object>());
 		collection.put("CellSpaceGeometry", new ConcurrentHashMap<String,Object>());
-		collection.put("CellSpaceBoundaryGeometry", new ConcurrentHashMap<String,Object>());
-		collection.put("Point", new ConcurrentHashMap<String,Object>());
-		collection.put("Curve", new ConcurrentHashMap<String,Object>());
-		collection.put("Surface", new ConcurrentHashMap<String,Object>());
-		collection.put("Solid", new ConcurrentHashMap<String,Object>());
 		collection.put("State", new ConcurrentHashMap<String,Object>());
 		collection.put("Reference", new ConcurrentHashMap<String,Object>());
 		collection.put("Envelope", new ConcurrentHashMap<String,Object>());
@@ -76,13 +71,13 @@ public class IndoorGMLMap implements Serializable {
 	public void setFutureFeature(String id, String featureName){
 		if(!hasID(id)){
 			collection.get("FutureID").put(id, featureName);
-			System.out.println("Do not forget to create the feature id : "+id+" later : " + featureName);
+			//System.out.println("Do not forget to create the feature id : "+id+" later : " + featureName);
 		}
 	}
 	
 	public void setFutureFeature(String id, Object feature){				
 		collection.get("FutureID").put(id, feature);
-		System.out.println("Do not forget to create the feature id : "+id+" later");
+		//System.out.println("Do not forget to create the feature id : "+id+" later");
 	}
 	
 	private void setID(String id, String featureName) {
@@ -101,7 +96,7 @@ public class IndoorGMLMap implements Serializable {
 	
 	public void removeFutureID(String id){
 		getFeatureContainer("FutureID").remove(id);
-		System.out.println("Remove Future ID : "+id);
+		//System.out.println("Remove Future ID : "+id);
 	}
 	
 	private void removeID(String id){
@@ -180,15 +175,16 @@ public class IndoorGMLMap implements Serializable {
 	public void setFeature(String id,String featureName, Object featureValue){
 		if(!hasID(id)){
 			if(hasFutureID(id)){
-				System.out.println("from Future feature list : "+id);
+				//System.out.println("Create feature from Future feature list : "+id);
 				collection.get("FutureID").remove(id);
 			}
 			setID(id,featureName);
 			collection.get(featureName).put(id, featureValue);
+			System.out.println("Create feature : "+id + " which type is :"+featureName);
 		}
 		else{
 			System.out.println("Already Exist Id : " + featureName);
-			System.out.println(getFeatureContainer("FutureID"));
+			
 			//container.get(featureName).put(id, featureValue);
 		}
 	}

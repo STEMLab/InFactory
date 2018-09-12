@@ -96,7 +96,7 @@ public class PrimalSpaceFeaturesController {
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(psf.getId()).toString());
-		System.out.println("PrimalSpaceFeatures is created : "+id);
+		//System.out.println("PrimalSpaceFeatures is created : "+id);
 	}
 	@PutMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
