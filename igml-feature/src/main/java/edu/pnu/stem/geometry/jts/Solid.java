@@ -5,17 +5,17 @@ package edu.pnu.stem.geometry.jts;
 
 import java.util.Arrays;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateFilter;
-import com.vividsolutions.jts.geom.CoordinateSequenceComparator;
-import com.vividsolutions.jts.geom.CoordinateSequenceFilter;
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryComponentFilter;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.GeometryFilter;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateFilter;
+import org.locationtech.jts.geom.CoordinateSequenceComparator;
+import org.locationtech.jts.geom.CoordinateSequenceFilter;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryComponentFilter;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.GeometryFilter;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)
@@ -247,6 +247,18 @@ public class Solid extends Geometry {
 	@Override
 	public Geometry reverse() {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public Geometry copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected int getSortIndex() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	/* TODO : for locationtech jts

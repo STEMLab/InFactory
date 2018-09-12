@@ -1,15 +1,10 @@
 package edu.pnu.stem.dao;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.feature.CellSpace;
@@ -18,8 +13,6 @@ import edu.pnu.stem.feature.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.State;
 import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
-import edu.pnu.stem.geometry.jts.WKTWriter3D;
-import edu.pnu.stem.util.GeometryUtil;
 
 /**
  * @author jungh

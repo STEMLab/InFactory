@@ -1,15 +1,9 @@
 package edu.pnu.stem.geojson;
 
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.WKTReader;
-
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.WKTReader;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
-
-import com.vividsolutions.jts.geom.Point;
-
-import org.wololo.jts2geojson.*;
-import org.wololo.geojson.*;
 
 
 public class jts2geojson {
