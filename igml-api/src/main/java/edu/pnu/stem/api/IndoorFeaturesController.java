@@ -82,7 +82,7 @@ public class IndoorFeaturesController {
 			throw new UndefinedDocumentException();
 		}
 		response.setHeader("Location", request.getRequestURL().append(f.getId()).toString());
-		System.out.println("IndoorFeatures is created : "+id);
+		//System.out.println("IndoorFeatures is created : "+id);
 	}
 	
 	@GetMapping(value = "/{id}", produces = "application/json")

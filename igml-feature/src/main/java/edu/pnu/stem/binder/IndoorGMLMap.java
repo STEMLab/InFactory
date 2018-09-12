@@ -14,7 +14,7 @@ import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 public class IndoorGMLMap implements Serializable {
-	private ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> collection;
+	protected ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> collection;
 	private String docId;
 	
 	public IndoorGMLMap() {
@@ -39,11 +39,6 @@ public class IndoorGMLMap implements Serializable {
 		collection.put("InterLayerConnection", new ConcurrentHashMap<String,Object>());
 		collection.put("InterEdges", new ConcurrentHashMap<String,Object>());
 		collection.put("CellSpaceGeometry", new ConcurrentHashMap<String,Object>());
-		collection.put("CellSpaceBoundaryGeometry", new ConcurrentHashMap<String,Object>());
-		collection.put("Point", new ConcurrentHashMap<String,Object>());
-		collection.put("Curve", new ConcurrentHashMap<String,Object>());
-		collection.put("Surface", new ConcurrentHashMap<String,Object>());
-		collection.put("Solid", new ConcurrentHashMap<String,Object>());
 		collection.put("State", new ConcurrentHashMap<String,Object>());
 		collection.put("Reference", new ConcurrentHashMap<String,Object>());
 		collection.put("Envelope", new ConcurrentHashMap<String,Object>());
