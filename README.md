@@ -56,7 +56,7 @@ It is explained at the wiki.
 
 ## License 
 
-This project is under the LGPL License - see the [LICENSE](https://github.com/STEMLab/InFactory/blob/master/LICENSE)
+This project is under the MIT License - see the [LICENSE](https://github.com/STEMLab/InFactory/blob/master/LICENSE)
 
 ## More Information
 
