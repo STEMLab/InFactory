@@ -63,18 +63,18 @@ public class DocumentController {
 		
 		
 		
-		try {
+		//try {
 			IndoorGMLMap map = container.getDocument(id);
-			Connection connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
+			//Connection connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
 			
-			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM DOCUMENTS WHERE id="+SqlUtil.change2SqlString(id));
+			//Statement st = connection.createStatement();
+			//ResultSet rs = st.executeQuery("SELECT * FROM DOCUMENTS WHERE id="+SqlUtil.change2SqlString(id));
 			
-			if(rs.next()) {
-				map = SearchMap.search(connection, rs.getString("id"));
-				System.out.println("This document: "+id+" is already saved in Database!");
-			}
-			else{
+			//if(rs.next()) {
+				//map = SearchMap.search(connection, rs.getString("id"));
+				//System.out.println("This document: "+id+" is already saved in Database!");
+			//}
+			//else{
 				
 				map = container.createDocument(id);
 				String contentType = request.getContentType();
@@ -99,16 +99,16 @@ public class DocumentController {
 			    response.setHeader("Location", request.getRequestURL().append(map.getDocId()).toString());
 			    System.out.println("Document is created : "+id);
 				
-			}
+			//}
 			
 
 		    
 		   // connection.close();
 			
-		} catch (SQLException e1) {
+		//} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		//	e1.printStackTrace();
+		//}
 		
 		
 	}
@@ -212,13 +212,14 @@ public class DocumentController {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(id);	
 			if(map != null) {
-				map.clearMap();
+			//	map.clearMap();
 				container.removeDocument(id);
 			}		
-			Connection connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
-			DeleteMap.dropMap(connection, id);
+			//Connection connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
+			//DeleteMap.dropMap(connection, id);
 		}
-		catch(NullPointerException | SQLException e) {
+		//catch(NullPointerException | SQLException e) {
+		catch(NullPointerException e) {
 			e.printStackTrace();
 			throw new UndefinedDocumentException();
 		}
