@@ -85,7 +85,7 @@ public class TransitionController {
 				description = json.get("properties").get("description").asText().trim();
 			}
 		}
-		else if(json.has("connects")){
+		if(json.has("connects")){
 			JsonNode connectsNode = json.get("connects");
 			if(connectsNode.isArray()) {
 				connects[0] = connectsNode.get(0).asText().trim();

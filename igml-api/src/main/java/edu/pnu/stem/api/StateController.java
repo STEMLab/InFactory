@@ -53,8 +53,6 @@ public class StateController {
 		String parentId = json.get("parentId").asText().trim();
 		String name = null;
 		String description = null;
-		
-		String geom = json.get("geometry").asText().trim();
 		Geometry geometry = null;
 		State s;
 		
