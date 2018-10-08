@@ -347,7 +347,7 @@ public class Convert2JaxbClass {
 		if(feature.getConnectedLayers() != null) {
 			for(int i = 0 ; i < feature.getConnectedLayers().length;i++){
 				SpaceLayerPropertyType temp = indoorgmlcoreOF.createSpaceLayerPropertyType();
-				temp.setHref(feature.getConnectedLayers()[i].getId());
+				temp.setHref("#" + feature.getConnectedLayers()[i].getId());
 				connectedLayer.add(temp);
 			}
 		}

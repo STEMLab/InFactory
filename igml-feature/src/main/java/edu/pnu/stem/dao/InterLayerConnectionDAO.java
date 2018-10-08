@@ -12,8 +12,7 @@ public class InterLayerConnectionDAO {
 
 	public static InterLayerConnection createInterLayerConnection(IndoorGMLMap map, String parentId, String id, String name, String description, String typeOfTopoExpression, String comment, String[] interConnects, String[] connectedLayers){
 		InterLayerConnection newFeature = new InterLayerConnection(map, id);
-		InterEdges parent = new InterEdges(map, parentId);
-		newFeature.setParent(parent);
+		
 		
 		if(map.hasFutureID(id)){
 			newFeature = (InterLayerConnection)map.getFutureFeature(id);
@@ -23,21 +22,20 @@ public class InterLayerConnectionDAO {
 			map.setFutureFeature(id, newFeature);
 		}
 		
-		if(parent == null){
-			if(map.hasFutureID(parentId)){
+		InterEdges parent = (InterEdges)map.getFeature(parentId);
+		if(parent == null) {
+			if(map.hasFutureID(parentId)) {
 				parent = (InterEdges)map.getFutureFeature(parentId);
 			}
 			else {
-				map.setFutureFeature(parentId, parent);
+				parent = new InterEdges(map,parentId);
 			}
 		}
 		
-		List<InterLayerConnection> interlayerconnectionMember = parent.getInterLayerConnectionMember();
-		if(interlayerconnectionMember == null)
-			interlayerconnectionMember = new ArrayList<InterLayerConnection>();
-		interlayerconnectionMember.add(newFeature);
+		newFeature.setParent(parent);
 		
-		parent.setInterLayerConnectionMember(interlayerconnectionMember);
+		
+		parent.addInterLayerConnectionMember(newFeature);
 		
 		if(typeOfTopoExpression!= null){
 			//newFeature.setTypeOfTopoExpression(typeOfTopoExpression);

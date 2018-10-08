@@ -143,8 +143,8 @@ public class DocumentController {
 			
 			
 			IndoorGMLMap map = container.getDocument(id);
-			
-			if(map == null) {
+			/*
+			 if(map == null) {
 				Connection connection;
 				try {
 					connection = DriverManager.getConnection("jdbc:h2:file:~/test;","sa","sa");
@@ -162,6 +162,8 @@ public class DocumentController {
 				}
 				
 			}
+			 * */
+			
 			
 			
 			if(map != null) {
