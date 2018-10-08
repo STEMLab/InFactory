@@ -34,7 +34,9 @@ public class State extends AbstractFeature {
 	
 	public Geometry getGeometry() {
 		Geometry feature = null;
-		feature = (Geometry) indoorGMLMap.getFeature4Geometry(this.geometry);
+		if(this.geometry != null) {
+			feature = (Geometry) indoorGMLMap.getFeature4Geometry(this.geometry);
+		}
 		return feature;
 	}
 	

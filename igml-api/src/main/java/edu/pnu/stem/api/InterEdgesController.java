@@ -26,7 +26,7 @@ import edu.pnu.stem.dao.InterEdgesDAO;
 import edu.pnu.stem.feature.InterEdges;
 
 @RestController
-@RequestMapping("/documents/{docId}/InterEdges")
+@RequestMapping("/documents/{docId}/interedges")
 public class InterEdgesController {
 	@Autowired
     private ApplicationContext applicationContext;
