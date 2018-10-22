@@ -42,33 +42,33 @@ public class Connector {
 		tableName.add("Geometry");
 		tableName.add("Feature");
 
-		st.execute("CREATE TABLE Documents (id CHAR(50),name CHAR(50))");
+		st.execute("CREATE TABLE IF NOT EXISTS Documents (id CHAR(50),name CHAR(50))");
 		st.execute(
-				"CREATE TABLE IndoorFeatures (id CHAR(50), name CHAR(50), description CHAR(50), primalspacefeature CHAR(50), multilayeredgraph CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS IndoorFeatures (id CHAR(50), name CHAR(50), description CHAR(50), primalspacefeature CHAR(50), multilayeredgraph CHAR(50))");
 		st.execute(
-				"CREATE TABLE PrimalSpaceFeatures (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), cellspacemember array, cellspaceboundarymember array)");
+				"CREATE TABLE IF NOT EXISTS PrimalSpaceFeatures (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), cellspacemember array, cellspaceboundarymember array)");
 		st.execute(
-				"CREATE TABLE MultiLayeredGraph (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interEdges array)");
+				"CREATE TABLE IF NOT EXISTS MultiLayeredGraph (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interEdges array)");
 		st.execute(
-				"CREATE TABLE CellSpace (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), partialBoundedBy array, geom CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS CellSpace (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), partialBoundedBy array, geom CHAR(50))");
 		st.execute(
-				"CREATE TABLE CellSpaceBoundary (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50) )");
+				"CREATE TABLE IF NOT EXISTS CellSpaceBoundary (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50) )");
 		st.execute(
-				"CREATE TABLE SpaceLayers (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), spaceLayerMember array) ");
+				"CREATE TABLE IF NOT EXISTS SpaceLayers (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), spaceLayerMember array) ");
 		st.execute(
-				"CREATE TABLE SpaceLayer (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), nodes array, edges array)");
-		st.execute("CREATE TABLE Nodes (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), stateMember array)");
-		st.execute("CREATE TABLE Edges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), transitionMember array)");
+				"CREATE TABLE IF NOT EXISTS SpaceLayer (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), nodes array, edges array)");
+		st.execute("CREATE TABLE IF NOT EXISTS Nodes (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), stateMember array)");
+		st.execute("CREATE TABLE IF NOT EXISTS Edges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), transitionMember array)");
 		st.execute(
-				"CREATE TABLE State (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS State (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50))");
 		st.execute(
-				"CREATE TABLE Transition (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS Transition (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), duality CHAR(50), geom CHAR(50))");
 		st.execute(
-				"CREATE TABLE InterEdges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interLayerConnection array)");
+				"CREATE TABLE IF NOT EXISTS InterEdges (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interLayerConnection array)");
 		st.execute(
-				"CREATE TABLE InterLayerConnection (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interConnects array, connectedLayers array)");
-		st.execute("CREATE TABLE Geometry (id CHAR(50), geom BLOB)");
-		st.execute("CREATE TABLE Feature (id CHAR(50), type CHAR(50))");
+				"CREATE TABLE IF NOT EXISTS InterLayerConnection (id CHAR(50),parentId CHAR(50), name CHAR(50), description CHAR(50), interConnects array, connectedLayers array)");
+		st.execute("CREATE TABLE IF NOT EXISTS Geometry (id CHAR(50), geom BLOB)");
+		st.execute("CREATE TABLE IF NOT EXISTS Feature (id CHAR(50), type CHAR(50))");
 	}
 
 	public static byte[] changeGeometry2Binary(Geometry geom) throws IOException {
