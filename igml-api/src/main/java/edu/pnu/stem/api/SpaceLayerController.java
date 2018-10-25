@@ -31,10 +31,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.Convert2Json;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.dao.CellSpaceBoundaryDAO;
-import edu.pnu.stem.dao.CellSpaceDAO;
 import edu.pnu.stem.dao.SpaceLayerDAO;
-import edu.pnu.stem.feature.SpaceLayer;
+import edu.pnu.stem.feature.core.SpaceLayer;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)

@@ -34,7 +34,7 @@ import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.Convert2Json;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.dao.CellSpaceDAO;
-import edu.pnu.stem.feature.CellSpace;
+import edu.pnu.stem.feature.core.CellSpace;
 
 /**
  * @author Hyung-Gyu Ryoo (hyunggyu.ryoo@gmail.com, Pusan National University)

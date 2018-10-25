@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 import java.util.concurrent.ConcurrentHashMap;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.State;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.State;
 
 public class Serialization {
 	public static void main(String args[]) {

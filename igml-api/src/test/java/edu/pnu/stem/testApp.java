@@ -5,7 +5,7 @@ import javax.xml.bind.JAXBException;
 import edu.pnu.stem.api.Container;
 import edu.pnu.stem.binder.Convert2JaxbClass;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.IndoorFeatures;
+import edu.pnu.stem.feature.core.IndoorFeatures;
 import junit.framework.TestCase;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 

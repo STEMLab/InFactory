@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.dao.InterEdgesDAO;
-import edu.pnu.stem.feature.InterEdges;
+import edu.pnu.stem.feature.core.InterEdges;
 
 @RestController
 @RequestMapping("/documents/{docId}/interedges")
