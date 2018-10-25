@@ -12,16 +12,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.Edges;
-import edu.pnu.stem.feature.IndoorFeatures;
-import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.Nodes;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
-import edu.pnu.stem.feature.SpaceLayer;
-import edu.pnu.stem.feature.SpaceLayers;
-import edu.pnu.stem.feature.State;
-import edu.pnu.stem.feature.Transition;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.Edges;
+import edu.pnu.stem.feature.core.IndoorFeatures;
+import edu.pnu.stem.feature.core.MultiLayeredGraph;
+import edu.pnu.stem.feature.core.Nodes;
+import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.core.SpaceLayer;
+import edu.pnu.stem.feature.core.SpaceLayers;
+import edu.pnu.stem.feature.core.State;
+import edu.pnu.stem.feature.core.Transition;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 public class junittest {

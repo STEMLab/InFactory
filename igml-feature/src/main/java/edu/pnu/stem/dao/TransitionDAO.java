@@ -13,10 +13,10 @@ import org.locationtech.jts.io.WKTReader;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.Edges;
-import edu.pnu.stem.feature.State;
-import edu.pnu.stem.feature.Transition;
+import edu.pnu.stem.feature.core.CellSpaceBoundary;
+import edu.pnu.stem.feature.core.Edges;
+import edu.pnu.stem.feature.core.State;
+import edu.pnu.stem.feature.core.Transition;
 
 public class TransitionDAO {
 

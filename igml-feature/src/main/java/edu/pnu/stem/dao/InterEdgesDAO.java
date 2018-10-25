@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.InterEdges;
-import edu.pnu.stem.feature.InterLayerConnection;
-import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.SpaceLayer;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.InterEdges;
+import edu.pnu.stem.feature.core.InterLayerConnection;
+import edu.pnu.stem.feature.core.MultiLayeredGraph;
+import edu.pnu.stem.feature.core.SpaceLayer;
 
 public class InterEdgesDAO {
 	public static InterEdges createInterEdges(IndoorGMLMap map, String parentId, String id, String name, String description, List<String>interLayerConnectionMember){

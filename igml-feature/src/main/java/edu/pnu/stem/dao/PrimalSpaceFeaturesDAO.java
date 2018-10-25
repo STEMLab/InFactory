@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.IndoorFeatures;
-import edu.pnu.stem.feature.InterEdges;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
-import edu.pnu.stem.feature.SpaceLayers;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.CellSpaceBoundary;
+import edu.pnu.stem.feature.core.IndoorFeatures;
+import edu.pnu.stem.feature.core.InterEdges;
+import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.core.SpaceLayers;
 
 /**
  * 

@@ -7,10 +7,10 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
-import edu.pnu.stem.feature.State;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.CellSpaceBoundary;
+import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.core.State;
 import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 
