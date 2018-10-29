@@ -80,6 +80,10 @@ public class InterLayerConnectionController {
 					connectedLayers[1] = connectsNode.get(1).asText().trim();
 				}
 			}
+			if(json.get("properties").has("typeOfTopoExpression")) {
+				JsonNode connectsNode = json.get("properties").get("typeOfTopoExpression");
+				typeOfTopoExpression = connectsNode.asText().trim();
+			}
 			
 		}
 		try {

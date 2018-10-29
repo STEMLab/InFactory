@@ -352,6 +352,11 @@ public class Convert2JaxbClass {
 			}
 		}
 		
+		if(feature.getTypeOfTopoExpression() != null) {
+			newFeature.setTypeOfTopoExpression(feature.getTypeOfTopoExpression().type.toString());
+			
+		}
+		
 		newFeature.setConnectedLayers(connectedLayer);
 		newFeature.setInterConnects(interConnects);
 				

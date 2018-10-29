@@ -8,6 +8,7 @@ import edu.pnu.stem.feature.core.InterEdges;
 import edu.pnu.stem.feature.core.InterLayerConnection;
 import edu.pnu.stem.feature.core.SpaceLayer;
 import edu.pnu.stem.feature.core.State;
+import edu.pnu.stem.feature.core.typeOfTopoExpressionCode;
 public class InterLayerConnectionDAO {
 
 	public static InterLayerConnection createInterLayerConnection(IndoorGMLMap map, String parentId, String id, String name, String description, String typeOfTopoExpression, String comment, String[] interConnects, String[] connectedLayers){
@@ -38,11 +39,13 @@ public class InterLayerConnectionDAO {
 		parent.addInterLayerConnectionMember(newFeature);
 		
 		if(typeOfTopoExpression!= null){
-			//newFeature.setTypeOfTopoExpression(typeOfTopoExpression);
+			typeOfTopoExpressionCode ttCode = null;
+			ttCode.type = typeOfTopoExpressionCode.Type.valueOf(typeOfTopoExpression);
+			newFeature.setTypeOfTopoExpression(ttCode);
+			
 		}
 		if(comment != null){
-			//TODO : comment is not defined
-			//newFeature.setComment(comment);
+			newFeature.setComment(comment);			
 		}
 		
 		if(name != null) {
@@ -109,6 +112,16 @@ public class InterLayerConnectionDAO {
 			newChild[0] = new SpaceLayer(map, connectedLayers[0]);
 			newChild[1] = new SpaceLayer(map, connectedLayers[1]);
 			result.setConnectedLayers(newChild);
+		}
+		
+		if(typeOfTopoExpression!= null){
+			typeOfTopoExpressionCode ttCode = null;
+			ttCode.type = typeOfTopoExpressionCode.Type.valueOf(typeOfTopoExpression);
+			result.setTypeOfTopoExpression(ttCode);
+			
+		}
+		if(comment != null){
+			result.setComment(comment);			
 		}
 		
 		map.removeFeature(id);

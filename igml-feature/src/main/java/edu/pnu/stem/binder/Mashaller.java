@@ -62,8 +62,7 @@ public class Mashaller {
 		marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
 				"http://www.opengis.net/indoorgml/1.0/core http://schemas.opengis.net/indoorgml/1.0/indoorgmlcore.xsd "
-						+ "http://www.opengis.net/indoorgml/1.0/navigation http://schemas.opengis.net/indoorgml/1.0/indoorgmlnavi.xsd"
-						+ "./indoorgmlcore1_0_3_extension.xsd");
+						+ "http://www.opengis.net/indoorgml/1.0/navigation http://schemas.opengis.net/indoorgml/1.0/indoorgmlnavi.xsd");
 		try {
 			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new IndoorGMLNameSpaceMapper());
 		} catch (PropertyException e) {
@@ -81,7 +80,7 @@ public class Mashaller {
 		JAXBContext context;
 		Marshaller marshaller;
 
-		context = JAXBContext.newInstance("net.opengis.indoorgml.core.v_1_0" +":net.opengis.indoorgml.ext.v_1_0" +":net.opengis.indoorgml.navigation.v_1_0"
+		context = JAXBContext.newInstance("net.opengis.indoorgml.core.v_1_0" + ":net.opengis.indoorgml.navigation.v_1_0"
 				+ ":net.opengis.gml.v_3_2_1");
 
 		File output = null;
@@ -103,8 +102,7 @@ public class Mashaller {
 		marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION,
 				"http://www.opengis.net/indoorgml/1.0/core http://schemas.opengis.net/indoorgml/1.0/indoorgmlcore.xsd "
-						+ "http://www.opengis.net/indoorgml/1.0/navigation http://schemas.opengis.net/indoorgml/1.0/indoorgmlnavi.xsd"
-						+ "indoorgmlcore1_0_3_extension ./indoorgmlcore1_0_3_extension.xsd");
+						+ "http://www.opengis.net/indoorgml/1.0/navigation http://schemas.opengis.net/indoorgml/1.0/indoorgmlnavi.xsd");
 		try {
 			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new IndoorGMLNameSpaceMapper());
 		} catch (PropertyException e) {
