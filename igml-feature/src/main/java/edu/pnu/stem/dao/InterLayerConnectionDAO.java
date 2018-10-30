@@ -39,7 +39,7 @@ public class InterLayerConnectionDAO {
 		parent.addInterLayerConnectionMember(newFeature);
 		
 		if(typeOfTopoExpression!= null){
-			typeOfTopoExpressionCode ttCode = null;
+			typeOfTopoExpressionCode ttCode = new typeOfTopoExpressionCode();
 			ttCode.type = typeOfTopoExpressionCode.Type.valueOf(typeOfTopoExpression);
 			newFeature.setTypeOfTopoExpression(ttCode);
 			
