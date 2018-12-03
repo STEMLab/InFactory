@@ -1,4 +1,4 @@
-package edu.pnu.stem.feature;
+package edu.pnu.stem.feature.core;
 /**
  * @author jungh
  *	Implements ExternalReferenceType of IndoorGML 1.0.3

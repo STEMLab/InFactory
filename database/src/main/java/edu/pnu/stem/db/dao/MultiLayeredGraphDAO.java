@@ -12,11 +12,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.database.SqlUtil;
-import edu.pnu.stem.feature.IndoorFeatures;
-import edu.pnu.stem.feature.InterEdges;
-import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
-import edu.pnu.stem.feature.SpaceLayers;
+import edu.pnu.stem.feature.core.IndoorFeatures;
+import edu.pnu.stem.feature.core.InterEdges;
+import edu.pnu.stem.feature.core.MultiLayeredGraph;
+import edu.pnu.stem.feature.core.SpaceLayers;
 
 public class MultiLayeredGraphDAO implements FeatureDAO {
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;

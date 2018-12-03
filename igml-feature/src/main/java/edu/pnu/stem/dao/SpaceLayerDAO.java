@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.Edges;
-import edu.pnu.stem.feature.Nodes;
-import edu.pnu.stem.feature.SpaceLayer;
-import edu.pnu.stem.feature.SpaceLayers;
+import edu.pnu.stem.feature.core.Edges;
+import edu.pnu.stem.feature.core.Nodes;
+import edu.pnu.stem.feature.core.SpaceLayer;
+import edu.pnu.stem.feature.core.SpaceLayers;
 
 
 public class SpaceLayerDAO {

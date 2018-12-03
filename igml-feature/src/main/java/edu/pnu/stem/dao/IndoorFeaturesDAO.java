@@ -2,11 +2,11 @@ package edu.pnu.stem.dao;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.IndoorFeatures;
-import edu.pnu.stem.feature.MultiLayeredGraph;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.CellSpaceBoundary;
+import edu.pnu.stem.feature.core.IndoorFeatures;
+import edu.pnu.stem.feature.core.MultiLayeredGraph;
+import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
 
 public class IndoorFeaturesDAO {
 

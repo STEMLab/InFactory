@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.Nodes;
-import edu.pnu.stem.feature.SpaceLayer;
-import edu.pnu.stem.feature.State;
+import edu.pnu.stem.feature.core.Nodes;
+import edu.pnu.stem.feature.core.SpaceLayer;
+import edu.pnu.stem.feature.core.State;
 
 
 public class NodesDAO {

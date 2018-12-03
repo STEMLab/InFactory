@@ -9,7 +9,7 @@ import javax.xml.bind.JAXBException;
 
 import org.locationtech.jts.geom.Geometry;
 
-import edu.pnu.stem.feature.IndoorFeatures;
+import edu.pnu.stem.feature.core.IndoorFeatures;
 import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 

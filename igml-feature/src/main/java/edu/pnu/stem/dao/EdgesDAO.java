@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.Edges;
-import edu.pnu.stem.feature.SpaceLayer;
-import edu.pnu.stem.feature.State;
-import edu.pnu.stem.feature.Transition;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.Edges;
+import edu.pnu.stem.feature.core.SpaceLayer;
+import edu.pnu.stem.feature.core.State;
+import edu.pnu.stem.feature.core.Transition;
 
 
 public class EdgesDAO {

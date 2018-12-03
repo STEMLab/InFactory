@@ -22,8 +22,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
 import edu.pnu.stem.dao.InterLayerConnectionDAO;
-import edu.pnu.stem.dao.TransitionDAO;
-import edu.pnu.stem.feature.InterLayerConnection;
+import edu.pnu.stem.feature.core.InterLayerConnection;
 
 
 @RestController
@@ -80,6 +79,10 @@ public class InterLayerConnectionController {
 					connectedLayers[0] = connectsNode.get(0).asText().trim();
 					connectedLayers[1] = connectsNode.get(1).asText().trim();
 				}
+			}
+			if(json.get("properties").has("typeOfTopoExpression")) {
+				JsonNode connectsNode = json.get("properties").get("typeOfTopoExpression");
+				typeOfTopoExpression = connectsNode.asText().trim();
 			}
 			
 		}

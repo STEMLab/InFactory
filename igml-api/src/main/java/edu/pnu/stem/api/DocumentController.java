@@ -7,11 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.pnu.stem.api.exception.DocumentNotFoundException;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.database.DeleteMap;
-import edu.pnu.stem.database.InsertMap;
-import edu.pnu.stem.database.SearchMap;
-import edu.pnu.stem.database.SqlUtil;
-import edu.pnu.stem.feature.IndoorFeatures;
+import edu.pnu.stem.feature.core.IndoorFeatures;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
 /**

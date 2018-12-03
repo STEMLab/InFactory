@@ -8,9 +8,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.CellSpaceBoundary;
-import edu.pnu.stem.feature.PrimalSpaceFeatures;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.CellSpaceBoundary;
+import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
 
 public class PrimalSpaceFeaturesDAO implements FeatureDAO{
 	

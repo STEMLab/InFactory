@@ -1,4 +1,4 @@
-package edu.pnu.stem.feature;
+package edu.pnu.stem.feature.core;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
 

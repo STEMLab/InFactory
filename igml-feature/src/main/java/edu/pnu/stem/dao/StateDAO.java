@@ -11,10 +11,10 @@ import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.CellSpace;
-import edu.pnu.stem.feature.Nodes;
-import edu.pnu.stem.feature.State;
-import edu.pnu.stem.feature.Transition;
+import edu.pnu.stem.feature.core.CellSpace;
+import edu.pnu.stem.feature.core.Nodes;
+import edu.pnu.stem.feature.core.State;
+import edu.pnu.stem.feature.core.Transition;
 
 public class StateDAO {
 	
