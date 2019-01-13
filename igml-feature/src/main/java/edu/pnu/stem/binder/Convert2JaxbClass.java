@@ -187,6 +187,20 @@ public class Convert2JaxbClass {
 			newFeature.setId(feature.getId());
 		}
 		
+		if(feature.getName() != null) {
+			List<CodeType>name = new ArrayList<CodeType>();
+			CodeType e = new CodeType();
+			e.setValue(feature.getName());
+			name.add(e);
+			newFeature.setName(name);
+		}
+		
+		if(feature.getDescription() != null) {
+			StringOrRefType e = new StringOrRefType();
+			e.setValue(feature.getDescription());
+			newFeature.setDescription(e);
+		}
+		
 		Geometry geom = (Geometry) feature.getGeometry();
 		if(geom != null){
 			
@@ -504,6 +518,20 @@ public class Convert2JaxbClass {
 		}
 		//feature.geometry
 		
+		if(feature.getName() != null) {
+			List<CodeType>name = new ArrayList<CodeType>();
+			CodeType e = new CodeType();
+			e.setValue(feature.getName());
+			name.add(e);
+			newFeature.setName(name);
+		}
+		
+		if(feature.getDescription() != null) {
+			StringOrRefType e = new StringOrRefType();
+			e.setValue(feature.getDescription());
+			newFeature.setDescription(e);
+		}
+		
 		newFeature.setId(feature.getId());
 		return newFeature;
 	}
@@ -541,6 +569,20 @@ public class Convert2JaxbClass {
 			href = "#" + href;
 			duality.setHref(href);			
 			newFeature.setDuality(duality);
+		}
+		
+		if(feature.getName() != null) {
+			List<CodeType>name = new ArrayList<CodeType>();
+			CodeType e = new CodeType();
+			e.setValue(feature.getName());
+			name.add(e);
+			newFeature.setName(name);
+		}
+		
+		if(feature.getDescription() != null) {
+			StringOrRefType e = new StringOrRefType();
+			e.setValue(feature.getDescription());
+			newFeature.setDescription(e);
 		}
 		
 		newFeature.setWeight(feature.getWeight());
