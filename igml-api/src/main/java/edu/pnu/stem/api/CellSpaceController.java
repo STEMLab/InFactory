@@ -78,6 +78,7 @@ public class CellSpaceController {
 		if(json.has("duality")){
 			duality = json.get("duality").asText().trim();
 		}
+		// TODO : Change properties to attributes
 		if(json.has("properties")){
 			if(json.get("properties").has("duality")){
 				duality = json.get("properties").get("duality").asText().trim();
@@ -120,6 +121,7 @@ public class CellSpaceController {
 				c = CellSpaceDAO.createCellSpace(map, parentId, id, geom, duality);
 			}
 			 * */
+			
 			c = CellSpaceDAO.createCellSpace(map, parentId, id, name, description, cellGeometry, duality, partialBoundedBy);
 			
 		} catch (NullPointerException e) {

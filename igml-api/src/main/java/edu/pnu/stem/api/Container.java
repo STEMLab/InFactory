@@ -12,10 +12,12 @@ public class Container {
 	/**
 	 * @return the container
 	 */
+	
+	
 	public static Container getInstance() {
 		return docs;
 	}
-
+	
 	public ConcurrentHashMap<String, IndoorGMLMap> getContainer() {
 		return docContainer;
 	}
@@ -24,7 +26,7 @@ public class Container {
 	 * @param container
 	 *            the container to set
 	 */
-
+	
 	public static IndoorGMLMap getDocument(String docID) {
 		if (hasDoc(docID)) {
 			return docContainer.get(docID);
@@ -58,7 +60,8 @@ public class Container {
 		else
 			return false;
 	}
-
+	
+	// TODO : Refactor this 
 	public static boolean hasFeature(String docId, String Id) {
 		if (hasDoc(docId)) {
 			IndoorGMLMap doc = docContainer.get(docId);
@@ -70,6 +73,7 @@ public class Container {
 		return false;
 	}
 
+	// TODO : Refactor this
 	public static Object getFeature(String docId, String id) {		
 		Object newFeature = null;
 		if (hasDoc(docId)) {
@@ -85,7 +89,8 @@ public class Container {
 		}
 		return newFeature;
 	}
-
+	
+	// TODO : Refactor this
 	public static void setFeature(String docId, String id, String featureName, Object featureValue) {
 		IndoorGMLMap doc = docContainer.get(docId);
 		if (!doc.hasID(id)) {

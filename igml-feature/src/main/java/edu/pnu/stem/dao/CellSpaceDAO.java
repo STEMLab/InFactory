@@ -119,7 +119,7 @@ public class CellSpaceDAO {
 		}
 		map.setFeature(id, "CellSpace", newFeature);
 		
-		
+		//setting parent(in attribute relationship)
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		
 		if(parent == null){

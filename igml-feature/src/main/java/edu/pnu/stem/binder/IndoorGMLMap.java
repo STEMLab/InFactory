@@ -44,6 +44,8 @@ public class IndoorGMLMap implements Serializable {
 		collection.put("Envelope", new ConcurrentHashMap<String,Object>());
 		collection.put("Geometry", new ConcurrentHashMap<String,Object>());
 		
+		// TODO : Navigation module
+		collection.put("GeneralSpace", new ConcurrentHashMap<String,Object>());
 	}
 	
 	public void clearMap() {
@@ -148,6 +150,8 @@ public class IndoorGMLMap implements Serializable {
 		return newFeature;
 	}
 	
+	
+	// TODO : Merge those two functions with feature setter and getter
 	public Geometry getFeature4Geometry(String id){
 		ConcurrentHashMap<String,Object> geomContainer = collection.get("Geometry");
 		Geometry geom = null;
