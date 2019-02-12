@@ -115,7 +115,7 @@ public class Mashaller {
 	}
 
 	public static class IndoorGMLNameSpaceMapper extends NamespacePrefixMapper {
-		private static final String DEFAULT_PREFIX = "";
+		private static final String DEFAULT_PREFIX = "core";
 		private static final String DEFAULT_URI = "http://www.opengis.net/indoorgml/1.0/core";
 
 		private static final String NAVIGATION_PREFIX = "navi";
