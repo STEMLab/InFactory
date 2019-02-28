@@ -23,12 +23,8 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 `mvn clean install`
 
 2) Spring server executing
-
-`mvn jetty:run` 
-
 It is recommended to use the other port number with parameter 
-
-`"-Djetty.port=9797"`.
+`mvn jetty:run -Djetty.port=9797` 
    
  
 ## Running
