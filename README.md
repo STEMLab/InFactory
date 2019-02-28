@@ -7,7 +7,7 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 
 ### Prerequisites
 
-1) OS : regardless of OS.  
+1) OS : regardless of OS  
 2) Maven : over 3.5 version. You need to install Maven and set MAVEN_HOME & PATH.
    * How to set MAVEN_HOME : [link for Window](https://www.mkyong.com/maven/how-to-install-maven-in-windows/) , [link for Linux](https://maven.apache.org/install.html)
 3) Java : JDK over 1.8 version. You need to install JDK and set JAVA_HOME & PATH.
