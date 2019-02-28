@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:IndoorCore="http://www.opengis.net/indoorgml/1.0/core" elementFormDefault="qualified" version="0.0.1">
+	<xs:annotation>
+		<xs:documentation>
+			IndoorGML is an OGC Standard.
+			Copyright (c) 2014,2015,2016 Open Geospatial Consortium.
+			To obtain
+			addidfftional rights of use, visit
+			http://www.opengeospatial.org/legal/.
+		</xs:documentation>
+	</xs:annotation>
+	<!-- ====================================================================== -->
+	<xs:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd" />
+	<xs:import namespace="http://www.opengis.net/indoorgml/1.0/core" schemaLocation="http://schemas.opengis.net/indoorgml/1.0/indoorgmlcore.xsd" />
+	<!-- ====================================================================== -->
+	<xs:element name="TwoDimensionalCellSpace" type="TwoDimensionalCellSpaceType" substitutionGroup="IndoorCore:CellSpace">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ====================================================================== -->
+	<xs:complexType name="TwoDimensionalCellSpaceType">
+		<xs:complexContent>
+			<xs:extension base="IndoorCore:CellSpaceType">
+				<xs:sequence>
+					<xs:element name="basedOn" type="IndoorCore:CellSpaceBoundaryPropertyType" minOccurs="1" maxOccurs="1" />
+					<xs:element name="twoDimensionalCellSpaceGeometry" type="gml:SurfacePropertyType" minOccurs="0" maxOccurs="1" />
+					<xs:element name="sensorMember" type="SensorMemberType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="mediaMember" type="MediaMemberType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name="wallFeatureMember" type="WallFeatureMemberType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="TwoDimensionalCellSpacePropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="TwoDimensionalCellSpace" />
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:element name="Sensor" type="SensorType" substitutionGroup="gml:AbstractFeature">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ====================================================================== -->
+	<xs:complexType name="SensorType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="at" type="gml:PointPropertyType" minOccurs="0" maxOccurs="1" />
+					<xs:element name="placedOn" type="TwoDimensionalCellSpacePropertyType" minOccurs="0" maxOccurs="1" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="SensorPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="Sensor" />
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:element name="WallFeature" type="WallFeatureType" substitutionGroup="gml:AbstractFeature">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ====================================================================== -->
+	<xs:complexType name="WallFeatureType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="at" type="gml:SurfacePropertyType" minOccurs="0" maxOccurs="1" />
+					<xs:element name="placedOn" type="TwoDimensionalCellSpaceType" minOccurs="0" maxOccurs="1" />
+					<xs:element name="sourceURI" type="xs:anyURI" />
+					<xs:element name="materialProjection" type="MaterialAssociationType" minOccurs="0" maxOccurs="unbounded" />					
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="WallFeaturePropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="WallFeature" />
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:element name="Media" type="MediaType" substitutionGroup="gml:AbstractFeature">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ====================================================================== -->
+	<xs:complexType name="MediaType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="at" type="gml:SurfacePropertyType" minOccurs="0" maxOccurs="1" />
+					<xs:element name="placedOn" type="TwoDimensionalCellSpacePropertyType" minOccurs="0" maxOccurs="1" />
+					<xs:element name="sourceURI" type="xs:anyURI" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="MediaPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="Media" />
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="SensorMemberType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureMemberType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="Sensor" />
+				</xs:sequence>
+				<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="WallFeatureMemberType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureMemberType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="WallFeature" />
+				</xs:sequence>
+				<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="MediaMemberType">
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureMemberType">
+				<xs:sequence minOccurs="0">
+					<xs:element ref="Media" />
+				</xs:sequence>
+				<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ============================================================= -->
+	<xs:complexType name="MaterialType">
+		<xs:annotation>
+			<xs:documentation>Specialization for standard 2D textures. "target" provides the linking to surface geometry. Only gml:MultiSurface and decendants of gml:AbstractSurfaceType are valid targets. As property of the link, a texture parameterization either as set of texture coordinates or transformation matrix is given.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractGMLType">
+				<xs:sequence>
+					<xs:element name="materialURI" type="xs:anyURI" />
+					<xs:element name="target" type="MaterialAssociationType" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:complexType name="MaterialPropertyType">
+		<xs:sequence minOccurs="0">
+			<xs:element ref="Material" />
+		</xs:sequence>
+		<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+	</xs:complexType>
+	<!-- ====================================================================== -->
+	<xs:element name="Material" type="MaterialType" substitutionGroup="gml:AbstractGML">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<!-- ====================================================================== -->	
+	<xs:complexType name="MaterialAssociationType">
+		<xs:annotation>
+			<xs:documentation>Denotes the relation of a material to a surface. The MaterialAssociationType element must either carry a reference to a AbstractMaterialProjectionParameterization object or contain a AbstractMaterialProjectionParameterization object inline, but neither both nor none.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractFeatureType">
+				<xs:sequence>
+					<xs:element name="material" type="MaterialPropertyType" />
+					<xs:element name="target" type="gml:SurfacePropertyType" minOccurs="0" maxOccurs="unbounded" />
+					<xs:element name = "materialProjectionMethod" type ="AbstractMaterialProjectionParameterizationType" minOccurs="0" maxOccurs="1" />
+				</xs:sequence>
+				<xs:attributeGroup ref="gml:AssociationAttributeGroup" />
+			</xs:extension>
+		</xs:complexContent>
+		
+	</xs:complexType>
+	<!-- ============================================================= -->
+	<xs:element name="AbstractMaterialProjectionParameterization" type="AbstractMaterialProjectionParameterizationType" abstract="true" substitutionGroup="gml:AbstractGML" />
+	<!-- ============================================================= -->
+	<xs:complexType name="AbstractMaterialProjectionParameterizationType" abstract="true">
+		<xs:annotation>
+			<xs:documentation></xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="gml:AbstractGMLType"></xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ProjectionCoordGenType">
+		<xs:annotation>
+			<xs:documentation>Material parameterization using a transformation matrix. The transformation matrix "worldToMaterial" can be used to derive texture coordinates from an object's location. This 3x4 matrix T computes the coordinates (s,t) from a homogeneous world position p as (s,t) = (s'/q', t'/q') with (s', t', q') = T*p. Thus, perspective projections can be specified. The SRS can be specified using standard attributes. If an object is given in a different reference system, it is transformed to the SRS before applying the transformation. A transformation matrix can be used for whole surfaces. It is not required to specify it per LinearRing.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractMaterialProjectionParameterizationType">
+				<xs:sequence>
+					<xs:element name="worldToMaterial">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="TransformationMatrix3x4Type">
+									<xs:attributeGroup ref="gml:SRSReferenceGroup" />
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+					
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ProjectionCoordListType">
+		<xs:annotation>
+			<xs:documentation>Material projection parameterization using texture coordinates: Each gml:LinearRing that is part of the surface requires a separate "ProjectionCoordinates"-entry with 2 doubles per ring vertex. The "ring"- attribute provides the gml:id of the target LinearRing. It is prohibited to link texture coordinates to any other object type than LinearRing. Thus, surfaces not consisting of LinearRings cannot be textured this way. Use transformation matrices (see below) or georeferenced textures instead.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="AbstractMaterialProjectionParameterizationType">
+				<xs:sequence>
+					<xs:element name="projectionCoordinates" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:simpleContent>
+								<xs:extension base="gml:doubleList">
+									<xs:attribute name="ring" type="xs:anyURI" use="required" />
+								</xs:extension>
+							</xs:simpleContent>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="TransformationMatrix3x4Type">
+		<xs:annotation>
+			<xs:documentation>Used for texture parameterization. The Transformation matrix is a 3 by 4 matrix, thus it must be a list
+				with 12 items. The order the matrix element are represented is row-major, i. e. the first 4 elements represent the first
+				row, the fifth to the eight element the second row,... </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="gml:doubleList">
+			<xs:length value="12" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

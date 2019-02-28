@@ -104,6 +104,7 @@ public class CellSpaceDAO {
 		return result;
 	}
 	public static CellSpace createCellSpace(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String> partialBoundedBy) {
+		
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}

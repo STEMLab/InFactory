@@ -80,6 +80,8 @@ public class CellSpaceGeometry extends AbstractFeature {
 	public void setGeometry3D(String geometry3d) {
 		geometry3D = geometry3d;
 	}
+
+
 	
 	
 	

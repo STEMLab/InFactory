@@ -42,7 +42,15 @@ public class IndoorGMLMap implements Serializable {
 		collection.put("State", new ConcurrentHashMap<String,Object>());
 		collection.put("Reference", new ConcurrentHashMap<String,Object>());
 		collection.put("Envelope", new ConcurrentHashMap<String,Object>());
-		collection.put("Geometry", new ConcurrentHashMap<String,Object>());
+		collection.put("Geometry", new ConcurrentHashMap<String,Object>());		
+		
+		collection.put("GeneralSpace", new ConcurrentHashMap<String,Object>());
+		collection.put("TransitionSpace", new ConcurrentHashMap<String,Object>());
+		collection.put("ConnectionSpace", new ConcurrentHashMap<String,Object>());
+		collection.put("AnchorSpace", new ConcurrentHashMap<String,Object>());
+		
+		collection.put("ConnectionBoundary", new ConcurrentHashMap<String,Object>());
+		collection.put("AnchorBoundary", new ConcurrentHashMap<String,Object>());
 		
 	}
 	
@@ -189,6 +197,7 @@ public class IndoorGMLMap implements Serializable {
 		}
 	}
 	
+	
 	public void setReference(String id){
 		if(hasID(id)){
 			ConcurrentHashMap<String, Object> referenceContainer = getFeatureContainer("Reference");
@@ -213,10 +222,12 @@ public class IndoorGMLMap implements Serializable {
 	
 	public void Marshall(String path) {
 		
+		
 		Enumeration<Object> fe = collection.get("IndoorFeatures").elements();
 		IndoorFeatures features = null;
 		if(fe.hasMoreElements()) {
 			features = (IndoorFeatures) fe.nextElement();
+			System.out.println("IndoorGML:Marshall:IndoorFeatures"+features.getName()+":"+features.getId());
 			
 			IndoorFeaturesType resultDoc;
 			try {

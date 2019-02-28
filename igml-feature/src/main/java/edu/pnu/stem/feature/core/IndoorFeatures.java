@@ -92,5 +92,6 @@ public class IndoorFeatures extends AbstractFeature {
 			this.primalSpaceFeatures = null;
 		
 	}
+
 	
 }

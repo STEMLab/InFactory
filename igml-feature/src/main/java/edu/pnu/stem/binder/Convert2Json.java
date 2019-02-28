@@ -28,6 +28,9 @@ import edu.pnu.stem.feature.core.SpaceLayer;
 import edu.pnu.stem.feature.core.SpaceLayers;
 import edu.pnu.stem.feature.core.State;
 import edu.pnu.stem.feature.core.Transition;
+import edu.pnu.stem.feature.navigation.AnchorSpace;
+import edu.pnu.stem.feature.navigation.GeneralSpace;
+import edu.pnu.stem.feature.navigation.TransitionSpace;
 import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 import edu.pnu.stem.geometry.jts.WKTWriter3D;
@@ -575,6 +578,7 @@ public class Convert2Json {
 		return result;
 	}
 	public static ObjectNode convert2JSON(IndoorGMLMap map, CellSpace target) {
+	
 		ObjectNode result = JsonNodeFactory.instance.objectNode();
 		WKTWriter3D writer = new WKTWriter3D();
 		ObjectNode properties = null;
@@ -829,4 +833,226 @@ public class Convert2Json {
 		
 		return result;
 	}
+	public static ObjectNode convert2JSON(IndoorGMLMap map, GeneralSpace target) {
+		ObjectNode result = JsonNodeFactory.instance.objectNode();
+		WKTWriter3D writer = new WKTWriter3D();
+		ObjectNode properties = null;
+		result.put("type","GeneralSpace");
+		Geometry targetGeometry = target.getGeometry();
+		
+		if(targetGeometry != null) {
+			ObjectNode geometryData = convert2GeometryJSON(targetGeometry);
+			result.set("geometry", geometryData);
+			//geometryData.put(fieldName, targetGeometry);
+		}
+		
+		result.put("parentId",target.getParent().getId());
+		result.put("id",target.getId());
+		result.put("docId", map.getDocId());
+		
+		if(target.getDuality() != null) {
+			if(properties == null)
+				properties = JsonNodeFactory.instance.objectNode();
+			properties.put("duality", target.getDuality().getId());
+			
+		}
+		
+		if(target.getName() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("name", target.getName());
+		}
+		
+		if(target.getDescription() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("description", target.getDescription());
+		}
+		if(target.getClassType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("class", target.getClassType());
+		}
+		if(target.getFunctionType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("function", target.getFunctionType());
+		}
+		if(target.getUsageType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("usage", target.getUsageType());
+		}
+		
+		if(target.getPartialboundedBy() != null || target.getPartialboundedBy().size()!= 0) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			List<String>csbl = new ArrayList<String>();
+			ArrayNode array = JsonNodeFactory.instance.arrayNode();
+			for(CellSpaceBoundary b : target.getPartialboundedBy())
+				array.add(b.getId());
+			properties.set("partialboundedBy", array);
+		
+		}
+		
+		if(properties != null) {
+			result.set("properties", properties);
+		}
+		
+		return result;
+	} 
+	public static ObjectNode convert2JSON(IndoorGMLMap map, TransitionSpace target) {
+		ObjectNode result = JsonNodeFactory.instance.objectNode();
+		WKTWriter3D writer = new WKTWriter3D();
+		ObjectNode properties = null;
+		result.put("type","TransitionSpace");
+		Geometry targetGeometry = target.getGeometry();
+		
+		if(targetGeometry != null) {
+			ObjectNode geometryData = convert2GeometryJSON(targetGeometry);
+			result.set("geometry", geometryData);
+			//geometryData.put(fieldName, targetGeometry);
+		}
+		
+		result.put("parentId",target.getParent().getId());
+		result.put("id",target.getId());
+		result.put("docId", map.getDocId());
+		
+		if(target.getDuality() != null) {
+			if(properties == null)
+				properties = JsonNodeFactory.instance.objectNode();
+			properties.put("duality", target.getDuality().getId());
+			
+		}
+		
+		if(target.getName() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("name", target.getName());
+		}
+		
+		if(target.getDescription() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("description", target.getDescription());
+		}
+		if(target.getClassType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("class", target.getClassType());
+		}
+		if(target.getFunctionType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("function", target.getFunctionType());
+		}
+		if(target.getUsageType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("usage", target.getUsageType());
+		}
+		
+		if(target.getPartialboundedBy() != null || target.getPartialboundedBy().size()!= 0) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			List<String>csbl = new ArrayList<String>();
+			ArrayNode array = JsonNodeFactory.instance.arrayNode();
+			for(CellSpaceBoundary b : target.getPartialboundedBy())
+				array.add(b.getId());
+			properties.set("partialboundedBy", array);
+		
+		}
+		
+		if(properties != null) {
+			result.set("properties", properties);
+		}
+		
+		return result;
+	}
+	public static ObjectNode convert2JSON(IndoorGMLMap map, AnchorSpace target) {
+		ObjectNode result = JsonNodeFactory.instance.objectNode();
+		WKTWriter3D writer = new WKTWriter3D();
+		ObjectNode properties = null;
+		result.put("type","AnchorSpace");
+		Geometry targetGeometry = target.getGeometry();
+		
+		if(targetGeometry != null) {
+			ObjectNode geometryData = convert2GeometryJSON(targetGeometry);
+			result.set("geometry", geometryData);
+			//geometryData.put(fieldName, targetGeometry);
+		}
+		
+		result.put("parentId",target.getParent().getId());
+		result.put("id",target.getId());
+		result.put("docId", map.getDocId());
+		
+		if(target.getDuality() != null) {
+			if(properties == null)
+				properties = JsonNodeFactory.instance.objectNode();
+			properties.put("duality", target.getDuality().getId());
+			
+		}
+		
+		if(target.getName() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("name", target.getName());
+		}
+		
+		if(target.getDescription() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("description", target.getDescription());
+		}
+		if(target.getClassType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("class", target.getClassType());
+		}
+		if(target.getFunctionType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("function", target.getFunctionType());
+		}
+		if(target.getUsageType() != null) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			properties.put("usage", target.getUsageType());
+		}
+		
+		if(target.getPartialboundedBy() != null || target.getPartialboundedBy().size()!= 0) {
+			if(properties == null) {
+				properties = JsonNodeFactory.instance.objectNode();
+			}
+			List<String>csbl = new ArrayList<String>();
+			ArrayNode array = JsonNodeFactory.instance.arrayNode();
+			for(CellSpaceBoundary b : target.getPartialboundedBy())
+				array.add(b.getId());
+			properties.set("partialboundedBy", array);
+		
+		}
+		
+		if(properties != null) {
+			result.set("properties", properties);
+		}
+		
+		return result;
+	} 
 }

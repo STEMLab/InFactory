@@ -26,6 +26,8 @@ import edu.pnu.stem.feature.core.SpaceLayers;
 import edu.pnu.stem.feature.core.State;
 import edu.pnu.stem.feature.core.Transition;
 import edu.pnu.stem.feature.core.typeOfTopoExpressionCode;
+import edu.pnu.stem.feature.navigation.AnchorBoundary;
+import edu.pnu.stem.feature.navigation.GeneralSpace;
 import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
@@ -72,6 +74,8 @@ import net.opengis.indoorgml.core.v_1_0.TransitionMemberType;
 import net.opengis.indoorgml.core.v_1_0.TransitionPropertyType;
 import net.opengis.indoorgml.core.v_1_0.TransitionType;
 import net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType;
+import net.opengis.indoorgml.navigation.v_1_0.AnchorBoundaryType;
+import net.opengis.indoorgml.navigation.v_1_0.GeneralSpaceType;
 
 /**
  * 
@@ -758,11 +762,65 @@ public class Convert2FeatureClass {
 		savedMap.setFeature(feature.getId(), "Transition", newFeature);
 		return newFeature;
 	}
+	
+	
+	public static AnchorBoundary change2FeatureClass(IndoorGMLMap savedMap, AnchorBoundaryType feature, String parentId) {
+		// Creating this feature
+		AnchorBoundary newFeature = (AnchorBoundary) savedMap.getFeature(feature.getId());
+		if(newFeature == null) {
+			
+			if(savedMap.hasFutureID(feature.getId())){
+				newFeature = (AnchorBoundary)savedMap.getFutureFeature(feature.getId());
+			}
+			else {
+				newFeature = new AnchorBoundary(savedMap, feature.getId());
+			}			
+			savedMap.setFeature(feature.getId(), "AnchorBoundary", newFeature);
+		}
+		
+		// Setting parent 
+		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) savedMap.getFeature(parentId);
+		newFeature.setParent(parent);
+		
+		// Creating containing features
+
+		// 1. duality
+		TransitionPropertyType transitionProp = feature.getDuality();
+		if (transitionProp != null) {
+			// Check transition is defined as instance or is referenced
+			
+			if(transitionProp.getHref() != null) {
+				String dualityId = transitionProp.getHref().substring(1);
+				
+				Transition duality = (Transition) savedMap.getFeature(dualityId);
+				if(duality != null) {
+					newFeature.setDuality(duality);
+				} else {
+					//TODO
+					savedMap.setFutureFeature(dualityId, new Transition(savedMap,dualityId));
+				}
+			} else {
+				//TODO
+			}
+		}
+		
+		// 2. geometry
+		CellSpaceBoundaryGeometryType cellSpaceBoundaryGeom = feature.getCellSpaceBoundaryGeometry();
+		if (cellSpaceBoundaryGeom != null) {
+			change2FeatureClass(savedMap, feature.getId(), cellSpaceBoundaryGeom);
+		} else {
+			//TODO : Exception
+			System.out.println("Converter : There is no Geometry Information");
+		}
+		
+		return newFeature;
+	}
 
 	public static typeOfTopoExpressionCode change2FeatureClass(TypeOfTopoExpressionCodeEnumerationType feature) {
 		typeOfTopoExpressionCode newFeature = new typeOfTopoExpressionCode();
 
 		return null;
 	}
+	
 
 }

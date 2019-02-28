@@ -64,6 +64,7 @@ public abstract class AbstractFeature implements Serializable{
 		}
 		return feature;
 	}
+
 	
 	/*
 	public void setBoundedBy(Envelope env) {

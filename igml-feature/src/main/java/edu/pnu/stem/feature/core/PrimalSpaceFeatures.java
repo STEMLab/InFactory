@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.navigation.GeneralSpace;
 
 /**
  * @author jungh Implements PrimalSpaceFeaturesType of IndoorGML 1.0.3
@@ -158,4 +159,7 @@ public class PrimalSpaceFeatures extends AbstractFeature {
 	public void resetParent() {
 		this.parentId = null;
 	}
+
+	
+	
 }
