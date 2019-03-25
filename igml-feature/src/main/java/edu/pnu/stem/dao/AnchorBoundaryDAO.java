@@ -95,7 +95,8 @@ public class AnchorBoundaryDAO {
 		;
 
 		if (map.hasFutureID(id)) {
-			newFeature = (AnchorBoundary) map.getFutureFeature(id);
+			//newFeature = (AnchorBoundary) map.getFutureFeature(id);
+			newFeature.copyCellBoundary((CellSpaceBoundary)map.getFutureFeature(id)) ;
 			// map.removeFutureID(id);
 		} else {
 			map.setFutureFeature(id, newFeature);

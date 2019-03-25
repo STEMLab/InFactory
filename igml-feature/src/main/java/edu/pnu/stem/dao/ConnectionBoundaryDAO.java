@@ -15,6 +15,8 @@ import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.core.Transition;
 
 import edu.pnu.stem.feature.navigation.ConnectionBoundary;
+import edu.pnu.stem.feature.navigation.NavigableBoundary;
+
 import edu.pnu.stem.geometry.jts.WKTReader3D;
 
 public class ConnectionBoundaryDAO {
@@ -96,17 +98,17 @@ public class ConnectionBoundaryDAO {
 		
 
 		if (map.hasFutureID(id)) {
-			newFeature = (ConnectionBoundary) map.getFutureFeature(id);
+			newFeature.copyCellBoundary((CellSpaceBoundary)map.getFutureFeature(id)) ;
 			// map.removeFutureID(id);
 		} else {
 			map.setFutureFeature(id, newFeature);
 		}
 
 		map.setFeature(id, "ConnectionBoundary", newFeature);
-		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
+		PrimalSpaceFeatures parent = (PrimalSpaceFeatures)map.getFeature(parentId);
 		if (parent == null) {
 			if (map.hasFutureID(parentId)) {
-				parent = (PrimalSpaceFeatures) map.getFutureFeature(parentId);
+				parent = (PrimalSpaceFeatures)map.getFutureFeature(parentId);
 				map.removeFutureID(parentId);
 			} else {
 				parent = new PrimalSpaceFeatures(map, parentId);

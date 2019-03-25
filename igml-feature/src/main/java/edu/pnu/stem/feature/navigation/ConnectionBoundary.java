@@ -1,6 +1,7 @@
 package edu.pnu.stem.feature.navigation;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.core.CellSpaceBoundary;
 
 public class ConnectionBoundary extends TransferBoundary{
 	private String parentId;
@@ -26,5 +27,9 @@ public class ConnectionBoundary extends TransferBoundary{
 			feature = (TransferBoundary) indoorGMLMap.getFutureFeature(this.parentId);
 		}
 		return feature;
+	}
+	
+	public void copyCellBoundary(CellSpaceBoundary cb) {
+		this.setCellSpace(cb.getCellSpace());
 	}
 }
