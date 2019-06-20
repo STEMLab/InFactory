@@ -2,6 +2,7 @@ package edu.pnu.stem.binder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBElement;
 
@@ -39,6 +40,12 @@ public class Convert2JTSGeometry {
 		ShellType exterior = feature.getExterior().getShell();
 		MultiPolygon shell = convert2MultiPolygon(exterior);
 		newFeature = new Solid(shell, null, geometryFactory);
+		if(feature.getId() == null) {
+			edu.pnu.stem.util.GeometryUtil.setMetadata(newFeature,"id", UUID.randomUUID().toString());
+		}
+		else {
+			edu.pnu.stem.util.GeometryUtil.setMetadata(newFeature,"id", feature.getId());
+		}
 		return newFeature;
 	}
 	
@@ -87,6 +94,12 @@ public class Convert2JTSGeometry {
 		}
 		else if(ring instanceof RingType){
 			//TODO : support RingType later
+		}
+		if(feature.getId() == null) {
+			edu.pnu.stem.util.GeometryUtil.setMetadata(newFeature,"id", UUID.randomUUID().toString());
+		}
+		else {
+			edu.pnu.stem.util.GeometryUtil.setMetadata(newFeature,"id", feature.getId());
 		}
 		return newFeature;
 	}

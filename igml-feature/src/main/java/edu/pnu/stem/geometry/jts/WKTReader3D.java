@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -24,6 +25,8 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.util.Assert;
 import org.locationtech.jts.util.AssertionFailedException;
+
+import edu.pnu.stem.util.GeometryUtil;
 
 
 /**
@@ -521,7 +524,9 @@ public class WKTReader3D {
 	      nextToken = getNextCloserOrComma();
 	    }
 	    LinearRing[] array = new LinearRing[holes.size()];
-	    return geometryFactory.createPolygon(shell, (LinearRing[]) holes.toArray(array));
+	    Polygon result = geometryFactory.createPolygon(shell, (LinearRing[]) holes.toArray(array));
+	    GeometryUtil.setMetadata(result, "id", "Poly"+UUID.randomUUID().toString());
+	    return result;
 	  }
 
 	  /**
