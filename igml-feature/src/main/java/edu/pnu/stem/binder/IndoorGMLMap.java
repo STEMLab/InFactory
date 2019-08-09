@@ -51,7 +51,7 @@ public class IndoorGMLMap implements Serializable {
 		
 		collection.put("ConnectionBoundary", new ConcurrentHashMap<String,Object>());
 		collection.put("AnchorBoundary", new ConcurrentHashMap<String,Object>());
-		
+
 	}
 	
 	public void clearMap() {
@@ -156,6 +156,8 @@ public class IndoorGMLMap implements Serializable {
 		return newFeature;
 	}
 	
+	
+	// TODO : Merge those two functions with feature setter and getter
 	public Geometry getFeature4Geometry(String id){
 		ConcurrentHashMap<String,Object> geomContainer = collection.get("Geometry");
 		Geometry geom = null;

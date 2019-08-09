@@ -10,6 +10,7 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 1) OS : regardless of OS  
 2) Maven : over 3.5 version. You need to install Maven and set MAVEN_HOME & PATH.
    * How to set MAVEN_HOME : [link for Window](https://www.mkyong.com/maven/how-to-install-maven-in-windows/) , [link for Linux](https://maven.apache.org/install.html)
+   * This project support Maven wrapper. If you do not want to install Maven, follow 1-2), 2-2)
 3) Java : JDK over 1.8 version. You need to install JDK and set JAVA_HOME & PATH.
   * **JAVA 8; not working at the upper version**
   
@@ -18,14 +19,25 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 
 ### Installing
 
-1) Project building
+1-1. Project building with installed maven
 
 `mvn clean install`
 
-2) Spring server executing
-It is recommended to use the other port number with parameter 
+1-2. Project building with maven wrapper
 
-`mvn jetty:run -Djetty.port=9797` 
+`./mvnw clean install`
+
+2-1. Spring server executing with installed maven
+
+`mvn jetty:run` 
+
+2-2. Spring server executing with maven wrapper
+
+`./mvnw jetty:run`
+
+It is recommended to use the other port number(9797) with parameter 
+
+`mvn jetty:run "-Djetty.port=9797"` 
    
  
 ## Running
