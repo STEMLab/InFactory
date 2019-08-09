@@ -1,0 +1,95 @@
+
+<ns5:IndoorFeatures xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:navi="http://www.opengis.net/indoorgml/1.0/navigation" xmlns:ns5="http://www.opengis.net/indoorgml/1.0/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="gcc9950e-5b48-9a5a-3d3d-c0772d644d9d" xsi:schemaLocation="http://www.opengis.net/indoorgml/1.0/core http://schemas.opengis.net/indoorgml/1.0/indoorgmlcore.xsd http://www.opengis.net/indoorgml/1.0/navigation http://schemas.opengis.net/indoorgml/1.0/indoorgmlnavi.xsd">
+    <gml:boundedBy xsi:nil="true"/>
+    <ns5:primalSpaceFeatures>
+        <ns5:PrimalSpaceFeatures gml:id="geb32248-ea3d-2451-c767-532d3ef292fc">
+            <gml:boundedBy xsi:nil="true"/>
+            <ns5:cellSpaceMember>
+                <ns5:CellSpace gml:id="C1">
+                    <gml:description>storey="F1":</gml:description>
+                    <gml:name>C1</gml:name>
+                    <gml:boundedBy xsi:nil="true"/>
+                    <ns5:cellSpaceGeometry>
+                        <ns5:Geometry2D>
+                            <gml:Polygon gml:id="CG-C1">
+<gml:exterior>
+    <gml:LinearRing>
+        <gml:pos srsDimension="3">109.4100409051606 238.0546075085324 0.0</gml:pos>
+        <gml:pos srsDimension="3">83.08142071988512 126.45051194539248 0.0</gml:pos>
+        <gml:pos srsDimension="3">213.74938756532637 123.89078498293514 0.0</gml:pos>
+        <gml:pos srsDimension="3">255.6801530455799 206.3139931740614 0.0</gml:pos>
+        <gml:pos srsDimension="3">109.4100409051606 238.0546075085324 0.0</gml:pos>
+    </gml:LinearRing>
+</gml:exterior>
+                            </gml:Polygon>
+                        </ns5:Geometry2D>
+                    </ns5:cellSpaceGeometry>
+                    <ns5:duality xlink:href="#S1"/>
+                    <ns5:partialboundedBy xlink:href="#B1"/>
+                </ns5:CellSpace>
+            </ns5:cellSpaceMember>
+            <ns5:cellSpaceBoundaryMember>
+                <ns5:CellSpaceBoundary gml:id="B1">
+                    <gml:description></gml:description>
+                    <gml:name>B1</gml:name>
+                    <gml:boundedBy xsi:nil="true"/>
+                    <ns5:cellSpaceBoundaryGeometry>
+                        <ns5:geometry2D>
+                            <gml:LineString gml:id="CBG-B1">
+<gml:pos srsDimension="3">226.07300780672395 148.11529663186838 0.0</gml:pos>
+<gml:pos srsDimension="3">243.87001698090725 183.09883617716707 0.0</gml:pos>
+                            </gml:LineString>
+                        </ns5:geometry2D>
+                    </ns5:cellSpaceBoundaryGeometry>
+                </ns5:CellSpaceBoundary>
+            </ns5:cellSpaceBoundaryMember>
+            <ns5:cellSpaceBoundaryMember>
+                <ns5:CellSpaceBoundary gml:id="B1-REVERSE">
+                    <gml:description></gml:description>
+                    <gml:name>B1-REVERSE</gml:name>
+                    <gml:boundedBy xsi:nil="true"/>
+                    <ns5:cellSpaceBoundaryGeometry>
+                        <ns5:geometry2D>
+                            <gml:LineString gml:id="CBG-B1-REVERSE">
+<gml:pos srsDimension="3">243.87001698090725 183.09883617716707 0.0</gml:pos>
+<gml:pos srsDimension="3">226.07300780672395 148.11529663186838 0.0</gml:pos>
+                            </gml:LineString>
+                        </ns5:geometry2D>
+                    </ns5:cellSpaceBoundaryGeometry>
+                </ns5:CellSpaceBoundary>
+            </ns5:cellSpaceBoundaryMember>
+        </ns5:PrimalSpaceFeatures>
+    </ns5:primalSpaceFeatures>
+    <ns5:multiLayeredGraph>
+        <ns5:MultiLayeredGraph gml:id="scb803e6-26c1-da7f-5334-cd477d23e169">
+            <gml:boundedBy xsi:nil="true"/>
+            <ns5:spaceLayers gml:id="y95ea637-e6a1-383a-f959-8ed2a276e359">
+                <gml:boundedBy xsi:nil="true"/>
+                <ns5:spaceLayerMember>
+                    <ns5:SpaceLayer gml:id="base">
+                        <gml:boundedBy xsi:nil="true"/>
+                        <ns5:nodes gml:id="u250e8f7-06fb-71b9-1c01-02f7ecd8a58b">
+                            <gml:boundedBy xsi:nil="true"/>
+                            <ns5:stateMember>
+<ns5:State gml:id="S1">
+    <gml:description></gml:description>
+    <gml:name>S1</gml:name>
+    <gml:boundedBy xsi:nil="true"/>
+    <ns5:duality xlink:href="#C1"/>
+    <ns5:geometry>
+        <gml:Point gml:id="SG-S1">
+            <gml:pos srsDimension="3">162.8837040941824 175.50937030616453 0.0</gml:pos>
+        </gml:Point>
+    </ns5:geometry>
+</ns5:State>
+                            </ns5:stateMember>
+                        </ns5:nodes>
+                        <ns5:edges gml:id="va104cc1-f14a-ed8d-fada-6ee1e41ba876">
+                            <gml:boundedBy xsi:nil="true"/>
+                        </ns5:edges>
+                    </ns5:SpaceLayer>
+                </ns5:spaceLayerMember>
+            </ns5:spaceLayers>
+        </ns5:MultiLayeredGraph>
+    </ns5:multiLayeredGraph>
+</ns5:IndoorFeatures>

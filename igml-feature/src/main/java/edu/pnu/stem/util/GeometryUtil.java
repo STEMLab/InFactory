@@ -5,6 +5,7 @@ package edu.pnu.stem.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.locationtech.jts.geom.Geometry;
 
@@ -36,8 +37,13 @@ public class GeometryUtil {
 	            userData.put(g.getUserData().getClass(), g.getUserData());
 	        }
 	    } else {
-	        userData = new HashMap();
+	    	userData = new HashMap();
+  
 	    }
+		
+		if(metadata.equals("id") && value == null) {
+    		value = UUID.randomUUID().toString();
+    	}
 		
 		userData.put(metadata, value);
 		g.setUserData(userData);

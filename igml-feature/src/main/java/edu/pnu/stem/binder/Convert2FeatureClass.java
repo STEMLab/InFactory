@@ -215,12 +215,12 @@ public class Convert2FeatureClass {
 			change2FeatureClass(savedMap, feature.getId(), cellSpaceGeom);			
 			if(cellSpaceGeom.isSetGeometry2D()){
 				Polygon geom = Convert2JTSGeometry.convert2Polygon((PolygonType)feature.getCellSpaceGeometry().getGeometry2D().getAbstractSurface().getValue());
-				GeometryUtil.setMetadata(geom, "id", feature.getCellSpaceGeometry().getGeometry2D().getAbstractSurface().getValue().getId());
+				//GeometryUtil.setMetadata(geom, "id", feature.getCellSpaceGeometry().getGeometry2D().getAbstractSurface().getValue().getId());
 				newFeature.setGeometry(geom);
 			}
 			else if(cellSpaceGeom.isSetGeometry3D()){
 				Solid geom = Convert2JTSGeometry.Convert2Solid((SolidType)feature.getCellSpaceGeometry().getGeometry3D().getAbstractSolid().getValue());
-				GeometryUtil.setMetadata(geom, "id", feature.getCellSpaceGeometry().getGeometry3D().getAbstractSolid().getValue().getId());
+				//GeometryUtil.setMetadata(geom, "id", feature.getCellSpaceGeometry().getGeometry3D().getAbstractSolid().getValue().getId());
 				newFeature.setGeometry(geom);
 			}
 			
