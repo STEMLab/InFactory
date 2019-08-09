@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.pnu.stem.api.exception.DocumentNotFoundException;
 import edu.pnu.stem.api.exception.UndefinedDocumentException;
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.binder.Unmashaller;
 import edu.pnu.stem.feature.core.IndoorFeatures;
 import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 
@@ -45,7 +46,7 @@ public class DocumentController {
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IOException {
-
+		System.out.println("DocumentController: ceateDocument");
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
@@ -74,7 +75,7 @@ public class DocumentController {
 						// Importing IndoorGML Document
 						try {
 							InputStream xml = request.getInputStream();
-							IndoorFeaturesType doc = edu.pnu.stem.binder.Unmashaller.importIndoorGML(id, xml);
+							IndoorFeaturesType doc = Unmashaller.importIndoorGML(id, xml);
 							IndoorFeatures savedDoc = edu.pnu.stem.binder.Convert2FeatureClass.change2FeatureClass(map, id, doc);
 						} catch (Exception e) {
 							// TODO Auto-generated catch block

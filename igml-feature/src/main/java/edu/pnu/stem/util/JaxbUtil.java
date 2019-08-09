@@ -22,8 +22,7 @@ public class JaxbUtil {
 				+":net.ascc.xml.schematron"
 				+":org.w3.xlink"
 				);
-		return context;
-		
+		return context;		
 	}
 }
 

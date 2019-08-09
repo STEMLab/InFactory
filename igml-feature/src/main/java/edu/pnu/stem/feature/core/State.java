@@ -6,6 +6,7 @@ import java.util.List;
 import org.locationtech.jts.geom.Geometry;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.navigation.GeneralSpace;
 import edu.pnu.stem.util.GeometryUtil;
 
 /**
@@ -168,5 +169,16 @@ public class State extends AbstractFeature {
 	public void resetParent() {
 		this.parentId = null;
 		
+	}
+
+	public void setDuality(GeneralSpace duality) {
+		GeneralSpace found = null;
+		found = (GeneralSpace)indoorGMLMap.getFeature(duality.getId());
+		if(found == null){
+			if(!indoorGMLMap.hasFutureID(duality.getId())){
+				indoorGMLMap.setFutureFeature(duality.getId(), duality);
+			}
+		}
+		this.duality = duality.getId();
 	}
 }

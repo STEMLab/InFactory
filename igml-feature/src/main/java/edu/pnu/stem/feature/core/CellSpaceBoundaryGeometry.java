@@ -36,5 +36,7 @@ public class CellSpaceBoundaryGeometry extends AbstractFeature {
 		feature = indoorGMLMap.getFeature(this.geometry3D);
 		return feature;
 	}
+
+
 }
 	

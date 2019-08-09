@@ -5,13 +5,13 @@ package edu.pnu.stem.feature.core;
 import org.locationtech.jts.geom.Geometry;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
+import edu.pnu.stem.feature.navigation.GeneralSpace;
 import edu.pnu.stem.util.GeometryUtil;
 
 /**
  * @author jungh Implements CellSpaceBoundaryType of IndoorGML 1.0.3
  */
-public class CellSpaceBoundary extends AbstractFeature {
-	
+public class CellSpaceBoundary extends AbstractFeature{
 	
 	private String geometry;
 	/**
@@ -36,7 +36,7 @@ public class CellSpaceBoundary extends AbstractFeature {
 	public CellSpaceBoundary(IndoorGMLMap doc, String id){
 		super(doc, id);
 	}
-	
+		
 	public boolean hasDuality() {
 		if (this.duality == null) {
 			return false;
@@ -136,6 +136,9 @@ public class CellSpaceBoundary extends AbstractFeature {
 	}
 	
 	public void setCellSpace(CellSpace c) {
+		this.cellSpaceForPartialBoundedBy = c.getId();
+	}
+	public void setCellSpace(GeneralSpace c) {
 		this.cellSpaceForPartialBoundedBy = c.getId();
 	}
 	

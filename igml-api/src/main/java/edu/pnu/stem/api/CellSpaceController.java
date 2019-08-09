@@ -50,6 +50,7 @@ public class CellSpaceController {
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createCellSpace(@PathVariable("id") String id, @RequestBody ObjectNode json, HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
 		String docId = json.get("docId").asText().trim();
 		String parentId = json.get("parentId").asText().trim();
 		String name = null; 

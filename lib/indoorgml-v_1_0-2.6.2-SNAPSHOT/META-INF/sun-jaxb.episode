@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" if-exists="true" version="2.1">
+  <!--
+
+이 파일은 JAXB(JavaTM Architecture for XML Binding) 참조 구현 2.2.11 버전을 통해 생성되었습니다. 
+<a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a>를 참조하십시오. 
+이 파일을 수정하면 소스 스키마를 재컴파일할 때 수정 사항이 손실됩니다. 
+생성 날짜: 2018.09.11 시간 05:08:38 PM KST 
+
+  -->
+  <jaxb:bindings if-exists="true" scd="x-schema::">
+    <jaxb:schemaBindings map="false">
+      <jaxb:package name="net.opengis.indoorgml.ext.v_1_0"/>
+    </jaxb:schemaBindings>
+    <jaxb:bindings if-exists="true" scd="~ProjectionCoordListType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.ProjectionCoordListType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~ProjectionCoordGenType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.ProjectionCoordGenType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~TwoDimensionalCellSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.TwoDimensionalCellSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~SensorType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.SensorType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~WallFeatureType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.WallFeatureType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~MediaType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.MediaType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~MaterialType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.MaterialType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~AbstractMaterialProjectionParameterizationType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.AbstractMaterialProjectionParameterizationType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~TwoDimensionalCellSpacePropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.TwoDimensionalCellSpacePropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~SensorPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.SensorPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~WallFeaturePropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.WallFeaturePropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~MediaPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.MediaPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~SensorMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.SensorMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~WallFeatureMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.WallFeatureMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~MediaMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.MediaMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~MaterialPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.MaterialPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~MaterialAssociationType">
+      <jaxb:class ref="net.opengis.indoorgml.ext.v_1_0.MaterialAssociationType"/>
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings xmlns:tns="http://www.opengis.net/indoorgml/1.0/core" if-exists="true" scd="x-schema::tns">
+    <jaxb:schemaBindings map="false">
+      <jaxb:package name="net.opengis.indoorgml.core.v_1_0"/>
+    </jaxb:schemaBindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:IndoorFeaturesType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:PrimalSpaceFeaturesType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:MultiLayeredGraphType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.MultiLayeredGraphType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:InterLayerConnectionType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.InterLayerConnectionType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:SpaceLayerType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.SpaceLayerType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:StateType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.StateType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:TransitionType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.TransitionType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpaceBoundaryType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:PrimalSpaceFeaturesPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.PrimalSpaceFeaturesPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpaceMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpaceMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpaceBoundaryMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:MultiLayeredGraphPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.MultiLayeredGraphPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:SpaceLayersType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.SpaceLayersType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:SpaceLayerMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.SpaceLayerMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:InterEdgesType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.InterEdgesType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:InterLayerConnectionMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.InterLayerConnectionMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:InterLayerConnectionPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.InterLayerConnectionPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:SpaceLayerPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.SpaceLayerPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:NodesType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.NodesType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:StateMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.StateMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:EdgesType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.EdgesType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:TransitionMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.TransitionMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:StatePropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.StatePropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:TransitionPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.TransitionPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpacePropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpacePropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpaceGeometryType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpaceGeometryType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpaceBoundaryGeometryType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryGeometryType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:CellSpaceBoundaryPropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.CellSpaceBoundaryPropertyType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:ExternalReferenceType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.ExternalReferenceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:externalObjectReferenceType">
+      <jaxb:class ref="net.opengis.indoorgml.core.v_1_0.ExternalObjectReferenceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:SpaceLayerClassTypeType">
+      <jaxb:typesafeEnumClass ref="net.opengis.indoorgml.core.v_1_0.SpaceLayerClassTypeType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:typeOfTopoExpressionCodeEnumerationType">
+      <jaxb:typesafeEnumClass ref="net.opengis.indoorgml.core.v_1_0.TypeOfTopoExpressionCodeEnumerationType"/>
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings xmlns:tns="http://www.opengis.net/indoorgml/1.0/navigation" if-exists="true" scd="x-schema::tns">
+    <jaxb:schemaBindings map="false">
+      <jaxb:package name="net.opengis.indoorgml.navigation.v_1_0"/>
+    </jaxb:schemaBindings>
+    <jaxb:bindings if-exists="true" scd="~tns:NavigableSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.NavigableSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:GeneralSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.GeneralSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:TransferSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.TransferSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:AnchorSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.AnchorSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:ConnectionSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.ConnectionSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:TransitionSpaceType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.TransitionSpaceType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:RouteType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.RouteType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:NavigableBoundaryType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.NavigableBoundaryType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:TransferBoundaryType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.TransferBoundaryType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:ConnectionBoundaryType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.ConnectionBoundaryType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:AnchorBoundaryType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.AnchorBoundaryType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:RouteSegmentType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.RouteSegmentType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:RouteNodeType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.RouteNodeType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:RouteNodesType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.RouteNodesType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:RouteNodeMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.RouteNodeMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:PathType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.PathType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:RouteSegmentMemberType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.RouteSegmentMemberType"/>
+    </jaxb:bindings>
+    <jaxb:bindings if-exists="true" scd="~tns:RouteNodePropertyType">
+      <jaxb:class ref="net.opengis.indoorgml.navigation.v_1_0.RouteNodePropertyType"/>
+    </jaxb:bindings>
+  </jaxb:bindings>
+</jaxb:bindings>

@@ -7,7 +7,7 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 
 ### Prerequisites
 
-1) OS : regardless of OS.  
+1) OS : regardless of OS  
 2) Maven : over 3.5 version. You need to install Maven and set MAVEN_HOME & PATH.
    * How to set MAVEN_HOME : [link for Window](https://www.mkyong.com/maven/how-to-install-maven-in-windows/) , [link for Linux](https://maven.apache.org/install.html)
    * This project support Maven wrapper. If you do not want to install Maven, follow 1-2), 2-2)
@@ -37,7 +37,7 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 
 It is recommended to use the other port number with parameter 
 
-`"-Djetty.port=9797"`.
+`mvn jetty:run -Djetty.port=9797` 
    
  
 ## Running
@@ -60,7 +60,7 @@ It is explained at the wiki.
 
 ## Authors
 
-* Hyemi Jeong - IndoorGML CRUD DAO developer hyemi.jeong@pnu.edu
+* Hyemi Jeong - IndoorGML CRUD DAO developer stemlab@pnu.edu
 * Hyung-Gyu Ryoo - IndoorGML Restful API developer hgryoo@pnu.edu
 
 ## Contributing

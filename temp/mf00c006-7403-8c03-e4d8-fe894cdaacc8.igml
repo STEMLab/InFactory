@@ -1,0 +1,236 @@
+
+<core:IndoorFeatures xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:core="http://www.opengis.net/indoorgml/1.0/core" xmlns:navi="http://www.opengis.net/indoorgml/1.0/navigation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="o1afe983-dc31-83e5-7f79-5c8dc8c74569" xsi:schemaLocation="http://www.opengis.net/indoorgml/1.0/core http://schemas.opengis.net/indoorgml/1.0/indoorgmlcore.xsd http://www.opengis.net/indoorgml/1.0/navigation http://schemas.opengis.net/indoorgml/1.0/indoorgmlnavi.xsd">
+    <gml:boundedBy xsi:nil="true"/>
+    <core:primalSpaceFeatures>
+        <core:PrimalSpaceFeatures gml:id="y1a15a90-0efb-d950-37cb-e51c4c1ddf1b">
+            <gml:boundedBy xsi:nil="true"/>
+            <core:cellSpaceMember>
+                <core:CellSpace gml:id="C1">
+                    <gml:description>story="":</gml:description>
+                    <gml:name>C1</gml:name>
+                    <gml:boundedBy xsi:nil="true"/>
+                    <core:cellSpaceGeometry>
+                        <core:Geometry3D>
+                            <gml:Solid gml:id="CG-C1">
+<gml:exterior>
+    <gml:Shell>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 20.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 20.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 20.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 20.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 20.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 20.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 20.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 20.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 20.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+    </gml:Shell>
+</gml:exterior>
+                            </gml:Solid>
+                        </core:Geometry3D>
+                    </core:cellSpaceGeometry>
+                    <core:duality xlink:href="#S1"/>
+                </core:CellSpace>
+            </core:cellSpaceMember>
+            <core:cellSpaceMember>
+                <core:CellSpace xsi:type="navi:GeneralSpaceType" gml:id="C1">
+                    <gml:description>story="":</gml:description>
+                    <gml:name>C1</gml:name>
+                    <gml:boundedBy xsi:nil="true"/>
+                    <core:cellSpaceGeometry>
+                        <core:Geometry3D>
+                            <gml:Solid gml:id="CG-C1">
+<gml:exterior>
+    <gml:Shell>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 20.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 20.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 20.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 20.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 20.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 0.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 20.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 0.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+        <gml:surfaceMember>
+            <gml:Polygon>
+                <gml:exterior>
+                    <gml:LinearRing>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                        <gml:pos srsDimension="3">49.03508771929824 81.54239766081871 20.0</gml:pos>
+                        <gml:pos srsDimension="3">51.05263157894736 54.87573099415204 20.0</gml:pos>
+                        <gml:pos srsDimension="3">25.0 54.524853801169584 20.0</gml:pos>
+                        <gml:pos srsDimension="3">24.12280701754386 83.296783625731 20.0</gml:pos>
+                    </gml:LinearRing>
+                </gml:exterior>
+            </gml:Polygon>
+        </gml:surfaceMember>
+    </gml:Shell>
+</gml:exterior>
+                            </gml:Solid>
+                        </core:Geometry3D>
+                    </core:cellSpaceGeometry>
+                    <core:duality xlink:href="#S1"/>
+                    <navi:class>1110</navi:class>
+                    <navi:function>1050</navi:function>
+                    <navi:usage></navi:usage>
+                </core:CellSpace>
+            </core:cellSpaceMember>
+        </core:PrimalSpaceFeatures>
+    </core:primalSpaceFeatures>
+    <core:multiLayeredGraph>
+        <core:MultiLayeredGraph gml:id="w8041043-81f8-222d-d90d-499f3ffb2809">
+            <gml:boundedBy xsi:nil="true"/>
+            <core:spaceLayers gml:id="r7a82eb6-6075-0074-9dfd-a6828890d5cb">
+                <gml:boundedBy xsi:nil="true"/>
+                <core:spaceLayerMember>
+                    <core:SpaceLayer gml:id="base">
+                        <gml:boundedBy xsi:nil="true"/>
+                        <core:nodes gml:id="b1af5685-f03a-d829-2a07-a795d819ba9d">
+                            <gml:boundedBy xsi:nil="true"/>
+                            <core:stateMember>
+<core:State gml:id="S1">
+    <gml:description>story="":</gml:description>
+    <gml:name>S1</gml:name>
+    <gml:boundedBy xsi:nil="true"/>
+    <core:duality xlink:href="#C1"/>
+    <core:geometry>
+        <gml:Point gml:id="SG-S1">
+            <gml:pos srsDimension="3">37.144635055081096 68.4509569957957 0.0</gml:pos>
+        </gml:Point>
+    </core:geometry>
+</core:State>
+                            </core:stateMember>
+                        </core:nodes>
+                        <core:edges gml:id="s49c4437-57ac-c4e1-877b-095097d04efb">
+                            <gml:boundedBy xsi:nil="true"/>
+                        </core:edges>
+                    </core:SpaceLayer>
+                </core:spaceLayerMember>
+            </core:spaceLayers>
+        </core:MultiLayeredGraph>
+    </core:multiLayeredGraph>
+</core:IndoorFeatures>

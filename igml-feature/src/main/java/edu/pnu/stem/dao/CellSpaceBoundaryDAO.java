@@ -21,23 +21,23 @@ import edu.pnu.stem.geometry.jts.WKTReader3D;
  */
 public class CellSpaceBoundaryDAO {
 
-	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
-			String geometry, String duality) {
+	public static CellSpaceBoundary createCellSpaceBoundary(IndoorGMLMap map, String parentId, String id, String geometry, String duality) {
+		
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
-
 		CellSpaceBoundary newFeature = new CellSpaceBoundary(map, id);
 
 		if (map.hasFutureID(id)) {
 			newFeature = (CellSpaceBoundary) map.getFutureFeature(id);
-			// map.removeFutureID(id);
+			
 		} else {
 			map.setFutureFeature(id, newFeature);
 		}
 		map.setFeature(id, "CellSpaceBoundary", newFeature);
 
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
+		
 		if (parent == null) {
 			if (map.hasFutureID(parentId)) {
 				parent = (PrimalSpaceFeatures) map.getFutureFeature(parentId);
@@ -101,7 +101,7 @@ public class CellSpaceBoundaryDAO {
 		} else {
 			map.setFutureFeature(id, newFeature);
 		}
-
+		
 		map.setFeature(id, "CellSpaceBoundary", newFeature);
 		PrimalSpaceFeatures parent = (PrimalSpaceFeatures) map.getFeature(parentId);
 		if (parent == null) {
@@ -145,8 +145,7 @@ public class CellSpaceBoundaryDAO {
 		return newFeature;
 	}
 
-	public static CellSpaceBoundary updateCellSpaceBoundary(IndoorGMLMap map, String parentId, String id,
-			String name, String description, Geometry geometry, String duality) {
+	public static CellSpaceBoundary updateCellSpaceBoundary(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality) {
 		CellSpaceBoundary result = new CellSpaceBoundary(map, id);
 		CellSpaceBoundary target = (CellSpaceBoundary)map.getFeature(id);
 		
