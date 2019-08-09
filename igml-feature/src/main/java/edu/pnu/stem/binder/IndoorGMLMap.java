@@ -51,9 +51,7 @@ public class IndoorGMLMap implements Serializable {
 		
 		collection.put("ConnectionBoundary", new ConcurrentHashMap<String,Object>());
 		collection.put("AnchorBoundary", new ConcurrentHashMap<String,Object>());
-		
-		// TODO : Navigation module
-		collection.put("GeneralSpace", new ConcurrentHashMap<String,Object>());
+
 	}
 	
 	public void clearMap() {

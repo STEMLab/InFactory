@@ -35,9 +35,9 @@ This project is for creating & editing OGC IndoorGML 1.0.3 formated data. This i
 
 `./mvnw jetty:run`
 
-It is recommended to use the other port number with parameter 
+It is recommended to use the other port number(9797) with parameter 
 
-`mvn jetty:run -Djetty.port=9797` 
+`mvn jetty:run "-Djetty.port=9797"` 
    
  
 ## Running
