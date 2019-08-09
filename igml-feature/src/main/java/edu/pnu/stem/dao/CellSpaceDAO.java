@@ -13,6 +13,7 @@ import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
 import edu.pnu.stem.feature.core.State;
 import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.geometry.jts.WKTReader3D;
+import edu.pnu.stem.util.GeometryUtil;
 
 /**
  * @author jungh
@@ -219,7 +220,10 @@ public class CellSpaceDAO {
 			try {
 				
 				Solid s = (Solid) wkt.read(geometry);
-				map.setFeature4Geometry(UUID.randomUUID().toString(), s);
+				map.setFeature4Geometry(GeometryUtil.getMetadata(s, "id"), s);
+				
+				//edu.pnu.stem.util.GeometryUtil.setMetadata(newFeature,"id", UUID.randomUUID().toString());
+			
 				newFeature.setGeometry(s);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
