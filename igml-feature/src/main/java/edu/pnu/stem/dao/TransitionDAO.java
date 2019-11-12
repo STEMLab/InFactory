@@ -21,7 +21,7 @@ import edu.pnu.stem.feature.core.Transition;
 public class TransitionDAO {
 
 	public static Transition createTransition(IndoorGMLMap map, String parentId,
-			String id, String name, String description, Geometry geometry, String duality, String[] connects) {
+			String id, String name, String description, Geometry geometry, String duality, String[] connects, double weight) {
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -81,6 +81,10 @@ public class TransitionDAO {
 		
 		if(description != null) {
 			newFeature.setDescription(description);
+		}
+		
+		if(weight != 0) {
+			newFeature.setWeight(weight);
 		}
 		
 		if (geometry != null) {
