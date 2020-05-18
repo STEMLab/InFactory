@@ -38,7 +38,7 @@ public class CellSpace extends AbstractFeature {
 
 	public CellSpace(IndoorGMLMap doc, String id){
 		super(doc, id);
-		System.out.println("CellSpaceCore");
+		
 		partialboundedBy = new ArrayList<String>();
 	}
 	public PrimalSpaceFeatures getParent() {

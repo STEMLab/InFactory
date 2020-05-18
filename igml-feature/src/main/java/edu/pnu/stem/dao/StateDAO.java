@@ -30,6 +30,7 @@ public class StateDAO {
 	}
 	
 	public static State createState(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String> connects) {
+		
 		if(id == null) {
 			id = UUID.randomUUID().toString();
 		}

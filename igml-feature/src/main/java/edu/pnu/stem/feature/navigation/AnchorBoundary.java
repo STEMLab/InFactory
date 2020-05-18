@@ -10,7 +10,7 @@ public class AnchorBoundary extends TransferBoundary{
 		
 		super(doc, id);
 		// TODO Auto-generated constructor stub
-		System.out.println("Navi:AnchorB");
+		
 	}
 	public void setParent(AnchorBoundary parent) {
 		AnchorBoundary found = null;

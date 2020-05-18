@@ -135,15 +135,15 @@ public class ConnectionSpaceDAO {
 		if (classType != null) {
 
 			newFeature.setClassType(classType);
-			System.out.println("classType");
+			
 		}
 		if (functionType != null) {
 			newFeature.setFunctionType(functionType);
-			System.out.println("functionType");
+			
 		}
 		if (usageType != null) {
 			newFeature.setUsageType(usageType);
-			System.out.println("usageType");
+			
 		}
 
 		// parent.addCellSpaceMember(newFeature);

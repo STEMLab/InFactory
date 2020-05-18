@@ -1,12 +1,10 @@
-/**
- * 
- */
 package edu.pnu.stem.util;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 
 
@@ -48,5 +46,7 @@ public class GeometryUtil {
 		userData.put(metadata, value);
 		g.setUserData(userData);
 	}
+
+
 	
 }

@@ -9,6 +9,7 @@ import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+import edu.pnu.stem.feature.core.AbstractFeature;
 import edu.pnu.stem.feature.core.CellSpace;
 import edu.pnu.stem.feature.core.CellSpaceBoundary;
 import edu.pnu.stem.feature.core.Edges;
@@ -31,6 +32,7 @@ import edu.pnu.stem.feature.navigation.GeneralSpace;
 import edu.pnu.stem.geometry.jts.Solid;
 import edu.pnu.stem.util.GeometryUtil;
 import net.opengis.gml.v_3_2_1.AbstractCurveType;
+import net.opengis.gml.v_3_2_1.AbstractFeatureType;
 import net.opengis.gml.v_3_2_1.AbstractSolidType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
 import net.opengis.gml.v_3_2_1.CompositeCurveType;
@@ -83,14 +85,14 @@ import net.opengis.indoorgml.navigation.v_1_0.GeneralSpaceType;
  *
  */
 public class Convert2FeatureClass {
+
 	public static IndoorFeatures change2FeatureClass(IndoorGMLMap savedMap, String docId, IndoorFeaturesType feature) throws JAXBException {
 		// Creating this feature
 		IndoorFeatures newFeature = (IndoorFeatures) savedMap.getFeature(feature.getId());
 		if(newFeature == null) {
 			newFeature = new IndoorFeatures(savedMap, feature.getId());
 			savedMap.setFeature(feature.getId(), "IndoorFeatures", newFeature);
-		}
-		
+		}		
 		// Creating containing features
 		PrimalSpaceFeatures childP = change2FeatureClass(savedMap, feature.getPrimalSpaceFeatures().getPrimalSpaceFeatures(),
 				feature.getId());

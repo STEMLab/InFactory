@@ -20,7 +20,7 @@ public class testForCRUD extends TestCase{
 		 
 		 try {
 			IndoorGMLMap map = Container.createDocument("test");
-			edu.pnu.stem.dao.IndoorFeaturesDAO.createIndoorFeatures(map, "if1", "indoorfeatures","testdata" , null, "pf1");
+			edu.pnu.stem.dao.IndoorFeaturesDAO.createIndoorFeatures(map, "if1", "indoorfeatures","testdata",null, null, "pf1");
 			
 			List<String>cellspacemember = new ArrayList<String>();
 			cellspacemember.add("c1");

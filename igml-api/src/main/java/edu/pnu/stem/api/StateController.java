@@ -73,8 +73,7 @@ public class StateController {
 				for(int i = 0 ; i < test.size() ; i++){
 					connected.add(test.get(i).asText().trim());
 				}
-			}	
-			
+			}			
 			if(json.get("properties").has("name")) {
 				name = json.get("properties").get("name").asText().trim();
 			}
@@ -82,12 +81,10 @@ public class StateController {
 				description = json.get("properties").get("description").asText().trim();
 			}
 			
-		}
-		
+		}		
 		if(json.has("geometry")) {
 			geometry = Convert2Json.json2Geometry(json.get("geometry"));
-		}
-		
+		}		
 		try {
 			Container container = applicationContext.getBean(Container.class);
 			IndoorGMLMap map = container.getDocument(docId);
@@ -140,8 +137,7 @@ public class StateController {
 					for(int i = 0 ; i < partialBoundedByList.size() ; i++){
 						connects.add(partialBoundedByList.get(i).asText().trim());
 					}
-				}
-				
+				}				
 			}
 			
 			if(json.has("geometry")) {

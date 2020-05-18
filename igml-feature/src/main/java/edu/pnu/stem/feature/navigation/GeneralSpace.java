@@ -16,7 +16,7 @@ public class GeneralSpace extends NavigableSpace {
 	public GeneralSpace(IndoorGMLMap doc, String id) {
 
 		super(doc, id);
-		System.out.println("GeneralSpaceCore");
+		
 
 	}
 

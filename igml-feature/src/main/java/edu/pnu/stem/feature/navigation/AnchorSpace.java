@@ -7,7 +7,7 @@ public class AnchorSpace extends TransferSpace {
 
 	public AnchorSpace(IndoorGMLMap doc, String id) {
 		super(doc, id);
-		System.out.println("Navi:Anchor");
+	
 		// TODO Auto-generated constructor stub
 	}
 

@@ -46,7 +46,7 @@ public class DocumentController {
 	@PostMapping(value = "/{id}", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createDocument(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IOException {
-		System.out.println("DocumentController: ceateDocument");
+		
 		if(id == null || id.isEmpty()) {
 			id = UUID.randomUUID().toString();
 		}
@@ -163,7 +163,7 @@ public class DocumentController {
 				
 				try {
 					
-					System.out.println(map);
+					
 					response.setContentType("text/xml;charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					
@@ -184,6 +184,7 @@ public class DocumentController {
 				    reader.close();
 	
 				    String content = stringBuilder.toString();
+//				    System.out.println(content);
 	
 					out.write(content);
 				} catch (FileNotFoundException e) {

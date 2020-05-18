@@ -9,7 +9,7 @@ public class NonNavigableSpace extends CellSpace {
 
 		super(doc, id);
 
-		System.out.println("NonNavigableSpaceCore");
+		
 
 	}
 

@@ -20,6 +20,7 @@ public class IndoorFeatures extends AbstractFeature {
 	public IndoorFeatures(IndoorGMLMap doc, String id) {
 		super(doc, id);
 	}
+	
 	/**
 	 * @return the primalSpaceFeatures
 	 */
@@ -33,8 +34,7 @@ public class IndoorFeatures extends AbstractFeature {
 		}
 		
 		return found;
-	}
-	
+	}	
 
 	
 	/**
@@ -92,6 +92,7 @@ public class IndoorFeatures extends AbstractFeature {
 			this.primalSpaceFeatures = null;
 		
 	}
+	
 
 	
 }

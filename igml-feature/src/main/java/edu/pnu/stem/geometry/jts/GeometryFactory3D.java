@@ -68,6 +68,5 @@ public class GeometryFactory3D extends GeometryFactory {
 	  
 	  public Solid createSolid() {
 	    return createSolid(null, null);
-	  }
-	
+	  }	
 }

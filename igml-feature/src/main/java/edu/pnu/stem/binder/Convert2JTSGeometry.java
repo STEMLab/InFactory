@@ -7,6 +7,7 @@ import java.util.UUID;
 import javax.xml.bind.JAXBElement;
 
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.LinearRing;
@@ -14,6 +15,9 @@ import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+import com.vividsolutions.jts.geom.Envelope;
+
+import edu.pnu.stem.geometry.jts.Envelope3D;
 import edu.pnu.stem.geometry.jts.Solid;
 import net.opengis.gml.v_3_2_1.AbstractRingType;
 import net.opengis.gml.v_3_2_1.AbstractSurfaceType;
@@ -21,6 +25,7 @@ import net.opengis.gml.v_3_2_1.CompositeSurfaceType;
 import net.opengis.gml.v_3_2_1.CoordinatesType;
 import net.opengis.gml.v_3_2_1.DirectPositionListType;
 import net.opengis.gml.v_3_2_1.DirectPositionType;
+import net.opengis.gml.v_3_2_1.EnvelopeType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.LinearRingType;
 import net.opengis.gml.v_3_2_1.OrientableSurfaceType;
@@ -35,6 +40,8 @@ import net.opengis.gml.v_3_2_1.SurfaceType;
 public class Convert2JTSGeometry {
 	
 	private final static GeometryFactory geometryFactory = new GeometryFactory();
+	
+	
 	public static Solid Convert2Solid(SolidType feature){
 		Solid newFeature = null;
 		ShellType exterior = feature.getExterior().getShell();

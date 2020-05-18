@@ -182,7 +182,7 @@ public class IndoorGMLMap implements Serializable {
 		}
 	}
 	
-	public void setFeature(String id,String featureName, Object featureValue){
+	public void setFeature(String id, String featureName, Object featureValue){
 		if(!hasID(id)){
 			if(hasFutureID(id)){
 				//System.out.println("Create feature from Future feature list : "+id);
@@ -193,7 +193,7 @@ public class IndoorGMLMap implements Serializable {
 			System.out.println("Create feature : "+id + " which type is :"+featureName);
 		}
 		else{
-			System.out.println("Already Exist Id : " + featureName);
+			System.out.println("Already Exist Id : " + id+", Feature :" + featureName );
 			
 			//container.get(featureName).put(id, featureValue);
 		}
@@ -229,7 +229,7 @@ public class IndoorGMLMap implements Serializable {
 		IndoorFeatures features = null;
 		if(fe.hasMoreElements()) {
 			features = (IndoorFeatures) fe.nextElement();
-			System.out.println("IndoorGML:Marshall:IndoorFeatures"+features.getName()+":"+features.getId());
+			
 			
 			IndoorFeaturesType resultDoc;
 			try {

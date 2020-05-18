@@ -2,15 +2,14 @@ package edu.pnu.stem.dao;
 import java.util.UUID;
 
 import edu.pnu.stem.binder.IndoorGMLMap;
-import edu.pnu.stem.feature.core.CellSpace;
-import edu.pnu.stem.feature.core.CellSpaceBoundary;
+import edu.pnu.stem.feature.core.Envelope;
 import edu.pnu.stem.feature.core.IndoorFeatures;
 import edu.pnu.stem.feature.core.MultiLayeredGraph;
 import edu.pnu.stem.feature.core.PrimalSpaceFeatures;
 
 public class IndoorFeaturesDAO {
 
-	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id, String name, String description,
+	public static IndoorFeatures createIndoorFeatures(IndoorGMLMap map, String id, String name, String description, String envelope,
 			String multiLayeredGraph, String primalSpaceFeatures ) {
 		IndoorFeatures newFeature = new IndoorFeatures(map, id);
 		
@@ -29,9 +28,10 @@ public class IndoorFeaturesDAO {
 		if(description != null) {
 			newFeature.setDescription(description);
 		}
-		
-		
-		
+		if (envelope!= null) {
+			Envelope newEnvelope = new Envelope(map, envelope);
+			newFeature.setBoundedBy(newEnvelope);
+		}		
 		//newFeature.setParentID(parentID);
 		if (primalSpaceFeatures!= null) {
 			PrimalSpaceFeatures newPrimalSpaceFeatures = new PrimalSpaceFeatures(map, primalSpaceFeatures);

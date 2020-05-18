@@ -1,5 +1,6 @@
 package edu.pnu.stem.binder;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.locationtech.jts.geom.Polygon;
 import edu.pnu.stem.feature.core.CellSpace;
 import edu.pnu.stem.feature.core.CellSpaceBoundary;
 import edu.pnu.stem.feature.core.Edges;
+import edu.pnu.stem.feature.core.Envelope;
 import edu.pnu.stem.feature.core.ExternalObjectReference;
 import edu.pnu.stem.feature.core.ExternalReference;
 import edu.pnu.stem.feature.core.IndoorFeatures;
@@ -33,8 +35,12 @@ import edu.pnu.stem.feature.navigation.ConnectionSpace;
 import edu.pnu.stem.feature.navigation.GeneralSpace;
 import edu.pnu.stem.feature.navigation.TransitionSpace;
 import edu.pnu.stem.geometry.jts.Solid;
+import net.opengis.gml.v_3_2_1.BoundedFeatureType;
+import net.opengis.gml.v_3_2_1.BoundingShapeType;
 import net.opengis.gml.v_3_2_1.CodeType;
 import net.opengis.gml.v_3_2_1.CurvePropertyType;
+import net.opengis.gml.v_3_2_1.DirectPositionType;
+import net.opengis.gml.v_3_2_1.EnvelopeType;
 import net.opengis.gml.v_3_2_1.LineStringType;
 import net.opengis.gml.v_3_2_1.PointPropertyType;
 import net.opengis.gml.v_3_2_1.PointType;
@@ -206,7 +212,8 @@ public class Convert2JaxbClass {
 				cellSpaceBoundaryGeometryType.setGeometry3D(polygonProp);
 
 				newFeature.setCellSpaceBoundaryGeometry(cellSpaceBoundaryGeometryType);
-			} else if (geom instanceof LineString) {
+			}
+			else if (geom instanceof LineString) {
 				LineString l = (LineString) geom;
 				LineStringType linestring = Convert2JaxbGeometry.Convert2LineStringType(l);
 				JAXBElement<LineStringType> jaxbLineString = gmlOF.createLineString(linestring);
@@ -268,6 +275,15 @@ public class Convert2JaxbClass {
 			throws JAXBException {
 		IndoorFeaturesType newFeature = new IndoorFeaturesType();
 		newFeature.setId(feature.getId());
+		
+		if(feature.getBoundedBy() != null) {
+			Envelope e = (Envelope) savedMap.getFeature(feature.getBoundedBy().getId());	
+			JAXBElement<EnvelopeType> jaxbEnvelope = gmlOF.createEnvelope(change2JaxbClass(savedMap,e));
+			BoundingShapeType bs = gmlOF.createBoundingShapeType();							
+			bs.setEnvelope(jaxbEnvelope);
+			newFeature.setBoundedBy(bs);				
+		}
+		
 		if (feature.getPrimalSpaceFeatures() != null) {
 			// Convert2FeatureClass.docContainer.
 			PrimalSpaceFeatures p = (PrimalSpaceFeatures) savedMap.getFeature(feature.getPrimalSpaceFeatures().getId());
@@ -281,6 +297,26 @@ public class Convert2JaxbClass {
 			mp.setMultiLayeredGraph(change2JaxbClass(savedMap, m));
 			newFeature.setMultiLayeredGraph(mp);
 		}
+
+		return newFeature;
+	}
+	static public EnvelopeType change2JaxbClass(IndoorGMLMap savedMap, Envelope feature)
+			throws JAXBException {
+		EnvelopeType newFeature = new EnvelopeType();
+		
+		Point low = (Point) feature.getLowerCorner();
+		Point upper = (Point) feature.getUpperCorner();
+		if (low != null) {
+			PointType point = Convert2JaxbGeometry.Convert2PointType(low);
+			newFeature.setLowerCorner(point.getPos());
+		}
+		if (upper != null) {
+			PointType point = Convert2JaxbGeometry.Convert2PointType(upper);
+			
+			newFeature.setUpperCorner(point.getPos());
+		}
+		newFeature.setSrsName(feature.getSrsName());
+		newFeature.setSrsDimension(feature.getSrsDimension());
 
 		return newFeature;
 	}

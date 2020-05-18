@@ -102,7 +102,7 @@ public class TransitionSpaceDAO {
 
 	public static TransitionSpace createTransitionSpace(IndoorGMLMap map, String parentId, String id, String name, String description, Geometry geometry, String duality, List<String> partialBoundedBy, String classType,
 			String functionType, String usageType) {
-		System.out.println("TransitionSpaceDAO");
+		
 		if (id == null) {
 			id = UUID.randomUUID().toString();
 		}
@@ -138,15 +138,15 @@ public class TransitionSpaceDAO {
 		if (classType != null) {
 
 			newFeature.setClassType(classType);
-			System.out.println("classType");
+			
 		}
 		if (functionType != null) {
 			newFeature.setFunctionType(functionType);
-			System.out.println("functionType");
+			
 		}
 		if (usageType != null) {
 			newFeature.setUsageType(usageType);
-			System.out.println("usageType");
+			
 		}
 
 		// parent.addCellSpaceMember(newFeature);
