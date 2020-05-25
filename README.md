@@ -62,6 +62,7 @@ It is explained at the wiki.
 
 * Hyemi Jeong - IndoorGML CRUD DAO developer stemlab@pnu.edu
 * Hyung-Gyu Ryoo - IndoorGML Restful API developer hgryoo@pnu.edu
+* Do-Hoon Kang - InfoorGML Restful developer and maintainer dhkang@pnu.edu
 
 ## Contributing
 
