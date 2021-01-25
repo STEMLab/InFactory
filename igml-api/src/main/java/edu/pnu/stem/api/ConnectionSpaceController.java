@@ -112,7 +112,7 @@ public class ConnectionSpaceController {
 			generalGeometry = Convert2Json.json2Geometry(geometry);
 		}
 
-		// TODO : 나중에 고치기!!
+		// TODO: fix it later
 		// String properties = json.get("properties").asText().trim();
 		// String duality = null;
 
@@ -192,7 +192,7 @@ public class ConnectionSpaceController {
 
 			}
 
-			// TODO : 나중에 고치기!!
+			// TODO: fix it later
 			// String properties = json.get("properties").asText().trim();
 			// String duality = null;
 
