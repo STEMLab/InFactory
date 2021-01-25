@@ -34,7 +34,7 @@ import edu.pnu.stem.feature.core.CellSpaceBoundary;
 
 @RestController
 @RequestMapping("documents/{docId}/anchorboundary")
-public class AnchorBoundaryContoller {
+public class AnchorBoundaryController {
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -68,7 +68,7 @@ public class AnchorBoundaryContoller {
 			geometry = Convert2Json.json2Geometry(json.get("geometry"));
 		}
 
-		// TODO : 나중에 고칠 것. 임시로.
+		// TODO: fix it later
 		if (json.has("duality")) {
 			duality = json.get("duality").asText().trim();
 		}
