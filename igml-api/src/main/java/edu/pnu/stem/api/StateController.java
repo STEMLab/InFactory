@@ -146,7 +146,7 @@ public class StateController {
 			
 			}
 			
-			//TODO : 나중에 고치기!!
+			//TODO: fix it later
 			//String properties = json.get("properties").asText().trim();
 			//String duality = null;
 			

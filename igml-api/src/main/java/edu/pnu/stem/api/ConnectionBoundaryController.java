@@ -67,7 +67,7 @@ public class ConnectionBoundaryController {@Autowired
 			geometry = Convert2Json.json2Geometry(json.get("geometry"));
 		}
 
-		// TODO : 나중에 고칠 것. 임시로.
+		// TODO: fix it later
 		if (json.has("duality")) {
 			duality = json.get("duality").asText().trim();
 		}

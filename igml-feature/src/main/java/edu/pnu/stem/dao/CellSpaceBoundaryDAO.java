@@ -206,7 +206,6 @@ public class CellSpaceBoundaryDAO {
 			duality.resetDuality();
 		}
 		
-		//cellspace 찾아가서 partialboundedby 해제
 		 CellSpace cellspaceForPartialBoundedBy = target.getCellSpace();
 		 cellspaceForPartialBoundedBy.deletePartialBoundedBy(target);
 		

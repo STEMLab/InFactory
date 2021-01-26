@@ -435,10 +435,6 @@ public class Convert2JaxbClass {
 
 		List<EdgesType> edgesTypeList = new ArrayList<EdgesType>();
 
-		// node 들고와서
-		// node 밑의 statemember 찾아서
-		// 걔 까지만 association으로.
-
 		List<NodesType> nodesTypeList = new ArrayList<NodesType>();
 
 		for (int i = 0; i < feature.getNodes().size(); i++) {
