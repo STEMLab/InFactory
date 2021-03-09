@@ -25,7 +25,7 @@ public class Mashaller {
 		//IndoorFeaturesType indoorFeaturesType = Convert2JaxbClass.change2JaxbClass((IndoorFeatures)Convert2FeatureClass.docContainer.getFeature(id));
 		//marshalIndoorFeatures(filePath, indoorFeaturesType);
 	}
-	
+
 	public static void marshalDocument(String path, IndoorGMLMap map) throws JAXBException, IOException {
 		ConcurrentHashMap<String, Object> indoorfeatures = map.getFeatureContainer("IndoorFeatures");
 		String indoorfeaturesId = null;
