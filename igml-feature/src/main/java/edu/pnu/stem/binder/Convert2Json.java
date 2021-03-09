@@ -466,15 +466,15 @@ public class Convert2Json {
 			properties.put("srsDimension", target.getSrsDimension());
 
 		}
-		
+
 		if (target.getDescription() != null) {
 			if (properties == null) {
 				properties = JsonNodeFactory.instance.objectNode();
 			}
 			properties.put("description", target.getDescription());
 		}
-		
-		
+
+
 		return result;
 	}
 
