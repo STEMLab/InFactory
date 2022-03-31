@@ -21,7 +21,7 @@
 	</licenses>
 
 	<properties>
-		<spring.version>5.0.2.RELEASE</spring.version>
+		<spring.version>5.3.18</spring.version>
 		<jetty.version>9.4.8.v20171121</jetty.version>
 		<ogc-schemas.version>2.6.2-SNAPSHOT</ogc-schemas.version>
 		<jts.version>1.15.0</jts.version>
