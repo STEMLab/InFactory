@@ -11,18 +11,18 @@ import java.util.Map;
  *
  */
 public class SymbolListener extends javax.xml.bind.Unmarshaller.Listener {
-	
+
 	private Map<String, Object> idRegistryMap;
 	private Map<Object, Object> parentMap;
 	private Map<String, Object> referenceRegistryMap;
-	
+
 	/**
 	 * AbstractGML Type
 	 */
 	private final Class<?> _GMLType;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public SymbolListener(Class<?> abstractGMLType) {
 		this.idRegistryMap = new HashMap<String, Object>();
@@ -39,19 +39,19 @@ public class SymbolListener extends javax.xml.bind.Unmarshaller.Listener {
 			if(href != null) {
 				href = href.replaceAll("#", "");
 				/*System.out.println("XLink : " + href);*/
-				
+
 
 				//System.out.println("xlink target : " + target.getClass());
-				
+
 				referenceRegistryMap.put(href, target);
-				
+
 			}
 		} catch ( Exception e ) {
 			//e.printStackTrace();
 		}
 
 		try {
-			/*			
+			/*
 			if(target instanceof net.opengis.gml.v_3_1_1.AbstractGMLType) {
 				String gmlId = ((net.opengis.gml.v_3_1_1.AbstractGMLType) target).getId();
 				if( gmlId != null ) {
@@ -69,7 +69,7 @@ public class SymbolListener extends javax.xml.bind.Unmarshaller.Listener {
 					idRegistryMap.put(gmlId, target);
 					parentMap.put(target, parent);
 					/*System.out.println("GMLID : " + gmlId);*/
-					
+
 					//System.out.println("gml target : " + target.getClass());
 				}
 			}
@@ -77,7 +77,7 @@ public class SymbolListener extends javax.xml.bind.Unmarshaller.Listener {
 			//e.printStackTrace();
 		}
 	}
-	
+
 	public XLinkSymbolMap getSymbolMap() {
 		return new XLinkSymbolMap(idRegistryMap, parentMap, referenceRegistryMap);
 	}

@@ -38,10 +38,10 @@ import net.opengis.gml.v_3_2_1.SurfacePropertyType;
 import net.opengis.gml.v_3_2_1.SurfaceType;
 
 public class Convert2JTSGeometry {
-	
+
 	private final static GeometryFactory geometryFactory = new GeometryFactory();
-	
-	
+
+
 	public static Solid Convert2Solid(SolidType feature){
 		Solid newFeature = null;
 		ShellType exterior = feature.getExterior().getShell();
@@ -55,7 +55,7 @@ public class Convert2JTSGeometry {
 		}
 		return newFeature;
 	}
-	
+
 	public static MultiPolygon convert2MultiPolygon(ShellType feature){
 		MultiPolygon newFeature = null;
 		AbstractSurfaceType firstGeo = feature.getSurfaceMember().get(0).getAbstractSurface().getValue();
@@ -74,8 +74,8 @@ public class Convert2JTSGeometry {
 			for(int i = 0 ; i < feature.getSurfaceMember().size() ; i++){
 				polygonList.add((PolygonType)feature.getSurfaceMember().get(i).getAbstractSurface().getValue());
 			}
-			
-			for(int i = 0 ; i < polygonList.size() ; i++){	
+
+			for(int i = 0 ; i < polygonList.size() ; i++){
 				multiPolygonList.add(convert2Polygon(polygonList.get(i)));
 				Polygon[]temp = new Polygon[multiPolygonList.size()];
 				shell = geometryFactory.createMultiPolygon(multiPolygonList.toArray(temp));
@@ -88,11 +88,11 @@ public class Convert2JTSGeometry {
 	}
 	/*
 	public Polygon Convert2Surface(SurfaceType feature){
-	
-		
+
+
 	}
 	 * */
-	
+
 	public static Polygon convert2Polygon(PolygonType feature){
 		AbstractRingType ring = feature.getExterior().getAbstractRing().getValue();
 		Polygon newFeature = null;
@@ -116,7 +116,7 @@ public class Convert2JTSGeometry {
 		List<JAXBElement<?>> postList = feature.getPosOrPointPropertyOrPointRep();
 		CoordinatesType coord = feature.getCoordinates();
 		List<Coordinate> coordList = new ArrayList<Coordinate>();
-		
+
 		if(directpositionList != null){
 			 //coord = convert2Coordinate(directpositionList);
 		}
@@ -128,7 +128,7 @@ public class Convert2JTSGeometry {
 			}
 			else{
 				if(coord != null){
-					
+
 				}
 				else{
 					//TODO
@@ -136,25 +136,25 @@ public class Convert2JTSGeometry {
 				}
 			}
 		}
-		
+
 		Coordinate[] newCoordinate = new Coordinate[coordList.size()];
 		coordList.toArray(newCoordinate);
-		
+
 		LinearRing newFeature = null;
-		
+
 		try{
 			newFeature = geometryFactory.createLinearRing(newCoordinate);
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		
+
 		return newFeature;
 	}
 
 	public static LineString convert2LineString(LineStringType feature){
 		List<Coordinate> pointList = new ArrayList<Coordinate>();
-		
+
 		for(int i = 0 ; i < feature.getPosOrPointPropertyOrPointRep().size() ; i++){
 			pointList.add(convert2Coordinate((DirectPositionType)feature.getPosOrPointPropertyOrPointRep().get(i).getValue()));
 		}
@@ -165,9 +165,9 @@ public class Convert2JTSGeometry {
 	public static Point convert2Point(PointType feature){
 		Point newFeature = null;
 		newFeature = geometryFactory.createPoint(convert2Coordinate(feature.getPos()));
-		return newFeature;		
+		return newFeature;
 	}
-	
+
 	public static Coordinate convert2Coordinate(DirectPositionType feature){
 		Coordinate newFeature = null;
 		List<Double>coordinates = feature.getValue();
@@ -179,7 +179,7 @@ public class Convert2JTSGeometry {
 		}
 		return newFeature;
 	}
-	
+
 	public static List<Coordinate> convert2CoordinateList(DirectPositionListType feature) {
 		List<Double> pointList = feature.getValue();
 		List<Coordinate> coordinateList = new ArrayList<Coordinate>();
@@ -200,5 +200,5 @@ public class Convert2JTSGeometry {
 		}
 		return coordinateList;
 	}
-	
+
 }

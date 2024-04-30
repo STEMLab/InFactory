@@ -16,14 +16,14 @@ import net.opengis.indoorgml.core.v_1_0.IndoorFeaturesType;
 public class IndoorGMLMap implements Serializable {
 	protected ConcurrentHashMap<String, ConcurrentHashMap<String, Object>> collection;
 	private String docId;
-	
+
 	public IndoorGMLMap() {
 		this.collection = new ConcurrentHashMap<String, ConcurrentHashMap<String, Object>>();
 		setFeatureClassContainer();
 	}
 
 	private void setFeatureClassContainer() {
-		
+
 		collection.put("ID", new ConcurrentHashMap<String,Object>());
 		collection.put("FutureID", new ConcurrentHashMap<String,Object>());
 		collection.put("IndoorFeatures", new ConcurrentHashMap<String,Object>());
@@ -42,18 +42,18 @@ public class IndoorGMLMap implements Serializable {
 		collection.put("State", new ConcurrentHashMap<String,Object>());
 		collection.put("Reference", new ConcurrentHashMap<String,Object>());
 		collection.put("Envelope", new ConcurrentHashMap<String,Object>());
-		collection.put("Geometry", new ConcurrentHashMap<String,Object>());		
-		
+		collection.put("Geometry", new ConcurrentHashMap<String,Object>());
+
 		collection.put("GeneralSpace", new ConcurrentHashMap<String,Object>());
 		collection.put("TransitionSpace", new ConcurrentHashMap<String,Object>());
 		collection.put("ConnectionSpace", new ConcurrentHashMap<String,Object>());
 		collection.put("AnchorSpace", new ConcurrentHashMap<String,Object>());
-		
+
 		collection.put("ConnectionBoundary", new ConcurrentHashMap<String,Object>());
 		collection.put("AnchorBoundary", new ConcurrentHashMap<String,Object>());
 
 	}
-	
+
 	public void clearMap() {
 		collection.clear();
 	}
@@ -66,7 +66,7 @@ public class IndoorGMLMap implements Serializable {
 		}
 		return flag;
 	}
-	
+
 	public boolean hasFutureID(String id){
 		boolean flag = false;
 		ConcurrentHashMap<String, Object> idContainer = getFeatureContainer("FutureID");
@@ -75,25 +75,25 @@ public class IndoorGMLMap implements Serializable {
 		}
 		return flag;
 	}
-	
+
 	public void setFutureFeature(String id, String featureName){
 		if(!hasID(id)){
 			collection.get("FutureID").put(id, featureName);
 			//System.out.println("Do not forget to create the feature id : "+id+" later : " + featureName);
 		}
 	}
-	
-	public void setFutureFeature(String id, Object feature){				
+
+	public void setFutureFeature(String id, Object feature){
 		collection.get("FutureID").put(id, feature);
 		//System.out.println("Do not forget to create the feature id : "+id+" later");
 	}
-	
+
 	private void setID(String id, String featureName) {
 		if(!hasID(id)){
 			getFeatureContainer("ID").put(id, featureName);
 		}
 	}
-	
+
 	public void removeFeature(String id) {
 		if(hasID(id)) {
 			String featurename = (String)collection.get("ID").get(id);
@@ -101,22 +101,22 @@ public class IndoorGMLMap implements Serializable {
 			removeID(id);
 		}
 	}
-	
+
 	public void removeFutureID(String id){
 		getFeatureContainer("FutureID").remove(id);
 		//System.out.println("Remove Future ID : "+id);
 	}
-	
+
 	private void removeID(String id){
 		getFeatureContainer("ID").remove(id);
 	}
-	
+
 	public String getFeatureNameFromID(String id) {
 		ConcurrentHashMap<String, Object> idContainer = getFeatureContainer("id");
 		String featureName = (String) idContainer.get(id);
 		return featureName;
 	}
-	
+
 	public ConcurrentHashMap<String, Object> getFeatureContainer(String featureName) {
 		ConcurrentHashMap<String, Object> newFeatureContainer = null;
 
@@ -132,7 +132,7 @@ public class IndoorGMLMap implements Serializable {
 		return Container.getInstance().getFeature(docId, id);
 	}
 	*/
-	
+
 	public Object getFeature(String id){
 		Object newFeature = null;
 		if(hasID(id)){
@@ -144,7 +144,7 @@ public class IndoorGMLMap implements Serializable {
 		}
 		return newFeature;
 	}
-	
+
 	public Object getFutureFeature(String id){
 		Object newFeature = null;
 		if(hasFutureID(id)){
@@ -155,8 +155,8 @@ public class IndoorGMLMap implements Serializable {
 		}
 		return newFeature;
 	}
-	
-	
+
+
 	// TODO : Merge those two functions with feature setter and getter
 	public Geometry getFeature4Geometry(String id){
 		ConcurrentHashMap<String,Object> geomContainer = collection.get("Geometry");
@@ -181,7 +181,7 @@ public class IndoorGMLMap implements Serializable {
 			//Excpetion
 		}
 	}
-	
+
 	public void setFeature(String id, String featureName, Object featureValue){
 		if(!hasID(id)){
 			if(hasFutureID(id)){
@@ -194,12 +194,12 @@ public class IndoorGMLMap implements Serializable {
 		}
 		else{
 			System.out.println("Already Exist Id : " + id+", Feature :" + featureName );
-			
+
 			//container.get(featureName).put(id, featureValue);
 		}
 	}
-	
-	
+
+
 	public void setReference(String id){
 		if(hasID(id)){
 			ConcurrentHashMap<String, Object> referenceContainer = getFeatureContainer("Reference");
@@ -216,21 +216,21 @@ public class IndoorGMLMap implements Serializable {
 	}
 
 	public void setDocId(String id) {
-		this.docId = id;		
+		this.docId = id;
 	}
 	public String getDocId(){
 		return new String(this.docId);
 	}
-	
+
 	public void Marshall(String path) {
-		
-		
+
+
 		Enumeration<Object> fe = collection.get("IndoorFeatures").elements();
 		IndoorFeatures features = null;
 		if(fe.hasMoreElements()) {
 			features = (IndoorFeatures) fe.nextElement();
-			
-			
+
+
 			IndoorFeaturesType resultDoc;
 			try {
 				resultDoc = edu.pnu.stem.binder.Convert2JaxbClass.change2JaxbClass(this, features);

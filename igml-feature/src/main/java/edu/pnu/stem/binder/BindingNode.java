@@ -11,13 +11,13 @@ import java.util.Map;
  *
  */
 public class BindingNode {
-	
+
 	private Map<String, Object> attributes = new HashMap<String, Object>();
-	
+
 	private Map<String, BindingNode> associations = new HashMap<String, BindingNode>();
-	
+
 	private Map<String, List<BindingNode>> collections = new HashMap<String, List<BindingNode>>();
-	
+
 	public void addAttribute(String key, Object value) {
 		key = key.toUpperCase();
 		if( !attributes.containsKey(key)) {
@@ -26,13 +26,13 @@ public class BindingNode {
 			String msg = "Duplicated Key : " + key;
 			throw new IllegalArgumentException(msg);
 		}
-		
+
 	}
-	
+
 	public Object getAttribute(String key) {
 		key = key.toUpperCase();
 		int idx= key.indexOf("/");
-		
+
 		if(idx == -1) {
 			return attributes.get(key);
 		} else {
@@ -47,26 +47,26 @@ public class BindingNode {
 			}
 		}
 	}
-	
+
 	public Map<String, Object> getAttributes() {
 		return attributes;
 	}
-	
-	
+
+
 	public void addAssociation(String key, BindingNode node) {
 		key = key.toUpperCase();
 		if( !associations.containsKey(key)) {
 			associations.put(key, node);
 		} else {
 			String msg = "Duplicated Key : " + key;
-			throw new IllegalArgumentException(msg);	
+			throw new IllegalArgumentException(msg);
 		}
 	}
-	
+
 	public BindingNode getAssociation(String key) {
 		key = key.toUpperCase();
 		int idx= key.indexOf("/");
-		
+
 		if(idx == -1) {
 			return associations.get(key);
 		} else {
@@ -80,7 +80,7 @@ public class BindingNode {
 			}
 		}
 	}
-	
+
 	public void addCollection(String key, BindingNode node) {
 		key = key.toUpperCase();
 		if(!collections.containsKey(key)) {
@@ -89,7 +89,7 @@ public class BindingNode {
 		List<BindingNode> bindingList = collections.get(key);
 		bindingList.add(node);
 	}
-	
+
 	public List<BindingNode> getCollection(String key) {
 		key = key.toUpperCase();
 		if(collections.containsKey(key)) {
@@ -117,7 +117,7 @@ public class BindingNode {
 			return (Integer) value;
 		}
 	}
-	
+
 	public String getString(String key) {
 		Object value = getAttribute(key);
 		if(value == null) {
@@ -126,7 +126,7 @@ public class BindingNode {
 			return (String) value;
 		}
 	}
-	
-	
+
+
 }
 
